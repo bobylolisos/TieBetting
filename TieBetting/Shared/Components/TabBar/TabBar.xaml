@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="TieBetting.Shared.Components.TabBar.TabBar"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
+    x:Name="TabBarView">
+
+    <ContentView.Resources>
+        <tabBar:TabBarItemVisibilityConverter x:Key="VisibleWhenHasTabBarItemConverter" />
+        <tabBar:TabBarSeparatorVisibilityConverter x:Key="VisibleWhenHasTabBarItemAlignedConverter" />
+    </ContentView.Resources>
+
+    <Grid
+        ColumnDefinitions="25*,2,25*,2,25*,2,25*"
+        HeightRequest="50"
+        Padding="6"
+        BackgroundColor="{StaticResource Primary}">
+
+        <!--  TabBarItem 1  -->
+        <Grid
+            Grid.Column="0"
+            RowDefinitions="*,Auto"
+            HorizontalOptions="Center"
+            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem1Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}">
+            <Grid.Behaviors>
+                <behaviors:AnimationBehavior Command="{Binding Source={x:Reference TabBarView}, Path=TabBarItem1Command}">
+                    <behaviors:AnimationBehavior.AnimationType>
+                        <behaviors:FadeAnimation Length="50" />
+                    </behaviors:AnimationBehavior.AnimationType>
+                </behaviors:AnimationBehavior>
+            </Grid.Behaviors>
+
+            <Image
+                Grid.Row="0"
+                Margin="0"
+                Source="{Binding Source={x:Reference TabBarView}, Path=TabBarItem1ImageSource}" />
+            <Label
+                Grid.Row="1"
+                Margin="0,2,0,0"
+                Text="{Binding Source={x:Reference TabBarView}, Path=TabBarItem1Label}"
+                TextColor="White"
+                HorizontalTextAlignment="Center"
+                FontSize="12" />
+        </Grid>
+        <!--<Grid
+            x:Name="TabBarItem1DisabledOverlay"
+            Grid.Column="0"
+            Background="{StaticResource PrimaryHalfTransparent}" />-->
+
+        <!--  Separator 1-2  -->
+        <Grid
+            Grid.Column="1"
+            BackgroundColor="#11FFFFFF">
+            <Grid.IsVisible>
+                <MultiBinding Converter="{StaticResource VisibleWhenHasTabBarItemAlignedConverter}">
+                    <Binding
+                        Path="TabBarItem1Label"
+                        Source="{x:Reference TabBarView}" />
+                    <Binding
+                        Path="TabBarItem2Label"
+                        Source="{x:Reference TabBarView}" />
+                </MultiBinding>
+            </Grid.IsVisible>
+        </Grid>
+
+        <!--  TabBarItem 2  -->
+        <Grid
+            Grid.Column="2"
+            RowDefinitions="*,Auto"
+            HorizontalOptions="Center"
+            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem2Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}">
+            <Grid.Behaviors>
+                <behaviors:AnimationBehavior Command="{Binding Source={x:Reference TabBarView}, Path=TabBarItem2Command}">
+                    <behaviors:AnimationBehavior.AnimationType>
+                        <behaviors:FadeAnimation Length="50" />
+                    </behaviors:AnimationBehavior.AnimationType>
+                </behaviors:AnimationBehavior>
+            </Grid.Behaviors>
+
+            <Image
+                Grid.Row="0"
+                Margin="0"
+                Source="{Binding Source={x:Reference TabBarView}, Path=TabBarItem2ImageSource}" />
+            <Label
+                Grid.Row="1"
+                Margin="0,2,0,0"
+                Text="{Binding Source={x:Reference TabBarView}, Path=TabBarItem2Label}"
+                TextColor="White"
+                HorizontalTextAlignment="Center"
+                FontSize="12" />
+        </Grid>
+
+        <!--  Separator 2-3  -->
+        <Grid
+            Grid.Column="3"
+            BackgroundColor="#11FFFFFF">
+            <Grid.IsVisible>
+                <MultiBinding Converter="{StaticResource VisibleWhenHasTabBarItemAlignedConverter}">
+                    <Binding
+                        Path="TabBarItem2Label"
+                        Source="{x:Reference TabBarView}" />
+                    <Binding
+                        Path="TabBarItem3Label"
+                        Source="{x:Reference TabBarView}" />
+                </MultiBinding>
+            </Grid.IsVisible>
+        </Grid>
+
+
+        <!--  TabBarItem 3  -->
+        <Grid
+            Grid.Column="4"
+            RowDefinitions="*,Auto"
+            HorizontalOptions="Center"
+            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem3Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}">
+            <Grid.Behaviors>
+                <behaviors:AnimationBehavior Command="{Binding Source={x:Reference TabBarView}, Path=TabBarItem3Command}">
+                    <behaviors:AnimationBehavior.AnimationType>
+                        <behaviors:FadeAnimation Length="50" />
+                    </behaviors:AnimationBehavior.AnimationType>
+                </behaviors:AnimationBehavior>
+            </Grid.Behaviors>
+
+            <Image
+                Grid.Row="0"
+                Margin="0"
+                Source="{Binding Source={x:Reference TabBarView}, Path=TabBarItem3ImageSource}" />
+            <Label
+                Grid.Row="1"
+                Margin="0,2,0,0"
+                Text="{Binding Source={x:Reference TabBarView}, Path=TabBarItem3Label}"
+                TextColor="White"
+                HorizontalTextAlignment="Center"
+                FontSize="12" />
+        </Grid>
+
+        <!--  Separator 3-4  -->
+        <Grid
+            Grid.Column="5"
+            BackgroundColor="#11FFFFFF">
+            <Grid.IsVisible>
+                <MultiBinding Converter="{StaticResource VisibleWhenHasTabBarItemAlignedConverter}">
+                    <Binding
+                        Path="TabBarItem3Label"
+                        Source="{x:Reference TabBarView}" />
+                    <Binding
+                        Path="TabBarItem4Label"
+                        Source="{x:Reference TabBarView}" />
+                </MultiBinding>
+            </Grid.IsVisible>
+        </Grid>
+
+
+        <!--  TabBarItem 4  -->
+        <Grid
+            Grid.Column="6"
+            RowDefinitions="*,Auto"
+            HorizontalOptions="Center"
+            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem4Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}">
+            <Grid.Behaviors>
+                <behaviors:AnimationBehavior Command="{Binding Source={x:Reference TabBarView}, Path=TabBarItem4Command}">
+                    <behaviors:AnimationBehavior.AnimationType>
+                        <behaviors:FadeAnimation Length="50" />
+                    </behaviors:AnimationBehavior.AnimationType>
+                </behaviors:AnimationBehavior>
+            </Grid.Behaviors>
+
+            <Image
+                Grid.Row="0"
+                Margin="0"
+                Source="{Binding Source={x:Reference TabBarView}, Path=TabBarItem4ImageSource}" />
+            <Label
+                Grid.Row="1"
+                Margin="0,2,0,0"
+                Text="{Binding Source={x:Reference TabBarView}, Path=TabBarItem4Label}"
+                TextColor="White"
+                HorizontalTextAlignment="Center"
+                FontSize="12" />
+        </Grid>
+    </Grid>
+
+</ContentView>

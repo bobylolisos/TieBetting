@@ -3,6 +3,9 @@
     x:Class="TieBetting.Views.MainView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
+    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
+    x:DataType="viewModels:MainViewModel"
     Title="MainView">
 
     <Shell.NavBarIsVisible>False</Shell.NavBarIsVisible>
@@ -20,5 +23,13 @@
                 FontAttributes="Bold"
                 FontSize="20" />
         </Grid>
+
+        <tabBar:TabBar
+            Grid.Row="2"
+            Grid.Column="0"
+            TabBarItem1Command="{Binding MyCommand}"
+            TabBarItem1Label="Skapa ny"
+            TabBarItem4Command="{Binding MyCommand}"
+            TabBarItem4Label="Inställningar" />
     </Grid>
 </ContentPage>
