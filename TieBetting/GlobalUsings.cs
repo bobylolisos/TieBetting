@@ -9,6 +9,7 @@ global using System.Globalization;
 global using TieBetting.ApplicationSetup;
 
 global using TieBetting.ViewModels.Base;
+global using TieBetting.ViewModels;
 
 
 global using TieBetting.Views;
