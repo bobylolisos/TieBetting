@@ -27,8 +27,8 @@
         <tabBar:TabBar
             Grid.Row="2"
             Grid.Column="0"
-            TabBarItem1Command="{Binding MyCommand}"
-            TabBarItem1Label="Skapa ny"
+            TabBarItem1Command="{Binding ImportCalendarToDatabaseCommand}"
+            TabBarItem1Label="Import matches"
             TabBarItem4Command="{Binding MyCommand}"
             TabBarItem4Label="Inställningar" />
     </Grid>
