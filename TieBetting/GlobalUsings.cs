@@ -23,6 +23,7 @@ global using TieBetting.ViewModels.Base;
 global using TieBetting.ViewModels;
 
 
+global using TieBetting.Views.Base;
 global using TieBetting.Views;
 
 

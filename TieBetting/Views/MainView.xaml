@@ -182,7 +182,7 @@
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             FontAttributes="Bold"
-                            FontSize="13" />
+                            FontSize="12" />
                         <Label
                             Grid.Row="3"
                             Grid.Column="3"

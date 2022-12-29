@@ -1,8 +1,9 @@
 namespace TieBetting.Views;
 
-public partial class MatchDetailsView : ContentPage
+public partial class MatchDetailsView : ViewBase
 {
-	public MatchDetailsView(MatchDetailsViewModel viewModel)
+	public MatchDetailsView(MatchDetailsViewModel viewModel, INavigationService navigationService)
+    : base(navigationService)
 	{
 		InitializeComponent();
 
