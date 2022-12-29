@@ -32,7 +32,7 @@
             TargetType="Label">
             <Setter Property="TextColor" Value="{StaticResource Black}" />
             <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="HorizontalTextAlignment" Value="Start" />
+            <Setter Property="HorizontalTextAlignment" Value="End" />
             <Setter Property="Margin" Value="0,3" />
             <Setter Property="FontSize" Value="14" />
         </Style>
@@ -49,13 +49,13 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 RowDefinitions="Auto,Auto,Auto,Auto,Auto,20,Auto,Auto,Auto,Auto,Auto"
-                ColumnDefinitions="Auto,20,*">
+                ColumnDefinitions="Auto,20,Auto,*">
 
-                <!-- Home team -->
+                <!--  Home team  -->
                 <HorizontalStackLayout
                     Grid.Row="0"
                     Grid.Column="0"
-                    Grid.ColumnSpan="3"
+                    Grid.ColumnSpan="4"
                     Margin="0,0,0,10">
                     <Image
                         WidthRequest="40"
@@ -74,56 +74,56 @@
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
-                    Style="{StaticResource RowHeaderLabelStyle}"
-                    Text="Total bet"/>
+                    Text="Total bet"
+                    Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
                     Grid.Row="1"
                     Grid.Column="2"
-                    Style="{StaticResource RowValueLabelStyle}"
-                    Text="{Binding HomeTeamTotalBet, Converter={StaticResource AmountToAmountStringConverter}}" />
+                    Text="{Binding HomeTeamTotalBet, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Style="{StaticResource RowValueLabelStyle}" />
 
                 <Label
                     Grid.Row="2"
                     Grid.Column="0"
-                    Style="{StaticResource RowHeaderLabelStyle}"
-                    Text="Total win" />
+                    Text="Total win"
+                    Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
                     Grid.Row="2"
                     Grid.Column="2"
-                    Style="{StaticResource RowValueLabelStyle}"
-                    Text="{Binding HomeTeamTotalWin, Converter={StaticResource AmountToAmountStringConverter}}" />
+                    Text="{Binding HomeTeamTotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Style="{StaticResource RowValueLabelStyle}" />
 
                 <Label
                     Grid.Row="3"
                     Grid.Column="0"
-                    Style="{StaticResource RowHeaderLabelStyle}"
-                    Text="Profit" />
+                    Text="Profit"
+                    Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
                     Grid.Row="3"
                     Grid.Column="2"
-                    Style="{StaticResource RowValueLabelStyle}"
-                    Text="{Binding HomeTeamProfit, Converter={StaticResource AmountToAmountStringConverter}}" />
+                    Text="{Binding HomeTeamProfit, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Style="{StaticResource RowValueLabelStyle}" />
 
                 <Label
                     Grid.Row="4"
                     Grid.Column="0"
-                    Style="{StaticResource RowHeaderLabelStyle}"
-                    Text="Current bet session" />
+                    Text="Current bet session"
+                    Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
                     Grid.Row="4"
                     Grid.Column="2"
-                    Style="{StaticResource RowValueLabelStyle}"
-                    Text="{Binding HomeTeamCurrentBetSession, Converter={StaticResource AmountToAmountStringConverter}}" />
+                    Text="{Binding HomeTeamCurrentBetSession, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Style="{StaticResource RowValueLabelStyle}" />
 
-                <!-- Away team -->
+                <!--  Away team  -->
                 <HorizontalStackLayout
                     Grid.Row="6"
                     Grid.Column="0"
-                    Grid.ColumnSpan="3"
+                    Grid.ColumnSpan="4"
                     Margin="0,0,0,10">
                     <Image
                         WidthRequest="40"
@@ -142,50 +142,50 @@
                 <Label
                     Grid.Row="7"
                     Grid.Column="0"
-                    Style="{StaticResource RowHeaderLabelStyle}"
-                    Text="Total bet"/>
+                    Text="Total bet"
+                    Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
                     Grid.Row="7"
                     Grid.Column="2"
-                    Style="{StaticResource RowValueLabelStyle}"
-                    Text="{Binding AwayTeamTotalBet, Converter={StaticResource AmountToAmountStringConverter}}" />
+                    Text="{Binding AwayTeamTotalBet, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Style="{StaticResource RowValueLabelStyle}" />
 
                 <Label
                     Grid.Row="8"
                     Grid.Column="0"
-                    Style="{StaticResource RowHeaderLabelStyle}"
-                    Text="Total win" />
+                    Text="Total win"
+                    Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
                     Grid.Row="8"
                     Grid.Column="2"
-                    Style="{StaticResource RowValueLabelStyle}"
-                    Text="{Binding AwayTeamTotalWin, Converter={StaticResource AmountToAmountStringConverter}}" />
+                    Text="{Binding AwayTeamTotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Style="{StaticResource RowValueLabelStyle}" />
 
                 <Label
                     Grid.Row="9"
                     Grid.Column="0"
-                    Style="{StaticResource RowHeaderLabelStyle}"
-                    Text="Profit" />
+                    Text="Profit"
+                    Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
                     Grid.Row="9"
                     Grid.Column="2"
-                    Style="{StaticResource RowValueLabelStyle}"
-                    Text="{Binding AwayTeamProfit, Converter={StaticResource AmountToAmountStringConverter}}" />
+                    Text="{Binding AwayTeamProfit, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Style="{StaticResource RowValueLabelStyle}" />
 
                 <Label
                     Grid.Row="10"
                     Grid.Column="0"
-                    Style="{StaticResource RowHeaderLabelStyle}"
-                    Text="Current bet session" />
+                    Text="Current bet session"
+                    Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
                     Grid.Row="10"
                     Grid.Column="2"
-                    Style="{StaticResource RowValueLabelStyle}"
-                    Text="{Binding AwayTeamCurrentBetSession, Converter={StaticResource AmountToAmountStringConverter}}" />
+                    Text="{Binding AwayTeamCurrentBetSession, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Style="{StaticResource RowValueLabelStyle}" />
             </Grid>
 
         </Grid>
