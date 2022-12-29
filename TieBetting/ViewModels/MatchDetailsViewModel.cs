@@ -14,6 +14,7 @@ public class MatchDetailsViewModel : ViewModelNavigationBase
         if (navigationParameter is MatchDetailsViewNavigationParameter parameter)
         {
             Match = parameter.MatchViewModel;
+            OnPropertyChanged(nameof(Match));
         }
 
         return base.OnNavigatingToAsync(navigationParameter);

@@ -9,6 +9,6 @@ public class AmountToAmountStringConverter : ValueConverterBase<int?>
             return string.Empty;
         }
 
-        return $"  {value.Value} :-";
+        return $"{value.Value} :-";
     }
 }

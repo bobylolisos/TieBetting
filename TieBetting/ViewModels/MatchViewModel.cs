@@ -50,6 +50,14 @@ public class MatchViewModel : ViewModelBase
 
     public List<bool?> HomeTeamLastTenStatuses { get; }
 
+    public int HomeTeamTotalBet => _homeTeam.TotalBet;
+
+    public int HomeTeamTotalWin => _homeTeam.TotalWin;
+
+    public int HomeTeamProfit => _homeTeam.Profit;
+
+    public int HomeTeamCurrentBetSession => _homeTeam.PreviousBet;
+
     public string AwayTeam => _match.AwayTeam;
 
     public string AwayTeamImage => _awayTeam.Image;
@@ -57,6 +65,14 @@ public class MatchViewModel : ViewModelBase
     public int? AwayTeamBet => _match.AwayTeamBet;
 
     public List<bool?> AwayTeamLastTenStatuses { get; }
+
+    public int AwayTeamTotalBet => _awayTeam.TotalBet;
+
+    public int AwayTeamTotalWin => _awayTeam.TotalWin;
+
+    public int AwayTeamProfit => _awayTeam.Profit;
+
+    public int AwayTeamCurrentBetSession => _awayTeam.PreviousBet;
 
     public double? Rate => _match.Rate;
 
