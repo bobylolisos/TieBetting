@@ -106,7 +106,7 @@
                             Grid.Row="1"
                             Grid.RowSpan="2"
                             Grid.Column="2"
-                            Text="{Binding Rate, StringFormat={}{0:N2}}"
+                            Text="{Binding Rate, StringFormat='{}{0:N2}'}"
                             TextColor="{StaticResource Black}"
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
@@ -207,6 +207,6 @@
             TabBarItem1Label="Import matches"
             TabBarItem4Command="{Binding MyCommand}"
             TabBarItem4ImageSource="settings.svg"
-            TabBarItem4Label="Inställningar" />
+            TabBarItem4Label="Settings" />
     </Grid>
 </ContentPage>
