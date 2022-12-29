@@ -47,13 +47,6 @@
                         VerticalOptions="Start"
                         BackgroundColor="White">
                             <Grid.Behaviors>
-                                <!--
-                            <behaviors:AnimationBehavior Command="{Binding Source="{x:Reference ContentPage}", BindingContext.NavigateToVehicleDashboardCommand}"} CommandParameter="{Binding Path=.}">
-                                <behaviors:AnimationBehavior.AnimationType>
-                                    <behaviors:FadeAnimation Length="50" />
-                                </behaviors:AnimationBehavior.AnimationType>
-                            </behaviors:AnimationBehavior>
-                            -->
                                 <behaviors:AnimationBehavior CommandParameter="{Binding Path=.}">
                                     <behaviors:AnimationBehavior.Command>
                                         <x:Binding

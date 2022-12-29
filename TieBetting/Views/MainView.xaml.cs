@@ -7,6 +7,13 @@ public partial class MainView : ContentPage
 		InitializeComponent();
 
 		BindingContext = viewModel;
-        ;
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        if (Application.Current != null) 
+            Application.Current.Quit();
+
+        return true;
     }
 }
