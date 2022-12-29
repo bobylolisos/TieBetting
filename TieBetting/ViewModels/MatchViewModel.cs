@@ -15,27 +15,27 @@ public class MatchViewModel : ViewModelBase
         Date = match.Date.ToString("yyyy-MM-dd");
 
 
-        HomeTeamLastTenStatuses = new List<bool?>();
-        var homeTeamLastTenStatuses = homeTeam.Statuses.TakeLastItems(10);
-        for (var i = homeTeamLastTenStatuses.Count(); i < 10; i++)
+        HomeTeamLastSixStatuses = new List<bool?>();
+        var homeTeamLastSixStatuses = homeTeam.Statuses.TakeLastItems(6);
+        for (var i = homeTeamLastSixStatuses.Count(); i < 6; i++)
         {
-            HomeTeamLastTenStatuses.Add(null);
+            HomeTeamLastSixStatuses.Add(null);
         }
 
-        foreach (var homeTeamLastTenStatus in homeTeamLastTenStatuses)
+        foreach (var homeTeamLastSixStatus in homeTeamLastSixStatuses)
         {
-            HomeTeamLastTenStatuses.Add(homeTeamLastTenStatus);
+            HomeTeamLastSixStatuses.Add(homeTeamLastSixStatus);
         }
 
-        AwayTeamLastTenStatuses = new List<bool?>();
-        var awayTeamLastTenStatuses = awayTeam.Statuses.TakeLastItems(10).Reverse();
-        foreach (var awayTeamLastTenStatus in awayTeamLastTenStatuses)
+        AwayTeamLastSixStatuses = new List<bool?>();
+        var awayTeamLastSixStatuses = awayTeam.Statuses.TakeLastItems(6).Reverse();
+        foreach (var awayTeamLastSixStatus in awayTeamLastSixStatuses)
         {
-            AwayTeamLastTenStatuses.Add(awayTeamLastTenStatus);
+            AwayTeamLastSixStatuses.Add(awayTeamLastSixStatus);
         }
-        for (var i = AwayTeamLastTenStatuses.Count; i < 10; i++)
+        for (var i = AwayTeamLastSixStatuses.Count; i < 6; i++)
         {
-            AwayTeamLastTenStatuses.Add(null);
+            AwayTeamLastSixStatuses.Add(null);
         }
 
     }
@@ -48,7 +48,7 @@ public class MatchViewModel : ViewModelBase
 
     public int? HomeTeamBet => _match.HomeTeamBet;
 
-    public List<bool?> HomeTeamLastTenStatuses { get; }
+    public List<bool?> HomeTeamLastSixStatuses { get; }
 
     public int HomeTeamTotalBet => _homeTeam.TotalBet;
 
@@ -64,7 +64,7 @@ public class MatchViewModel : ViewModelBase
 
     public int? AwayTeamBet => _match.AwayTeamBet;
 
-    public List<bool?> AwayTeamLastTenStatuses { get; }
+    public List<bool?> AwayTeamLastSixStatuses { get; }
 
     public int AwayTeamTotalBet => _awayTeam.TotalBet;
 

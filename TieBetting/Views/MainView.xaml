@@ -5,14 +5,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:converters="clr-namespace:TieBetting.Converters"
-    xmlns:models="clr-namespace:TieBetting.Models"
     xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
-    Title="MainView"
     x:Name="MainViewContentPage"
+    Title="MainView"
     x:DataType="viewModels:MainViewModel">
     <ContentPage.Resources>
-        <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
         <converters:TeamStatusToBackgroundColorConverter x:Key="TeamStatusToBackgroundColorConverter" />
         <converters:MatchStatusToBackgroundColorConverter x:Key="MatchStatusToBackgroundColorConverter" />
     </ContentPage.Resources>
@@ -42,22 +40,22 @@
 
                     <Grid
                         RowDefinitions="Auto,Auto,*,Auto"
-                        ColumnDefinitions="5,*,*,*"
+                        ColumnDefinitions="6,*,*,*"
                         Margin="5"
                         VerticalOptions="Start"
                         BackgroundColor="White">
-                            <Grid.Behaviors>
-                                <behaviors:AnimationBehavior CommandParameter="{Binding Path=.}">
-                                    <behaviors:AnimationBehavior.Command>
-                                        <x:Binding
-                                            Path="BindingContext.NavigateToMatchDetailsViewCommand"
-                                            Source="{x:Reference MainViewContentPage}" />
-                                    </behaviors:AnimationBehavior.Command>
-                                    <behaviors:AnimationBehavior.AnimationType>
-                                        <behaviors:FadeAnimation Length="50" />
-                                    </behaviors:AnimationBehavior.AnimationType>
-                                </behaviors:AnimationBehavior>
-                            </Grid.Behaviors>
+                        <Grid.Behaviors>
+                            <behaviors:AnimationBehavior CommandParameter="{Binding Path=.}">
+                                <behaviors:AnimationBehavior.Command>
+                                    <x:Binding
+                                        Path="BindingContext.NavigateToMatchDetailsViewCommand"
+                                        Source="{x:Reference MainViewContentPage}" />
+                                </behaviors:AnimationBehavior.Command>
+                                <behaviors:AnimationBehavior.AnimationType>
+                                    <behaviors:FadeAnimation Length="50" />
+                                </behaviors:AnimationBehavior.AnimationType>
+                            </behaviors:AnimationBehavior>
+                        </Grid.Behaviors>
 
                         <Grid
                             Grid.Row="0"
@@ -75,12 +73,13 @@
 
                         <Label
                             Grid.Row="0"
-                            Grid.Column="2"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
                             Margin="0,3"
-                            VerticalOptions="Center" 
+                            VerticalOptions="Center"
                             Text="{Binding Date}"
                             TextColor="{StaticResource Black}"
-                            HorizontalTextAlignment="Center" 
+                            HorizontalTextAlignment="Center"
                             CharacterSpacing="1.4"
                             FontSize="16" />
 
@@ -101,17 +100,17 @@
                             TextColor="{StaticResource Black}"
                             HorizontalTextAlignment="Center"
                             CharacterSpacing="1.4"
-                            FontSize="18" />
+                            FontSize="15" />
 
                         <Label
                             Grid.Row="1"
                             Grid.RowSpan="2"
                             Grid.Column="2"
-                            Text="{Binding Rate}"
+                            Text="{Binding Rate, StringFormat={}{0:N2}}"
                             TextColor="{StaticResource Black}"
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
-                            FontSize="16"
+                            FontSize="12"
                             MinimumHeightRequest="30" />
 
                         <Label
@@ -122,7 +121,7 @@
                             TextColor="{StaticResource Black}"
                             HorizontalTextAlignment="Center"
                             CharacterSpacing="1.4"
-                            FontSize="18" />
+                            FontSize="15" />
 
 
                         <!--  Row 2  -->
@@ -131,13 +130,14 @@
                             Grid.Column="1"
                             HorizontalOptions="Center"
                             ItemsLayout="HorizontalList"
-                            ItemsSource="{Binding HomeTeamLastTenStatuses}">
+                            ItemsSource="{Binding HomeTeamLastSixStatuses}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Rectangle
                                         WidthRequest="7"
                                         HeightRequest="7"
                                         Margin="2,0"
+                                        HorizontalOptions="Fill"
                                         BackgroundColor="{Binding Path=., Converter={StaticResource TeamStatusToBackgroundColorConverter}}" />
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
@@ -148,7 +148,7 @@
                             Grid.Column="3"
                             HorizontalOptions="Center"
                             ItemsLayout="HorizontalList"
-                            ItemsSource="{Binding AwayTeamLastTenStatuses}">
+                            ItemsSource="{Binding AwayTeamLastSixStatuses}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Rectangle
@@ -167,27 +167,32 @@
                             Grid.Row="3"
                             Grid.Column="1"
                             Margin="0,8"
-                            Text="{Binding HomeTeamBet, Converter={StaticResource AmountToAmountStringConverter}}"
+                            Text="{Binding HomeTeamBet}"
                             TextColor="{StaticResource Black}"
                             HorizontalTextAlignment="Center"
-                            FontSize="14" />
+                            VerticalTextAlignment="Center"
+                            FontAttributes="Bold"
+                            FontSize="11" />
                         <Label
                             Grid.Row="3"
                             Grid.Column="2"
                             Margin="0,8"
-                            Text="{Binding TotalBet, Converter={StaticResource AmountToAmountStringConverter}}"
+                            Text="{Binding TotalBet}"
                             TextColor="{StaticResource Black}"
                             HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
                             FontAttributes="Bold"
-                            FontSize="16" />
+                            FontSize="13" />
                         <Label
                             Grid.Row="3"
                             Grid.Column="3"
                             Margin="0,8"
-                            Text="{Binding AwayTeamBet, Converter={StaticResource AmountToAmountStringConverter}}"
+                            Text="{Binding AwayTeamBet}"
                             TextColor="{StaticResource Black}"
                             HorizontalTextAlignment="Center"
-                            FontSize="14" />
+                            VerticalTextAlignment="Center"
+                            FontAttributes="Bold"
+                            FontSize="11" />
                     </Grid>
 
                 </DataTemplate>
@@ -201,6 +206,7 @@
             TabBarItem1Command="{Binding ImportCalendarToDatabaseCommand}"
             TabBarItem1Label="Import matches"
             TabBarItem4Command="{Binding MyCommand}"
+            TabBarItem4ImageSource="settings.svg"
             TabBarItem4Label="Inställningar" />
     </Grid>
 </ContentPage>
