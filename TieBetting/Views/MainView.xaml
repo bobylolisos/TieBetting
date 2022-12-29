@@ -9,6 +9,7 @@
     xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     Title="MainView"
+    x:Name="MainViewContentPage"
     x:DataType="viewModels:MainViewModel">
     <ContentPage.Resources>
         <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
@@ -45,6 +46,26 @@
                         Margin="5"
                         VerticalOptions="Start"
                         BackgroundColor="White">
+                            <Grid.Behaviors>
+                                <!--
+                            <behaviors:AnimationBehavior Command="{Binding Source="{x:Reference ContentPage}", BindingContext.NavigateToVehicleDashboardCommand}"} CommandParameter="{Binding Path=.}">
+                                <behaviors:AnimationBehavior.AnimationType>
+                                    <behaviors:FadeAnimation Length="50" />
+                                </behaviors:AnimationBehavior.AnimationType>
+                            </behaviors:AnimationBehavior>
+                            -->
+                                <behaviors:AnimationBehavior CommandParameter="{Binding Path=.}">
+                                    <behaviors:AnimationBehavior.Command>
+                                        <x:Binding
+                                            Path="BindingContext.NavigateToMatchDetailsViewCommand"
+                                            Source="{x:Reference MainViewContentPage}" />
+                                    </behaviors:AnimationBehavior.Command>
+                                    <behaviors:AnimationBehavior.AnimationType>
+                                        <behaviors:FadeAnimation Length="50" />
+                                    </behaviors:AnimationBehavior.AnimationType>
+                                </behaviors:AnimationBehavior>
+                            </Grid.Behaviors>
+
                         <Grid
                             Grid.Row="0"
                             Grid.RowSpan="4"

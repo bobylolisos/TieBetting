@@ -5,6 +5,7 @@ public static class ViewSetup
     public static MauiAppBuilder SetupViews(this MauiAppBuilder builder)
     {
         builder.RegisterViewTransient<MainView>();
+        builder.RegisterViewTransient<MatchDetailsView>();
 
         return builder;
     }

@@ -1,19 +1,24 @@
 ﻿namespace TieBetting.ViewModels;
 
-public class MainViewModel : ViewModelBase
+public class MainViewModel : ViewModelNavigationBase
 {
     private readonly ICalendarFileDownloadService _calendarFileDownloadService;
     private readonly IRepository _repository;
+    private readonly INavigationService _navigationService;
 
-    public MainViewModel(ICalendarFileDownloadService calendarFileDownloadService, IRepository repository)
+    public MainViewModel(ICalendarFileDownloadService calendarFileDownloadService, IRepository repository, INavigationService navigationService)
     {
         _calendarFileDownloadService = calendarFileDownloadService;
         _repository = repository;
+        _navigationService = navigationService;
+        NavigateToMatchDetailsViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchDetailsViewCommand);
         MyCommand = new AsyncRelayCommand(ExecuteMyCommand);
         ImportCalendarToDatabaseCommand = new AsyncRelayCommand(ExecuteImportCalendarToDatabaseCommand);
     }
 
     public List<MatchViewModel> UpcomingMatches { get; set; } = new();
+
+    public AsyncRelayCommand<MatchViewModel> NavigateToMatchDetailsViewCommand { get; set; }
 
     public AsyncRelayCommand ImportCalendarToDatabaseCommand { get; set; }
 
@@ -57,6 +62,11 @@ public class MainViewModel : ViewModelBase
 
             UpcomingMatches.Add(matchViewModel);
         }
+    }
+
+    private async Task ExecuteNavigateToMatchDetailsViewCommand(MatchViewModel viewModel)
+    {
+        await _navigationService.NavigateToPageAsync<MatchDetailsView>(new MatchDetailsViewNavigationParameter(viewModel));
     }
 
     private async Task ExecuteImportCalendarToDatabaseCommand()

@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels;
 
-public class MatchViewModel : ObservableObject
+public class MatchViewModel : ViewModelBase
 {
     private readonly Match _match;
     private readonly Team _homeTeam;

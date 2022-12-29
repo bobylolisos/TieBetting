@@ -18,6 +18,7 @@ public class Repository : IRepository
 
         try
         {
+            Debug.WriteLine("CreateFirestoreDbAsync - Begin");
             var stream = await FileSystem.OpenAppPackageFileAsync("sandbox-73692-firebase-adminsdk-6khte-b27b19a9d6.json");
             var reader = new StreamReader(stream);
             var contents = await reader.ReadToEndAsync();
@@ -26,10 +27,12 @@ public class Repository : IRepository
             var firestoreClient = await firestoreClientBuilder.BuildAsync();
 
             _firestoreDb = await FirestoreDb.CreateAsync("sandbox-73692", firestoreClient);
+            Debug.WriteLine("CreateFirestoreDbAsync - Done");
             return _firestoreDb;
         }
         catch (Exception e)
         {
+            Debug.WriteLine("CreateFirestoreDbAsync - Failed");
             await Application.Current.MainPage.DisplayAlert("Firestore init failed", e.Message, "OK");
             throw;
         }
@@ -53,6 +56,8 @@ public class Repository : IRepository
 
     public async Task<IReadOnlyCollection<Match>> GetNextMatchesAsync(int? numberOfMatches = null)
     {
+        Debug.WriteLine("GetNextMatchesAsync - Begin");
+
         var firestoreDb = await CreateFirestoreDbAsync();
 
         var matches = new List<Match>();
@@ -63,13 +68,17 @@ public class Repository : IRepository
             .WhereGreaterThanOrEqualTo(fieldPath, (DateTime.Today - new DateTime(2022, 01, 01)).Days)
             .OrderBy(fieldPath)
             .Limit(numberOfMatches ?? int.MaxValue);
+        Debug.WriteLine("GetNextMatchesAsync/GetSnapshotAsync - Begin");
+
         var matchesQuerySnapshot = await matchesQuery.GetSnapshotAsync();
+        Debug.WriteLine("GetNextMatchesAsync/GetSnapshotAsync - Done");
         foreach (var documentSnapshot in matchesQuerySnapshot.Documents)
         {
             var match = documentSnapshot.ConvertTo<Match>();
             matches.Add(match);
         }
 
+        Debug.WriteLine("GetNextMatchesAsync - Done");
         return matches;
     }
 
@@ -102,6 +111,7 @@ public class Repository : IRepository
         var teams = new List<Team>();
 
         var matchesQuery = firestoreDb.Collection(TeamsCollectionKey);
+        Debug.WriteLine("GetTeamsAsync/GetSnapshotAsync - Begin");
         var matchesQuerySnapshot = await matchesQuery.GetSnapshotAsync();
         foreach (var documentSnapshot in matchesQuerySnapshot.Documents)
         {
@@ -109,6 +119,7 @@ public class Repository : IRepository
             teams.Add(team);
         }
 
+        Debug.WriteLine("GetTeamsAsync/GetSnapshotAsync - Done");
         return teams;
     }
 }

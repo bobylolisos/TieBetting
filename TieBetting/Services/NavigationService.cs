@@ -124,8 +124,8 @@ public class NavigationService : INavigationService
         return Task.CompletedTask;
     }
 
-    private ViewModelBase GetPageViewModelBase(Page p)
-        => p?.BindingContext as ViewModelBase;
+    private ViewModelNavigationBase GetPageViewModelBase(Page p)
+        => p?.BindingContext as ViewModelNavigationBase;
 
     private async Task<T> ResolvePage<T>() where T : Page
     {
