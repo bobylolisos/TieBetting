@@ -2,6 +2,17 @@
 
 public abstract class ViewModelNavigationBase : ObservableObject
 {
+    private readonly INavigationService _navigationService;
+
+    protected ViewModelNavigationBase(INavigationService navigationService)
+    {
+        _navigationService = navigationService;
+
+        NavigateBackCommand = new AsyncRelayCommand(ExecuteNavigateBackCommand);
+    }
+
+    public AsyncRelayCommand NavigateBackCommand { get; set; }
+
     public virtual Task<bool> CanNavigateFromAsync()
     {
         return Task.FromResult(true);
@@ -20,5 +31,10 @@ public abstract class ViewModelNavigationBase : ObservableObject
     public virtual Task OnNavigatedToAsync()
     {
         return Task.CompletedTask;
+    }
+
+    private async Task ExecuteNavigateBackCommand()
+    {
+        await _navigationService.NavigateBackAsync();
     }
 }

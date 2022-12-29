@@ -24,7 +24,7 @@
             HeightRequest="57"
             BackgroundColor="{StaticResource Primary}">
             <Label
-                Text="Tie betting"
+                Text="TIE BETTING"
                 TextColor="White"
                 HorizontalTextAlignment="Center"
                 VerticalTextAlignment="Center"

@@ -7,6 +7,7 @@ public class MainViewModel : ViewModelNavigationBase
     private readonly INavigationService _navigationService;
 
     public MainViewModel(ICalendarFileDownloadService calendarFileDownloadService, IRepository repository, INavigationService navigationService)
+    : base(navigationService)
     {
         _calendarFileDownloadService = calendarFileDownloadService;
         _repository = repository;

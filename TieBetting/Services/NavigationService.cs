@@ -77,7 +77,8 @@ public class NavigationService : INavigationService
             }
         }
 
-        await Navigation.PopAsync(true);
+        // Todo: Change animated to TRUE. 2022-12-29 the value TRUE throws NullReferenceException
+        await Navigation.PopAsync(false);
         return true;
     }
 
