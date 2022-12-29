@@ -2,6 +2,7 @@
 
 public class Repository : IRepository
 {
+    private const string TeamsCollectionKey = "teams";
     private const string MatchesCollectionKey = "matches";
 
     private FirestoreDb _firestoreDb;
@@ -70,5 +71,44 @@ public class Repository : IRepository
         }
 
         return matches;
+    }
+
+    public async Task AddTeamAsync(Team team)
+    {
+        var firestoreDb = await CreateFirestoreDbAsync();
+
+        var collection = firestoreDb.Collection("teams");
+
+        var document = collection.Document(team.Name);
+        await document.SetAsync(team);
+    }
+
+    public async Task<Team> CreateTeamAsync(string teamName)
+    {
+        var team = new Team
+        {
+            Name = teamName
+        };
+
+        await AddTeamAsync(team);
+
+        return team;
+    }
+
+    public async Task<IReadOnlyCollection<Team>> GetTeamsAsync()
+    {
+        var firestoreDb = await CreateFirestoreDbAsync();
+
+        var teams = new List<Team>();
+
+        var matchesQuery = firestoreDb.Collection(TeamsCollectionKey);
+        var matchesQuerySnapshot = await matchesQuery.GetSnapshotAsync();
+        foreach (var documentSnapshot in matchesQuerySnapshot.Documents)
+        {
+            var team = documentSnapshot.ConvertTo<Team>();
+            teams.Add(team);
+        }
+
+        return teams;
     }
 }
