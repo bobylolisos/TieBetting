@@ -19,14 +19,14 @@ public class Repository : IRepository
         try
         {
             Debug.WriteLine("CreateFirestoreDbAsync - Begin");
-            var stream = await FileSystem.OpenAppPackageFileAsync("sandbox-73692-firebase-adminsdk-6khte-b27b19a9d6.json");
+            var stream = await FileSystem.OpenAppPackageFileAsync("tiebetting-firebase-adminsdk-xm5en-3de0c69790.json");
             var reader = new StreamReader(stream);
             var contents = await reader.ReadToEndAsync();
 
             var firestoreClientBuilder = new FirestoreClientBuilder { JsonCredentials = contents };
             var firestoreClient = await firestoreClientBuilder.BuildAsync();
 
-            _firestoreDb = await FirestoreDb.CreateAsync("sandbox-73692", firestoreClient);
+            _firestoreDb = await FirestoreDb.CreateAsync("tiebetting", firestoreClient);
             Debug.WriteLine("CreateFirestoreDbAsync - Done");
             return _firestoreDb;
         }
@@ -34,6 +34,8 @@ public class Repository : IRepository
         {
             Debug.WriteLine("CreateFirestoreDbAsync - Failed");
             await Application.Current.MainPage.DisplayAlert("Firestore init failed", e.Message, "OK");
+
+            Application.Current.Quit();
             throw;
         }
     }

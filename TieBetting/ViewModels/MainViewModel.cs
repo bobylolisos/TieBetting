@@ -75,7 +75,9 @@ public class MainViewModel : ViewModelNavigationBase
         var href = "https://calendar.ramses.nu/calendar/778/show/hockeyallsvenskan-2022-23.ics";
         var matches = await _calendarFileDownloadService.DownloadAsync(href);
 
-        //await _repository.AddMatchesAsync(matches);
+        var dateTime = new DateTime(2022, 12, 15);
+        var latestMatches = matches.Where(x => x.Date > dateTime).ToList();
+        //await _repository.AddMatchesAsync(latestMatches);
     }
 
     private async Task ExecuteMyCommand()

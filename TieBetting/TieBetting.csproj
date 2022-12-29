@@ -15,7 +15,7 @@
 		<ApplicationTitle>TieBetting</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.tiebetting</ApplicationId>
+		<ApplicationId>se.bobylolisos.tiebetting</ApplicationId>
 		<ApplicationIdGuid>0718e8fa-ef92-4b07-b967-4a394079d1e2</ApplicationIdGuid>
 
 		<!-- Versions -->
