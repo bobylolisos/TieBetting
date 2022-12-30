@@ -29,10 +29,10 @@ public class MainViewModel : ViewModelNavigationBase
     {
         UpcomingMatches.Clear();
 
-        //var matches = await _repository.GetNextMatchesAsync(20);
+        var matches = await _repository.GetNextMatchesAsync(20);
 
-        var href = "https://calendar.ramses.nu/calendar/778/show/hockeyallsvenskan-2022-23.ics";
-        var matches = await _calendarFileDownloadService.DownloadAsync(href);
+        //var href = "https://calendar.ramses.nu/calendar/778/show/hockeyallsvenskan-2022-23.ics";
+        //var matches = await _calendarFileDownloadService.DownloadAsync(href);
 
 
         var collection = matches.Take(12);

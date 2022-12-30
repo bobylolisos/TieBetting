@@ -10,16 +10,16 @@ public class Team
     public string Image { get; set; }
 
     [FirestoreProperty]
-    public int PreviousBet { get; set; }
+    public int CurrentBetSession { get; set; }
 
     [FirestoreProperty]
     public int TotalBet { get; set; }
 
     [FirestoreProperty]
-    public int TotalWin { get; set; }
+    public double TotalWin { get; set; }
 
     [FirestoreProperty] 
     public List<bool> Statuses { get; set; } = new();
 
-    public int Profit => TotalWin - TotalBet;
+    public int Profit => (int)TotalWin - TotalBet;
 }

@@ -52,11 +52,11 @@ public class MatchViewModel : ViewModelBase
 
     public int HomeTeamTotalBet => _homeTeam.TotalBet;
 
-    public int HomeTeamTotalWin => _homeTeam.TotalWin;
+    public int HomeTeamTotalWin => (int)_homeTeam.TotalWin;
 
     public int HomeTeamProfit => _homeTeam.Profit;
 
-    public int HomeTeamCurrentBetSession => _homeTeam.PreviousBet;
+    public int HomeTeamCurrentBetSession => _homeTeam.CurrentBetSession;
 
     public string AwayTeam => _match.AwayTeam;
 
@@ -68,11 +68,11 @@ public class MatchViewModel : ViewModelBase
 
     public int AwayTeamTotalBet => _awayTeam.TotalBet;
 
-    public int AwayTeamTotalWin => _awayTeam.TotalWin;
+    public int AwayTeamTotalWin => (int)_awayTeam.TotalWin;
 
     public int AwayTeamProfit => _awayTeam.Profit;
 
-    public int AwayTeamCurrentBetSession => _awayTeam.PreviousBet;
+    public int AwayTeamCurrentBetSession => _awayTeam.CurrentBetSession;
 
     public double? Rate => _match.Rate;
 
@@ -99,7 +99,7 @@ public class MatchViewModel : ViewModelBase
             {
                 var win = i * Rate;
 
-                if (win - i - _homeTeam.PreviousBet > 50)
+                if (win - i - _homeTeam.CurrentBetSession > 50)
                 {
                     _match.HomeTeamBet = i;
                     break;
@@ -109,7 +109,7 @@ public class MatchViewModel : ViewModelBase
             {
                 var win = i * Rate;
 
-                if (win - i - _awayTeam.PreviousBet > 50)
+                if (win - i - _awayTeam.CurrentBetSession > 50)
                 {
                     _match.AwayTeamBet = i;
                     break;
