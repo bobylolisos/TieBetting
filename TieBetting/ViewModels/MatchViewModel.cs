@@ -84,7 +84,7 @@ public class MatchViewModel : ViewModelBase
 
     public int? TotalBet => HomeTeamBet + AwayTeamBet;
 
-    public void SetRate(decimal? rate)
+    public bool SetRate(decimal? rate)
     {
         if (rate.HasValue == false)
         {
@@ -92,6 +92,13 @@ public class MatchViewModel : ViewModelBase
             _match.HomeTeamBet = null;
             _match.AwayTeamBet = null;
             _match.Status = 0;
+        }
+        else if (rate.Value < 2)
+        {
+            // Todo: Visa dialog, orimligt värde
+            if (Debugger.IsAttached)
+                Debugger.Break();
+            return false;
         }
         else
         {
@@ -129,6 +136,8 @@ public class MatchViewModel : ViewModelBase
         OnPropertyChanged(nameof(AwayTeamBet));
         OnPropertyChanged(nameof(TotalBet));
         OnPropertyChanged(nameof(Status));
+
+        return true;
     }
 
     public void SetStatus(MatchStatus matchStatus)

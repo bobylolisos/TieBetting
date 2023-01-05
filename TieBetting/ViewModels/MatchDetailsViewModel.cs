@@ -32,10 +32,8 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
 
     public void Receive(MatchRateChangedMessage message)
     {
-        if (message?.Rate != Match.Rate)
+        if (message?.Rate != Match.Rate && Match.SetRate(message?.Rate))
         {
-            Match.SetRate(message?.Rate);
-
             // Todo: Save to firebase
         }
     }
@@ -56,7 +54,7 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
 
     private async Task ExecuteEnterRateCommand()
     {
-        await _popupService.OpenPopupAsync<EnterRateView>(new EnterRatePopupParameter(4.25m));
+        await _popupService.OpenPopupAsync<EnterRateView>(new EnterRatePopupParameter(Match.Rate));
     }
 
     private Task ExecuteSetStatusCommand(MatchStatus matchStatus)

@@ -2,19 +2,45 @@
 
 public class EnterRateViewModel : ViewModelBase, IPopupViewModel
 {
-    private decimal? _rate;
+    private string _rate;
 
-    public decimal? Rate
+    public EnterRateViewModel()
+    {
+        DigitCommand = new RelayCommand<string>(ExecuteDigitCommand, CanExecuteDigitCommand);
+        CommaCommand = new RelayCommand(ExecuteCommaCommand, CanExecuteCommaCommand);
+        RemoveDigitCommand = new RelayCommand(ExecuteRemoveDigitCommand, CanExecuteRemoveDigitCommand);
+    }
+
+    public RelayCommand<string> DigitCommand { get; set; }
+
+    public RelayCommand CommaCommand { get; set; }
+
+    public RelayCommand RemoveDigitCommand { get; set; }
+
+    public string Rate
     {
         get => _rate;
-        set => SetProperty(ref _rate, value);
+        set
+        {
+            if (value.Length > 4)
+            {
+                return;
+            }
+
+            if (SetProperty(ref _rate, value))
+            {
+                DigitCommand.NotifyCanExecuteChanged();
+                CommaCommand.NotifyCanExecuteChanged();
+                RemoveDigitCommand.NotifyCanExecuteChanged();
+            }
+        }
     }
 
     public Task OnOpenPopupAsync(PopupParameterBase parameter = null)
     {
         if (parameter is EnterRatePopupParameter enterRatePopupParameter)
         {
-            Rate = enterRatePopupParameter.Rate;
+            Rate = enterRatePopupParameter.Rate?.ToString() ?? string.Empty;
         }
 
         return Task.CompletedTask;
@@ -24,6 +50,73 @@ public class EnterRateViewModel : ViewModelBase, IPopupViewModel
     {
         await Task.Delay(1);
 
-        WeakReferenceMessenger.Default.Send(new MatchRateChangedMessage(Rate));
+        decimal? rate = null;
+
+        if (Rate.Any())
+        {
+            rate = GetDecimalFromString(Rate);
+
+            if (rate == 0)
+            {
+                rate = null;
+            }
+        }
+
+        WeakReferenceMessenger.Default.Send(new MatchRateChangedMessage(rate));
     }
+
+    private void ExecuteDigitCommand(string digit)
+    {
+        Rate += digit;
+    }
+
+    private bool CanExecuteDigitCommand(string digit)
+    {
+        if (Rate != null && Rate.Any())
+        {
+            return true;
+        }
+
+        if (digit == "0" || digit == "1")
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    private decimal GetDecimalFromString(string str)
+    {
+        if (decimal.TryParse(str, out var dec))
+        {
+            return dec;
+        }
+
+        throw new InvalidOperationException("Unable to parse Rate from string");
+    }
+
+    private void ExecuteCommaCommand()
+    {
+        Rate += ".";
+    }
+
+    private bool CanExecuteCommaCommand()
+    {
+        return Rate != null && Rate.IsEmpty() == false && Rate.Contains('.') == false && Rate.Length < 3;
+    }
+
+    private void ExecuteRemoveDigitCommand()
+    {
+        if (Rate.Length > 0)
+        {
+            Rate = Rate.Remove(Rate.Length - 1, 1);
+        }
+    }
+
+    private bool CanExecuteRemoveDigitCommand()
+    {
+        return Rate != null && Rate.Any();
+    }
+
 }

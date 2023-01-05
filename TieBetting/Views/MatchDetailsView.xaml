@@ -236,7 +236,7 @@
                         Text="?"
                         HorizontalTextAlignment="Center"
                         CharacterSpacing="1"
-                        FontSize="26"
+                        FontSize="40"
                         IsVisible="{Binding Rate, Converter={StaticResource HiddenWhenHasRateConverter}}"
                         Style="{StaticResource RowValueLabelStyle}" />
                 </Grid>
