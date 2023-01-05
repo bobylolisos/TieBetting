@@ -2,12 +2,14 @@
 
 public class MatchViewModel : ViewModelBase
 {
+    private readonly IRepository _repository;
     private readonly Match _match;
     private readonly Team _homeTeam;
     private readonly Team _awayTeam;
 
-    public MatchViewModel(Match match, Team homeTeam, Team awayTeam)
+    public MatchViewModel(IRepository repository, Match match, Team homeTeam, Team awayTeam)
     {
+        _repository = repository;
         _match = match;
         _homeTeam = homeTeam;
         _awayTeam = awayTeam;
@@ -74,7 +76,7 @@ public class MatchViewModel : ViewModelBase
 
     public int AwayTeamCurrentBetSession => _awayTeam.CurrentBetSession;
 
-    public double? Rate => _match.Rate;
+    public decimal? Rate => _match.Rate;
 
     public MatchStatus Status => (MatchStatus)_match.Status;
 
@@ -82,7 +84,7 @@ public class MatchViewModel : ViewModelBase
 
     public int? TotalBet => HomeTeamBet + AwayTeamBet;
 
-    public void SetRate(double? rate)
+    public void SetRate(decimal? rate)
     {
         if (rate.HasValue == false)
         {
@@ -99,7 +101,7 @@ public class MatchViewModel : ViewModelBase
             {
                 var win = i * Rate;
 
-                if (win - i - _homeTeam.CurrentBetSession > 50)
+                if (win - i - _homeTeam.CurrentBetSession >= 50)
                 {
                     _match.HomeTeamBet = i;
                     break;
@@ -109,17 +111,23 @@ public class MatchViewModel : ViewModelBase
             {
                 var win = i * Rate;
 
-                if (win - i - _awayTeam.CurrentBetSession > 50)
+                if (win - i - _awayTeam.CurrentBetSession >= 50)
                 {
                     _match.AwayTeamBet = i;
                     break;
                 }
+            }
+
+            if (_match.Status == (int)MatchStatus.NotActive)
+            {
+                _match.Status = (int)MatchStatus.Active;
             }
         }
 
         OnPropertyChanged(nameof(Rate));
         OnPropertyChanged(nameof(HomeTeamBet));
         OnPropertyChanged(nameof(AwayTeamBet));
+        OnPropertyChanged(nameof(TotalBet));
         OnPropertyChanged(nameof(Status));
     }
 

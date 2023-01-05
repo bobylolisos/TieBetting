@@ -1,4 +1,4 @@
-﻿namespace TieBetting.Services;
+﻿namespace TieBetting.Services.Navigation;
 
 public class NavigationService : INavigationService
 {
@@ -27,6 +27,13 @@ public class NavigationService : INavigationService
     public async Task<bool> NavigateToPageAsync<T>(NavigationParameterBase parameter = null) where T : Page
     {
         var currentPage = Navigation.NavigationStack.LastOrDefault();
+
+        if (currentPage is not null && currentPage.GetType() == typeof(T))
+        {
+            // Navigating to same page, double click ???
+            return false;
+        }
+
         if (currentPage is not null)
         {
             var currentViewModel = GetPageViewModelBase(currentPage);
@@ -49,6 +56,11 @@ public class NavigationService : INavigationService
             if (toViewModel is not null)
             {
                 await toViewModel.OnNavigatingToAsync(parameter);
+
+                if (toViewModel is IPubSub pubSub)
+                {
+                    pubSub.RegisterMessages();
+                }
             }
 
             await Navigation.PushAsync(toPage, true);
@@ -84,6 +96,12 @@ public class NavigationService : INavigationService
 
     private async void Page_NavigatedFrom(object sender, NavigatedFromEventArgs e)
     {
+        if (Navigation.ModalStack.Any())
+        {
+            // Modal dialog open, do not navigate from current view
+            return;
+        }
+
         //To determine forward navigation, we look at the 2nd to last item on the NavigationStack
         //If that entry equals the sender, it means we navigated forward from the sender to another page
         bool isForwardNavigation = Navigation.NavigationStack.Count > 1
@@ -103,6 +121,11 @@ public class NavigationService : INavigationService
         var fromViewModel = GetPageViewModelBase(p);
         if (fromViewModel is not null)
         {
+            if (fromViewModel is IPubSub pubSub)
+            {
+                pubSub.UnregisterMessages();
+            }
+
             return fromViewModel.OnNavigatedFromAsync(isForward);
         }
 

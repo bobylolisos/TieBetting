@@ -4,8 +4,12 @@ public static class ViewSetup
 {
     public static MauiAppBuilder SetupViews(this MauiAppBuilder builder)
     {
+        // Pages
         builder.RegisterViewTransient<MainView>();
         builder.RegisterViewTransient<MatchDetailsView>();
+
+        // Popups
+        builder.RegisterViewTransient<EnterRateView>();
 
         return builder;
     }

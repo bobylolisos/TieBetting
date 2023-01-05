@@ -1,4 +1,6 @@
-﻿namespace TieBetting.Services;
+﻿using TieBetting.Services.Navigation.NavigationParameters;
+
+namespace TieBetting.Services.Navigation;
 
 public interface INavigationService
 {

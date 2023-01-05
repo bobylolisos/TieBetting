@@ -4,6 +4,6 @@ public enum MatchStatus
 {
     NotActive = 0,
     Active = 1,
-    Failed = 2,
-    Success = 3
+    Lost = 2,
+    Win = 3
 }

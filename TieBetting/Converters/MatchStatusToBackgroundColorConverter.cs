@@ -7,12 +7,12 @@ public class MatchStatusToBackgroundColorConverter : ValueConverterBase<MatchSta
         switch (value)
         {
             case MatchStatus.NotActive: 
-                return Colors.Gray;
+                return Colors.LightGray;
             case MatchStatus.Active:
                 return Colors.Orange;
-            case MatchStatus.Failed:
+            case MatchStatus.Lost:
                 return Colors.OrangeRed;
-            case MatchStatus.Success:
+            case MatchStatus.Win:
                 return Colors.LightGreen;
             default:
                 throw new ArgumentNullException($"Uknown status on match: <{value}");

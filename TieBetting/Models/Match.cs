@@ -22,7 +22,7 @@ public class Match
     public int? AwayTeamBet { get; set; }
 
     [FirestoreProperty]
-    public double? Rate { get; set; }
+    public decimal? Rate { get; set; }
 
     [FirestoreProperty]
     public int Day { get; set; }

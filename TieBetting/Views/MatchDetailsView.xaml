@@ -3,9 +3,13 @@
     x:Class="TieBetting.Views.MatchDetailsView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:converters="clr-namespace:TieBetting.Converters"
-    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     xmlns:base="clr-namespace:TieBetting.Views.Base"
+    xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:borderedEntry="clr-namespace:TieBetting.Shared.Components.BorderedEntry"
+    xmlns:converters="clr-namespace:TieBetting.Converters"
+    xmlns:models="clr-namespace:TieBetting.Models"
+    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
+    x:Name="This"
     Title="MatchDetailsView"
     x:DataType="viewModels:MatchDetailsViewModel">
     <Shell.BackButtonBehavior>
@@ -19,6 +23,16 @@
 
     <ContentPage.Resources>
         <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
+        <converters:HasDecimalToVisibilityConverter
+            x:Key="VisibleWhenHasRateConverter"
+            VisibilityWhenHasDecimal="True"
+            VisibilityWhenNoDecimal="False" />
+        <converters:HasDecimalToVisibilityConverter
+            x:Key="HiddenWhenHasRateConverter"
+            VisibilityWhenHasDecimal="False"
+            VisibilityWhenNoDecimal="True" />
+        <converters:MatchStatusToBackgroundColorConverter x:Key="MatchStatusToBackgroundColorConverter" />
+
         <Style
             x:Key="RowHeaderLabelStyle"
             TargetType="Label">
@@ -41,6 +55,7 @@
 
 
     <Grid
+        RowDefinitions="Auto,*"
         Margin="10"
         BindingContext="{Binding Match}">
         <Grid
@@ -187,6 +202,101 @@
                     Grid.Column="2"
                     Text="{Binding AwayTeamCurrentBetSession, Converter={StaticResource AmountToAmountStringConverter}}"
                     Style="{StaticResource RowValueLabelStyle}" />
+            </Grid>
+
+        </Grid>
+
+
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            RowDefinitions="30,Auto,Auto"
+            x:DataType="viewModels:MatchViewModel">
+
+            <Frame
+                Grid.Row="1"
+                Grid.Column="0"
+                WidthRequest="100"
+                HeightRequest="100"
+                BackgroundColor="{Binding Status, Converter={StaticResource MatchStatusToBackgroundColorConverter}}"
+                BorderColor="Gray"
+                CornerRadius="50">
+                <Grid>
+                    <Label
+                        Padding="0"
+                        HorizontalOptions="Center"
+                        Text="{Binding Rate, StringFormat='{}{0:N2}'}"
+                        HorizontalTextAlignment="Center"
+                        CharacterSpacing="1"
+                        FontSize="22"
+                        IsVisible="{Binding Rate, Converter={StaticResource VisibleWhenHasRateConverter}}"
+                        Style="{StaticResource RowValueLabelStyle}" />
+                    <Label
+                        HorizontalOptions="Center"
+                        Text="?"
+                        HorizontalTextAlignment="Center"
+                        CharacterSpacing="1"
+                        FontSize="26"
+                        IsVisible="{Binding Rate, Converter={StaticResource HiddenWhenHasRateConverter}}"
+                        Style="{StaticResource RowValueLabelStyle}" />
+                </Grid>
+                <Frame.Behaviors>
+                    <behaviors:AnimationBehavior>
+                        <behaviors:AnimationBehavior.Command>
+                            <x:Binding
+                                Path="BindingContext.EnterRateCommand"
+                                Source="{x:Reference This}" />
+                        </behaviors:AnimationBehavior.Command>
+                    </behaviors:AnimationBehavior>
+
+                </Frame.Behaviors>
+            </Frame>
+
+            <Grid
+                Grid.Row="2"
+                Grid.Column="0"
+                ColumnDefinitions="*,*,*,*"
+                IsVisible="{Binding Rate, Converter={StaticResource VisibleWhenHasRateConverter}}"
+                Margin="0,20">
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="5"
+                    Padding="0"
+                    Text="Not active"
+                    TextColor="Black"
+                    BackgroundColor="LightGray"
+                    Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
+                    CommandParameter="{x:Static models:MatchStatus.NotActive}" />
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="5"
+                    Text="Active"
+                    TextColor="Black"
+                    BackgroundColor="Orange"
+                    Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
+                    CommandParameter="{x:Static models:MatchStatus.Active}" />
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="5"
+                    Padding="0"
+                    Text="Lost"
+                    TextColor="Black"
+                    BackgroundColor="OrangeRed"
+                    Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
+                    CommandParameter="{x:Static models:MatchStatus.Lost}" />
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Margin="5"
+                    Text="Win"
+                    TextColor="Black"
+                    BackgroundColor="LightGreen"
+                    Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
+                    CommandParameter="{x:Static models:MatchStatus.Win}" />
+
             </Grid>
 
         </Grid>

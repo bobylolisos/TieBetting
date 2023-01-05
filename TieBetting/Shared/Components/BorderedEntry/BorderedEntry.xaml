@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="TieBetting.Shared.Components.BorderedEntry.BorderedEntry"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="BorderedEntryContentView">
+    <Grid>
+        <Border
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="0,6,0,5"
+            Padding="10,3,5,0"
+            Stroke="{StaticResource Primary}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="5" />
+            </Border.StrokeShape>
+            <Entry
+                Text="{Binding Text, Source={x:Reference BorderedEntryContentView}}"
+                ClearButtonVisibility="WhileEditing"
+                IsSpellCheckEnabled="False"
+                IsTextPredictionEnabled="False"
+                MaxLength="{Binding MaxCharacters, Source={x:Reference BorderedEntryContentView}}"
+                Placeholder="{Binding Placeholder, Source={x:Reference BorderedEntryContentView}}" />
+
+        </Border>
+        <HorizontalStackLayout
+            Grid.Row="0"
+            Grid.Column="0">
+            <Label
+                Margin="7,0,0,0"
+                Padding="3,0,0,0"
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                Text="{Binding Label, Source={x:Reference BorderedEntryContentView}}"
+                TextColor="{StaticResource Primary}"
+                Background="White"
+                CharacterSpacing="1.4"
+                FontSize="12" />
+            <Label
+                Padding="2,0"
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                Text="*"
+                TextColor="Red"
+                Background="White"
+                FontSize="12"
+                IsVisible="{Binding IsRequired, Source={x:Reference BorderedEntryContentView}}" />
+
+
+        </HorizontalStackLayout>
+    </Grid>
+</ContentView>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<shared:BasePopupPage
+    x:Class="TieBetting.Views.EnterRateView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:shared="clr-namespace:TieBetting.Shared"
+    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
+    Title="EnterRateView"
+    x:DataType="viewModels:EnterRateViewModel">
+    <shared:BasePopupPage.PopupContent>
+        <VerticalStackLayout>
+            <Label
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Text="{Binding Rate }" />
+        </VerticalStackLayout>
+    </shared:BasePopupPage.PopupContent>
+</shared:BasePopupPage>

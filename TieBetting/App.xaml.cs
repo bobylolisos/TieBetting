@@ -1,4 +1,6 @@
-﻿namespace TieBetting;
+﻿using TieBetting.Services.Navigation;
+
+namespace TieBetting;
 
 public partial class App : Application
 {

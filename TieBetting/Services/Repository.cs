@@ -6,8 +6,63 @@ public class Repository : IRepository
     private const string MatchesCollectionKey = "matches";
 
     private FirestoreDb _firestoreDb;
+    private string _credentials;
 
-    private async Task<FirestoreDb> CreateFirestoreDbAsync()
+    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = true)
+    {
+        _credentials = null;
+        string filename;
+        string projectId;
+        if (sandbox)
+        {
+            filename = "sandbox-73692-firebase-adminsdk-6khte-b27b19a9d6.json";
+            projectId = "sandbox-73692";
+        }
+        else
+        {
+            filename = "tiebetting-firebase-adminsdk-xm5en-3de0c69790.json";
+            projectId = "tiebetting";
+        }
+
+        try
+        {
+            Debug.WriteLine("CreateFirestoreDbAsync - Begin");
+            if (_credentials == null)
+            {
+                Debug.WriteLine("CreateFirestoreDbAsync/OpenAppPackageFileAsync");
+                using var stream = FileSystem.OpenAppPackageFileAsync(filename).Result;
+
+
+
+                //await using var stream = await FileSystem.OpenAppPackageFileAsync("tiebetting-firebase-adminsdk-xm5en-3de0c69790.json");
+                //await using var stream = await FileSystem.OpenAppPackageFileAsync("sandbox-73692-firebase-adminsdk-6khte-b27b19a9d6.json");
+                using var reader = new StreamReader(stream);
+                _credentials = reader.ReadToEndAsync().Result;
+
+            }
+
+            Debug.WriteLine("CreateFirestoreDbAsync/Create FirestoreClientBuilder");
+            var firestoreClientBuilder = new FirestoreClientBuilder { JsonCredentials = _credentials };
+            Debug.WriteLine("CreateFirestoreDbAsync/FirestoreClientBuilder.BuildAsync");
+            var firestoreClient = await firestoreClientBuilder.BuildAsync();
+
+            Debug.WriteLine("CreateFirestoreDbAsync/FirestoreDb.CreateAsync");
+            _firestoreDb = await FirestoreDb.CreateAsync(projectId, firestoreClient);
+            //_firestoreDb = await FirestoreDb.CreateAsync("sandbox-73692", firestoreClient);
+            Debug.WriteLine("CreateFirestoreDbAsync - Done");
+            return _firestoreDb;
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine("CreateFirestoreDbAsync - Failed");
+            await Application.Current.MainPage.DisplayAlert("Firestore init failed", e.Message, "OK");
+
+            Application.Current.Quit();
+            throw;
+        }
+    }
+
+    private async Task<FirestoreDb> CreateFirestoreDbAsync2()
     {
         if (_firestoreDb != null)
         {
@@ -19,14 +74,20 @@ public class Repository : IRepository
         try
         {
             Debug.WriteLine("CreateFirestoreDbAsync - Begin");
-            var stream = await FileSystem.OpenAppPackageFileAsync("tiebetting-firebase-adminsdk-xm5en-3de0c69790.json");
-            var reader = new StreamReader(stream);
+            Debug.WriteLine("CreateFirestoreDbAsync/OpenAppPackageFileAsync");
+            await using var stream = await FileSystem.OpenAppPackageFileAsync("tiebetting-firebase-adminsdk-xm5en-3de0c69790.json");
+            //await using var stream = await FileSystem.OpenAppPackageFileAsync("sandbox-73692-firebase-adminsdk-6khte-b27b19a9d6.json");
+            using var reader = new StreamReader(stream);
             var contents = await reader.ReadToEndAsync();
 
+            Debug.WriteLine("CreateFirestoreDbAsync/Create FirestoreClientBuilder");
             var firestoreClientBuilder = new FirestoreClientBuilder { JsonCredentials = contents };
+            Debug.WriteLine("CreateFirestoreDbAsync/FirestoreClientBuilder.BuildAsync");
             var firestoreClient = await firestoreClientBuilder.BuildAsync();
 
+            Debug.WriteLine("CreateFirestoreDbAsync/FirestoreDb.CreateAsync");
             _firestoreDb = await FirestoreDb.CreateAsync("tiebetting", firestoreClient);
+            //_firestoreDb = await FirestoreDb.CreateAsync("sandbox-73692", firestoreClient);
             Debug.WriteLine("CreateFirestoreDbAsync - Done");
             return _firestoreDb;
         }
@@ -56,6 +117,22 @@ public class Repository : IRepository
 
     }
 
+    //private async Task AddTeamsToSandboxAsync(IReadOnlyCollection<Team> teams)
+    //{
+    //    var firestoreDb = await CreateFirestoreDbAsync(true);
+
+    //    var batch = firestoreDb.StartBatch();
+
+    //    foreach (var team in teams)
+    //    {
+    //        var documentReference = firestoreDb.Collection(TeamsCollectionKey).Document(team.Name);
+    //        batch.Set(documentReference, team);
+    //    }
+
+    //    await batch.CommitAsync();
+
+    //}    
+    
     public async Task<IReadOnlyCollection<Match>> GetNextMatchesAsync(int? numberOfMatches = null)
     {
         Debug.WriteLine("GetNextMatchesAsync - Begin");
@@ -122,6 +199,22 @@ public class Repository : IRepository
         }
 
         Debug.WriteLine("GetTeamsAsync/GetSnapshotAsync - Done");
+
+        //await AddTeamsToSandboxAsync(teams);
+
         return teams;
+    }
+
+    public Task UpdateRateAndBets(double rate, string homeTeamId, int homeTeamBets, string awayTeamId, int awayTeamBets)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task UpdateMatch(Match match)
+    {
+        var firestoreDb = await CreateFirestoreDbAsync();
+
+        var matchDocumentReference = firestoreDb.Collection(MatchesCollectionKey).Document(match.Id);
+        await matchDocumentReference.SetAsync(match);
     }
 }

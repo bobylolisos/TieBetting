@@ -1,4 +1,4 @@
-﻿namespace TieBetting.NavigationParameters;
+﻿namespace TieBetting.Services.Navigation.NavigationParameters;
 
 public class MatchDetailsViewNavigationParameter : NavigationParameterBase
 {

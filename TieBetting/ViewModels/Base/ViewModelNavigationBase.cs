@@ -1,4 +1,6 @@
-﻿namespace TieBetting.ViewModels.Base;
+﻿using TieBetting.Services.Navigation.NavigationParameters;
+
+namespace TieBetting.ViewModels.Base;
 
 public abstract class ViewModelNavigationBase : ObservableObject
 {

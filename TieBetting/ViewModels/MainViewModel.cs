@@ -53,13 +53,33 @@ public class MainViewModel : ViewModelNavigationBase
                 awayTeam = await _repository.CreateTeamAsync(match.AwayTeam);
             }
 
-            var matchViewModel = new MatchViewModel(match, homeTeam, awayTeam);
+            var matchViewModel = new MatchViewModel(_repository, match, homeTeam, awayTeam);
 
-            if (homeTeam.Name == "Björklöven")
-            {
-                matchViewModel.SetRate(4.80);
-                matchViewModel.SetStatus(MatchStatus.Active);
-            }
+            //if (homeTeam.Name == "Modo")
+            //{
+            //    matchViewModel.SetRate(4.35);
+            //    matchViewModel.SetStatus(MatchStatus.Active);
+            //}
+            //if (homeTeam.Name == "Karlskoga")
+            //{
+            //    matchViewModel.SetRate(4.25);
+            //    matchViewModel.SetStatus(MatchStatus.Active);
+            //}
+            //if (homeTeam.Name == "Västervik")
+            //{
+            //    matchViewModel.SetRate(4.25);
+            //    matchViewModel.SetStatus(MatchStatus.Active);
+            //}
+            //if (homeTeam.Name == "Mora")
+            //{
+            //    matchViewModel.SetRate(4.90);
+            //    matchViewModel.SetStatus(MatchStatus.Active);
+            //}
+            //if (homeTeam.Name == "Almtuna")
+            //{
+            //    matchViewModel.SetRate(4.35);
+            //    matchViewModel.SetStatus(MatchStatus.Active);
+            //}
 
             UpcomingMatches.Add(matchViewModel);
         }
