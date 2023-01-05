@@ -161,6 +161,36 @@ public class Repository : IRepository
         return matches;
     }
 
+    public async Task<IReadOnlyCollection<Match>> GetPreviousOngoingMatchesAsync()
+    {
+        Debug.WriteLine("GetPreviousOngoingMatchesAsync - Begin");
+
+        var firestoreDb = await CreateFirestoreDbAsync();
+
+        var matches = new List<Match>();
+
+        var fieldPath = nameof(Match.Status);
+
+        var matchesQuery = firestoreDb.Collection(MatchesCollectionKey)
+            .WhereEqualTo(fieldPath, 1);
+        Debug.WriteLine("GetPreviousOngoingMatchesAsync/GetSnapshotAsync - Begin");
+
+        var matchesQuerySnapshot = await matchesQuery.GetSnapshotAsync();
+        Debug.WriteLine("GetPreviousOngoingMatchesAsync/GetSnapshotAsync - Done");
+        foreach (var documentSnapshot in matchesQuerySnapshot.Documents)
+        {
+            var match = documentSnapshot.ConvertTo<Match>();
+
+            if (match.Day < (DateTime.Today - new DateTime(2022, 01, 01)).Days)
+            {
+                matches.Add(match);
+            }
+        }
+
+        Debug.WriteLine("GetPreviousOngoingMatchesAsync - Done");
+        return matches;
+    }
+
     public async Task AddTeamAsync(Team team)
     {
         var firestoreDb = await CreateFirestoreDbAsync();

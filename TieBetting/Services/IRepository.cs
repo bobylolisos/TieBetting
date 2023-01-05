@@ -6,6 +6,8 @@ public interface IRepository
 
     Task<IReadOnlyCollection<Match>> GetNextMatchesAsync(int? numberOfMatches = null);
 
+    Task<IReadOnlyCollection<Match>> GetPreviousOngoingMatchesAsync();
+
     Task AddTeamAsync(Team team);
 
     Task<Team> CreateTeamAsync(string teamName);

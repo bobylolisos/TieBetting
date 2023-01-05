@@ -1,4 +1,6 @@
-﻿namespace TieBetting.ViewModels;
+﻿using Microsoft.Maui.Controls.Compatibility.Platform.Android;
+
+namespace TieBetting.ViewModels;
 
 public class MainViewModel : ViewModelNavigationBase
 {
@@ -17,7 +19,7 @@ public class MainViewModel : ViewModelNavigationBase
         ImportCalendarToDatabaseCommand = new AsyncRelayCommand(ExecuteImportCalendarToDatabaseCommand);
     }
 
-    public List<MatchViewModel> UpcomingMatches { get; set; } = new();
+    public List<MatchViewModel> Matches { get; set; } = new();
 
     public AsyncRelayCommand<MatchViewModel> NavigateToMatchDetailsViewCommand { get; set; }
 
@@ -27,18 +29,40 @@ public class MainViewModel : ViewModelNavigationBase
 
     public override async Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
     {
-        UpcomingMatches.Clear();
-
-        var matches = await _repository.GetNextMatchesAsync(20);
+        Matches.Clear();
 
         //var href = "https://calendar.ramses.nu/calendar/778/show/hockeyallsvenskan-2022-23.ics";
         //var matches = await _calendarFileDownloadService.DownloadAsync(href);
 
 
-        var collection = matches.Take(12);
-
         var teams = await _repository.GetTeamsAsync();
-        foreach (var match in collection)
+
+        var previousMatches = await _repository.GetPreviousOngoingMatchesAsync();
+
+        foreach (var previousMatch in previousMatches)
+        {
+            var homeTeam = teams.SingleOrDefault(x => x.Name == previousMatch.HomeTeam);
+
+            if (homeTeam == null)
+            {
+                homeTeam = await _repository.CreateTeamAsync(previousMatch.HomeTeam);
+            }
+
+            var awayTeam = teams.SingleOrDefault(x => x.Name == previousMatch.AwayTeam);
+            if (awayTeam == null)
+            {
+                awayTeam = await _repository.CreateTeamAsync(previousMatch.AwayTeam);
+            }
+
+            var matchViewModel = new MatchViewModel(_repository, previousMatch, homeTeam, awayTeam);
+
+            Matches.Add(matchViewModel);
+        }
+
+
+        var matches = await _repository.GetNextMatchesAsync(20);
+
+        foreach (var match in matches)
         {
             var homeTeam = teams.SingleOrDefault(x => x.Name == match.HomeTeam);
 
@@ -81,7 +105,7 @@ public class MainViewModel : ViewModelNavigationBase
             //    matchViewModel.SetStatus(MatchStatus.Active);
             //}
 
-            UpcomingMatches.Add(matchViewModel);
+            Matches.Add(matchViewModel);
         }
     }
 

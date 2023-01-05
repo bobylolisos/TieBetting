@@ -34,7 +34,7 @@
         <CollectionView
             Grid.Row="1"
             Background="{StaticResource Gray100}"
-            ItemsSource="{Binding UpcomingMatches}">
+            ItemsSource="{Binding Matches}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:MatchViewModel">
 
