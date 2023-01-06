@@ -44,10 +44,10 @@ public class Repository : IRepository
             Debug.WriteLine("CreateFirestoreDbAsync/Create FirestoreClientBuilder");
             var firestoreClientBuilder = new FirestoreClientBuilder { JsonCredentials = _credentials };
             Debug.WriteLine("CreateFirestoreDbAsync/FirestoreClientBuilder.BuildAsync");
-            var firestoreClient = await firestoreClientBuilder.BuildAsync();
+            var firestoreClient = firestoreClientBuilder.BuildAsync().Result;
 
             Debug.WriteLine("CreateFirestoreDbAsync/FirestoreDb.CreateAsync");
-            _firestoreDb = await FirestoreDb.CreateAsync(projectId, firestoreClient);
+            _firestoreDb = FirestoreDb.CreateAsync(projectId, firestoreClient).Result;
             //_firestoreDb = await FirestoreDb.CreateAsync("sandbox-73692", firestoreClient);
             Debug.WriteLine("CreateFirestoreDbAsync - Done");
             return _firestoreDb;
@@ -144,7 +144,7 @@ public class Repository : IRepository
         var fieldPath = nameof(Match.Day);
 
         var matchesQuery = firestoreDb.Collection(MatchesCollectionKey)
-            .WhereGreaterThanOrEqualTo(fieldPath, (DateTime.Today - new DateTime(2022, 01, 01)).Days)
+            .WhereGreaterThanOrEqualTo(fieldPath, (DateTime.Today.AddDays(-1) - new DateTime(2022, 01, 01)).Days)
             .OrderBy(fieldPath)
             .Limit(numberOfMatches ?? int.MaxValue);
         Debug.WriteLine("GetNextMatchesAsync/GetSnapshotAsync - Begin");
@@ -235,16 +235,20 @@ public class Repository : IRepository
         return teams;
     }
 
-    public Task UpdateRateAndBets(double rate, string homeTeamId, int homeTeamBets, string awayTeamId, int awayTeamBets)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task UpdateMatch(Match match)
+    public async Task UpdateMatchAsync(Match match)
     {
         var firestoreDb = await CreateFirestoreDbAsync();
 
         var matchDocumentReference = firestoreDb.Collection(MatchesCollectionKey).Document(match.Id);
         await matchDocumentReference.SetAsync(match);
     }
+
+    public async Task UpdateTeamAsync(Team team)
+    {
+        var firestoreDb = await CreateFirestoreDbAsync();
+
+        var teamDocumentReference = firestoreDb.Collection(TeamsCollectionKey).Document(team.Name);
+        await teamDocumentReference.SetAsync(team);
+    }
+
 }

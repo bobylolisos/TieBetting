@@ -11,7 +11,7 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
         _popupService = popupService;
         _repository = repository;
 
-        EnterRateCommand = new AsyncRelayCommand(ExecuteEnterRateCommand);
+        EnterRateCommand = new AsyncRelayCommand(ExecuteEnterRateCommand, CanExecuteEnterRateCommand);
         SetStatusCommand = new AsyncRelayCommand<MatchStatus>(ExecuteSetStatusCommand);
     }
 
@@ -38,6 +38,7 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
         {
             // Todo: calculate and set amounts in Team
             await Match.SetRate(message?.Rate);
+            SetStatusCommand.NotifyCanExecuteChanged();
         }
     }
 
@@ -60,12 +61,19 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
         await _popupService.OpenPopupAsync<EnterRateView>(new EnterRatePopupParameter(Match.Rate));
     }
 
+    private bool CanExecuteEnterRateCommand()
+    {
+        return Match.Status == MatchStatus.NotActive;
+    }
+
     private async Task ExecuteSetStatusCommand(MatchStatus matchStatus)
     {
         if (matchStatus != Match.Status)
         {
             // Todo: If win or loss, calculate and move amounts in Team
-            //await Match.SetStatus(matchStatus);
+            await Match.SetStatus(matchStatus);
+
+            EnterRateCommand.NotifyCanExecuteChanged();
         }
     }
 }

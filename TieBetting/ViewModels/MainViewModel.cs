@@ -69,6 +69,10 @@ public class MainViewModel : ViewModelNavigationBase
         var fetchedUpcomingMatches = await _repository.GetNextMatchesAsync(20);
 
         var todayDay = (DateTime.Today - new DateTime(2022, 01, 01)).Days;
+        Debug.WriteLine("");
+        Debug.WriteLine($"Today day is: {todayDay}");
+        Debug.WriteLine("");
+
         var todayMatches = new List<MatchViewModel>();
         var upcomingMatches = new List<MatchViewModel>();
         foreach (var match in fetchedUpcomingMatches)

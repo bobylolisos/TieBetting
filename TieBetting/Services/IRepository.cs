@@ -14,6 +14,7 @@ public interface IRepository
 
     Task<IReadOnlyCollection<Team>> GetTeamsAsync();
 
-    Task UpdateRateAndBets(double rate, string homeTeamId, int homeTeamBets, string awayTeamId, int awayTeamBets);
-    Task UpdateMatch(Match match);
+    Task UpdateMatchAsync(Match match);
+ 
+    Task UpdateTeamAsync(Team team);
 }

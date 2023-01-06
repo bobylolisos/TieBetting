@@ -31,6 +31,7 @@
             VisibilityWhenHasDecimal="False"
             VisibilityWhenNoDecimal="True" />
         <converters:MatchStatusToBackgroundColorConverter x:Key="MatchStatusToBackgroundColorConverter" />
+        <converters:MatchStatusToStatusButtonVisibilityConverter x:Key="MatchStatusToStatusButtonVisibilityConverter" />
 
         <Style
             x:Key="RowHeaderLabelStyle"
@@ -209,9 +210,10 @@
         <Grid
             Grid.Row="1"
             Grid.Column="0"
-            RowDefinitions="30,Auto,Auto"
+            RowDefinitions="30,Auto,Auto,Auto"
             x:DataType="viewModels:MatchViewModel">
 
+            <!--  Rate circle  -->
             <Frame
                 Grid.Row="1"
                 Grid.Column="0"
@@ -251,50 +253,69 @@
                 </Frame.Behaviors>
             </Frame>
 
+            <!--  Amount to bet  -->
             <Grid
                 Grid.Row="2"
                 Grid.Column="0"
-                ColumnDefinitions="*,*,*,*"
-                IsVisible="{Binding Rate, Converter={StaticResource VisibleWhenHasRateConverter}}"
-                Margin="0,20">
-                <Button
+                ColumnDefinitions="*,Auto,Auto,*"
+                Margin="0,20,0,0"
+                IsVisible="{Binding Rate, Converter={StaticResource VisibleWhenHasRateConverter}}">
+                <Label
                     Grid.Row="0"
-                    Grid.Column="0"
-                    Margin="5"
-                    Padding="0"
-                    Text="Not active"
-                    TextColor="Black"
-                    BackgroundColor="LightGray"
-                    Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
-                    CommandParameter="{x:Static models:MatchStatus.NotActive}" />
+                    Grid.Column="1"
+                    Margin="0,0,10,0"
+                    Text="Amount to bet:"
+                    VerticalTextAlignment="Center"
+                    FontSize="16" />
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="0,0,10,0"
+                    Text="{Binding TotalBet}"
+                    FontSize="18" />
+            </Grid>
+
+            <!--  Set status buttons  -->
+            <Grid
+                Grid.Row="3"
+                Grid.Column="0"
+                ColumnDefinitions="*,Auto,Auto,*"
+                Margin="0,20"
+                IsVisible="{Binding Rate, Converter={StaticResource VisibleWhenHasRateConverter}}">
                 <Button
                     Grid.Row="0"
                     Grid.Column="1"
+                    WidthRequest="150"
                     Margin="5"
                     Text="Active"
                     TextColor="Black"
                     BackgroundColor="Orange"
                     Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
-                    CommandParameter="{x:Static models:MatchStatus.Active}" />
+                    CommandParameter="{x:Static models:MatchStatus.Active}"
+                    IsVisible="{Binding Status, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Active}}" />
                 <Button
                     Grid.Row="0"
-                    Grid.Column="2"
+                    Grid.Column="1"
+                    WidthRequest="150"
                     Margin="5"
                     Padding="0"
                     Text="Lost"
                     TextColor="Black"
                     BackgroundColor="OrangeRed"
                     Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
-                    CommandParameter="{x:Static models:MatchStatus.Lost}" />
+                    CommandParameter="{x:Static models:MatchStatus.Lost}"
+                    IsVisible="{Binding Status, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Lost}}" />
                 <Button
                     Grid.Row="0"
-                    Grid.Column="3"
+                    Grid.Column="2"
+                    WidthRequest="150"
                     Margin="5"
                     Text="Win"
                     TextColor="Black"
                     BackgroundColor="LightGreen"
                     Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
-                    CommandParameter="{x:Static models:MatchStatus.Win}" />
+                    CommandParameter="{x:Static models:MatchStatus.Win}"
+                    IsVisible="{Binding Status, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Win}}" />
 
             </Grid>
 
