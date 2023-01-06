@@ -50,11 +50,11 @@ public class EnterRateViewModel : ViewModelBase, IPopupViewModel
     {
         await Task.Delay(1);
 
-        decimal? rate = null;
+        double? rate = null;
 
         if (Rate.Any())
         {
-            rate = GetDecimalFromString(Rate);
+            rate = GetDoubleFromString(Rate);
 
             if (rate == 0)
             {
@@ -86,9 +86,9 @@ public class EnterRateViewModel : ViewModelBase, IPopupViewModel
     }
 
 
-    private decimal GetDecimalFromString(string str)
+    private double GetDoubleFromString(string str)
     {
-        if (decimal.TryParse(str, out var dec))
+        if (double.TryParse(str, out var dec))
         {
             return dec;
         }

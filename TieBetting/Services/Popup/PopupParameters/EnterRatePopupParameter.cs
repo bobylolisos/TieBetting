@@ -2,10 +2,10 @@
 
 public class EnterRatePopupParameter : PopupParameterBase
 {
-    public EnterRatePopupParameter(decimal? rate)
+    public EnterRatePopupParameter(double? rate)
     {
         Rate = rate;
     }
 
-    public decimal? Rate { get; }
+    public double? Rate { get; }
 }

@@ -5,7 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:TieBetting.Views.Base"
     xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:borderedEntry="clr-namespace:TieBetting.Shared.Components.BorderedEntry"
     xmlns:converters="clr-namespace:TieBetting.Converters"
     xmlns:models="clr-namespace:TieBetting.Models"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
@@ -23,11 +22,11 @@
 
     <ContentPage.Resources>
         <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
-        <converters:HasDecimalToVisibilityConverter
+        <converters:HasDoubleToVisibilityConverter
             x:Key="VisibleWhenHasRateConverter"
             VisibilityWhenHasDecimal="True"
             VisibilityWhenNoDecimal="False" />
-        <converters:HasDecimalToVisibilityConverter
+        <converters:HasDoubleToVisibilityConverter
             x:Key="HiddenWhenHasRateConverter"
             VisibilityWhenHasDecimal="False"
             VisibilityWhenNoDecimal="True" />

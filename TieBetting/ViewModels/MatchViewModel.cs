@@ -76,7 +76,7 @@ public class MatchViewModel : ViewModelBase
 
     public int AwayTeamCurrentBetSession => _awayTeam.CurrentBetSession;
 
-    public decimal? Rate => _match.Rate;
+    public double? Rate => _match.Rate;
 
     public MatchStatus Status => (MatchStatus)_match.Status;
 
@@ -84,7 +84,7 @@ public class MatchViewModel : ViewModelBase
 
     public int? TotalBet => HomeTeamBet + AwayTeamBet;
 
-    public bool SetRate(decimal? rate)
+    public async Task SetRate(double? rate)
     {
         if (rate.HasValue == false)
         {
@@ -98,7 +98,7 @@ public class MatchViewModel : ViewModelBase
             // Todo: Visa dialog, orimligt värde
             if (Debugger.IsAttached)
                 Debugger.Break();
-            return false;
+            return;
         }
         else
         {
@@ -137,12 +137,14 @@ public class MatchViewModel : ViewModelBase
         OnPropertyChanged(nameof(TotalBet));
         OnPropertyChanged(nameof(Status));
 
-        return true;
+        await _repository.UpdateMatch(_match);
     }
 
-    public void SetStatus(MatchStatus matchStatus)
+    public async Task SetStatus(MatchStatus matchStatus)
     {
         _match.Status = (int)matchStatus;
         OnPropertyChanged(nameof(Status));
+
+        await _repository.UpdateMatch(_match);
     }
 }

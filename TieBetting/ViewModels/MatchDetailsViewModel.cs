@@ -3,11 +3,13 @@
 public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateChangedMessage>
 {
     private readonly IPopupService _popupService;
+    private readonly IRepository _repository;
 
-    public MatchDetailsViewModel(INavigationService navigationService, IPopupService popupService) 
+    public MatchDetailsViewModel(INavigationService navigationService, IPopupService popupService, IRepository repository) 
         : base(navigationService)
     {
         _popupService = popupService;
+        _repository = repository;
 
         EnterRateCommand = new AsyncRelayCommand(ExecuteEnterRateCommand);
         SetStatusCommand = new AsyncRelayCommand<MatchStatus>(ExecuteSetStatusCommand);
@@ -30,11 +32,12 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
 
     public AsyncRelayCommand<MatchStatus> SetStatusCommand { get; set; }
 
-    public void Receive(MatchRateChangedMessage message)
+    public async void Receive(MatchRateChangedMessage message)
     {
-        if (message?.Rate != Match.Rate && Match.SetRate(message?.Rate))
+        if (!Equals(message?.Rate, Match.Rate))
         {
-            // Todo: Save to firebase
+            // Todo: calculate and set amounts in Team
+            await Match.SetRate(message?.Rate);
         }
     }
 
@@ -57,15 +60,12 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
         await _popupService.OpenPopupAsync<EnterRateView>(new EnterRatePopupParameter(Match.Rate));
     }
 
-    private Task ExecuteSetStatusCommand(MatchStatus matchStatus)
+    private async Task ExecuteSetStatusCommand(MatchStatus matchStatus)
     {
         if (matchStatus != Match.Status)
         {
-            Match.SetStatus(matchStatus);
-
-            // Todo: Save to firebase
+            // Todo: If win or loss, calculate and move amounts in Team
+            //await Match.SetStatus(matchStatus);
         }
-
-        return Task.CompletedTask;
     }
 }

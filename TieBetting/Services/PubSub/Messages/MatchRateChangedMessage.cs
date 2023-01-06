@@ -2,10 +2,10 @@
 
 public class MatchRateChangedMessage : MessageBase
 {
-    public MatchRateChangedMessage(decimal? rate)
+    public MatchRateChangedMessage(double? rate)
     {
         Rate = rate;
     }
 
-    public decimal? Rate { get; }
+    public double? Rate { get; }
 }

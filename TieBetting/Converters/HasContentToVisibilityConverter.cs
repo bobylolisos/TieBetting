@@ -23,27 +23,3 @@ public class HasContentToVisibilityConverter : ValueConverterBase<string>
         return VisibilityWhenHasContent;
     }
 }
-
-public class HasDecimalToVisibilityConverter : ValueConverterBase<decimal?>
-{
-    public HasDecimalToVisibilityConverter()
-    {
-        // Default values
-        VisibilityWhenHasDecimal = true;
-        VisibilityWhenNoDecimal = false;
-    }
-
-    public bool VisibilityWhenHasDecimal { get; set; }
-
-    public bool VisibilityWhenNoDecimal { get; set; }
-
-    protected override object Convert(decimal? value, object parameter)
-    {
-        if (value.HasValue)
-        {
-            return VisibilityWhenHasDecimal;
-        }
-
-        return VisibilityWhenNoDecimal;
-    }
-}
