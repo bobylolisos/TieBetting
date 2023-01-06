@@ -144,7 +144,7 @@ public class Repository : IRepository
         var fieldPath = nameof(Match.Day);
 
         var matchesQuery = firestoreDb.Collection(MatchesCollectionKey)
-            .WhereGreaterThanOrEqualTo(fieldPath, (DateTime.Today.AddDays(-1) - new DateTime(2022, 01, 01)).Days)
+            .WhereGreaterThanOrEqualTo(fieldPath, (DateTime.Today - new DateTime(2022, 01, 01)).Days)
             .OrderBy(fieldPath)
             .Limit(numberOfMatches ?? int.MaxValue);
         Debug.WriteLine("GetNextMatchesAsync/GetSnapshotAsync - Begin");

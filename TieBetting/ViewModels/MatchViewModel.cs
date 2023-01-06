@@ -186,9 +186,11 @@ public class MatchViewModel : ViewModelBase
         OnPropertyChanged(nameof(HomeTeamTotalBet));
         OnPropertyChanged(nameof(HomeTeamTotalWin));
         OnPropertyChanged(nameof(HomeTeamProfit));
+        OnPropertyChanged(nameof(HomeTeamCurrentBetSession));
 
         OnPropertyChanged(nameof(AwayTeamTotalBet));
         OnPropertyChanged(nameof(AwayTeamTotalWin));
         OnPropertyChanged(nameof(AwayTeamProfit));
+        OnPropertyChanged(nameof(AwayTeamCurrentBetSession));
     }
 }
