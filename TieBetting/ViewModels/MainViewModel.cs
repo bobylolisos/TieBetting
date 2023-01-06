@@ -19,7 +19,7 @@ public class MainViewModel : ViewModelNavigationBase
         ImportCalendarToDatabaseCommand = new AsyncRelayCommand(ExecuteImportCalendarToDatabaseCommand);
     }
 
-    public List<MatchViewModel> Matches { get; set; } = new();
+    public List<MatchGroupViewModel> Matches { get; set; } = new();
 
     public AsyncRelayCommand<MatchViewModel> NavigateToMatchDetailsViewCommand { get; set; }
 
@@ -37,9 +37,10 @@ public class MainViewModel : ViewModelNavigationBase
 
         var teams = await _repository.GetTeamsAsync();
 
-        var previousMatches = await _repository.GetPreviousOngoingMatchesAsync();
+        var fetchedPreviousMatches = await _repository.GetPreviousOngoingMatchesAsync();
 
-        foreach (var previousMatch in previousMatches)
+        var previousMatches = new List<MatchViewModel>();
+        foreach (var previousMatch in fetchedPreviousMatches)
         {
             var homeTeam = teams.SingleOrDefault(x => x.Name == previousMatch.HomeTeam);
 
@@ -56,13 +57,21 @@ public class MainViewModel : ViewModelNavigationBase
 
             var matchViewModel = new MatchViewModel(_repository, previousMatch, homeTeam, awayTeam);
 
-            Matches.Add(matchViewModel);
+            previousMatches.Add(matchViewModel);
+        }
+
+        if (previousMatches.Any())
+        {
+            Matches.Add(new MatchGroupViewModel("Previous", previousMatches));
         }
 
 
-        var matches = await _repository.GetNextMatchesAsync(20);
+        var fetchedUpcomingMatches = await _repository.GetNextMatchesAsync(20);
 
-        foreach (var match in matches)
+        var todayDay = (DateTime.Today - new DateTime(2022, 01, 01)).Days;
+        var todayMatches = new List<MatchViewModel>();
+        var upcomingMatches = new List<MatchViewModel>();
+        foreach (var match in fetchedUpcomingMatches)
         {
             var homeTeam = teams.SingleOrDefault(x => x.Name == match.HomeTeam);
 
@@ -105,7 +114,28 @@ public class MainViewModel : ViewModelNavigationBase
             //    matchViewModel.SetStatus(MatchStatus.Active);
             //}
 
-            Matches.Add(matchViewModel);
+            if (match.Day == todayDay)
+            {
+                todayMatches.Add(matchViewModel);
+            }
+            else
+            {
+                upcomingMatches.Add(matchViewModel);
+            }
+        }
+
+        if (todayMatches.Any())
+        {
+            Matches.Add(new MatchGroupViewModel("Today", todayMatches));
+        }
+        if (upcomingMatches.Any())
+        {
+            Matches.Add(new MatchGroupViewModel("Upcoming", upcomingMatches));
+        }
+
+        if (Matches.Any() == false)
+        {
+            Matches.Add(new MatchGroupViewModel("No matches", new List<MatchViewModel>()));
         }
     }
 

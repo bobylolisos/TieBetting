@@ -34,7 +34,23 @@
         <CollectionView
             Grid.Row="1"
             Background="{StaticResource Gray100}"
+            IsGrouped="True"
             ItemsSource="{Binding Matches}">
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <Label
+                        Margin="10,4,0,0"
+                        Text="{Binding Name}"
+                        x:DataType="viewModels:MatchGroupViewModel"
+                        FontSize="20" />
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.GroupFooterTemplate>
+                <DataTemplate>
+                    <!--  Add some space to next grouped collection  -->
+                    <Grid RowDefinitions="8" />
+                </DataTemplate>
+            </CollectionView.GroupFooterTemplate>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:MatchViewModel">
 
