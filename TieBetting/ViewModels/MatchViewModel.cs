@@ -15,31 +15,6 @@ public class MatchViewModel : ViewModelBase
         _awayTeam = awayTeam;
 
         Date = match.Date.ToString("yyyy-MM-dd");
-
-
-        HomeTeamLastSixStatuses = new List<bool?>();
-        var homeTeamLastSixStatuses = homeTeam.Statuses.TakeLastItems(6);
-        for (var i = homeTeamLastSixStatuses.Count(); i < 6; i++)
-        {
-            HomeTeamLastSixStatuses.Add(null);
-        }
-
-        foreach (var homeTeamLastSixStatus in homeTeamLastSixStatuses)
-        {
-            HomeTeamLastSixStatuses.Add(homeTeamLastSixStatus);
-        }
-
-        AwayTeamLastSixStatuses = new List<bool?>();
-        var awayTeamLastSixStatuses = awayTeam.Statuses.TakeLastItems(6).Reverse();
-        foreach (var awayTeamLastSixStatus in awayTeamLastSixStatuses)
-        {
-            AwayTeamLastSixStatuses.Add(awayTeamLastSixStatus);
-        }
-        for (var i = AwayTeamLastSixStatuses.Count; i < 6; i++)
-        {
-            AwayTeamLastSixStatuses.Add(null);
-        }
-
     }
 
     public string Id => _match.Id;
@@ -50,7 +25,7 @@ public class MatchViewModel : ViewModelBase
 
     public int? HomeTeamBet => _match.HomeTeamBet;
 
-    public List<bool?> HomeTeamLastSixStatuses { get; }
+    public List<bool?> HomeTeamLastSixStatuses => GetHomeTeamLastSixStatuses();
 
     public int HomeTeamTotalBet => _homeTeam.TotalBet;
 
@@ -66,7 +41,7 @@ public class MatchViewModel : ViewModelBase
 
     public int? AwayTeamBet => _match.AwayTeamBet;
 
-    public List<bool?> AwayTeamLastSixStatuses { get; }
+    public List<bool?> AwayTeamLastSixStatuses => GetAwayTeamLastSixStatuses();
 
     public int AwayTeamTotalBet => _awayTeam.TotalBet;
 
@@ -114,6 +89,7 @@ public class MatchViewModel : ViewModelBase
                     break;
                 }
             }
+
             for (int i = 1; i < int.MaxValue; i++)
             {
                 var win = i * Rate;
@@ -143,7 +119,6 @@ public class MatchViewModel : ViewModelBase
     public async Task SetStatus(MatchStatus matchStatus)
     {
         _match.Status = (int)matchStatus;
-        OnPropertyChanged(nameof(Status));
 
         //await Task.Delay(1);
         await _repository.UpdateMatchAsync(_match);
@@ -164,7 +139,7 @@ public class MatchViewModel : ViewModelBase
         if (matchStatus == MatchStatus.Win)
         {
             // Clear CurrentBetSession and move amounts
-            
+
             // Move total bet session
             _homeTeam.TotalBet += _homeTeam.CurrentBetSession;
             _awayTeam.TotalBet += _awayTeam.CurrentBetSession;
@@ -183,14 +158,55 @@ public class MatchViewModel : ViewModelBase
         await _repository.UpdateTeamAsync(_homeTeam);
         await _repository.UpdateTeamAsync(_awayTeam);
 
+        OnPropertyChanged(nameof(Status));
+
         OnPropertyChanged(nameof(HomeTeamTotalBet));
         OnPropertyChanged(nameof(HomeTeamTotalWin));
         OnPropertyChanged(nameof(HomeTeamProfit));
         OnPropertyChanged(nameof(HomeTeamCurrentBetSession));
+        OnPropertyChanged(nameof(HomeTeamLastSixStatuses));
 
         OnPropertyChanged(nameof(AwayTeamTotalBet));
         OnPropertyChanged(nameof(AwayTeamTotalWin));
         OnPropertyChanged(nameof(AwayTeamProfit));
         OnPropertyChanged(nameof(AwayTeamCurrentBetSession));
+        OnPropertyChanged(nameof(AwayTeamLastSixStatuses));
+    }
+
+    private List<bool?> GetHomeTeamLastSixStatuses()
+    {
+        var result = new List<bool?>();
+
+        var homeTeamLastSixStatuses = _homeTeam.Statuses.TakeLastItems(6).ToList();
+        for (var i = homeTeamLastSixStatuses.Count; i < 6; i++)
+        {
+            result.Add(null);
+        }
+
+        foreach (var homeTeamLastSixStatus in homeTeamLastSixStatuses)
+        {
+            result.Add(homeTeamLastSixStatus);
+        }
+
+        return result;
+    }
+
+    private List<bool?> GetAwayTeamLastSixStatuses()
+    {
+        var result = new List<bool?>();
+
+        var awayTeamLastSixStatuses = _awayTeam.Statuses.TakeLastItems(6).Reverse();
+        foreach (var awayTeamLastSixStatus in awayTeamLastSixStatuses)
+        {
+            result.Add(awayTeamLastSixStatus);
+        }
+
+        for (var i = result.Count; i < 6; i++)
+        {
+            result.Add(null);
+        }
+
+        return result;
+
     }
 }
