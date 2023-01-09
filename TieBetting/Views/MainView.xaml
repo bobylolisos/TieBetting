@@ -48,7 +48,7 @@
             <CollectionView.GroupFooterTemplate>
                 <DataTemplate>
                     <!--  Add some space to next grouped collection  -->
-                    <Grid RowDefinitions="8" />
+                    <Grid RowDefinitions="10" />
                 </DataTemplate>
             </CollectionView.GroupFooterTemplate>
             <CollectionView.ItemTemplate>

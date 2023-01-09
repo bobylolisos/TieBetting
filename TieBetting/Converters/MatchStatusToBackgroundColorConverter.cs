@@ -7,7 +7,7 @@ public class MatchStatusToBackgroundColorConverter : ValueConverterBase<MatchSta
         switch (value)
         {
             case MatchStatus.NotActive: 
-                return Colors.LightGray;
+                return Colors.White;
             case MatchStatus.Active:
                 return Colors.Orange;
             case MatchStatus.Lost:

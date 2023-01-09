@@ -134,11 +134,20 @@ public class MainViewModel : ViewModelNavigationBase
 
         if (todayMatches.Any())
         {
-            Matches.Add(new MatchGroupViewModel("Today", todayMatches));
+            Matches.Add(new MatchGroupViewModel($"{DateTime.Today:yyyy-MM-dd} - Today", todayMatches));
+        }
+        else
+        {
+            Matches.Add(new MatchGroupViewModel($"{DateTime.Today:yyyy-MM-dd} - Today, no matches", new List<MatchViewModel>()));
+
         }
         if (upcomingMatches.Any())
         {
-            Matches.Add(new MatchGroupViewModel("Upcoming", upcomingMatches));
+            var groupedUpcomingMatches = upcomingMatches.GroupBy(x => x.Date).Select(x => x.ToList());
+            foreach (var groupedUpcomingMatch in groupedUpcomingMatches)
+            {
+                Matches.Add(new MatchGroupViewModel(groupedUpcomingMatch[0].Date, groupedUpcomingMatch));
+            }
         }
 
         if (Matches.Any() == false)
