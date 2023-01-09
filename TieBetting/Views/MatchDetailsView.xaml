@@ -292,6 +292,7 @@
                     BackgroundColor="Orange"
                     Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
                     CommandParameter="{x:Static models:MatchStatus.Active}"
+                    FontSize="16"
                     IsVisible="{Binding Status, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Active}}" />
                 <Button
                     Grid.Row="0"
@@ -300,10 +301,11 @@
                     Margin="5"
                     Padding="0"
                     Text="Lost"
-                    TextColor="Black"
+                    TextColor="White"
                     BackgroundColor="OrangeRed"
                     Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
                     CommandParameter="{x:Static models:MatchStatus.Lost}"
+                    FontSize="16"
                     IsVisible="{Binding Status, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Lost}}" />
                 <Button
                     Grid.Row="0"
@@ -311,10 +313,11 @@
                     WidthRequest="150"
                     Margin="5"
                     Text="Win"
-                    TextColor="Black"
-                    BackgroundColor="LightGreen"
+                    TextColor="White"
+                    BackgroundColor="Green"
                     Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
                     CommandParameter="{x:Static models:MatchStatus.Win}"
+                    FontSize="16"
                     IsVisible="{Binding Status, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Win}}" />
 
             </Grid>

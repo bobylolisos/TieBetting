@@ -7,6 +7,7 @@ public class MainViewModel : ViewModelNavigationBase
     private readonly ICalendarFileDownloadService _calendarFileDownloadService;
     private readonly IRepository _repository;
     private readonly INavigationService _navigationService;
+    private IReadOnlyCollection<Team> _teams;
 
     public MainViewModel(ICalendarFileDownloadService calendarFileDownloadService, IRepository repository, INavigationService navigationService)
     : base(navigationService)
@@ -15,6 +16,7 @@ public class MainViewModel : ViewModelNavigationBase
         _repository = repository;
         _navigationService = navigationService;
         NavigateToMatchDetailsViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchDetailsViewCommand);
+        NavigateToTeamsViewCommand = new AsyncRelayCommand(ExecuteNavigateToTeamsViewCommand);
         MyCommand = new AsyncRelayCommand(ExecuteMyCommand);
         ImportCalendarToDatabaseCommand = new AsyncRelayCommand(ExecuteImportCalendarToDatabaseCommand);
     }
@@ -22,6 +24,8 @@ public class MainViewModel : ViewModelNavigationBase
     public List<MatchGroupViewModel> Matches { get; set; } = new();
 
     public AsyncRelayCommand<MatchViewModel> NavigateToMatchDetailsViewCommand { get; set; }
+
+    public AsyncRelayCommand NavigateToTeamsViewCommand { get; set; }
 
     public AsyncRelayCommand ImportCalendarToDatabaseCommand { get; set; }
 
@@ -35,21 +39,21 @@ public class MainViewModel : ViewModelNavigationBase
         //var matches = await _calendarFileDownloadService.DownloadAsync(href);
 
 
-        var teams = await _repository.GetTeamsAsync();
+        _teams = await _repository.GetTeamsAsync();
 
         var fetchedPreviousMatches = await _repository.GetPreviousOngoingMatchesAsync();
 
         var previousMatches = new List<MatchViewModel>();
         foreach (var previousMatch in fetchedPreviousMatches)
         {
-            var homeTeam = teams.SingleOrDefault(x => x.Name == previousMatch.HomeTeam);
+            var homeTeam = _teams.SingleOrDefault(x => x.Name == previousMatch.HomeTeam);
 
             if (homeTeam == null)
             {
                 homeTeam = await _repository.CreateTeamAsync(previousMatch.HomeTeam);
             }
 
-            var awayTeam = teams.SingleOrDefault(x => x.Name == previousMatch.AwayTeam);
+            var awayTeam = _teams.SingleOrDefault(x => x.Name == previousMatch.AwayTeam);
             if (awayTeam == null)
             {
                 awayTeam = await _repository.CreateTeamAsync(previousMatch.AwayTeam);
@@ -77,14 +81,14 @@ public class MainViewModel : ViewModelNavigationBase
         var upcomingMatches = new List<MatchViewModel>();
         foreach (var match in fetchedUpcomingMatches)
         {
-            var homeTeam = teams.SingleOrDefault(x => x.Name == match.HomeTeam);
+            var homeTeam = _teams.SingleOrDefault(x => x.Name == match.HomeTeam);
 
             if (homeTeam == null)
             {
                 homeTeam = await _repository.CreateTeamAsync(match.HomeTeam);
             }
 
-            var awayTeam = teams.SingleOrDefault(x => x.Name == match.AwayTeam);
+            var awayTeam = _teams.SingleOrDefault(x => x.Name == match.AwayTeam);
             if (awayTeam == null)
             {
                 awayTeam = await _repository.CreateTeamAsync(match.AwayTeam);
@@ -146,6 +150,11 @@ public class MainViewModel : ViewModelNavigationBase
     private async Task ExecuteNavigateToMatchDetailsViewCommand(MatchViewModel viewModel)
     {
         await _navigationService.NavigateToPageAsync<MatchDetailsView>(new MatchDetailsViewNavigationParameter(viewModel));
+    }
+
+    private async Task ExecuteNavigateToTeamsViewCommand()
+    {
+        await _navigationService.NavigateToPageAsync<TeamsView>(new TeamsViewNavigationParameter(_teams));
     }
 
     private async Task ExecuteImportCalendarToDatabaseCommand()

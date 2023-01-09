@@ -59,4 +59,22 @@ public static class EnumerableExtensions
     {
         return source.Skip(Math.Max(0, source.Count() - n));
     }
+
+    public static int CountNumberOfPreviousLostMatches(this IEnumerable<bool> statuses)
+    {
+        var result = 0;
+
+        foreach (var status in statuses.Reverse())
+        {
+            if (status)
+            {
+                return result;
+            }
+
+            result++;
+        }
+
+        return result;
+    }
+
 }

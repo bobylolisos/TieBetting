@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:ViewBase
+    x:Class="TieBetting.Views.TeamsView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:TieBetting.Views.Base"
+    xmlns:converters="using:TieBetting.Converters"
+    xmlns:converters1="clr-namespace:TieBetting.Converters"
+    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
+    Title="TeamsView"
+    x:DataType="viewModels:TeamsViewModel">
+    <Shell.TitleView>
+        <Label
+            Text="TEAMS"
+            Style="{StaticResource HeaderLabelStyle}" />
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
+        <converters1:ProfitToColorConverter x:Key="ProfitToColorConverter" />
+
+        <Style
+            x:Key="RowHeaderLabelStyle"
+            TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource Black}" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="Start" />
+            <Setter Property="Margin" Value="0,3" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style
+            x:Key="RowValueLabelStyle"
+            TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource Black}" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="End" />
+            <Setter Property="Margin" Value="0,3" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,7,*">
+        <Grid
+            Grid.Row="0"
+            Grid.Column="0"
+            RowDefinitions="Auto,10,*"
+            Margin="5"
+            Padding="5"
+            VerticalOptions="Start"
+            BackgroundColor="White">
+            <Grid
+                Grid.Row="2"
+                Grid.Column="0"
+                RowDefinitions="Auto,Auto"
+                ColumnDefinitions="Auto,20,Auto,40,Auto,20,Auto,*"
+                Margin="5,0">
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Total bet"
+                    Style="{StaticResource RowHeaderLabelStyle}" />
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Text="{Binding TotalBet, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Style="{StaticResource RowValueLabelStyle}" />
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="Total win"
+                    Style="{StaticResource RowHeaderLabelStyle}" />
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Style="{StaticResource RowValueLabelStyle}" />
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    Text="Bets in session"
+                    Style="{StaticResource RowHeaderLabelStyle}" />
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="6"
+                    Text="{Binding BetsInSession, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Style="{StaticResource RowValueLabelStyle}" />
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="4"
+                    Text="Total profit"
+                    Style="{StaticResource RowHeaderLabelStyle}" />
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="6"
+                    Text="{Binding TotalProfit, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Style="{StaticResource RowValueLabelStyle}" />
+            </Grid>
+        </Grid>
+
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            BackgroundColor="{StaticResource Gray100}" />
+
+        <CollectionView
+            Grid.Row="2"
+            Grid.Column="0"
+            Background="{StaticResource Gray100}"
+            ItemsSource="{Binding Teams}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:TeamViewModel">
+                    <Grid
+                        RowDefinitions="Auto,10,*"
+                        Margin="5"
+                        Padding="5"
+                        VerticalOptions="Start"
+                        BackgroundColor="White">
+                        <Grid
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            ColumnDefinitions="Auto,*,Auto">
+                            <Image
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                WidthRequest="40"
+                                Margin="0,0"
+                                Source="{Binding Image}" />
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="15,0"
+                                Text="{Binding Name}"
+                                VerticalTextAlignment="Center"
+                                FontSize="22" />
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Margin="0,0,10,0"
+                                Text="{Binding Profit, Converter={StaticResource AmountToAmountStringConverter}}"
+                                TextColor="{Binding Profit, Converter={StaticResource ProfitToColorConverter}}"
+                                FontSize="22"
+                                Style="{StaticResource RowValueLabelStyle}" />
+                        </Grid>
+
+                        <Grid
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            RowDefinitions="Auto,Auto"
+                            ColumnDefinitions="Auto,20,Auto,40,Auto,20,Auto,*"
+                            Margin="5,0">
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Text="Total bet"
+                                Style="{StaticResource RowHeaderLabelStyle}" />
+
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Text="{Binding TotalBet, Converter={StaticResource AmountToAmountStringConverter}}"
+                                Style="{StaticResource RowValueLabelStyle}" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Text="Total win"
+                                Style="{StaticResource RowHeaderLabelStyle}" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
+                                Style="{StaticResource RowValueLabelStyle}" />
+
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                Text="Bets in session"
+                                Style="{StaticResource RowHeaderLabelStyle}" />
+
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="6"
+                                Text="{Binding BetsInSession, Converter={StaticResource AmountToAmountStringConverter}}"
+                                HorizontalTextAlignment="Start"
+                                Style="{StaticResource RowValueLabelStyle}" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="4"
+                                Text="Lost matches in session"
+                                Style="{StaticResource RowHeaderLabelStyle}" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="6"
+                                Text="{Binding LostMatchesInSession}"
+                                HorizontalTextAlignment="Start"
+                                Style="{StaticResource RowValueLabelStyle}" />
+
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</base:ViewBase>

@@ -9,6 +9,6 @@ public class TeamStatusToBackgroundColorConverter : ValueConverterBase<bool?>
             return Colors.LightGray;
         }
 
-        return value.Value ? Colors.LightGreen : Colors.OrangeRed;
+        return value.Value ? Colors.Green : Colors.OrangeRed;
     }
 }

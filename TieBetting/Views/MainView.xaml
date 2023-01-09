@@ -55,7 +55,7 @@
                 <DataTemplate x:DataType="viewModels:MatchViewModel">
 
                     <Grid
-                        RowDefinitions="Auto,Auto,*,Auto"
+                        RowDefinitions="Auto,Auto,*,5"
                         ColumnDefinitions="6,*,*,*"
                         Margin="5"
                         VerticalOptions="Start"
@@ -126,7 +126,7 @@
                             TextColor="{StaticResource Black}"
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
-                            FontSize="12"
+                            FontSize="20"
                             MinimumHeightRequest="30" />
 
                         <Label
@@ -177,38 +177,6 @@
 
                         </CollectionView>
 
-
-                        <!--  Row 3  -->
-                        <Label
-                            Grid.Row="3"
-                            Grid.Column="1"
-                            Margin="0,8"
-                            Text="{Binding HomeTeamBet}"
-                            TextColor="{StaticResource Black}"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            FontAttributes="Bold"
-                            FontSize="11" />
-                        <Label
-                            Grid.Row="3"
-                            Grid.Column="2"
-                            Margin="0,8"
-                            Text="{Binding TotalBet}"
-                            TextColor="{StaticResource Black}"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            FontAttributes="Bold"
-                            FontSize="12" />
-                        <Label
-                            Grid.Row="3"
-                            Grid.Column="3"
-                            Margin="0,8"
-                            Text="{Binding AwayTeamBet}"
-                            TextColor="{StaticResource Black}"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            FontAttributes="Bold"
-                            FontSize="11" />
                     </Grid>
 
                 </DataTemplate>
@@ -221,6 +189,9 @@
             Grid.Column="0"
             TabBarItem1Command="{Binding ImportCalendarToDatabaseCommand}"
             TabBarItem1Label="Import matches"
+            TabBarItem2Command="{Binding NavigateToTeamsViewCommand}"
+            TabBarItem2ImageSource="hockeypuck.svg"
+            TabBarItem2Label="Teams"
             TabBarItem4Command="{Binding MyCommand}"
             TabBarItem4ImageSource="settings.svg"
             TabBarItem4Label="Settings" />

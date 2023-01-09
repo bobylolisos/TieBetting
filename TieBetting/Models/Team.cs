@@ -21,5 +21,5 @@ public class Team
     [FirestoreProperty] 
     public List<bool> Statuses { get; set; } = new();
 
-    public int Profit => (int)TotalWin - TotalBet;
+    public int Profit => (int)TotalWin - TotalBet - CurrentBetSession;
 }

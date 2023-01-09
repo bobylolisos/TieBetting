@@ -13,7 +13,7 @@ public class MatchStatusToBackgroundColorConverter : ValueConverterBase<MatchSta
             case MatchStatus.Lost:
                 return Colors.OrangeRed;
             case MatchStatus.Win:
-                return Colors.LightGreen;
+                return Colors.Green;
             default:
                 throw new ArgumentNullException($"Uknown status on match: <{value}");
         }
