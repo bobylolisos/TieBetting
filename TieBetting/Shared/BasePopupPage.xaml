@@ -14,12 +14,12 @@
                 VerticalOptions="EndAndExpand"
                 BackgroundColor="White"
                 CornerRadius="20">
-                <StackLayout Padding="5,0,5,50">
+                <StackLayout Padding="5,0,5,0">
                     <StackLayout Padding="0,0,0,15">
                         <BoxView
                             WidthRequest="100"
                             HeightRequest="10"
-                            BackgroundColor="LightGray"
+                            BackgroundColor="Transparent"
                             CornerRadius="5" />
                         <StackLayout.GestureRecognizers>
                             <SwipeGestureRecognizer

@@ -26,7 +26,7 @@
             <Setter Property="VerticalOptions" Value="Center" />
             <Setter Property="HorizontalTextAlignment" Value="Start" />
             <Setter Property="Margin" Value="0,3" />
-            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontSize" Value="12" />
         </Style>
         <Style
             x:Key="RowValueLabelStyle"
@@ -35,7 +35,7 @@
             <Setter Property="VerticalOptions" Value="Center" />
             <Setter Property="HorizontalTextAlignment" Value="End" />
             <Setter Property="Margin" Value="0,3" />
-            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontSize" Value="11" />
         </Style>
 
     </ContentPage.Resources>
@@ -53,7 +53,7 @@
                 Grid.Row="2"
                 Grid.Column="0"
                 RowDefinitions="Auto,Auto"
-                ColumnDefinitions="Auto,20,Auto,40,Auto,20,Auto,*"
+                ColumnDefinitions="Auto,20,Auto,20,Auto,20,Auto"
                 Margin="5,0">
                 <Label
                     Grid.Row="0"
@@ -82,25 +82,25 @@
                 <Label
                     Grid.Row="0"
                     Grid.Column="4"
-                    Text="Bets in session"
+                    Text="Total profit"
                     Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
                     Grid.Row="0"
                     Grid.Column="6"
-                    Text="{Binding BetsInSession, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Text="{Binding TotalProfit, Converter={StaticResource AmountToAmountStringConverter}}"
                     Style="{StaticResource RowValueLabelStyle}" />
 
                 <Label
                     Grid.Row="1"
                     Grid.Column="4"
-                    Text="Total profit"
+                    Text="Bets in session"
                     Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
                     Grid.Row="1"
                     Grid.Column="6"
-                    Text="{Binding TotalProfit, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Text="{Binding BetsInSession, Converter={StaticResource AmountToAmountStringConverter}}"
                     Style="{StaticResource RowValueLabelStyle}" />
             </Grid>
         </Grid>
@@ -154,7 +154,7 @@
                             Grid.Row="2"
                             Grid.Column="0"
                             RowDefinitions="Auto,Auto"
-                            ColumnDefinitions="Auto,20,Auto,40,Auto,20,Auto,*"
+                            ColumnDefinitions="Auto,20,Auto,30,Auto,20,Auto,*"
                             Margin="5,0">
                             <Label
                                 Grid.Row="0"
@@ -183,7 +183,7 @@
                             <Label
                                 Grid.Row="0"
                                 Grid.Column="4"
-                                Text="Bets in session"
+                                Text="Session bets"
                                 Style="{StaticResource RowHeaderLabelStyle}" />
 
                             <Label
@@ -196,7 +196,7 @@
                             <Label
                                 Grid.Row="1"
                                 Grid.Column="4"
-                                Text="Lost matches in session"
+                                Text="Session matches"
                                 Style="{StaticResource RowHeaderLabelStyle}" />
 
                             <Label

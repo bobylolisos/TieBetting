@@ -23,11 +23,11 @@
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Text="Enter rate"
-                FontSize="40" />
+                FontSize="35" />
 
             <Frame
                 Grid.Row="2"
-                WidthRequest="204"
+                WidthRequest="174"
                 Padding="10"
                 BorderColor="Gray"
                 CornerRadius="5">
@@ -35,13 +35,13 @@
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     Text="{Binding Rate}"
-                    FontSize="25" />
+                    FontSize="22" />
             </Frame>
 
             <Grid
                 Grid.Row="3"
-                RowDefinitions="70,70,70,70"
-                ColumnDefinitions="*,70,70,70,*">
+                RowDefinitions="60,60,60,60"
+                ColumnDefinitions="*,60,60,60,*">
                 <Button
                     Grid.Row="0"
                     Grid.Column="1"
@@ -131,8 +131,8 @@
 
             <Button
                 Grid.Row="4"
-                WidthRequest="204"
-                HeightRequest="60"
+                WidthRequest="174"
+                HeightRequest="50"
                 Margin="0,8"
                 Text="OK"
                 Command="{Binding Source={x:Reference BasePopupContentPage}, Path=PopModelCommand}"

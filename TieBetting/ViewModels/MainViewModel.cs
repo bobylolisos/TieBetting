@@ -1,6 +1,4 @@
-﻿using Microsoft.Maui.Controls.Compatibility.Platform.Android;
-
-namespace TieBetting.ViewModels;
+﻿namespace TieBetting.ViewModels;
 
 public class MainViewModel : ViewModelNavigationBase
 {

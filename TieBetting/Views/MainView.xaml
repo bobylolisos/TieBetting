@@ -149,12 +149,12 @@
                             ItemsSource="{Binding HomeTeamLastSixStatuses}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Rectangle
-                                        WidthRequest="7"
-                                        HeightRequest="7"
+                                    <BoxView
+                                        WidthRequest="8"
+                                        HeightRequest="8"
                                         Margin="2,0"
-                                        HorizontalOptions="Fill"
-                                        BackgroundColor="{Binding Path=., Converter={StaticResource TeamStatusToBackgroundColorConverter}}" />
+                                        CornerRadius="4"
+                                        Color="{Binding Path=., Converter={StaticResource TeamStatusToBackgroundColorConverter}}" />
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
 
@@ -167,11 +167,12 @@
                             ItemsSource="{Binding AwayTeamLastSixStatuses}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Rectangle
-                                        WidthRequest="7"
-                                        HeightRequest="7"
+                                    <BoxView
+                                        WidthRequest="8"
+                                        HeightRequest="8"
                                         Margin="2,0"
-                                        BackgroundColor="{Binding Path=., Converter={StaticResource TeamStatusToBackgroundColorConverter}}" />
+                                        CornerRadius="4"
+                                        Color="{Binding Path=., Converter={StaticResource TeamStatusToBackgroundColorConverter}}" />
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
 
@@ -187,11 +188,9 @@
         <tabBar:TabBar
             Grid.Row="2"
             Grid.Column="0"
-            TabBarItem1Command="{Binding ImportCalendarToDatabaseCommand}"
-            TabBarItem1Label="Import matches"
-            TabBarItem2Command="{Binding NavigateToTeamsViewCommand}"
-            TabBarItem2ImageSource="hockeypuck.svg"
-            TabBarItem2Label="Teams"
+            TabBarItem1Command="{Binding NavigateToTeamsViewCommand}"
+            TabBarItem1ImageSource="hockeypuck.svg"
+            TabBarItem1Label="Teams"
             TabBarItem4Command="{Binding MyCommand}"
             TabBarItem4ImageSource="settings.svg"
             TabBarItem4Label="Settings" />
