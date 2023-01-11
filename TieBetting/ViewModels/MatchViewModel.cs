@@ -7,6 +7,9 @@ public class MatchViewModel : ViewModelBase
     private readonly Team _homeTeam;
     private readonly Team _awayTeam;
 
+    private const int MinWin = 50;
+    private const int MaxBet = 250;
+
     public MatchViewModel(IRepository repository, Match match, Team homeTeam, Team awayTeam)
     {
         _repository = repository;
@@ -79,32 +82,27 @@ public class MatchViewModel : ViewModelBase
         {
             _match.Rate = rate.Value;
 
-            for (int i = 1; i < int.MaxValue; i++)
+            for (var i = 1; i < int.MaxValue; i++)
             {
                 var win = i * Rate;
 
-                if (win - i - _homeTeam.CurrentBetSession >= 50)
+                if (win - i - _homeTeam.CurrentBetSession >= MinWin)
                 {
-                    _match.HomeTeamBet = i;
+                    _match.HomeTeamBet = i < MaxBet ? i : MaxBet;
                     break;
                 }
             }
 
-            for (int i = 1; i < int.MaxValue; i++)
+            for (var i = 1; i < int.MaxValue; i++)
             {
                 var win = i * Rate;
 
-                if (win - i - _awayTeam.CurrentBetSession >= 50)
+                if (win - i - _awayTeam.CurrentBetSession >= MinWin)
                 {
-                    _match.AwayTeamBet = i;
+                    _match.AwayTeamBet = i < MaxBet ? i : MaxBet;
                     break;
                 }
             }
-
-            //if (_match.Status == (int)MatchStatus.NotActive)
-            //{
-            //    _match.Status = (int)MatchStatus.Active;
-            //}
         }
 
         OnPropertyChanged(nameof(Rate));

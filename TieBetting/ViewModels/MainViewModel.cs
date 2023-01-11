@@ -134,11 +134,11 @@ public class MainViewModel : ViewModelNavigationBase
 
         if (todayMatches.Any())
         {
-            Matches.Add(new MatchGroupViewModel($"{DateTime.Today:yyyy-MM-dd} - Today", todayMatches));
+            Matches.Add(new MatchGroupViewModel($"{DateTime.Today:yyyy-MM-dd}   Today", todayMatches));
         }
         else
         {
-            Matches.Add(new MatchGroupViewModel($"{DateTime.Today:yyyy-MM-dd} - Today, no matches", new List<MatchViewModel>()));
+            Matches.Add(new MatchGroupViewModel($"{DateTime.Today:yyyy-MM-dd}   Today, no matches", new List<MatchViewModel>()));
 
         }
         if (upcomingMatches.Any())
