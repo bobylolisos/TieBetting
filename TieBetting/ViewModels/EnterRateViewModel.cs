@@ -88,6 +88,7 @@ public class EnterRateViewModel : ViewModelBase, IPopupViewModel
 
     private double GetDoubleFromString(string str)
     {
+        str = str.Replace('.', ',');
         if (double.TryParse(str, out var dec))
         {
             return dec;
