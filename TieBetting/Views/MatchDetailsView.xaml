@@ -21,7 +21,6 @@
     </Shell.TitleView>
 
     <ContentPage.Resources>
-        <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
         <converters:HasDoubleToVisibilityConverter
             x:Key="VisibleWhenHasRateConverter"
             VisibilityWhenHasDecimal="True"
@@ -120,20 +119,20 @@
                     <Label
                         Padding="0"
                         HorizontalOptions="Center"
+                        VerticalOptions="Center"
                         Text="{Binding Rate, StringFormat='{}{0:N2}'}"
                         HorizontalTextAlignment="Center"
                         CharacterSpacing="1"
                         FontSize="22"
-                        IsVisible="{Binding Rate, Converter={StaticResource VisibleWhenHasRateConverter}}"
-                        Style="{StaticResource RowValueLabelStyle}" />
+                        IsVisible="{Binding Rate, Converter={StaticResource VisibleWhenHasRateConverter}}" />
                     <Label
                         HorizontalOptions="Center"
+                        VerticalOptions="Center"
                         Text="?"
                         HorizontalTextAlignment="Center"
                         CharacterSpacing="1"
                         FontSize="40"
-                        IsVisible="{Binding Rate, Converter={StaticResource HiddenWhenHasRateConverter}}"
-                        Style="{StaticResource RowValueLabelStyle}" />
+                        IsVisible="{Binding Rate, Converter={StaticResource HiddenWhenHasRateConverter}}" />
                 </Grid>
                 <Frame.Behaviors>
                     <behaviors:AnimationBehavior>

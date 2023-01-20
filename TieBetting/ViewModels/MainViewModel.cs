@@ -14,6 +14,7 @@ public class MainViewModel : ViewModelNavigationBase
         _repository = repository;
         _navigationService = navigationService;
         NavigateToMatchDetailsViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchDetailsViewCommand);
+        NavigateToStatisticsViewCommand = new AsyncRelayCommand(ExecuteNavigateToStatisticsViewCommand);
         NavigateToTeamsViewCommand = new AsyncRelayCommand(ExecuteNavigateToTeamsViewCommand);
         MyCommand = new AsyncRelayCommand(ExecuteMyCommand);
         ImportCalendarToDatabaseCommand = new AsyncRelayCommand(ExecuteImportCalendarToDatabaseCommand);
@@ -24,6 +25,8 @@ public class MainViewModel : ViewModelNavigationBase
     public AsyncRelayCommand<MatchViewModel> NavigateToMatchDetailsViewCommand { get; set; }
 
     public AsyncRelayCommand NavigateToTeamsViewCommand { get; set; }
+
+    public AsyncRelayCommand NavigateToStatisticsViewCommand { get; set; }
 
     public AsyncRelayCommand ImportCalendarToDatabaseCommand { get; set; }
 
@@ -157,6 +160,11 @@ public class MainViewModel : ViewModelNavigationBase
     private async Task ExecuteNavigateToMatchDetailsViewCommand(MatchViewModel viewModel)
     {
         await _navigationService.NavigateToPageAsync<MatchDetailsView>(new MatchDetailsViewNavigationParameter(viewModel));
+    }
+
+    private async Task ExecuteNavigateToStatisticsViewCommand()
+    {
+        await _navigationService.NavigateToPageAsync<StatisticsView>();
     }
 
     private async Task ExecuteNavigateToTeamsViewCommand()

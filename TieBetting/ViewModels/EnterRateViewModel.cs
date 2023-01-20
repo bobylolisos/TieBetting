@@ -88,10 +88,15 @@ public class EnterRateViewModel : ViewModelBase, IPopupViewModel
 
     private double GetDoubleFromString(string str)
     {
-        str = str.Replace('.', ',');
-        if (double.TryParse(str, out var dec))
+        if (double.TryParse(str, out var dec1))
         {
-            return dec;
+            return dec1;
+        }
+        // Ugly fix to cover different languages, Todo: Fix this
+        str = str.Replace('.', ',');
+        if (double.TryParse(str, out var dec2))
+        {
+            return dec2;
         }
 
         throw new InvalidOperationException("Unable to parse Rate from string");

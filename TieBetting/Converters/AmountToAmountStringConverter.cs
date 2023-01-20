@@ -8,7 +8,11 @@ public class AmountToAmountStringConverter : ValueConverterBase<int?>
         {
             return string.Empty;
         }
+        var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+        nfi.NumberGroupSeparator = " ";
 
-        return $"{value.Value} :-";
+        var formatted = value.Value.ToString("#,0", nfi);
+
+        return $"{formatted} :-";
     }
 }

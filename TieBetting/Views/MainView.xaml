@@ -191,6 +191,11 @@
             TabBarItem1Command="{Binding NavigateToTeamsViewCommand}"
             TabBarItem1ImageSource="hockeypuck.svg"
             TabBarItem1Label="Teams"
+
+            TabBarItem2Command="{Binding NavigateToStatisticsViewCommand}"
+            TabBarItem2ImageSource="statistics.svg"
+            TabBarItem2Label="Statistics"
+
             TabBarItem4Command="{Binding MyCommand}"
             TabBarItem4ImageSource="settings.svg"
             TabBarItem4Label="Settings" />

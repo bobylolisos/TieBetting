@@ -77,4 +77,26 @@ public static class EnumerableExtensions
         return result;
     }
 
+    public static int CountMaxNumberOfLostMatches(this IEnumerable<bool> statuses)
+    {
+        var max = 0;
+        var result = 0;
+
+        foreach (var status in statuses)
+        {
+            if (status)
+            {
+                if (result > max)
+                {
+                    max = result;
+                }
+                result = 0;
+                continue;
+            }
+
+            result++;
+        }
+
+        return Math.Max(result, max);
+    }
 }

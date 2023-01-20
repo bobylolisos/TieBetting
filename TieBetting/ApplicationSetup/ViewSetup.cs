@@ -8,6 +8,7 @@ public static class ViewSetup
         builder.RegisterViewTransient<MainView>();
         builder.RegisterViewTransient<MatchDetailsView>();
         builder.RegisterViewTransient<TeamsView>();
+        builder.RegisterViewTransient<StatisticsView>();
 
         // Popups
         builder.RegisterViewTransient<EnterRateView>();
