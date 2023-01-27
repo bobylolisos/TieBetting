@@ -18,8 +18,12 @@ public static class StringExtensions
 
         switch (teamName)
         {
+            // Skellefteå needs to be before aik
+            case { } str when str.Contains("skellefteå"):
+                return "Skellefteå";
             case { } str when str.Contains("aik"):
                 return "Aik";
+
             case { } str when str.Contains("almtuna"):
                 return "Almtuna";
             case { } str when str.Contains("björklöven"):
@@ -47,7 +51,34 @@ public static class StringExtensions
             case { } str when str.Contains("östersund"):
                 return "Östersund";
 
-            default: throw new ArgumentException($"Unable to resolve team name <{stringValue}>");
+            case { } str when str.Contains("oskarshamn"):
+                return "Oskarshamn";
+            case { } str when str.Contains("växjö"):
+                return "Växjö";
+            case { } str when str.Contains("rögle"):
+                return "Rögle";
+            case { } str when str.Contains("brynäs"):
+                return "Brynäs";
+            case { } str when str.Contains("frölunda"):
+                return "Frölunda";
+            case { } str when str.Contains("timrå"):
+                return "Timrå";
+            case { } str when str.Contains("luleå"):
+                return "Luleå";
+            case { } str when str.Contains("hv71"):
+                return "HV71";
+            case { } str when str.Contains("malmö"):
+                return "Malmö";
+            case { } str when str.Contains("färjestad"):
+                return "Färjestad";
+            case { } str when str.Contains("leksands"):
+                return "Leksands";
+            case { } str when str.Contains("örebro"):
+                return "Örebro";
+            case { } str when str.Contains("linköping"):
+                return "Linköping";
+
+            default: return null;
         }
 
     }

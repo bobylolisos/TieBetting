@@ -1,6 +1,4 @@
-﻿using TieBetting.Services.Navigation.NavigationParameters;
-
-namespace TieBetting.ViewModels.Base;
+﻿namespace TieBetting.ViewModels.Base;
 
 public abstract class ViewModelNavigationBase : ObservableObject
 {
@@ -35,7 +33,7 @@ public abstract class ViewModelNavigationBase : ObservableObject
         return Task.CompletedTask;
     }
 
-    private async Task ExecuteNavigateBackCommand()
+    protected async Task ExecuteNavigateBackCommand()
     {
         await _navigationService.NavigateBackAsync();
     }

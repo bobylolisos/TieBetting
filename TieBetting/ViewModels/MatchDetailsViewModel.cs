@@ -70,10 +70,9 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
     {
         if (matchStatus != Match.Status)
         {
-            // Todo: If win or loss, calculate and move amounts in Team
             await Match.SetStatus(matchStatus);
 
-            EnterRateCommand.NotifyCanExecuteChanged();
+            await ExecuteNavigateBackCommand();
         }
     }
 }

@@ -8,7 +8,7 @@ public class Repository : IRepository
     private FirestoreDb _firestoreDb;
     private string _credentials;
 
-    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = false)
+    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = true)
     {
         _credentials = null;
         string filename;
@@ -205,7 +205,11 @@ public class Repository : IRepository
     {
         var team = new Team
         {
-            Name = teamName
+            Name = teamName,
+            CurrentBetSession = 0,
+            Image = "***.png",
+            TotalBet = 0,
+            TotalWin = 0
         };
 
         await AddTeamAsync(team);

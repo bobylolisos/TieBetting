@@ -58,14 +58,20 @@ public class CalendarFileDownloadService : ICalendarFileDownloadService
             var date = DateTime.ParseExact(
                 match1.Single(x => x.ToLower().Contains("dtstart")).Split(":").Last().Trim().Substring(0, 8),
                 "yyyyMMdd", CultureInfo.CurrentCulture);
+            var homeTeam = match1.Single(x => x.ToLower().Contains("summary")).Split(":").Last().Split("-")[0].ResolveTeamName();
+            var awayTeam = match1.Single(x => x.ToLower().Contains("summary")).Split(":").Last().Split("-")[1].ResolveTeamName();
+
+            if (homeTeam == null || awayTeam == null)
+            {
+                continue;
+            }
+
             var m = new Match
             {
                 Season = calenderName,
                 Id = match1.Single(x => x.ToLower().Contains("uid")).Split(":").Last().Trim(),
-                HomeTeam = match1.Single(x => x.ToLower().Contains("summary")).Split(":").Last().Split("-")[0]
-                    .ResolveTeamName(),
-                AwayTeam = match1.Single(x => x.ToLower().Contains("summary")).Split(":").Last().Split("-")[1]
-                    .ResolveTeamName(),
+                HomeTeam = homeTeam,
+                AwayTeam = awayTeam,
                 Day = (date - new DateTime(2022, 01, 01)).Days
             };
 

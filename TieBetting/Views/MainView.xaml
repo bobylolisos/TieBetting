@@ -118,16 +118,24 @@
                             CharacterSpacing="1.4"
                             FontSize="15" />
 
-                        <Label
+                        <VerticalStackLayout
                             Grid.Row="1"
                             Grid.RowSpan="2"
-                            Grid.Column="2"
-                            Text="{Binding Rate, StringFormat='{}{0:N2}'}"
-                            TextColor="{StaticResource Black}"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            FontSize="20"
-                            MinimumHeightRequest="30" />
+                            Grid.Column="2">
+                            <Label
+                                Text="{Binding Rate, StringFormat='{}{0:N2}'}"
+                                TextColor="{StaticResource Black}"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center"
+                                FontSize="16"
+                                MinimumHeightRequest="3" />
+                            <Label
+                                Text="{Binding TotalBet}"
+                                TextColor="{StaticResource Black}"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center"
+                                FontSize="14" />
+                        </VerticalStackLayout>
 
                         <Label
                             Grid.Row="1"
@@ -191,11 +199,9 @@
             TabBarItem1Command="{Binding NavigateToTeamsViewCommand}"
             TabBarItem1ImageSource="hockeypuck.svg"
             TabBarItem1Label="Teams"
-
             TabBarItem2Command="{Binding NavigateToStatisticsViewCommand}"
             TabBarItem2ImageSource="statistics.svg"
             TabBarItem2Label="Statistics"
-
             TabBarItem4Command="{Binding MyCommand}"
             TabBarItem4ImageSource="settings.svg"
             TabBarItem4Label="Settings" />
