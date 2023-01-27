@@ -4,8 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:TieBetting.Views.Base"
-    xmlns:converters="using:TieBetting.Converters"
-    xmlns:converters1="clr-namespace:TieBetting.Converters"
+    xmlns:converters="clr-namespace:TieBetting.Converters"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     Title="TeamsView"
     x:DataType="viewModels:TeamsViewModel">
@@ -17,7 +16,7 @@
 
     <ContentPage.Resources>
         <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
-        <converters1:ProfitToColorConverter x:Key="ProfitToColorConverter" />
+        <converters:ProfitToColorConverter x:Key="ProfitToColorConverter" />
 
         <Style
             x:Key="RowHeaderLabelStyle"
@@ -40,79 +39,8 @@
 
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto,7,*">
-        <Grid
-            Grid.Row="0"
-            Grid.Column="0"
-            RowDefinitions="Auto,10,*"
-            Margin="5"
-            Padding="5"
-            VerticalOptions="Start"
-            BackgroundColor="White">
-            <Grid
-                Grid.Row="2"
-                Grid.Column="0"
-                RowDefinitions="Auto,Auto"
-                ColumnDefinitions="Auto,20,Auto,20,Auto,20,Auto"
-                Margin="5,0">
-                <Label
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Text="Total bet"
-                    Style="{StaticResource RowHeaderLabelStyle}" />
-
-                <Label
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    Text="{Binding TotalBet, Converter={StaticResource AmountToAmountStringConverter}}"
-                    Style="{StaticResource RowValueLabelStyle}" />
-
-                <Label
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Text="Total win"
-                    Style="{StaticResource RowHeaderLabelStyle}" />
-
-                <Label
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
-                    Style="{StaticResource RowValueLabelStyle}" />
-
-                <Label
-                    Grid.Row="0"
-                    Grid.Column="4"
-                    Text="Total profit"
-                    Style="{StaticResource RowHeaderLabelStyle}" />
-
-                <Label
-                    Grid.Row="0"
-                    Grid.Column="6"
-                    Text="{Binding TotalProfit, Converter={StaticResource AmountToAmountStringConverter}}"
-                    Style="{StaticResource RowValueLabelStyle}" />
-
-                <Label
-                    Grid.Row="1"
-                    Grid.Column="4"
-                    Text="Bets in session"
-                    Style="{StaticResource RowHeaderLabelStyle}" />
-
-                <Label
-                    Grid.Row="1"
-                    Grid.Column="6"
-                    Text="{Binding BetsInSession, Converter={StaticResource AmountToAmountStringConverter}}"
-                    Style="{StaticResource RowValueLabelStyle}" />
-            </Grid>
-        </Grid>
-
-        <Grid
-            Grid.Row="1"
-            Grid.Column="0"
-            BackgroundColor="{StaticResource Gray100}" />
-
+    <Grid>
         <CollectionView
-            Grid.Row="2"
-            Grid.Column="0"
             Background="{StaticResource Gray100}"
             ItemsSource="{Binding Teams}">
             <CollectionView.ItemTemplate>
