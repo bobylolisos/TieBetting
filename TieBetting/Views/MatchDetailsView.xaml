@@ -166,13 +166,34 @@
                     VerticalTextAlignment="Center"
                     FontSize="16"
                     IsVisible="{Binding Status, Converter={StaticResource VisibleWhenNotActiveConverter}}" />
-                <Label
+                <Grid
                     Grid.Row="1"
-                    Grid.Column="1"
-                    Margin="0,10,0,0"
-                    Text="{Binding TotalBet, Converter={StaticResource AmountToAmountStringConverter}}"
-                    HorizontalTextAlignment="Center"
-                    FontSize="26" />
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    ColumnDefinitions="*,*,*"
+                    Margin="0,10,0,0">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="{Binding HomeTeamBet}"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center"
+                        FontSize="18" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Text="{Binding TotalBet}"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center"
+                        FontSize="26" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Text="{Binding AwayTeamBet}"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center"
+                        FontSize="18" />
+                </Grid>
             </Grid>
 
             <!--  Set status buttons  -->
