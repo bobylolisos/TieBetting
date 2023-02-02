@@ -118,43 +118,10 @@ public class MatchViewModel : ViewModelBase
     {
         _match.Status = (int)matchStatus;
 
-        //await Task.Delay(1);
         await _repository.UpdateMatchAsync(_match);
 
-        if (matchStatus == MatchStatus.Active)
-        {
-            // Bet is made, add bet to CurrentBetSession
-            _homeTeam.CurrentBetSession += _match.HomeTeamBet!.Value;
-            _awayTeam.CurrentBetSession += _match.AwayTeamBet!.Value;
-        }
-
-        if (matchStatus == MatchStatus.Lost)
-        {
-            _homeTeam.Statuses.Add(false);
-            _awayTeam.Statuses.Add(false);
-        }
-
-        if (matchStatus == MatchStatus.Win)
-        {
-            // Clear CurrentBetSession and move amounts
-
-            // Move total bet session
-            _homeTeam.TotalBet += _homeTeam.CurrentBetSession;
-            _awayTeam.TotalBet += _awayTeam.CurrentBetSession;
-            _homeTeam.CurrentBetSession = 0;
-            _awayTeam.CurrentBetSession = 0;
-
-            // Add win to total win amount
-            _homeTeam.TotalWin += _match.Rate!.Value * _match.HomeTeamBet!.Value;
-            _awayTeam.TotalWin += _match.Rate!.Value * _match.AwayTeamBet!.Value;
-
-            // Add win status
-            _homeTeam.Statuses.Add(true);
-            _awayTeam.Statuses.Add(true);
-        }
-
-        await _repository.UpdateTeamAsync(_homeTeam);
-        await _repository.UpdateTeamAsync(_awayTeam);
+        _homeTeam.NotifyMatchStatusChanged();
+        _awayTeam.NotifyMatchStatusChanged();
 
         OnPropertyChanged(nameof(Status));
 

@@ -3,5 +3,5 @@
 public interface IPopupViewModel
 {
     Task OnOpenPopupAsync(PopupParameterBase parameter = null);
-    Task OnClosePopupAsync();
+    Task<bool> OnClosePopupAsync();
 }

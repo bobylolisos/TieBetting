@@ -37,7 +37,7 @@ public partial class BasePopupPage : ContentPage
         return true;
     }
 
-    public AsyncRelayCommand PopModelCommand => new(ExecutePopModelCommand);
+    public AsyncRelayCommand PopModelCommand => new (ExecutePopModelCommand);
 
     private async Task ExecutePopModelCommand()
     {

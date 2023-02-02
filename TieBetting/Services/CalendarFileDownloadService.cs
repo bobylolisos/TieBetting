@@ -72,7 +72,7 @@ public class CalendarFileDownloadService : ICalendarFileDownloadService
                 Id = match1.Single(x => x.ToLower().Contains("uid")).Split(":").Last().Trim(),
                 HomeTeam = homeTeam,
                 AwayTeam = awayTeam,
-                Day = (date - new DateTime(2022, 01, 01)).Days
+                Day = DayProvider.GetDay(date)
             };
 
             allMatches.Add(m);

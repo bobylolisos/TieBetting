@@ -66,7 +66,7 @@ public class MainViewModel : ViewModelNavigationBase
 
         var fetchedUpcomingMatches = await _repository.GetNextMatchesAsync(40);
 
-        var todayDay = (DateTime.Today - new DateTime(2022, 01, 01)).Days;
+        var todayDay = DayProvider.TodayDay;
         Debug.WriteLine("");
         Debug.WriteLine($"Today day is: {todayDay}");
         Debug.WriteLine("");

@@ -71,13 +71,14 @@ public class PopupService : IPopupService
 
     public async Task ClosePopupAsync()
     {
+        var canClose = true;
         var currentPage = Navigation.ModalStack.LastOrDefault();
         if (currentPage is not null)
         {
             var popupViewModel = GetPopupViewModel(currentPage);
             if (popupViewModel is not null)
             {
-                await popupViewModel.OnClosePopupAsync();
+                canClose = await popupViewModel.OnClosePopupAsync();
             }
             else
             {
@@ -88,7 +89,10 @@ public class PopupService : IPopupService
             }
         }
 
-        // Todo: Change animated to TRUE. 2022-12-29 the value TRUE throws NullReferenceException
-        await Navigation.PopModalAsync(false);
+        if (canClose)
+        {
+            // Todo: Change animated to TRUE. 2022-12-29 the value TRUE throws NullReferenceException
+            await Navigation.PopModalAsync(false);
+        }
     }
 }

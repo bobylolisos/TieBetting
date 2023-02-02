@@ -46,7 +46,7 @@ public class EnterRateViewModel : ViewModelBase, IPopupViewModel
         return Task.CompletedTask;
     }
 
-    public async Task OnClosePopupAsync()
+    public async Task<bool> OnClosePopupAsync()
     {
         await Task.Delay(1);
 
@@ -62,7 +62,18 @@ public class EnterRateViewModel : ViewModelBase, IPopupViewModel
             }
         }
 
+        if (rate.HasValue)
+        {
+            if (rate.Value > 7)
+            {
+                await Application.Current.MainPage.DisplayAlert("Rate", "To high rate", "Ok");
+                return false;
+            }
+        }
+
         WeakReferenceMessenger.Default.Send(new MatchRateChangedMessage(rate));
+
+        return true;
     }
 
     private void ExecuteDigitCommand(string digit)
@@ -74,10 +85,15 @@ public class EnterRateViewModel : ViewModelBase, IPopupViewModel
     {
         if (Rate != null && Rate.Any())
         {
+            if (Rate.Length == 1)
+            {
+                return false;
+            }
+
             return true;
         }
 
-        if (digit == "0" || digit == "1")
+        if (digit == "0" || digit == "1" || digit == "7" || digit == "8" || digit == "9")
         {
             return false;
         }

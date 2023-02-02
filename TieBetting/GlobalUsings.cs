@@ -16,6 +16,7 @@ global using TieBetting.Converters;
 
 global using TieBetting.Shared.Extensions;
 
+global using TieBetting.Providers;
 
 global using TieBetting.Models;
 
