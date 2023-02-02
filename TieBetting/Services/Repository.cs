@@ -35,10 +35,6 @@ public class Repository : IRepository
                 Debug.WriteLine("CreateFirestoreDbAsync/OpenAppPackageFileAsync");
                 using var stream = FileSystem.OpenAppPackageFileAsync(filename).Result;
 
-
-
-                //await using var stream = await FileSystem.OpenAppPackageFileAsync("tiebetting-firebase-adminsdk-xm5en-3de0c69790.json");
-                //await using var stream = await FileSystem.OpenAppPackageFileAsync("sandbox-73692-firebase-adminsdk-6khte-b27b19a9d6.json");
                 using var reader = new StreamReader(stream);
                 _credentials = reader.ReadToEndAsync().Result;
 
@@ -51,7 +47,6 @@ public class Repository : IRepository
 
             Debug.WriteLine("CreateFirestoreDbAsync/FirestoreDb.CreateAsync");
             _firestoreDb = FirestoreDb.CreateAsync(projectId, firestoreClient).Result;
-            //_firestoreDb = await FirestoreDb.CreateAsync("sandbox-73692", firestoreClient);
             Debug.WriteLine("CreateFirestoreDbAsync - Done");
             return _firestoreDb;
         }
@@ -76,22 +71,6 @@ public class Repository : IRepository
         {
             var documentReference = firestoreDb.Collection(MatchesCollectionKey).Document(match.Id);
             batch.Set(documentReference, match);
-        }
-
-        await batch.CommitAsync();
-
-    }
-
-    private async Task AddTeamsToSandboxAsync(IReadOnlyCollection<Team> teams)
-    {
-        var firestoreDb = await CreateFirestoreDbAsync(true);
-
-        var batch = firestoreDb.StartBatch();
-
-        foreach (var team in teams)
-        {
-            var documentReference = firestoreDb.Collection(TeamsCollectionKey).Document(team.Name);
-            batch.Set(documentReference, team);
         }
 
         await batch.CommitAsync();
@@ -169,7 +148,6 @@ public class Repository : IRepository
         finally
         {
             Debug.WriteLine("GetPreviousOngoingMatchesAsync - Done");
-
         }
     }
 
@@ -222,6 +200,13 @@ public class Repository : IRepository
 
         _allTeamsCache = teams;
 
+        /* --- Used when we want to update Sandbox to a copy of production firestore --- */
+        //var sandboxFirestoreDb = await CreateFirestoreDbAsync(true);
+        //foreach (var team in teams)
+        //{
+        //    await UpdateTeamAsync(team, sandboxFirestoreDb);
+        //}
+
         return _allTeamsCache;
     }
 
@@ -237,6 +222,31 @@ public class Repository : IRepository
     {
         var firestoreDb = await CreateFirestoreDbAsync();
 
+        var teamDocumentReference = firestoreDb.Collection(TeamsCollectionKey).Document(team.Name);
+        await teamDocumentReference.SetAsync(team);
+    }
+
+    /// <summary>
+    /// Used when we want to update Sandbox to a copy of TieBetting firestore
+    /// </summary>
+    private async Task UpdateMatchesAsync(IReadOnlyCollection<Match> matches, FirestoreDb firestoreDb)
+    {
+        var batch = firestoreDb.StartBatch();
+
+        foreach (var match in matches)
+        {
+            var documentReference = firestoreDb.Collection(MatchesCollectionKey).Document(match.Id);
+            batch.Set(documentReference, match);
+        }
+
+        await batch.CommitAsync();
+    }
+
+    /// <summary>
+    /// Used when we want to update Sandbox to a copy of TieBetting firestore
+    /// </summary>
+    private async Task UpdateTeamAsync(Team team, FirestoreDb firestoreDb)
+    {
         var teamDocumentReference = firestoreDb.Collection(TeamsCollectionKey).Document(team.Name);
         await teamDocumentReference.SetAsync(team);
     }
