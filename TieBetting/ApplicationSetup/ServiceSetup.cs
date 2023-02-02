@@ -8,6 +8,7 @@ public static class ServiceSetup
         builder.Services.AddSingleton<IPopupService, PopupService>();
         builder.Services.AddSingleton<ICalendarFileDownloadService, CalendarFileDownloadService>();
         builder.Services.AddSingleton<IRepository, Repository>();
+        builder.Services.AddSingleton<IQueryService, QueryService>();
 
         return builder;
     }

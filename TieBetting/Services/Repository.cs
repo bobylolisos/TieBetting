@@ -11,7 +11,7 @@ public class Repository : IRepository
     private List<Team> _allTeamsCache = null;
 
 
-    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = true)
+    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = false)
     {
         _credentials = null;
         string filename;

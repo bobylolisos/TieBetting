@@ -13,7 +13,6 @@ namespace TieBetting.ViewModels
         private int _currentProfit;
         private int _matchesCount;
         private int _longestLostStreak;
-        private int _profitPerMatch;
         private int _bestTeamProfit;
         private string _bestTeamProfitTeamName;
         private int _worstTeamProfit;
@@ -21,6 +20,7 @@ namespace TieBetting.ViewModels
         private string _longestLostStreakTeamName;
         private int _longestLostStreakInSession;
         private string _longestLostStreakInSessionTeamName;
+        private int _matchesWonCount;
 
         public StatisticsViewModel(INavigationService navigationService, IRepository repository) 
             : base(navigationService)
@@ -61,7 +61,39 @@ namespace TieBetting.ViewModels
         public int MatchesCount
         {
             get => _matchesCount;
-            set => SetProperty(ref _matchesCount, value);
+            set
+            {
+                if (SetProperty(ref _matchesCount, value))
+                {
+                    OnPropertyChanged(nameof(MatchesWonPercent));
+                }
+            }
+        }
+
+        public int MatchesWonCount
+        {
+            get => _matchesWonCount;
+            set
+            {
+                if (SetProperty(ref _matchesWonCount, value))
+                {
+                    OnPropertyChanged(nameof(MatchesWonPercent));
+                }
+            }
+        }
+
+        public string MatchesWonPercent
+        {
+            get
+            {
+                if (MatchesWonCount == 0)
+                {
+                    return "0 %";
+                }
+
+                var percent = (int)(MatchesWonCount / (double)MatchesCount * 100);
+                return $"{percent} %";
+            }
         }
 
         public int LongestLostStreak
@@ -86,12 +118,6 @@ namespace TieBetting.ViewModels
         {
             get => _longestLostStreakInSessionTeamName;
             set => SetProperty(ref _longestLostStreakInSessionTeamName, value);
-        }
-
-        public int ProfitPerMatch
-        {
-            get => _profitPerMatch;
-            set => SetProperty(ref _profitPerMatch, value);
         }
 
         public int BestTeamProfit
@@ -139,6 +165,7 @@ namespace TieBetting.ViewModels
             if (hasMatches)
             {
                 MatchesCount = teams.Sum(x => x.Statuses.Count) / 2;
+                MatchesWonCount = teams.SelectMany(x => x.Statuses).Count(y => y) / 2;
 
                 LongestLostStreak = teams.Max(x => x.Statuses.CountMaxNumberOfLostMatches());
                 var longestLostStreakTeams = teams.Where(x => x.Statuses.CountMaxNumberOfLostMatches() == LongestLostStreak).ToList();
@@ -150,7 +177,6 @@ namespace TieBetting.ViewModels
                 var longestLostStreakInSessionMultipleTeamsText = longestLostStreakInSessionTeams.Count > 1 ? $"+ {longestLostStreakInSessionTeams.Count - 1}" : "";
                 LongestLostStreakInSessionTeamName = $"{longestLostStreakInSessionTeams.First().Name} {longestLostStreakInSessionMultipleTeamsText}";
 
-                ProfitPerMatch = teams.Sum(x => (int)x.TotalWin - x.TotalBet) / MatchesCount;
             }
 
             BestTeamProfit = teams.Max(x => x.Profit);

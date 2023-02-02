@@ -182,25 +182,24 @@
                 Text="{Binding MatchesCount}"
                 Style="{StaticResource RowValueLabelStyle}" />
 
-            <!--  Profit per match  -->
+            <!--  Matches won  -->
             <Label
                 Grid.Row="2"
                 Grid.Column="0"
-                Text="Profit per match"
+                Text="Matches won"
                 Style="{StaticResource RowHeaderLabelStyle}" />
 
             <Label
                 Grid.Row="2"
                 Grid.Column="2"
-                Text="{Binding ProfitPerMatch}"
-                TextColor="{Binding ProfitPerMatch, Converter={StaticResource ProfitToColorConverter}}"
+                Text="{Binding MatchesWonCount}"
                 Style="{StaticResource RowValueLabelStyle}" />
 
             <Label
                 Grid.Row="2"
-                Grid.Column="3"
-                Margin="5,0"
-                Text=":-"
+                Grid.Column="5"
+                Text="{Binding MatchesWonPercent}"
+                HorizontalTextAlignment="Start"
                 Style="{StaticResource RowValueLabelStyle}" />
 
             <!--  Longest lost streak  -->
@@ -223,12 +222,12 @@
                 HorizontalTextAlignment="Start"
                 Style="{StaticResource RowValueLabelStyle}" />
 
-            <!--  Longest lost streak in session -->
+            <!--  Longest lost streak in session  -->
             <Label
                 Grid.Row="4"
                 Grid.Column="0"
-                Text="In session"
                 Margin="10,3"
+                Text="In session"
                 Style="{StaticResource RowHeaderLabelStyle}" />
 
             <Label
