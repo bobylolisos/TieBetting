@@ -3,16 +3,15 @@
 public class MatchViewModel : ViewModelBase
 {
     private readonly IRepository _repository;
+    private readonly Settings _settings;
     private readonly Match _match;
     private readonly Team _homeTeam;
     private readonly Team _awayTeam;
 
-    private const int MinWin = 50;
-    private const int MaxBet = 250;
-
-    public MatchViewModel(IRepository repository, Match match, Team homeTeam, Team awayTeam)
+    public MatchViewModel(IRepository repository, Settings settings, Match match, Team homeTeam, Team awayTeam)
     {
         _repository = repository;
+        _settings = settings;
         _match = match;
         _homeTeam = homeTeam;
         _awayTeam = awayTeam;
@@ -86,9 +85,9 @@ public class MatchViewModel : ViewModelBase
             {
                 var win = i * Rate;
 
-                if (win - i - _homeTeam.CurrentBetSession >= MinWin)
+                if (win - i - _homeTeam.CurrentBetSession >= _settings.ExpectedWinAmount)
                 {
-                    _match.HomeTeamBet = i < MaxBet ? i : MaxBet;
+                    _match.HomeTeamBet = i;
                     break;
                 }
             }
@@ -97,9 +96,9 @@ public class MatchViewModel : ViewModelBase
             {
                 var win = i * Rate;
 
-                if (win - i - _awayTeam.CurrentBetSession >= MinWin)
+                if (win - i - _awayTeam.CurrentBetSession >= _settings.ExpectedWinAmount)
                 {
-                    _match.AwayTeamBet = i < MaxBet ? i : MaxBet;
+                    _match.AwayTeamBet = i;
                     break;
                 }
             }

@@ -22,4 +22,19 @@ public class TeamViewModel
     public int BetsInSession => _team.CurrentBetSession;
 
     public int LostMatchesInSession => _team.Statuses.CountNumberOfPreviousLostMatches();
+
+    public string MatchesWonPercent
+    {
+        get
+        {
+            var macthesWonCount = _team.Statuses.Count(x => x);
+            if (macthesWonCount == 0)
+            {
+                return "0 %";
+            }
+
+            var percent = (int)(macthesWonCount / (double)_team.Statuses.Count * 100);
+            return $"{percent} %";
+        }
+    }
 }

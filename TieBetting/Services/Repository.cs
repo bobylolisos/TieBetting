@@ -2,6 +2,7 @@
 
 public class Repository : IRepository
 {
+    private const string SettingsCollectionKey = "settings";
     private const string TeamsCollectionKey = "teams";
     private const string MatchesCollectionKey = "matches";
 
@@ -9,6 +10,7 @@ public class Repository : IRepository
     private string _credentials;
     private IReadOnlyCollection<Match> _allMatchesCache = null;
     private List<Team> _allTeamsCache = null;
+    private Settings _settingsCache = null;
 
 
     private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = false)
@@ -60,6 +62,32 @@ public class Repository : IRepository
         }
     }
 
+    public async Task<Settings> GetSettingsAsync()
+    {
+        if (_settingsCache != null)
+        {
+            return _settingsCache;
+        }
+
+        try
+        {
+            Debug.WriteLine("GetSettingsAsync - Begin");
+
+            var firestoreDb = await CreateFirestoreDbAsync();
+
+            var settingsQuery = firestoreDb.Collection(SettingsCollectionKey);
+            Debug.WriteLine("GetSettingsAsync/GetSnapshotAsync - Begin");
+            var settingsQuerySnapshot = await settingsQuery.GetSnapshotAsync();
+            var documentSnapshot = settingsQuerySnapshot.Documents.First();
+            _settingsCache = documentSnapshot.ConvertTo<Settings>();
+
+            return _settingsCache;
+        }
+        finally
+        {
+            Debug.WriteLine("GetSettingsAsync - Done");
+        }
+    }
 
     public async Task AddMatchesAsync(IReadOnlyCollection<Match> matches)
     {

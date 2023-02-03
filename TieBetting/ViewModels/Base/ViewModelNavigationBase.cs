@@ -33,7 +33,7 @@ public abstract class ViewModelNavigationBase : ObservableObject
         return Task.CompletedTask;
     }
 
-    protected async Task ExecuteNavigateBackCommand()
+    protected virtual async Task ExecuteNavigateBackCommand()
     {
         await _navigationService.NavigateBackAsync();
     }

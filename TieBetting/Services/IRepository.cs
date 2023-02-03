@@ -2,6 +2,8 @@
 
 public interface IRepository
 {
+    Task<Settings> GetSettingsAsync();
+
     Task AddMatchesAsync(IReadOnlyCollection<Match> matches);
 
     Task<IReadOnlyCollection<Match>> GetNextMatchesAsync(int? numberOfMatches = null);

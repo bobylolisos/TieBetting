@@ -16,7 +16,8 @@ public class MainViewModel : ViewModelNavigationBase
         NavigateToMatchDetailsViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchDetailsViewCommand);
         NavigateToStatisticsViewCommand = new AsyncRelayCommand(ExecuteNavigateToStatisticsViewCommand);
         NavigateToTeamsViewCommand = new AsyncRelayCommand(ExecuteNavigateToTeamsViewCommand);
-        MyCommand = new AsyncRelayCommand(ExecuteMyCommand);
+        NavigateToMatchesViewCommand = new AsyncRelayCommand(ExecuteNavigateToMatchesViewCommand);
+        NavigateToSettingsCommand = new AsyncRelayCommand(ExecuteNavigateToSettingsCommand);
     }
 
     public List<MatchGroupViewModel> Matches { get; set; } = new();
@@ -25,12 +26,15 @@ public class MainViewModel : ViewModelNavigationBase
 
     public AsyncRelayCommand NavigateToTeamsViewCommand { get; set; }
 
+    public AsyncRelayCommand NavigateToMatchesViewCommand { get; set; }
+
     public AsyncRelayCommand NavigateToStatisticsViewCommand { get; set; }
 
-    public AsyncRelayCommand MyCommand { get; set; }
+    public AsyncRelayCommand NavigateToSettingsCommand { get; set; }
 
     public override async Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
     {
+        var settings = await _repository.GetSettingsAsync();
         Matches.Clear();
 
         _teams = await _repository.GetTeamsAsync();
@@ -53,7 +57,7 @@ public class MainViewModel : ViewModelNavigationBase
                 awayTeam = await _repository.CreateTeamAsync(previousMatch.AwayTeam);
             }
 
-            var matchViewModel = new MatchViewModel(_repository, previousMatch, homeTeam, awayTeam);
+            var matchViewModel = new MatchViewModel(_repository, settings, previousMatch, homeTeam, awayTeam);
 
             previousMatches.Add(matchViewModel);
         }
@@ -64,7 +68,7 @@ public class MainViewModel : ViewModelNavigationBase
         }
 
 
-        var fetchedUpcomingMatches = await _repository.GetNextMatchesAsync(40);
+        var fetchedUpcomingMatches = await _repository.GetNextMatchesAsync(settings.UpcomingFetchCount);
 
         var todayDay = DayProvider.TodayDay;
         Debug.WriteLine("");
@@ -88,7 +92,7 @@ public class MainViewModel : ViewModelNavigationBase
                 awayTeam = await _repository.CreateTeamAsync(match.AwayTeam);
             }
 
-            var matchViewModel = new MatchViewModel(_repository, match, homeTeam, awayTeam);
+            var matchViewModel = new MatchViewModel(_repository, settings, match, homeTeam, awayTeam);
 
             if (match.Day == todayDay)
             {
@@ -137,6 +141,16 @@ public class MainViewModel : ViewModelNavigationBase
     private async Task ExecuteNavigateToTeamsViewCommand()
     {
         await _navigationService.NavigateToPageAsync<TeamsView>(new TeamsViewNavigationParameter(_teams));
+    }
+
+    private Task ExecuteNavigateToMatchesViewCommand()
+    {
+        return Task.CompletedTask;
+    }
+
+    private async Task ExecuteNavigateToSettingsCommand()
+    {
+        await _navigationService.NavigateToPageAsync<SettingsView>();
     }
 
     private async Task ImportCalendarToDatabase()

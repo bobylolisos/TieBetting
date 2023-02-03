@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:ViewBase
+    x:Class="TieBetting.Views.SettingsView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="using:TieBetting.Views.Base"
+    xmlns:converters="using:TieBetting.Converters"
+    xmlns:viewModels="using:TieBetting.ViewModels"
+    Title="SettingsView"
+    x:DataType="viewModels:SettingsViewModel">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding NavigateBackCommand}" />
+    </Shell.BackButtonBehavior>
+    <Shell.TitleView>
+        <Label
+            Text="SETTINGS"
+            Style="{StaticResource HeaderLabelStyle}" />
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <converters:BooleanToVisibilityConverter
+            x:Key="VisibleWhenTrueConverter"
+            False="False"
+            True="True" />
+        <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
+        <converters:ProfitToColorConverter
+            x:Key="ProfitToColorConverter"
+            PositiveColor="Black" />
+        <converters:HasDoubleToVisibilityConverter
+            x:Key="VisibleWhenHasRateConverter"
+            VisibilityWhenHasDecimal="True"
+            VisibilityWhenNoDecimal="False" />
+        <converters:HasDoubleToVisibilityConverter
+            x:Key="HiddenWhenHasRateConverter"
+            VisibilityWhenHasDecimal="False"
+            VisibilityWhenNoDecimal="True" />
+        <converters:MatchStatusToBackgroundColorConverter x:Key="MatchStatusToBackgroundColorConverter" />
+        <converters:MatchStatusToStatusButtonVisibilityConverter x:Key="MatchStatusToStatusButtonVisibilityConverter" />
+
+        <Style
+            x:Key="RowHeaderLabelStyle"
+            TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource Black}" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="Start" />
+            <Setter Property="Margin" Value="0,7" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style
+            x:Key="RowValueLabelStyle"
+            TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource Black}" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="Margin" Value="0,7" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+    </ContentPage.Resources>
+    <Grid
+        RowDefinitions="Auto,Auto,Auto"
+        ColumnDefinitions="Auto,30,*"
+        Margin="6,8,6,3">
+
+        <!--  Expected amount to win  -->
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            VerticalOptions="Start"
+            Text="Expected amount to win"
+            VerticalTextAlignment="Start"
+            Style="{StaticResource RowHeaderLabelStyle}" />
+
+        <Grid
+            Grid.Row="0"
+            Grid.Column="2"
+            RowDefinitions="Auto,Auto"
+            ColumnDefinitions="*,10,auto">
+            <Slider
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="-15,0"
+                VerticalOptions="Center"
+                Maximum="200"
+                Minimum="25"
+                MinimumTrackColor="{StaticResource Primary}"
+                Value="{Binding ExpectedWinAmount}" />
+            <Label
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="{Binding ExpectedWinAmount}"
+                Style="{StaticResource RowValueLabelStyle}" />
+        </Grid>
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Text="Warning: Expected amount to win will be changed"
+            TextColor="Red"
+            HorizontalTextAlignment="Center"
+            FontSize="12"
+            IsVisible="{Binding ExpectedWinAmountChanged, Converter={StaticResource VisibleWhenTrueConverter}}"
+            Style="{StaticResource RowValueLabelStyle}" />
+
+        <!--  Upcoming matches to load  -->
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            VerticalOptions="Start"
+            Text="Upcoming matches to load"
+            VerticalTextAlignment="Start"
+            Style="{StaticResource RowHeaderLabelStyle}" />
+
+        <Grid
+            Grid.Row="2"
+            Grid.Column="2"
+            RowDefinitions="Auto,Auto"
+            ColumnDefinitions="*,10,auto">
+            <Slider
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="-15,0"
+                VerticalOptions="Center"
+                Maximum="100"
+                Minimum="10"
+                MinimumTrackColor="{StaticResource Primary}"
+                Value="{Binding UpcomingMatchesToFetch}" />
+            <Label
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="{Binding UpcomingMatchesToFetch}"
+                Style="{StaticResource RowValueLabelStyle}" />
+        </Grid>
+
+
+    </Grid>
+</base:ViewBase>

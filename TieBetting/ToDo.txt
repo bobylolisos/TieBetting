@@ -1,0 +1,47 @@
+Stats
+
+Matches
+	- Select season
+	- SHow all matches, scroll to today
+
+Team
+	- Won %
+	- TabBar to 'Abandon session'
+
+Team/Matches
+	- Select season
+	- TabBar to 'Add', 'Change'
+	- Add Match
+	- Change match date
+
+
+Settings
+	- View expected bet chain
+
+
+4,35
+1	15		15
+2	20		35
+3	26		61
+4	34		95
+5	44		139
+6	57		196
+7	74		270
+8	96		366
+9	125		491
+10	162		653
+11	210		863
+12	273		1136
+13	355		1491
+14	460		1951
+15	598		2549
+16	776		3325
+17	1008	4333
+18	1309	5642
+19	1700	7342
+20	2207	9549
+21	2866	12415
+22	3721	16136
+23	4832	20968
+24	6275	27243
+25	8148	35391
