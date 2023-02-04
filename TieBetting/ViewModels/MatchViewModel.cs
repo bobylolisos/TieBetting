@@ -63,6 +63,8 @@ public class MatchViewModel : ViewModelBase
 
     public string Date { get; }
 
+    public int Day => _match.Day;
+
     public int? TotalBet => HomeTeamBet + AwayTeamBet;
 
     public double? TotalWin => HomeTeamWin + AwayTeamWin;

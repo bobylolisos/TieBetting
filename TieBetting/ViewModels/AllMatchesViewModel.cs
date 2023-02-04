@@ -1,4 +1,6 @@
-﻿namespace TieBetting.ViewModels;
+﻿using System.Xml.Linq;
+
+namespace TieBetting.ViewModels;
 
 public class AllMatchesViewModel : ViewModelNavigationBase
 {
@@ -22,9 +24,9 @@ public class AllMatchesViewModel : ViewModelNavigationBase
 
     public int TotalWin => (int)Matches.Sum(x => x.Sum(y => y.Status == MatchStatus.Win ? y.TotalWin ?? 0 : 0));
 
-    public int CurrentBetSession => 0;
+    public int CurrentBetSession => ResolveCurrentBetSession();
 
-    public int Profit => TotalWin - TotalBet - CurrentBetSession;
+    public int Profit => TotalWin - TotalBet;
 
     public string MatchesWonPercent
     {
@@ -99,4 +101,56 @@ public class AllMatchesViewModel : ViewModelNavigationBase
 
         await base.OnNavigatingToAsync(navigationParameter);
     }
+
+    private int ResolveCurrentBetSession()
+    {
+        if (_allTeams == null)
+        {
+            return 0;
+        }
+
+        var currentSession = 0;
+        foreach (var team in _allTeams)
+        {
+            var currentSessionDone = false;
+            var matchesForTeam = Matches.SelectMany(x => x.Where(y => y.HomeTeam == team.Name || y.AwayTeam == team.Name)).OrderByDescending(x => x.Day);
+
+            foreach (var match in matchesForTeam)
+            {
+                if (match.HomeTeam == team.Name)
+                {
+                    if (currentSessionDone == false)
+                    {
+                        if (match.Status == MatchStatus.Win)
+                        {
+                            currentSessionDone = true;
+                        }
+                        else
+                        {
+                            currentSession += match.HomeTeamBet ?? 0;
+                        }
+                    }
+                }
+
+                if (match.AwayTeam == team.Name)
+                {
+                    if (currentSessionDone == false)
+                    {
+                        if (match.Status == MatchStatus.Win)
+                        {
+                            currentSessionDone = true;
+                        }
+                        else
+                        {
+                            currentSession += match.AwayTeamBet ?? 0;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        return currentSession;
+    }
+
 }

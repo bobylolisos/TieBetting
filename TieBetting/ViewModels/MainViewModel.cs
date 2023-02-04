@@ -6,6 +6,7 @@ public class MainViewModel : ViewModelNavigationBase
     private readonly IRepository _repository;
     private readonly INavigationService _navigationService;
     private IReadOnlyCollection<Team> _teams;
+    private bool _isRefreshing;
 
     public MainViewModel(ICalendarFileDownloadService calendarFileDownloadService, IRepository repository, INavigationService navigationService)
     : base(navigationService)
@@ -35,6 +36,12 @@ public class MainViewModel : ViewModelNavigationBase
 
     public AsyncRelayCommand NavigateToSettingsCommand { get; set; }
 
+    public bool IsRefreshing
+    {
+        get => _isRefreshing;
+        set => SetProperty(ref _isRefreshing, value);
+    }
+
     public override async Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
     {
         await Reload();
@@ -42,9 +49,16 @@ public class MainViewModel : ViewModelNavigationBase
 
     private async Task ExecuteRefreshCommand()
     {
-        _repository.ClearCache();
+        try
+        {
+            _repository.ClearCache();
 
-        await Reload();
+            await Reload();
+        }
+        finally
+        {
+            IsRefreshing = false;
+        }
     }
 
     private async Task ExecuteNavigateToMatchDetailsViewCommand(MatchViewModel viewModel)

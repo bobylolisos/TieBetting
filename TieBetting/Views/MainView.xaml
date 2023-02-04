@@ -32,6 +32,7 @@
         </Grid>
 
         <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsRefreshing}"
                      Command="{Binding RefreshCommand}">
             <CollectionView
                 Grid.Row="1"
