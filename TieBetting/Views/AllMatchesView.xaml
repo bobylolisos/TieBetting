@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:ViewBase
+    x:Class="TieBetting.Views.AllMatchesView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:TieBetting.Views.Base"
+    xmlns:converters="using:TieBetting.Converters"
+    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
+    Title="AllMatchesView"
+    x:DataType="viewModels:AllMatchesViewModel"
+    Background="{StaticResource Gray100}">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding NavigateBackCommand}" />
+    </Shell.BackButtonBehavior>
+    <Shell.TitleView>
+        <Label
+            Text="ALL MATCHES"
+            Style="{StaticResource HeaderLabelStyle}" />
+    </Shell.TitleView>
+    <ContentPage.Resources>
+        <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
+        <converters:ProfitToColorConverter x:Key="ProfitToColorConverter" />
+
+        <Style
+            x:Key="RowHeaderLabelStyle"
+            TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource Black}" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="Start" />
+            <Setter Property="Margin" Value="0,3" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style
+            x:Key="RowValueLabelStyle"
+            TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource Black}" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="End" />
+            <Setter Property="Margin" Value="0,3" />
+            <Setter Property="FontSize" Value="11" />
+        </Style>
+
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,10,*">
+        <Grid
+            Grid.Row="0"
+            Grid.Column="0"
+            ColumnDefinitions="Auto,20,*"
+            Margin="5"
+            Padding="5,0"
+            BackgroundColor="White">
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Season"
+                HorizontalTextAlignment="Start"
+                VerticalTextAlignment="Center"
+                FontSize="14" />
+
+            <Picker
+                Grid.Row="0"
+                Grid.Column="2"
+                ItemsSource="{Binding Seasons}"
+                SelectedItem="{Binding SelectedSeason}" />
+
+        </Grid>
+
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            RowDefinitions="Auto,Auto,Auto"
+            ColumnDefinitions="Auto,20,Auto,30,Auto,20,Auto,*"
+            Margin="5,0"
+            Padding="8"
+            BackgroundColor="White">
+
+            <!--  First column  -->
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Total bet"
+                Style="{StaticResource RowHeaderLabelStyle}" />
+
+            <Label
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="{Binding TotalBet, Converter={StaticResource AmountToAmountStringConverter}}"
+                Style="{StaticResource RowValueLabelStyle}" />
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="Total win"
+                Style="{StaticResource RowHeaderLabelStyle}" />
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="2"
+                Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
+                Style="{StaticResource RowValueLabelStyle}" />
+
+            <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                Text="Current session"
+                Style="{StaticResource RowHeaderLabelStyle}" />
+
+            <Label
+                Grid.Row="2"
+                Grid.Column="2"
+                Text="{Binding CurrentBetSession, Converter={StaticResource AmountToAmountStringConverter}}"
+                Style="{StaticResource RowValueLabelStyle}" />
+
+            <!--  Second column  -->
+            <Label
+                Grid.Row="0"
+                Grid.Column="4"
+                Text="Profit"
+                Style="{StaticResource RowHeaderLabelStyle}" />
+
+            <Label
+                Grid.Row="0"
+                Grid.Column="6"
+                Text="{Binding Profit, Converter={StaticResource AmountToAmountStringConverter}}"
+                TextColor="{Binding Profit, Converter={StaticResource ProfitToColorConverter}}"
+                HorizontalTextAlignment="Start"
+                Style="{StaticResource RowValueLabelStyle}" />
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="4"
+                Text="Matches won"
+                Style="{StaticResource RowHeaderLabelStyle}" />
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="6"
+                Text="{Binding MatchesWonPercent}"
+                Style="{StaticResource RowValueLabelStyle}" />
+
+        </Grid>
+
+
+        <CollectionView
+            Grid.Row="3"
+            Grid.Column="0"
+            HorizontalOptions="Fill"
+            Background="{StaticResource Gray100}"
+            IsGrouped="True"
+            ItemsSource="{Binding Matches}">
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <Label
+                        Margin="10,4,0,0"
+                        Text="{Binding Name}"
+                        x:DataType="viewModels:MatchGroupViewModel"
+                        FontSize="20" />
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.GroupFooterTemplate>
+                <DataTemplate>
+                    <!--  Add some space to next grouped collection  -->
+                    <Grid RowDefinitions="10" />
+                </DataTemplate>
+            </CollectionView.GroupFooterTemplate>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:MatchViewModel">
+
+                    <Grid
+                        RowDefinitions="Auto,Auto"
+                        ColumnDefinitions="*,Auto,*"
+                        Margin="5"
+                        HorizontalOptions="Fill"
+                        BackgroundColor="White"
+                        MinimumWidthRequest="100">
+
+                        <!--  Row 0  -->
+                        <Image
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            WidthRequest="40"
+                            Margin="0,3"
+                            Source="{Binding HomeTeamImage}" />
+
+                        <Label
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Grid.Column="1"
+                            Margin="0,3"
+                            Text="{Binding Date}"
+                            TextColor="{StaticResource Black}"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            CharacterSpacing="1.4"
+                            FontSize="16" />
+
+                        <Image
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            WidthRequest="40"
+                            Margin="0,3"
+                            Source="{Binding AwayTeamImage}" />
+
+
+                        <!--  Row 1  -->
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="0,3"
+                            Text="{Binding HomeTeam}"
+                            TextColor="{StaticResource Black}"
+                            HorizontalTextAlignment="Center"
+                            CharacterSpacing="1.4"
+                            FontSize="15" />
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="0,3"
+                            Text="{Binding AwayTeam}"
+                            TextColor="{StaticResource Black}"
+                            HorizontalTextAlignment="Center"
+                            CharacterSpacing="1.4"
+                            FontSize="15" />
+                    </Grid>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+    </Grid>
+</base:ViewBase>

@@ -31,175 +31,177 @@
                 FontSize="20" />
         </Grid>
 
-        <CollectionView
-            Grid.Row="1"
-            Background="{StaticResource Gray100}"
-            IsGrouped="True"
-            ItemsSource="{Binding Matches}">
-            <CollectionView.GroupHeaderTemplate>
-                <DataTemplate>
-                    <Label
-                        Margin="10,4,0,0"
-                        Text="{Binding Name}"
-                        x:DataType="viewModels:MatchGroupViewModel"
-                        FontSize="20" />
-                </DataTemplate>
-            </CollectionView.GroupHeaderTemplate>
-            <CollectionView.GroupFooterTemplate>
-                <DataTemplate>
-                    <!--  Add some space to next grouped collection  -->
-                    <Grid RowDefinitions="10" />
-                </DataTemplate>
-            </CollectionView.GroupFooterTemplate>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="viewModels:MatchViewModel">
-
-                    <Grid
-                        RowDefinitions="Auto,Auto,*,5"
-                        ColumnDefinitions="6,*,*,*"
-                        Margin="5"
-                        VerticalOptions="Start"
-                        BackgroundColor="White">
-                        <Grid.Behaviors>
-                            <behaviors:AnimationBehavior CommandParameter="{Binding Path=.}">
-                                <behaviors:AnimationBehavior.Command>
-                                    <x:Binding
-                                        Path="BindingContext.NavigateToMatchDetailsViewCommand"
-                                        Source="{x:Reference MainViewContentPage}" />
-                                </behaviors:AnimationBehavior.Command>
-                                <behaviors:AnimationBehavior.AnimationType>
-                                    <behaviors:FadeAnimation Length="50" />
-                                </behaviors:AnimationBehavior.AnimationType>
-                            </behaviors:AnimationBehavior>
-                        </Grid.Behaviors>
+        <RefreshView Grid.Row="1"
+                     Command="{Binding RefreshCommand}">
+            <CollectionView
+                Grid.Row="1"
+                Background="{StaticResource Gray100}"
+                IsGrouped="True"
+                ItemsSource="{Binding Matches}">
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Label
+                            Margin="10,4,0,0"
+                            Text="{Binding Name}"
+                            x:DataType="viewModels:MatchGroupViewModel"
+                            FontSize="20" />
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.GroupFooterTemplate>
+                    <DataTemplate>
+                        <!--  Add some space to next grouped collection  -->
+                        <Grid RowDefinitions="10" />
+                    </DataTemplate>
+                </CollectionView.GroupFooterTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:MatchViewModel">
 
                         <Grid
-                            Grid.Row="0"
-                            Grid.RowSpan="4"
-                            Grid.Column="0"
-                            BackgroundColor="{Binding Status, Converter={StaticResource MatchStatusToBackgroundColorConverter}}" />
+                            RowDefinitions="Auto,Auto,*,5"
+                            ColumnDefinitions="6,*,*,*"
+                            Margin="5"
+                            VerticalOptions="Start"
+                            BackgroundColor="White">
+                            <Grid.Behaviors>
+                                <behaviors:AnimationBehavior CommandParameter="{Binding Path=.}">
+                                    <behaviors:AnimationBehavior.Command>
+                                        <x:Binding
+                                            Path="BindingContext.NavigateToMatchDetailsViewCommand"
+                                            Source="{x:Reference MainViewContentPage}" />
+                                    </behaviors:AnimationBehavior.Command>
+                                    <behaviors:AnimationBehavior.AnimationType>
+                                        <behaviors:FadeAnimation Length="50" />
+                                    </behaviors:AnimationBehavior.AnimationType>
+                                </behaviors:AnimationBehavior>
+                            </Grid.Behaviors>
 
-                        <!--  Row 0  -->
-                        <Image
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            WidthRequest="40"
-                            Margin="0,3"
-                            Source="{Binding HomeTeamImage}" />
+                            <Grid
+                                Grid.Row="0"
+                                Grid.RowSpan="4"
+                                Grid.Column="0"
+                                BackgroundColor="{Binding Status, Converter={StaticResource MatchStatusToBackgroundColorConverter}}" />
 
-                        <Label
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            Grid.ColumnSpan="3"
-                            Margin="0,3"
-                            VerticalOptions="Center"
-                            Text="{Binding Date}"
-                            TextColor="{StaticResource Black}"
-                            HorizontalTextAlignment="Center"
-                            CharacterSpacing="1.4"
-                            FontSize="16" />
+                            <!--  Row 0  -->
+                            <Image
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                WidthRequest="40"
+                                Margin="0,3"
+                                Source="{Binding HomeTeamImage}" />
 
-                        <Image
-                            Grid.Row="0"
-                            Grid.Column="3"
-                            WidthRequest="40"
-                            Margin="0,3"
-                            Source="{Binding AwayTeamImage}" />
-
-
-                        <!--  Row 1  -->
-                        <Label
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Margin="0,3"
-                            Text="{Binding HomeTeam}"
-                            TextColor="{StaticResource Black}"
-                            HorizontalTextAlignment="Center"
-                            CharacterSpacing="1.4"
-                            FontSize="15" />
-
-                        <VerticalStackLayout
-                            Grid.Row="1"
-                            Grid.RowSpan="2"
-                            Grid.Column="2">
                             <Label
-                                Text="{Binding Rate, StringFormat='{}{0:N2}'}"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="3"
+                                Margin="0,3"
+                                VerticalOptions="Center"
+                                Text="{Binding Date}"
                                 TextColor="{StaticResource Black}"
                                 HorizontalTextAlignment="Center"
-                                VerticalTextAlignment="Center"
-                                FontSize="16"
-                                MinimumHeightRequest="3" />
+                                CharacterSpacing="1.4"
+                                FontSize="16" />
+
+                            <Image
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                WidthRequest="40"
+                                Margin="0,3"
+                                Source="{Binding AwayTeamImage}" />
+
+
+                            <!--  Row 1  -->
                             <Label
-                                Text="{Binding TotalBet}"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="0,3"
+                                Text="{Binding HomeTeam}"
                                 TextColor="{StaticResource Black}"
                                 HorizontalTextAlignment="Center"
-                                VerticalTextAlignment="Center"
-                                FontSize="14" />
-                        </VerticalStackLayout>
+                                CharacterSpacing="1.4"
+                                FontSize="15" />
 
-                        <Label
-                            Grid.Row="1"
-                            Grid.Column="3"
-                            Margin="0,3"
-                            Text="{Binding AwayTeam}"
-                            TextColor="{StaticResource Black}"
-                            HorizontalTextAlignment="Center"
-                            CharacterSpacing="1.4"
-                            FontSize="15" />
+                            <VerticalStackLayout
+                                Grid.Row="1"
+                                Grid.RowSpan="2"
+                                Grid.Column="2">
+                                <Label
+                                    Text="{Binding Rate, StringFormat='{}{0:N2}'}"
+                                    TextColor="{StaticResource Black}"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    FontSize="16"
+                                    MinimumHeightRequest="3" />
+                                <Label
+                                    Text="{Binding TotalBet}"
+                                    TextColor="{StaticResource Black}"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    FontSize="14" />
+                            </VerticalStackLayout>
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="3"
+                                Margin="0,3"
+                                Text="{Binding AwayTeam}"
+                                TextColor="{StaticResource Black}"
+                                HorizontalTextAlignment="Center"
+                                CharacterSpacing="1.4"
+                                FontSize="15" />
 
 
-                        <!--  Row 2  -->
-                        <CollectionView
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            HorizontalOptions="Center"
-                            ItemsLayout="HorizontalList"
-                            ItemsSource="{Binding HomeTeamLastSixStatuses}">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <BoxView
-                                        WidthRequest="8"
-                                        HeightRequest="8"
-                                        Margin="2,0"
-                                        CornerRadius="4"
-                                        Color="{Binding Path=., Converter={StaticResource TeamStatusToBackgroundColorConverter}}" />
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
+                            <!--  Row 2  -->
+                            <CollectionView
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                HorizontalOptions="Center"
+                                ItemsLayout="HorizontalList"
+                                ItemsSource="{Binding HomeTeamLastSixStatuses}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <BoxView
+                                            WidthRequest="8"
+                                            HeightRequest="8"
+                                            Margin="2,0"
+                                            CornerRadius="4"
+                                            Color="{Binding Path=., Converter={StaticResource TeamStatusToBackgroundColorConverter}}" />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
 
-                        </CollectionView>
-                        <CollectionView
-                            Grid.Row="2"
-                            Grid.Column="3"
-                            HorizontalOptions="Center"
-                            ItemsLayout="HorizontalList"
-                            ItemsSource="{Binding AwayTeamLastSixStatuses}">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <BoxView
-                                        WidthRequest="8"
-                                        HeightRequest="8"
-                                        Margin="2,0"
-                                        CornerRadius="4"
-                                        Color="{Binding Path=., Converter={StaticResource TeamStatusToBackgroundColorConverter}}" />
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <CollectionView
+                                Grid.Row="2"
+                                Grid.Column="3"
+                                HorizontalOptions="Center"
+                                ItemsLayout="HorizontalList"
+                                ItemsSource="{Binding AwayTeamLastSixStatuses}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <BoxView
+                                            WidthRequest="8"
+                                            HeightRequest="8"
+                                            Margin="2,0"
+                                            CornerRadius="4"
+                                            Color="{Binding Path=., Converter={StaticResource TeamStatusToBackgroundColorConverter}}" />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
 
-                        </CollectionView>
+                            </CollectionView>
 
-                    </Grid>
+                        </Grid>
 
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
 
-        </CollectionView>
-
+            </CollectionView>
+        </RefreshView>
         <tabBar:TabBar
             Grid.Row="2"
             Grid.Column="0"
             TabBarItem1Command="{Binding NavigateToTeamsViewCommand}"
             TabBarItem1ImageSource="shirt.svg"
             TabBarItem1Label="Teams"
-            TabBarItem2Command="{Binding NavigateToMatchesViewCommand}"
+            TabBarItem2Command="{Binding NavigateToAllMatchesViewCommand}"
             TabBarItem2ImageSource="hockeypuck.svg"
             TabBarItem2Label="Matches"
             TabBarItem3Command="{Binding NavigateToStatisticsViewCommand}"

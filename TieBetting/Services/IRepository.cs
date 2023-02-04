@@ -2,9 +2,13 @@
 
 public interface IRepository
 {
+    void ClearCache();
+
     Task<Settings> GetSettingsAsync();
 
     Task AddMatchesAsync(IReadOnlyCollection<Match> matches);
+
+    Task<IReadOnlyCollection<Match>> GetAllMatchesAsync();
 
     Task<IReadOnlyCollection<Match>> GetNextMatchesAsync(int? numberOfMatches = null);
 

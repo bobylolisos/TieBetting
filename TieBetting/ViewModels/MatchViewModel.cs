@@ -27,6 +27,8 @@ public class MatchViewModel : ViewModelBase
 
     public int? HomeTeamBet => _match.HomeTeamBet;
 
+    public double? HomeTeamWin => _match.HomeTeamBet * Rate;
+
     public List<bool?> HomeTeamLastSixStatuses => GetHomeTeamLastSixStatuses();
 
     public int HomeTeamTotalBet => _homeTeam.TotalBet;
@@ -42,6 +44,8 @@ public class MatchViewModel : ViewModelBase
     public string AwayTeamImage => _awayTeam.Image;
 
     public int? AwayTeamBet => _match.AwayTeamBet;
+
+    public double? AwayTeamWin => _match.AwayTeamBet * Rate;
 
     public List<bool?> AwayTeamLastSixStatuses => GetAwayTeamLastSixStatuses();
 
@@ -60,6 +64,8 @@ public class MatchViewModel : ViewModelBase
     public string Date { get; }
 
     public int? TotalBet => HomeTeamBet + AwayTeamBet;
+
+    public double? TotalWin => HomeTeamWin + AwayTeamWin;
 
     public async Task SetRate(double? rate)
     {

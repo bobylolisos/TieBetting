@@ -12,6 +12,12 @@ public class Repository : IRepository
     private List<Team> _allTeamsCache = null;
     private Settings _settingsCache = null;
 
+    public void ClearCache()
+    {
+        _settingsCache = null;
+        _allTeamsCache = null;
+        _allMatchesCache = null;
+    }
 
     private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = false)
     {
@@ -130,7 +136,14 @@ public class Repository : IRepository
         }
     }
 
-    private async Task<IReadOnlyCollection<Match>> GetAllMatchesAsync(FirestoreDb firestoreDb)
+    public async Task<IReadOnlyCollection<Match>> GetAllMatchesAsync()
+    {
+        var firestoreDb = await CreateFirestoreDbAsync();
+
+        return await GetAllMatchesAsync(firestoreDb);
+    }
+
+    public async Task<IReadOnlyCollection<Match>> GetAllMatchesAsync(FirestoreDb firestoreDb)
     {
         if (_allMatchesCache != null)
         {

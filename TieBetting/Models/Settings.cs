@@ -9,4 +9,7 @@ public class Settings
 
     [FirestoreProperty]
     public int UpcomingFetchCount { get; set; }
+
+    [FirestoreProperty]
+    public string DefaultSeason { get; set; }
 }

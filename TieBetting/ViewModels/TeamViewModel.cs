@@ -27,13 +27,13 @@ public class TeamViewModel
     {
         get
         {
-            var macthesWonCount = _team.Statuses.Count(x => x);
-            if (macthesWonCount == 0)
+            var matchesWonCount = _team.Statuses.Count(x => x);
+            if (matchesWonCount == 0)
             {
                 return "0 %";
             }
 
-            var percent = (int)(macthesWonCount / (double)_team.Statuses.Count * 100);
+            var percent = (int)(matchesWonCount / (double)_team.Statuses.Count * 100);
             return $"{percent} %";
         }
     }

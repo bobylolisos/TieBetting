@@ -13,26 +13,85 @@ public class MainViewModel : ViewModelNavigationBase
         _calendarFileDownloadService = calendarFileDownloadService;
         _repository = repository;
         _navigationService = navigationService;
+        RefreshCommand = new AsyncRelayCommand(ExecuteRefreshCommand);
         NavigateToMatchDetailsViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchDetailsViewCommand);
         NavigateToStatisticsViewCommand = new AsyncRelayCommand(ExecuteNavigateToStatisticsViewCommand);
         NavigateToTeamsViewCommand = new AsyncRelayCommand(ExecuteNavigateToTeamsViewCommand);
-        NavigateToMatchesViewCommand = new AsyncRelayCommand(ExecuteNavigateToMatchesViewCommand);
+        NavigateToAllMatchesViewCommand = new AsyncRelayCommand(ExecuteNavigateToAllMatchesViewCommand);
         NavigateToSettingsCommand = new AsyncRelayCommand(ExecuteNavigateToSettingsCommand);
     }
 
     public List<MatchGroupViewModel> Matches { get; set; } = new();
 
+    public AsyncRelayCommand RefreshCommand { get; set; }
+
     public AsyncRelayCommand<MatchViewModel> NavigateToMatchDetailsViewCommand { get; set; }
 
     public AsyncRelayCommand NavigateToTeamsViewCommand { get; set; }
 
-    public AsyncRelayCommand NavigateToMatchesViewCommand { get; set; }
+    public AsyncRelayCommand NavigateToAllMatchesViewCommand { get; set; }
 
     public AsyncRelayCommand NavigateToStatisticsViewCommand { get; set; }
 
     public AsyncRelayCommand NavigateToSettingsCommand { get; set; }
 
     public override async Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
+    {
+        await Reload();
+    }
+
+    private async Task ExecuteRefreshCommand()
+    {
+        _repository.ClearCache();
+
+        await Reload();
+    }
+
+    private async Task ExecuteNavigateToMatchDetailsViewCommand(MatchViewModel viewModel)
+    {
+        await _navigationService.NavigateToPageAsync<MatchDetailsView>(new MatchDetailsViewNavigationParameter(viewModel));
+    }
+
+    private async Task ExecuteNavigateToStatisticsViewCommand()
+    {
+        await _navigationService.NavigateToPageAsync<StatisticsView>();
+    }
+
+    private async Task ExecuteNavigateToTeamsViewCommand()
+    {
+        await _navigationService.NavigateToPageAsync<TeamsView>(new TeamsViewNavigationParameter(_teams));
+    }
+
+    private async Task ExecuteNavigateToAllMatchesViewCommand()
+    {
+        await _navigationService.NavigateToPageAsync<AllMatchesView>();
+    }
+
+    private async Task ExecuteNavigateToSettingsCommand()
+    {
+        await _navigationService.NavigateToPageAsync<SettingsView>();
+    }
+
+    private async Task ImportCalendarToDatabase()
+    {
+        //var href = "https://calendar.ramses.nu/calendar/778/show/hockeyallsvenskan-2022-23.ics";
+        var href = "https://calendar.ramses.nu/calendar/748/show/shl-2022-2023.ics";
+
+        var matches = await _calendarFileDownloadService.DownloadAsync(href);
+
+        var dateTime = new DateTime(2022, 12, 15);
+        var latestMatches = matches.Where(x => x.Date > dateTime).ToList();
+        await _repository.AddMatchesAsync(latestMatches);
+    }
+
+    private async Task ExecuteMyCommand()
+    {
+        await Task.Delay(1);
+
+        //await ImportCalendarToDatabase();
+    }
+
+    private async Task Reload()
     {
         var settings = await _repository.GetSettingsAsync();
         Matches.Clear();
@@ -110,9 +169,10 @@ public class MainViewModel : ViewModelNavigationBase
         }
         else
         {
-            Matches.Add(new MatchGroupViewModel($"{DateTime.Today:yyyy-MM-dd}   Today, no matches", new List<MatchViewModel>()));
-
+            Matches.Add(new MatchGroupViewModel($"{DateTime.Today:yyyy-MM-dd}   Today, no matches",
+                new List<MatchViewModel>()));
         }
+
         if (upcomingMatches.Any())
         {
             var groupedUpcomingMatches = upcomingMatches.GroupBy(x => x.Date).Select(x => x.ToList());
@@ -128,47 +188,4 @@ public class MainViewModel : ViewModelNavigationBase
         }
     }
 
-    private async Task ExecuteNavigateToMatchDetailsViewCommand(MatchViewModel viewModel)
-    {
-        await _navigationService.NavigateToPageAsync<MatchDetailsView>(new MatchDetailsViewNavigationParameter(viewModel));
-    }
-
-    private async Task ExecuteNavigateToStatisticsViewCommand()
-    {
-        await _navigationService.NavigateToPageAsync<StatisticsView>();
-    }
-
-    private async Task ExecuteNavigateToTeamsViewCommand()
-    {
-        await _navigationService.NavigateToPageAsync<TeamsView>(new TeamsViewNavigationParameter(_teams));
-    }
-
-    private Task ExecuteNavigateToMatchesViewCommand()
-    {
-        return Task.CompletedTask;
-    }
-
-    private async Task ExecuteNavigateToSettingsCommand()
-    {
-        await _navigationService.NavigateToPageAsync<SettingsView>();
-    }
-
-    private async Task ImportCalendarToDatabase()
-    {
-        //var href = "https://calendar.ramses.nu/calendar/778/show/hockeyallsvenskan-2022-23.ics";
-        var href = "https://calendar.ramses.nu/calendar/748/show/shl-2022-2023.ics";
-
-        var matches = await _calendarFileDownloadService.DownloadAsync(href);
-
-        var dateTime = new DateTime(2022, 12, 15);
-        var latestMatches = matches.Where(x => x.Date > dateTime).ToList();
-        await _repository.AddMatchesAsync(latestMatches);
-    }
-
-    private async Task ExecuteMyCommand()
-    {
-        await Task.Delay(1);
-
-        //await ImportCalendarToDatabase();
-    }
 }

@@ -1,8 +1,9 @@
 Stats
 
 Matches
-	- Select season
-	- SHow all matches, scroll to today
+	X Select season
+	X SHow all matches, scroll to today (scroll nor useful)
+	- CurrentBetSession, calculate only sessions bets for current season
 
 Team
 	- Won %
