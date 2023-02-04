@@ -1,9 +1,15 @@
+
+- Använd IQueryService istället för IRepository
+
+
+
+
 Stats
 
 Matches
 	X Select season
 	X SHow all matches, scroll to today (scroll nor useful)
-	- CurrentBetSession, calculate only sessions bets for current season
+	X CurrentBetSession, calculate only sessions bets for current season
 
 Team
 	- Won %

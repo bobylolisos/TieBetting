@@ -2,11 +2,11 @@
 
 public abstract class ViewModelNavigationBase : ObservableObject
 {
-    private readonly INavigationService _navigationService;
+    protected readonly INavigationService NavigationService;
 
     protected ViewModelNavigationBase(INavigationService navigationService)
     {
-        _navigationService = navigationService;
+        NavigationService = navigationService;
 
         NavigateBackCommand = new AsyncRelayCommand(ExecuteNavigateBackCommand);
     }
@@ -35,6 +35,6 @@ public abstract class ViewModelNavigationBase : ObservableObject
 
     protected virtual async Task ExecuteNavigateBackCommand()
     {
-        await _navigationService.NavigateBackAsync();
+        await NavigationService.NavigateBackAsync();
     }
 }

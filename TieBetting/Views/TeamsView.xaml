@@ -6,8 +6,10 @@
     xmlns:base="clr-namespace:TieBetting.Views.Base"
     xmlns:converters="clr-namespace:TieBetting.Converters"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
+    xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title="TeamsView"
-    x:DataType="viewModels:TeamsViewModel">
+    x:DataType="viewModels:TeamsViewModel"
+    x:Name="TeamsViewContentPage">
     <Shell.TitleView>
         <Label
             Text="TEAMS"
@@ -51,6 +53,19 @@
                         Padding="5"
                         VerticalOptions="Start"
                         BackgroundColor="White">
+                        <Grid.Behaviors>
+                            <behaviors:AnimationBehavior CommandParameter="{Binding Path=.}">
+                                <behaviors:AnimationBehavior.Command>
+                                    <x:Binding
+                                        Path="BindingContext.NavigateToTeamMatchesViewCommand"
+                                        Source="{x:Reference TeamsViewContentPage}" />
+                                </behaviors:AnimationBehavior.Command>
+                                <behaviors:AnimationBehavior.AnimationType>
+                                    <behaviors:FadeAnimation Length="50" />
+                                </behaviors:AnimationBehavior.AnimationType>
+                            </behaviors:AnimationBehavior>
+                        </Grid.Behaviors>
+
                         <Grid
                             Grid.Row="0"
                             Grid.Column="0"

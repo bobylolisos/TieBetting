@@ -5,9 +5,12 @@ public class TeamsViewModel : ViewModelNavigationBase
     public TeamsViewModel(INavigationService navigationService) 
         : base(navigationService)
     {
+        NavigateToTeamMatchesViewCommand = new AsyncRelayCommand<TeamViewModel>(ExecuteNavigateToTeamMatchesViewCommand);
     }
 
     public ObservableCollection<TeamViewModel> Teams { get; } = new();
+
+    public AsyncRelayCommand<TeamViewModel> NavigateToTeamMatchesViewCommand { get; set; }
 
     public override Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
     {
@@ -20,5 +23,10 @@ public class TeamsViewModel : ViewModelNavigationBase
         }
 
         return base.OnNavigatingToAsync(navigationParameter);
+    }
+
+    private async Task ExecuteNavigateToTeamMatchesViewCommand(TeamViewModel teamViewModel)
+    {
+        await NavigationService.NavigateToPageAsync<TeamMatchesView>(new TeamMatchesViewNavigationParameter(teamViewModel));
     }
 }

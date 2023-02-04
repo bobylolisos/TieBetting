@@ -78,6 +78,9 @@
 	  <MauiXaml Update="Views\StatisticsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\TeamMatchesView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\TeamsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
