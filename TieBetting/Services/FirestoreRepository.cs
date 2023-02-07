@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.Services;
 
-public class Repository : IRepository
+public class FirestoreRepository : IFirestoreRepository
 {
     private const string SettingsCollectionKey = "settings";
     private const string TeamsCollectionKey = "teams";

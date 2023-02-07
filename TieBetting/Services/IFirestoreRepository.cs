@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.Services;
 
-public interface IRepository
+public interface IFirestoreRepository
 {
     void ClearCache();
 
@@ -21,6 +21,6 @@ public interface IRepository
     Task<IReadOnlyCollection<Team>> GetTeamsAsync();
 
     Task UpdateMatchAsync(Match match);
- 
+
     Task UpdateTeamAsync(Team team);
 }

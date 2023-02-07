@@ -7,8 +7,9 @@ public static class ServiceSetup
         builder.Services.AddSingleton<INavigationService, NavigationService>();
         builder.Services.AddSingleton<IPopupService, PopupService>();
         builder.Services.AddSingleton<ICalendarFileDownloadService, CalendarFileDownloadService>();
-        builder.Services.AddSingleton<IRepository, Repository>();
+        builder.Services.AddSingleton<IFirestoreRepository, FirestoreRepository>();
         builder.Services.AddSingleton<IQueryService, QueryService>();
+        builder.Services.AddSingleton<ISaverService, SaverService>();
 
         return builder;
     }

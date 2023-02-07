@@ -3,13 +3,11 @@
 public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateChangedMessage>
 {
     private readonly IPopupService _popupService;
-    private readonly IRepository _repository;
 
-    public MatchDetailsViewModel(INavigationService navigationService, IPopupService popupService, IRepository repository) 
+    public MatchDetailsViewModel(INavigationService navigationService, IPopupService popupService) 
         : base(navigationService)
     {
         _popupService = popupService;
-        _repository = repository;
 
         EnterRateCommand = new AsyncRelayCommand(ExecuteEnterRateCommand, CanExecuteEnterRateCommand);
         SetStatusCommand = new AsyncRelayCommand<MatchStatus>(ExecuteSetStatusCommand);

@@ -3,16 +3,18 @@
 public class MainViewModel : ViewModelNavigationBase
 {
     private readonly ICalendarFileDownloadService _calendarFileDownloadService;
-    private readonly IRepository _repository;
+    private readonly IQueryService _queryService;
+    private readonly ISaverService _saverService;
     private readonly INavigationService _navigationService;
     private IReadOnlyCollection<Team> _teams;
     private bool _isRefreshing;
 
-    public MainViewModel(ICalendarFileDownloadService calendarFileDownloadService, IRepository repository, INavigationService navigationService)
+    public MainViewModel(ICalendarFileDownloadService calendarFileDownloadService, IQueryService queryService, ISaverService saverService, INavigationService navigationService)
     : base(navigationService)
     {
         _calendarFileDownloadService = calendarFileDownloadService;
-        _repository = repository;
+        _queryService = queryService;
+        _saverService = saverService;
         _navigationService = navigationService;
         RefreshCommand = new AsyncRelayCommand(ExecuteRefreshCommand);
         NavigateToMatchDetailsViewCommand = new AsyncRelayCommand<MatchBettingViewModel>(ExecuteNavigateToMatchDetailsViewCommand);
@@ -51,7 +53,7 @@ public class MainViewModel : ViewModelNavigationBase
     {
         try
         {
-            _repository.ClearCache();
+            _saverService.ClearCache();
 
             await Reload();
         }
@@ -95,7 +97,7 @@ public class MainViewModel : ViewModelNavigationBase
 
         var dateTime = new DateTime(2022, 12, 15);
         var latestMatches = matches.Where(x => x.Date > dateTime).ToList();
-        await _repository.AddMatchesAsync(latestMatches);
+        await _saverService.AddMatchesAsync(latestMatches);
     }
 
     private async Task ExecuteMyCommand()
@@ -107,12 +109,12 @@ public class MainViewModel : ViewModelNavigationBase
 
     private async Task Reload()
     {
-        var settings = await _repository.GetSettingsAsync();
+        var settings = await _queryService.GetSettingsAsync();
         Matches.Clear();
 
-        _teams = await _repository.GetTeamsAsync();
+        _teams = await _queryService.GetTeamsAsync();
 
-        var fetchedPreviousMatches = await _repository.GetPreviousOngoingMatchesAsync();
+        var fetchedPreviousMatches = await _queryService.GetPreviousOngoingMatchesAsync();
 
         var previousMatches = new List<MatchBettingViewModel>();
         foreach (var previousMatch in fetchedPreviousMatches.OrderBy(x => x.Day))
@@ -121,16 +123,16 @@ public class MainViewModel : ViewModelNavigationBase
 
             if (homeTeam == null)
             {
-                homeTeam = await _repository.CreateTeamAsync(previousMatch.HomeTeam);
+                homeTeam = await _saverService.CreateTeamAsync(previousMatch.HomeTeam);
             }
 
             var awayTeam = _teams.GetTeamOrDefault(previousMatch.AwayTeam);
             if (awayTeam == null)
             {
-                awayTeam = await _repository.CreateTeamAsync(previousMatch.AwayTeam);
+                awayTeam = await _saverService.CreateTeamAsync(previousMatch.AwayTeam);
             }
 
-            var matchViewModel = new MatchBettingViewModel(_repository, settings, previousMatch, homeTeam, awayTeam);
+            var matchViewModel = new MatchBettingViewModel(_saverService, settings, previousMatch, homeTeam, awayTeam);
 
             previousMatches.Add(matchViewModel);
         }
@@ -141,7 +143,7 @@ public class MainViewModel : ViewModelNavigationBase
         }
 
 
-        var fetchedUpcomingMatches = await _repository.GetNextMatchesAsync(settings.UpcomingFetchCount);
+        var fetchedUpcomingMatches = await _queryService.GetNextMatchesAsync(settings.UpcomingFetchCount);
 
         var todayDay = DayProvider.TodayDay;
         Debug.WriteLine("");
@@ -156,16 +158,16 @@ public class MainViewModel : ViewModelNavigationBase
 
             if (homeTeam == null)
             {
-                homeTeam = await _repository.CreateTeamAsync(match.HomeTeam);
+                homeTeam = await _saverService.CreateTeamAsync(match.HomeTeam);
             }
 
             var awayTeam = _teams.GetTeamOrDefault(match.AwayTeam);
             if (awayTeam == null)
             {
-                awayTeam = await _repository.CreateTeamAsync(match.AwayTeam);
+                awayTeam = await _saverService.CreateTeamAsync(match.AwayTeam);
             }
 
-            var matchViewModel = new MatchBettingViewModel(_repository, settings, match, homeTeam, awayTeam);
+            var matchViewModel = new MatchBettingViewModel(_saverService, settings, match, homeTeam, awayTeam);
 
             if (match.Day == todayDay)
             {

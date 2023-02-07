@@ -2,13 +2,13 @@
 
 public class MatchBettingViewModel : MatchViewModel
 {
-    private readonly IRepository _repository;
+    private readonly ISaverService _saverService;
     private readonly Settings _settings;
 
-    public MatchBettingViewModel(IRepository repository, Settings settings, Match match, Team homeTeam, Team awayTeam) 
+    public MatchBettingViewModel(ISaverService saverService, Settings settings, Match match, Team homeTeam, Team awayTeam) 
         : base(match, homeTeam, awayTeam)
     {
-        _repository = repository;
+        _saverService = saverService;
         _settings = settings;
     }
 
@@ -81,14 +81,14 @@ public class MatchBettingViewModel : MatchViewModel
         OnPropertyChanged(nameof(TotalBet));
         OnPropertyChanged(nameof(Status));
 
-        await _repository.UpdateMatchAsync(Match);
+        await _saverService.UpdateMatchAsync(Match);
     }
 
     public async Task SetStatus(MatchStatus matchStatus)
     {
         Match.Status = (int)matchStatus;
 
-        await _repository.UpdateMatchAsync(Match);
+        await _saverService.UpdateMatchAsync(Match);
 
         HomeTeam.NotifyMatchStatusChanged();
         AwayTeam.NotifyMatchStatusChanged();

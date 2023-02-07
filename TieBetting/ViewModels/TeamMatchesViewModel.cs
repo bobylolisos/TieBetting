@@ -1,9 +1,8 @@
-﻿
-namespace TieBetting.ViewModels;
+﻿namespace TieBetting.ViewModels;
 
 public class TeamMatchesViewModel : ViewModelNavigationBase
 {
-    private readonly IRepository _repository;
+    private readonly IQueryService _queryService;
     private string _headerText;
     private string _headerImage;
     private string _selectedSeason;
@@ -11,10 +10,10 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
     private IReadOnlyCollection<Match> _allTeamMatches;
     private string _teamName;
 
-    public TeamMatchesViewModel(INavigationService navigationService, IRepository repository) 
+    public TeamMatchesViewModel(INavigationService navigationService, IQueryService queryService) 
         : base(navigationService)
     {
-        _repository = repository;
+        _queryService = queryService;
     }
 
     public ObservableCollection<string> Seasons { get; } = new();
@@ -64,10 +63,9 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
             throw new ArgumentException("Expected TeamMatchesViewNavigationParameter but not found!");
         }
 
-        _allTeams = await _repository.GetTeamsAsync();
+        _allTeams = await _queryService.GetTeamsAsync();
 
-        var allMatches = await _repository.GetAllMatchesAsync();
-        _allTeamMatches = allMatches.Where(x => x.HomeTeam == _teamName || x.AwayTeam == _teamName).ToList();
+        _allTeamMatches = await _queryService.GetAllMatchesForTeamAsync(_teamName);
 
         var seasons = _allTeamMatches.Select(x => x.Season).Distinct().OrderBy(x => x);
 

@@ -2,15 +2,15 @@
 
 public class SettingsViewModel : ViewModelNavigationBase
 {
-    private readonly IRepository _repository;
+    private readonly IQueryService _queryService;
     private Settings _settings;
     private int _expectedWinAmount;
     private int _upcomingMatchesToFetch;
 
-    public SettingsViewModel(INavigationService navigationService, IRepository repository) 
+    public SettingsViewModel(INavigationService navigationService, IQueryService queryService) 
         : base(navigationService)
     {
-        _repository = repository;
+        _queryService = queryService;
     }
 
     public int ExpectedWinAmount
@@ -35,7 +35,7 @@ public class SettingsViewModel : ViewModelNavigationBase
 
     public override async Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
     {
-        _settings = await _repository.GetSettingsAsync();
+        _settings = await _queryService.GetSettingsAsync();
 
         ExpectedWinAmount = _settings.ExpectedWinAmount;
         UpcomingMatchesToFetch = _settings.UpcomingFetchCount;

@@ -3,16 +3,16 @@ namespace TieBetting.ViewModels;
 
 public class AllMatchesViewModel : ViewModelNavigationBase
 {
-    private readonly IRepository _repository;
+    private readonly IQueryService _queryService;
     private Settings _settings;
     private string _selectedSeason;
     private IReadOnlyCollection<Match> _allMatches;
     private IReadOnlyCollection<Team> _allTeams;
 
-    public AllMatchesViewModel(INavigationService navigationService, IRepository repository) 
+    public AllMatchesViewModel(INavigationService navigationService, IQueryService queryService) 
         : base(navigationService)
     {
-        _repository = repository;
+        _queryService = queryService;
     }
 
     public ObservableCollection<string> Seasons { get; } = new();
@@ -81,11 +81,11 @@ public class AllMatchesViewModel : ViewModelNavigationBase
     {
         Seasons.Clear();
 
-        _settings = await _repository.GetSettingsAsync();
+        _settings = await _queryService.GetSettingsAsync();
 
-        _allTeams = await _repository.GetTeamsAsync();
+        _allTeams = await _queryService.GetTeamsAsync();
 
-        _allMatches = await _repository.GetAllMatchesAsync();
+        _allMatches = await _queryService.GetAllMatchesAsync();
 
         var seasons = _allMatches.Select(x => x.Season).Distinct().OrderBy(x => x);
 

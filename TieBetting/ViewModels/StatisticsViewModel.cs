@@ -2,8 +2,7 @@
 
 public class StatisticsViewModel : ViewModelNavigationBase
 {
-    private readonly IRepository _repository;
-
+    private readonly IQueryService _queryService;
     private int _totalBet;
     private int _totalWin;
     private int _totalProfit;
@@ -20,10 +19,10 @@ public class StatisticsViewModel : ViewModelNavigationBase
     private string _longestLostStreakInSessionTeamName;
     private int _matchesWonCount;
 
-    public StatisticsViewModel(INavigationService navigationService, IRepository repository) 
+    public StatisticsViewModel(INavigationService navigationService, IQueryService queryService) 
         : base(navigationService)
     {
-        _repository = repository;
+        _queryService = queryService;
     }
 
     public int TotalBet
@@ -146,7 +145,7 @@ public class StatisticsViewModel : ViewModelNavigationBase
     {
         await base.OnNavigatingToAsync(navigationParameter);
 
-        var teams = await _repository.GetTeamsAsync();
+        var teams = await _queryService.GetTeamsAsync();
 
         if (teams.Any() != true)
         {
