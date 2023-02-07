@@ -57,7 +57,7 @@ public class AllMatchesViewModel : ViewModelNavigationBase
                     var singleGroupedMatches = new List<MatchViewModel>();
                     foreach (var match in groupedSeasonMatch)
                     {
-                        singleGroupedMatches.Add(new MatchViewModel(match, _allTeams.Single(y => y.Name == match.HomeTeam), _allTeams.Single(y => y.Name == match.AwayTeam)));
+                        singleGroupedMatches.Add(new MatchViewModel(match, _allTeams.GetTeam(match.HomeTeam), _allTeams.GetTeam(match.AwayTeam)));
                     }
 
                     groupdViewModels.Add(new MatchGroupViewModel($"{groupedSeasonMatch.Key:yyyy-MM-dd}", singleGroupedMatches));

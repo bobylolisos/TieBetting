@@ -117,14 +117,14 @@ public class MainViewModel : ViewModelNavigationBase
         var previousMatches = new List<MatchBettingViewModel>();
         foreach (var previousMatch in fetchedPreviousMatches.OrderBy(x => x.Day))
         {
-            var homeTeam = _teams.SingleOrDefault(x => x.Name == previousMatch.HomeTeam);
+            var homeTeam = _teams.GetTeamOrDefault(previousMatch.HomeTeam);
 
             if (homeTeam == null)
             {
                 homeTeam = await _repository.CreateTeamAsync(previousMatch.HomeTeam);
             }
 
-            var awayTeam = _teams.SingleOrDefault(x => x.Name == previousMatch.AwayTeam);
+            var awayTeam = _teams.GetTeamOrDefault(previousMatch.AwayTeam);
             if (awayTeam == null)
             {
                 awayTeam = await _repository.CreateTeamAsync(previousMatch.AwayTeam);
@@ -152,14 +152,14 @@ public class MainViewModel : ViewModelNavigationBase
         var upcomingMatches = new List<MatchBettingViewModel>();
         foreach (var match in fetchedUpcomingMatches.OrderBy(x => x.Day))
         {
-            var homeTeam = _teams.SingleOrDefault(x => x.Name == match.HomeTeam);
+            var homeTeam = _teams.GetTeamOrDefault(match.HomeTeam);
 
             if (homeTeam == null)
             {
                 homeTeam = await _repository.CreateTeamAsync(match.HomeTeam);
             }
 
-            var awayTeam = _teams.SingleOrDefault(x => x.Name == match.AwayTeam);
+            var awayTeam = _teams.GetTeamOrDefault(match.AwayTeam);
             if (awayTeam == null)
             {
                 awayTeam = await _repository.CreateTeamAsync(match.AwayTeam);
