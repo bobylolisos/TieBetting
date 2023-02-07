@@ -3,9 +3,9 @@
     x:Class="TieBetting.Views.AllMatchesView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:base="clr-namespace:TieBetting.Views.Base"
-    xmlns:converters="using:TieBetting.Converters"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
+    xmlns:base="clr-namespace:TieBetting.Views.Base"
+    xmlns:converters="clr-namespace:TieBetting.Converters"
     Title="AllMatchesView"
     x:DataType="viewModels:AllMatchesViewModel"
     Background="{StaticResource Gray100}">

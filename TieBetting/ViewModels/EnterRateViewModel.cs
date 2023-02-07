@@ -93,7 +93,7 @@ public class EnterRateViewModel : ViewModelBase, IPopupViewModel
             return true;
         }
 
-        if (digit == "0" || digit == "1" || digit == "7" || digit == "8" || digit == "9")
+        if (digit == "0" || digit == "1" || digit == "8" || digit == "9")
         {
             return false;
         }

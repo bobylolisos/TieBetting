@@ -22,7 +22,7 @@ public class MainViewModel : ViewModelNavigationBase
         NavigateToSettingsCommand = new AsyncRelayCommand(ExecuteNavigateToSettingsCommand);
     }
 
-    public List<MatchGroupViewModel> Matches { get; set; } = new();
+    public ObservableCollection<MatchGroupViewModel> Matches { get; set; } = new();
 
     public AsyncRelayCommand RefreshCommand { get; set; }
 
