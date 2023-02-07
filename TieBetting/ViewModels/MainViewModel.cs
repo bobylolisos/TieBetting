@@ -15,18 +15,18 @@ public class MainViewModel : ViewModelNavigationBase
         _repository = repository;
         _navigationService = navigationService;
         RefreshCommand = new AsyncRelayCommand(ExecuteRefreshCommand);
-        NavigateToMatchDetailsViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchDetailsViewCommand);
+        NavigateToMatchDetailsViewCommand = new AsyncRelayCommand<MatchBettingViewModel>(ExecuteNavigateToMatchDetailsViewCommand);
         NavigateToStatisticsViewCommand = new AsyncRelayCommand(ExecuteNavigateToStatisticsViewCommand);
         NavigateToTeamsViewCommand = new AsyncRelayCommand(ExecuteNavigateToTeamsViewCommand);
         NavigateToAllMatchesViewCommand = new AsyncRelayCommand(ExecuteNavigateToAllMatchesViewCommand);
         NavigateToSettingsCommand = new AsyncRelayCommand(ExecuteNavigateToSettingsCommand);
     }
 
-    public ObservableCollection<MatchGroupViewModel> Matches { get; set; } = new();
+    public ObservableCollection<MatchBettingGroupViewModel> Matches { get; set; } = new();
 
     public AsyncRelayCommand RefreshCommand { get; set; }
 
-    public AsyncRelayCommand<MatchViewModel> NavigateToMatchDetailsViewCommand { get; set; }
+    public AsyncRelayCommand<MatchBettingViewModel> NavigateToMatchDetailsViewCommand { get; set; }
 
     public AsyncRelayCommand NavigateToTeamsViewCommand { get; set; }
 
@@ -61,7 +61,7 @@ public class MainViewModel : ViewModelNavigationBase
         }
     }
 
-    private async Task ExecuteNavigateToMatchDetailsViewCommand(MatchViewModel viewModel)
+    private async Task ExecuteNavigateToMatchDetailsViewCommand(MatchBettingViewModel viewModel)
     {
         await _navigationService.NavigateToPageAsync<MatchDetailsView>(new MatchDetailsViewNavigationParameter(viewModel));
     }
@@ -114,7 +114,7 @@ public class MainViewModel : ViewModelNavigationBase
 
         var fetchedPreviousMatches = await _repository.GetPreviousOngoingMatchesAsync();
 
-        var previousMatches = new List<MatchViewModel>();
+        var previousMatches = new List<MatchBettingViewModel>();
         foreach (var previousMatch in fetchedPreviousMatches.OrderBy(x => x.Day))
         {
             var homeTeam = _teams.SingleOrDefault(x => x.Name == previousMatch.HomeTeam);
@@ -130,14 +130,14 @@ public class MainViewModel : ViewModelNavigationBase
                 awayTeam = await _repository.CreateTeamAsync(previousMatch.AwayTeam);
             }
 
-            var matchViewModel = new MatchViewModel(_repository, settings, previousMatch, homeTeam, awayTeam);
+            var matchViewModel = new MatchBettingViewModel(_repository, settings, previousMatch, homeTeam, awayTeam);
 
             previousMatches.Add(matchViewModel);
         }
 
         if (previousMatches.Any())
         {
-            Matches.Add(new MatchGroupViewModel("Previous", previousMatches));
+            Matches.Add(new MatchBettingGroupViewModel("Previous", previousMatches));
         }
 
 
@@ -148,8 +148,8 @@ public class MainViewModel : ViewModelNavigationBase
         Debug.WriteLine($"Today day is: {todayDay}");
         Debug.WriteLine("");
 
-        var todayMatches = new List<MatchViewModel>();
-        var upcomingMatches = new List<MatchViewModel>();
+        var todayMatches = new List<MatchBettingViewModel>();
+        var upcomingMatches = new List<MatchBettingViewModel>();
         foreach (var match in fetchedUpcomingMatches.OrderBy(x => x.Day))
         {
             var homeTeam = _teams.SingleOrDefault(x => x.Name == match.HomeTeam);
@@ -165,7 +165,7 @@ public class MainViewModel : ViewModelNavigationBase
                 awayTeam = await _repository.CreateTeamAsync(match.AwayTeam);
             }
 
-            var matchViewModel = new MatchViewModel(_repository, settings, match, homeTeam, awayTeam);
+            var matchViewModel = new MatchBettingViewModel(_repository, settings, match, homeTeam, awayTeam);
 
             if (match.Day == todayDay)
             {
@@ -179,12 +179,12 @@ public class MainViewModel : ViewModelNavigationBase
 
         if (todayMatches.Any())
         {
-            Matches.Add(new MatchGroupViewModel($"{DateTime.Today:yyyy-MM-dd}   Today", todayMatches));
+            Matches.Add(new MatchBettingGroupViewModel($"{DateTime.Today:yyyy-MM-dd}   Today", todayMatches));
         }
         else
         {
-            Matches.Add(new MatchGroupViewModel($"{DateTime.Today:yyyy-MM-dd}   Today, no matches",
-                new List<MatchViewModel>()));
+            Matches.Add(new MatchBettingGroupViewModel($"{DateTime.Today:yyyy-MM-dd}   Today, no matches",
+                new List<MatchBettingViewModel>()));
         }
 
         if (upcomingMatches.Any())
@@ -192,13 +192,13 @@ public class MainViewModel : ViewModelNavigationBase
             var groupedUpcomingMatches = upcomingMatches.GroupBy(x => x.Date).Select(x => x.ToList());
             foreach (var groupedUpcomingMatch in groupedUpcomingMatches)
             {
-                Matches.Add(new MatchGroupViewModel(groupedUpcomingMatch[0].Date, groupedUpcomingMatch));
+                Matches.Add(new MatchBettingGroupViewModel(groupedUpcomingMatch[0].Date, groupedUpcomingMatch));
             }
         }
 
         if (Matches.Any() == false)
         {
-            Matches.Add(new MatchGroupViewModel("No matches", new List<MatchViewModel>()));
+            Matches.Add(new MatchBettingGroupViewModel("No matches", new List<MatchBettingViewModel>()));
         }
     }
 

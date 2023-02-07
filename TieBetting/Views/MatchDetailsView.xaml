@@ -64,7 +64,7 @@
         <Grid
             RowDefinitions="Auto,Auto"
             ColumnDefinitions="*,Auto,*"
-            x:DataType="viewModels:MatchViewModel">
+            x:DataType="viewModels:MatchBettingViewModel">
             <!--  Row 0  -->
             <Image
                 Grid.Row="0"
@@ -86,7 +86,7 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Margin="0,3"
-                Text="{Binding HomeTeam}"
+                Text="{Binding HomeTeamName}"
                 TextColor="{StaticResource Black}"
                 HorizontalTextAlignment="Center"
                 CharacterSpacing="1.4"
@@ -96,7 +96,7 @@
                 Grid.Row="1"
                 Grid.Column="2"
                 Margin="0,3"
-                Text="{Binding AwayTeam}"
+                Text="{Binding AwayTeamName}"
                 TextColor="{StaticResource Black}"
                 HorizontalTextAlignment="Center"
                 CharacterSpacing="1.4"
@@ -108,7 +108,7 @@
             Grid.Row="1"
             Grid.Column="0"
             RowDefinitions="30,Auto,Auto,Auto"
-            x:DataType="viewModels:MatchViewModel">
+            x:DataType="viewModels:MatchBettingViewModel">
 
             <!--  Rate circle  -->
             <Frame

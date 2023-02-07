@@ -35,7 +35,6 @@
                      IsRefreshing="{Binding IsRefreshing}"
                      Command="{Binding RefreshCommand}">
             <CollectionView
-                Grid.Row="1"
                 Background="{StaticResource Gray100}"
                 IsGrouped="True"
                 ItemsSource="{Binding Matches}">
@@ -44,7 +43,7 @@
                         <Label
                             Margin="10,4,0,0"
                             Text="{Binding Name}"
-                            x:DataType="viewModels:MatchGroupViewModel"
+                            x:DataType="viewModels:MatchBettingGroupViewModel"
                             FontSize="20" />
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
@@ -55,7 +54,7 @@
                     </DataTemplate>
                 </CollectionView.GroupFooterTemplate>
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="viewModels:MatchViewModel">
+                    <DataTemplate x:DataType="viewModels:MatchBettingViewModel">
 
                         <Grid
                             RowDefinitions="Auto,Auto,*,5"
@@ -115,7 +114,7 @@
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 Margin="0,3"
-                                Text="{Binding HomeTeam}"
+                                Text="{Binding HomeTeamName}"
                                 TextColor="{StaticResource Black}"
                                 HorizontalTextAlignment="Center"
                                 CharacterSpacing="1.4"
@@ -144,7 +143,7 @@
                                 Grid.Row="1"
                                 Grid.Column="3"
                                 Margin="0,3"
-                                Text="{Binding AwayTeam}"
+                                Text="{Binding AwayTeamName}"
                                 TextColor="{StaticResource Black}"
                                 HorizontalTextAlignment="Center"
                                 CharacterSpacing="1.4"

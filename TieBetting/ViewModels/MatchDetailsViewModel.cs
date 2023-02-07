@@ -26,7 +26,7 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
         return base.OnNavigatingToAsync(navigationParameter);
     }
 
-    public MatchViewModel Match { get; set; }
+    public MatchBettingViewModel Match { get; set; }
 
     public AsyncRelayCommand EnterRateCommand { get; set; }
 

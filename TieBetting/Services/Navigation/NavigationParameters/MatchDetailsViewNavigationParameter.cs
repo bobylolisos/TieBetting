@@ -2,10 +2,10 @@
 
 public class MatchDetailsViewNavigationParameter : NavigationParameterBase
 {
-    public MatchDetailsViewNavigationParameter(MatchViewModel matchViewModel)
+    public MatchDetailsViewNavigationParameter(MatchBettingViewModel matchViewModel)
     {
         MatchViewModel = matchViewModel;
     }
 
-    public MatchViewModel MatchViewModel { get; }
+    public MatchBettingViewModel MatchViewModel { get; }
 }

@@ -1,5 +1,4 @@
-﻿using System.Xml.Linq;
-
+﻿
 namespace TieBetting.ViewModels;
 
 public class AllMatchesViewModel : ViewModelNavigationBase
@@ -51,17 +50,17 @@ public class AllMatchesViewModel : ViewModelNavigationBase
             if (SetProperty(ref _selectedSeason, value))
             {
                 Matches.Clear();
-                var groupdSeasonMatches = _allMatches.Where(x => x.Season == SelectedSeason).GroupBy(x => x.Date).OrderBy(y => y.Key);
+                var groupedSeasonMatches = _allMatches.Where(x => x.Season == SelectedSeason).GroupBy(x => x.Date).OrderBy(y => y.Key);
                 var groupdViewModels = new List<MatchGroupViewModel>();
-                foreach (var groupdSeasonMatch in groupdSeasonMatches)
+                foreach (var groupedSeasonMatch in groupedSeasonMatches)
                 {
                     var singleGroupedMatches = new List<MatchViewModel>();
-                    foreach (var match in groupdSeasonMatch)
+                    foreach (var match in groupedSeasonMatch)
                     {
-                        singleGroupedMatches.Add(new MatchViewModel(_repository, _settings, match, _allTeams.Single(y => y.Name == match.HomeTeam), _allTeams.Single(y => y.Name == match.AwayTeam)));
+                        singleGroupedMatches.Add(new MatchViewModel(match, _allTeams.Single(y => y.Name == match.HomeTeam), _allTeams.Single(y => y.Name == match.AwayTeam)));
                     }
 
-                    groupdViewModels.Add(new MatchGroupViewModel($"{groupdSeasonMatch.Key:yyyy-MM-dd}", singleGroupedMatches));
+                    groupdViewModels.Add(new MatchGroupViewModel($"{groupedSeasonMatch.Key:yyyy-MM-dd}", singleGroupedMatches));
                 }
                 foreach (var groupdViewModel in groupdViewModels)
                 {
@@ -113,11 +112,11 @@ public class AllMatchesViewModel : ViewModelNavigationBase
         foreach (var team in _allTeams)
         {
             var currentSessionDone = false;
-            var matchesForTeam = Matches.SelectMany(x => x.Where(y => y.HomeTeam == team.Name || y.AwayTeam == team.Name)).OrderByDescending(x => x.Day);
+            var matchesForTeam = Matches.SelectMany(x => x.Where(y => y.HomeTeamName == team.Name || y.AwayTeamName == team.Name)).OrderByDescending(x => x.Day);
 
             foreach (var match in matchesForTeam)
             {
-                if (match.HomeTeam == team.Name)
+                if (match.HomeTeamName == team.Name)
                 {
                     if (currentSessionDone == false)
                     {
@@ -132,7 +131,7 @@ public class AllMatchesViewModel : ViewModelNavigationBase
                     }
                 }
 
-                if (match.AwayTeam == team.Name)
+                if (match.AwayTeamName == team.Name)
                 {
                     if (currentSessionDone == false)
                     {
