@@ -5,25 +5,30 @@ X Extension för att plocka ut ett team istället för detta _allTeams.Single(y => 
 - Ändra så att Total Bets alltid innehåller alla bets och session-bets betyder nuvarande bets men att de ingår i Total Bets, just nu är det olika på olika ställen
 
 Match
-	- Förhindra att man kan sätta ny status (rate) på en match där ett lag har pågåend match
+	- Förhindra att man kan sätta ny status (rate??) på en match där ett lag redan har en pågående match
 
 
 Stats
 
-Matches
+AllMatches
 	X Select season
 	X SHow all matches, scroll to today (scroll nor useful)
 	X CurrentBetSession, calculate only sessions bets for current season
+	- TabBar to 'Add' (only valid for future dates)
+	- Select -> Navigate to MatchMaintenance
+
+AllMatches/MatchMaintenance
+	- TabBar to 'Change status', 'Move', 'Delete'
+	- 'Change status' only on latest match
+	- Cannot 'Move' played match
+	- Cannot 'Delete' played match
 
 Team
-	- Won %
-	- TabBar to 'Abandon session'
+	X Won %
 
 Team/Matches
-	- Select season
-	- TabBar to 'Add', 'Change'
-	- Add Match
-	- Change match date
+	X Select season
+	- TabBar to 'Abandon session'
 
 
 Settings
