@@ -3,9 +3,9 @@
     x:Class="TieBetting.Views.SettingsView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     xmlns:base="clr-namespace:TieBetting.Views.Base"
     xmlns:converters="clr-namespace:TieBetting.Converters"
+    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     Title="SettingsView"
     x:DataType="viewModels:SettingsViewModel">
 
@@ -23,35 +23,20 @@
             x:Key="VisibleWhenTrueConverter"
             False="False"
             True="True" />
-        <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
-        <converters:ProfitToColorConverter
-            x:Key="ProfitToColorConverter"
-            PositiveColor="Black" />
-        <converters:HasDoubleToVisibilityConverter
-            x:Key="VisibleWhenHasRateConverter"
-            VisibilityWhenHasDecimal="True"
-            VisibilityWhenNoDecimal="False" />
-        <converters:HasDoubleToVisibilityConverter
-            x:Key="HiddenWhenHasRateConverter"
-            VisibilityWhenHasDecimal="False"
-            VisibilityWhenNoDecimal="True" />
-        <converters:MatchStatusToBackgroundColorConverter x:Key="MatchStatusToBackgroundColorConverter" />
-        <converters:MatchStatusToStatusButtonVisibilityConverter x:Key="MatchStatusToStatusButtonVisibilityConverter" />
 
         <Style
-            x:Key="RowHeaderLabelStyle"
+            x:Key="SettingsRowHeaderLabelStyle"
+            BasedOn="{StaticResource RowHeaderLabelStyle}"
             TargetType="Label">
-            <Setter Property="TextColor" Value="{StaticResource Black}" />
-            <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="HorizontalTextAlignment" Value="Start" />
+            <Setter Property="VerticalOptions" Value="Start" />
+            <Setter Property="VerticalTextAlignment" Value="Start" />
             <Setter Property="Margin" Value="0,7" />
             <Setter Property="FontSize" Value="14" />
         </Style>
         <Style
-            x:Key="RowValueLabelStyle"
+            x:Key="SettingsRowValueLabelStyle"
+            BasedOn="{StaticResource RowValueLabelStyle}"
             TargetType="Label">
-            <Setter Property="TextColor" Value="{StaticResource Black}" />
-            <Setter Property="VerticalOptions" Value="Center" />
             <Setter Property="Margin" Value="0,7" />
             <Setter Property="FontSize" Value="14" />
         </Style>
@@ -65,10 +50,8 @@
         <Label
             Grid.Row="0"
             Grid.Column="0"
-            VerticalOptions="Start"
             Text="Expected amount to win"
-            VerticalTextAlignment="Start"
-            Style="{StaticResource RowHeaderLabelStyle}" />
+            Style="{StaticResource SettingsRowHeaderLabelStyle}" />
 
         <Grid
             Grid.Row="0"
@@ -88,7 +71,7 @@
                 Grid.Row="0"
                 Grid.Column="2"
                 Text="{Binding ExpectedWinAmount}"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource SettingsRowValueLabelStyle}" />
         </Grid>
         <Label
             Grid.Row="1"
@@ -99,16 +82,14 @@
             HorizontalTextAlignment="Center"
             FontSize="12"
             IsVisible="{Binding ExpectedWinAmountChanged, Converter={StaticResource VisibleWhenTrueConverter}}"
-            Style="{StaticResource RowValueLabelStyle}" />
+            Style="{StaticResource SettingsRowValueLabelStyle}" />
 
         <!--  Upcoming matches to load  -->
         <Label
             Grid.Row="2"
             Grid.Column="0"
-            VerticalOptions="Start"
             Text="Upcoming matches to load"
-            VerticalTextAlignment="Start"
-            Style="{StaticResource RowHeaderLabelStyle}" />
+            Style="{StaticResource SettingsRowHeaderLabelStyle}" />
 
         <Grid
             Grid.Row="2"
@@ -128,7 +109,7 @@
                 Grid.Row="0"
                 Grid.Column="2"
                 Text="{Binding UpcomingMatchesToFetch}"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource SettingsRowValueLabelStyle}" />
         </Grid>
 
 

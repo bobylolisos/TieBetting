@@ -3,9 +3,9 @@
     x:Class="TieBetting.Views.StatisticsView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     xmlns:base="clr-namespace:TieBetting.Views.Base"
     xmlns:converters="clr-namespace:TieBetting.Converters"
+    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     Title="StatisticsView"
     x:DataType="viewModels:StatisticsViewModel"
     BackgroundColor="{StaticResource Gray100}">
@@ -24,33 +24,17 @@
         <converters:ProfitToColorConverter
             x:Key="ProfitToColorConverter"
             PositiveColor="Black" />
-        <converters:HasDoubleToVisibilityConverter
-            x:Key="VisibleWhenHasRateConverter"
-            VisibilityWhenHasDecimal="True"
-            VisibilityWhenNoDecimal="False" />
-        <converters:HasDoubleToVisibilityConverter
-            x:Key="HiddenWhenHasRateConverter"
-            VisibilityWhenHasDecimal="False"
-            VisibilityWhenNoDecimal="True" />
-        <converters:MatchStatusToBackgroundColorConverter x:Key="MatchStatusToBackgroundColorConverter" />
-        <converters:MatchStatusToStatusButtonVisibilityConverter x:Key="MatchStatusToStatusButtonVisibilityConverter" />
 
         <Style
-            x:Key="RowHeaderLabelStyle"
+            x:Key="StatisticsRowHeaderLabelStyle"
+            BasedOn="{StaticResource RowHeaderLabelStyle}"
             TargetType="Label">
-            <Setter Property="TextColor" Value="{StaticResource Black}" />
-            <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="HorizontalTextAlignment" Value="Start" />
-            <Setter Property="Margin" Value="0,3" />
             <Setter Property="FontSize" Value="14" />
         </Style>
         <Style
-            x:Key="RowValueLabelStyle"
+            x:Key="StatisticsRowValueLabelStyle"
+            BasedOn="{StaticResource RowValueLabelStyle}"
             TargetType="Label">
-            <Setter Property="TextColor" Value="{StaticResource Black}" />
-            <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="HorizontalTextAlignment" Value="End" />
-            <Setter Property="Margin" Value="0,3" />
             <Setter Property="FontSize" Value="14" />
         </Style>
     </ContentPage.Resources>
@@ -79,40 +63,40 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Text="Bet"
-                Style="{StaticResource RowHeaderLabelStyle}" />
+                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
                 Grid.Row="1"
                 Grid.Column="2"
                 Text="{Binding TotalBet, Converter={StaticResource AmountToAmountStringConverter}}"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <!--  Win  -->
             <Label
                 Grid.Row="2"
                 Grid.Column="0"
                 Text="Win"
-                Style="{StaticResource RowHeaderLabelStyle}" />
+                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
                 Grid.Row="2"
                 Grid.Column="2"
                 Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <!--  Total win  -->
             <Label
                 Grid.Row="3"
                 Grid.Column="0"
                 Text="Total win"
-                Style="{StaticResource RowHeaderLabelStyle}" />
+                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
                 Grid.Row="3"
                 Grid.Column="2"
                 Text="{Binding TotalProfit, Converter={StaticResource AmountToAmountStringConverter}}"
                 TextColor="{Binding TotalProfit, Converter={StaticResource ProfitToColorConverter}}"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <!--  SPACE ROW  -->
 
@@ -121,13 +105,13 @@
                 Grid.Row="5"
                 Grid.Column="0"
                 Text="Bets in session"
-                Style="{StaticResource RowHeaderLabelStyle}" />
+                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
                 Grid.Row="5"
                 Grid.Column="2"
                 Text="{Binding BetsInSession, Converter={StaticResource AmountToAmountStringConverter}}"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <!--  SPACE ROW  -->
 
@@ -138,7 +122,7 @@
                 Grid.Column="0"
                 Text="Current profit"
                 FontAttributes="Bold"
-                Style="{StaticResource RowHeaderLabelStyle}" />
+                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
                 Grid.Row="7"
@@ -146,7 +130,7 @@
                 Text="{Binding CurrentProfit, Converter={StaticResource AmountToAmountStringConverter}}"
                 TextColor="{Binding CurrentProfit, Converter={StaticResource ProfitToColorConverter}}"
                 FontAttributes="Bold"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
 
         </Grid>
@@ -174,53 +158,53 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Text="Matches"
-                Style="{StaticResource RowHeaderLabelStyle}" />
+                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
                 Grid.Row="1"
                 Grid.Column="2"
                 Text="{Binding MatchesCount}"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <!--  Matches won  -->
             <Label
                 Grid.Row="2"
                 Grid.Column="0"
                 Text="Matches won"
-                Style="{StaticResource RowHeaderLabelStyle}" />
+                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
                 Grid.Row="2"
                 Grid.Column="2"
                 Text="{Binding MatchesWonCount}"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <Label
                 Grid.Row="2"
                 Grid.Column="5"
                 Text="{Binding MatchesWonPercent}"
                 HorizontalTextAlignment="Start"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <!--  Longest lost streak  -->
             <Label
                 Grid.Row="3"
                 Grid.Column="0"
                 Text="Lost streak"
-                Style="{StaticResource RowHeaderLabelStyle}" />
+                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
                 Grid.Row="3"
                 Grid.Column="2"
                 Text="{Binding LongestLostStreak}"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <Label
                 Grid.Row="3"
                 Grid.Column="5"
                 Text="{Binding LongestLostStreakTeamName}"
                 HorizontalTextAlignment="Start"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <!--  Longest lost streak in session  -->
             <Label
@@ -228,34 +212,34 @@
                 Grid.Column="0"
                 Margin="10,3"
                 Text="In session"
-                Style="{StaticResource RowHeaderLabelStyle}" />
+                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
                 Grid.Row="4"
                 Grid.Column="2"
                 Text="{Binding LongestLostStreakInSession}"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <Label
                 Grid.Row="4"
                 Grid.Column="5"
                 Text="{Binding LongestLostStreakInSessionTeamName}"
                 HorizontalTextAlignment="Start"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <!--  Best team profit  -->
             <Label
                 Grid.Row="5"
                 Grid.Column="0"
                 Text="Best team profit"
-                Style="{StaticResource RowHeaderLabelStyle}" />
+                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
                 Grid.Row="5"
                 Grid.Column="2"
                 Text="{Binding BestTeamProfit}"
                 TextColor="{Binding BestTeamProfit, Converter={StaticResource ProfitToColorConverter}}"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <Label
                 Grid.Row="5"
@@ -263,28 +247,28 @@
                 Margin="5,0"
                 Text=":-"
                 TextColor="{Binding BestTeamProfit, Converter={StaticResource ProfitToColorConverter}}"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <Label
                 Grid.Row="5"
                 Grid.Column="5"
                 Text="{Binding BestTeamProfitTeamName}"
                 HorizontalTextAlignment="Start"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <!--  Worst team profit  -->
             <Label
                 Grid.Row="6"
                 Grid.Column="0"
                 Text="Worst team profit"
-                Style="{StaticResource RowHeaderLabelStyle}" />
+                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
                 Grid.Row="6"
                 Grid.Column="2"
                 Text="{Binding WorstTeamProfit}"
                 TextColor="{Binding WorstTeamProfit, Converter={StaticResource ProfitToColorConverter}}"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <Label
                 Grid.Row="6"
@@ -292,14 +276,14 @@
                 Margin="5,0"
                 Text=":-"
                 TextColor="{Binding WorstTeamProfit, Converter={StaticResource ProfitToColorConverter}}"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <Label
                 Grid.Row="6"
                 Grid.Column="5"
                 Text="{Binding WorstTeamProfitTeamName}"
                 HorizontalTextAlignment="Start"
-                Style="{StaticResource RowValueLabelStyle}" />
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
 
 

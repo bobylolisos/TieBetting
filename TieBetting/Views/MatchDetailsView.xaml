@@ -31,29 +31,9 @@
             VisibilityWhenNoDecimal="True" />
         <converters:MatchStatusToBackgroundColorConverter x:Key="MatchStatusToBackgroundColorConverter" />
         <converters:MatchStatusToStatusButtonVisibilityConverter x:Key="MatchStatusToStatusButtonVisibilityConverter" />
-        <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
         <converters:MatchStatusToVisibilityConverter
             x:Key="VisibleWhenNotActiveConverter"
             NotActiveVisibility="True" />
-
-        <Style
-            x:Key="RowHeaderLabelStyle"
-            TargetType="Label">
-            <Setter Property="TextColor" Value="{StaticResource Black}" />
-            <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="HorizontalTextAlignment" Value="Start" />
-            <Setter Property="Margin" Value="0,3" />
-            <Setter Property="FontSize" Value="14" />
-        </Style>
-        <Style
-            x:Key="RowValueLabelStyle"
-            TargetType="Label">
-            <Setter Property="TextColor" Value="{StaticResource Black}" />
-            <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="HorizontalTextAlignment" Value="End" />
-            <Setter Property="Margin" Value="0,3" />
-            <Setter Property="FontSize" Value="14" />
-        </Style>
     </ContentPage.Resources>
 
 
