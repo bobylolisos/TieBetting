@@ -3,9 +3,9 @@
     x:Class="TieBetting.Views.AllMatchesView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     xmlns:base="clr-namespace:TieBetting.Views.Base"
     xmlns:converters="clr-namespace:TieBetting.Converters"
+    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     Title="AllMatchesView"
     x:DataType="viewModels:AllMatchesViewModel"
     Background="{StaticResource Gray100}">
@@ -21,6 +21,7 @@
     <ContentPage.Resources>
         <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
         <converters:ProfitToColorConverter x:Key="ProfitToColorConverter" />
+        <converters:MatchStatusToBackgroundColorConverter x:Key="MatchStatusToBackgroundColorConverter" />
 
         <Style
             x:Key="RowHeaderLabelStyle"
@@ -171,35 +172,41 @@
 
                     <Grid
                         RowDefinitions="Auto,Auto"
-                        ColumnDefinitions="*,Auto,*"
+                        ColumnDefinitions="6,20,*,20,Auto,20,*,20"
                         Margin="5"
                         HorizontalOptions="Fill"
                         BackgroundColor="White"
                         MinimumWidthRequest="100">
 
+                        <Grid
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Grid.Column="0"
+                            BackgroundColor="{Binding Status, Converter={StaticResource MatchStatusToBackgroundColorConverter}}" />
+
                         <!--  Row 0  -->
                         <Image
                             Grid.Row="0"
-                            Grid.Column="0"
+                            Grid.Column="2"
                             WidthRequest="40"
                             Margin="0,3"
                             Source="{Binding HomeTeamImage}" />
 
                         <Label
                             Grid.Row="0"
-                            Grid.RowSpan="2"
-                            Grid.Column="1"
+                            Grid.Column="3"
+                            Grid.ColumnSpan="3"
                             Margin="0,3"
                             Text="{Binding Date}"
                             TextColor="{StaticResource Black}"
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             CharacterSpacing="1.4"
-                            FontSize="16" />
+                            FontSize="14" />
 
                         <Image
                             Grid.Row="0"
-                            Grid.Column="2"
+                            Grid.Column="6"
                             WidthRequest="40"
                             Margin="0,3"
                             Source="{Binding AwayTeamImage}" />
@@ -208,7 +215,8 @@
                         <!--  Row 1  -->
                         <Label
                             Grid.Row="1"
-                            Grid.Column="0"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
                             Margin="0,3"
                             Text="{Binding HomeTeam}"
                             TextColor="{StaticResource Black}"
@@ -218,7 +226,8 @@
 
                         <Label
                             Grid.Row="1"
-                            Grid.Column="2"
+                            Grid.Column="5"
+                            Grid.ColumnSpan="3"
                             Margin="0,3"
                             Text="{Binding AwayTeam}"
                             TextColor="{StaticResource Black}"

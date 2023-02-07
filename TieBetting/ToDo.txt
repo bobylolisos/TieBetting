@@ -1,7 +1,9 @@
 
 - Använd IQueryService istället för IRepository
+- Ta bort de RowHeaderLabelStyle & RowValueLabelStyle som är lika som i TieBettingStyles.xaml
 
-
+Match
+	- Förhindra att man kan sätta ny status (rate) på en match där ett lag har pågåend match
 
 
 Stats

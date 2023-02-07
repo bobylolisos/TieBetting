@@ -27,7 +27,7 @@
             <Image
                 Grid.Row="0"
                 Grid.Column="0"
-                WidthRequest="60"
+                WidthRequest="40"
                 Margin="0,3"
                 Source="{Binding HeaderImage}" />
             <Label
@@ -36,7 +36,7 @@
                 Margin="15,0"
                 Text="{Binding HeaderText}"
                 VerticalTextAlignment="Center"
-                FontSize="28" />
+                FontSize="22" />
         </Grid>
     </Grid>
 </base:ViewBase>
