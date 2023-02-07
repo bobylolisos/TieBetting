@@ -2,38 +2,38 @@
 
 public class TeamViewModel
 {
-    private readonly Team _team;
-
     public TeamViewModel(Team team)
     {
-        _team = team;
+        Team = team;
     }
 
-    public string Name => _team.Name;
+    public Team Team { get; }
 
-    public string Image => _team.Image;
+    public string Name => Team.Name;
 
-    public int TotalBet => _team.TotalBet;
+    public string Image => Team.Image;
 
-    public int TotalWin => (int)_team.TotalWin;
+    public int TotalBet => Team.TotalBet;
 
-    public int Profit => _team.Profit;
+    public int TotalWin => (int)Team.TotalWin;
 
-    public int BetsInSession => _team.CurrentBetSession;
+    public int Profit => Team.Profit;
 
-    public int LostMatchesInSession => _team.Statuses.CountNumberOfPreviousLostMatches();
+    public int BetsInSession => Team.CurrentBetSession;
+
+    public int LostMatchesInSession => Team.Statuses.CountNumberOfPreviousLostMatches();
 
     public string MatchesWonPercent
     {
         get
         {
-            var matchesWonCount = _team.Statuses.Count(x => x);
+            var matchesWonCount = Team.Statuses.Count(x => x);
             if (matchesWonCount == 0)
             {
                 return "0 %";
             }
 
-            var percent = (int)(matchesWonCount / (double)_team.Statuses.Count * 100);
+            var percent = (int)(matchesWonCount / (double)Team.Statuses.Count * 100);
             return $"{percent} %";
         }
     }

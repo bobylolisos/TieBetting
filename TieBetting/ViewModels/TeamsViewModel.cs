@@ -27,6 +27,6 @@ public class TeamsViewModel : ViewModelNavigationBase
 
     private async Task ExecuteNavigateToTeamMatchesViewCommand(TeamViewModel teamViewModel)
     {
-        await NavigationService.NavigateToPageAsync<TeamMatchesView>(new TeamMatchesViewNavigationParameter(teamViewModel));
+        await NavigationService.NavigateToPageAsync<TeamMatchesView>(new TeamMatchesViewNavigationParameter(teamViewModel.Team));
     }
 }

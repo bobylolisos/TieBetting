@@ -8,8 +8,6 @@ public interface IQueryService
 
     Task<IReadOnlyCollection<Match>> GetAllMatchesAsync();
 
-    Task<IReadOnlyCollection<Match>> GetAllMatchesForTeamAsync(string teamName);
-
     Task<IReadOnlyCollection<Match>> GetNextMatchesAsync(int? numberOfMatches = null);
 
     Task<IReadOnlyCollection<Match>> GetPreviousOngoingMatchesAsync();

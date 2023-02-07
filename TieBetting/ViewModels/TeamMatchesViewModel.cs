@@ -8,7 +8,7 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
     private string _selectedSeason;
     private IReadOnlyCollection<Team> _allTeams;
     private IReadOnlyCollection<Match> _allTeamMatches;
-    private string _teamName;
+    private Team _team;
 
     public TeamMatchesViewModel(INavigationService navigationService, IQueryService queryService) 
         : base(navigationService)
@@ -53,10 +53,10 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
     {
         if (navigationParameter is TeamMatchesViewNavigationParameter parameter)
         {
-            var team = parameter.TeamViewModel;
+            var team = parameter.Team;
             HeaderImage = team.Image;
             HeaderText = team.Name;
-            _teamName = team.Name;
+            _team = team;
         }
         else
         {
@@ -65,7 +65,7 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
 
         _allTeams = await _queryService.GetTeamsAsync();
 
-        _allTeamMatches = await _queryService.GetAllMatchesForTeamAsync(_teamName);
+        _allTeamMatches = _team.Matches;
 
         var seasons = _allTeamMatches.Select(x => x.Season).Distinct().OrderBy(x => x);
 

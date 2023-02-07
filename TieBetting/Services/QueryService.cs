@@ -24,13 +24,6 @@ public class QueryService : IQueryService
         return _repository.GetAllMatchesAsync();
     }
 
-    public async Task<IReadOnlyCollection<Match>> GetAllMatchesForTeamAsync(string teamName)
-    {
-        var allMatches = await _repository.GetAllMatchesAsync();
-
-        return allMatches.Where(x => x.HomeTeam == teamName || x.AwayTeam == teamName).ToList();
-    }
-
     public Task<IReadOnlyCollection<Match>> GetNextMatchesAsync(int? numberOfMatches = null)
     {
         return _repository.GetNextMatchesAsync(numberOfMatches);
