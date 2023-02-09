@@ -26,6 +26,7 @@
         <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
         <converters:ProfitToColorConverter x:Key="ProfitToColorConverter" />
         <converters:MatchStatusToBackgroundColorConverter x:Key="MatchStatusToBackgroundColorConverter" />
+        <converters:LeagueToImageConverter x:Key="LeagueToImageConverter" />
     </ContentPage.Resources>
 
     <Grid RowDefinitions="Auto,Auto,10,*">
@@ -61,6 +62,15 @@
             Padding="8"
             BackgroundColor="White">
 
+            <Image
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="8"
+                Margin="0,5"
+                HorizontalOptions="Start"
+                MaximumHeightRequest="40"
+                MaximumWidthRequest="60"
+                Source="{Binding SelectedSeason, Converter={StaticResource LeagueToImageConverter}}" />
             <Label
                 Grid.Row="0"
                 Grid.Column="0"

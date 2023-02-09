@@ -6,6 +6,7 @@ X Extension för att plocka ut ett team istället för detta _allTeams.Single(y => 
 X Lägg till så att man ser att TabBarItem är disablad Opacity = 0.3
 X Skapa undermapp för navigerbara vymodeller
 - Bild för SHL & HA, använda i AllMatches bredvid total-summan
+- Graf
 
 Match
 	X Förhindra att man kan sätta ny status (rate??) på en match där ett lag redan har en pågående match
