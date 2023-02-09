@@ -33,7 +33,7 @@ Team/Matches
 
 
 Settings
-	- Flytta slider under label
+	X Flytta slider under label
 	- View expected bet chain
 
 
