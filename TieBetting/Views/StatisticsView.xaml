@@ -43,7 +43,7 @@
         <Grid
             Grid.Row="0"
             Grid.Column="0"
-            RowDefinitions="Auto,Auto,Auto,Auto,0,Auto,10,Auto,Auto"
+            RowDefinitions="Auto,Auto,Auto,Auto,10,Auto"
             ColumnDefinitions="Auto,30,Auto,*"
             Margin="6,8,6,3"
             Padding="8"
@@ -62,7 +62,7 @@
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
-                Text="Bet"
+                Text="Total bets"
                 Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
@@ -71,46 +71,34 @@
                 Text="{Binding TotalBet, Converter={StaticResource AmountToAmountStringConverter}}"
                 Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
-            <!--  Win  -->
-            <Label
-                Grid.Row="2"
-                Grid.Column="0"
-                Text="Win"
-                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
-
-            <Label
-                Grid.Row="2"
-                Grid.Column="2"
-                Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
-                Style="{StaticResource StatisticsRowValueLabelStyle}" />
-
-            <!--  Total win  -->
-            <Label
-                Grid.Row="3"
-                Grid.Column="0"
-                Text="Total win"
-                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
-
-            <Label
-                Grid.Row="3"
-                Grid.Column="2"
-                Text="{Binding TotalProfit, Converter={StaticResource AmountToAmountStringConverter}}"
-                TextColor="{Binding TotalProfit, Converter={StaticResource ProfitToColorConverter}}"
-                Style="{StaticResource StatisticsRowValueLabelStyle}" />
-
-            <!--  SPACE ROW  -->
-
             <!--  Bets in session  -->
             <Label
-                Grid.Row="5"
+                Grid.Row="2"
                 Grid.Column="0"
-                Text="Bets in session"
+                Text="In session"
+                Margin="10,3"
+                FontSize="12"
                 Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
-                Grid.Row="5"
+                Grid.Row="2"
                 Grid.Column="2"
+                FontSize="12"
                 Text="{Binding BetsInSession, Converter={StaticResource AmountToAmountStringConverter}}"
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
+
+
+            <!--  Win  -->
+            <Label
+                Grid.Row="3"
+                Grid.Column="0"
+                Text="Total wins"
+                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
+
+            <Label
+                Grid.Row="3"
+                Grid.Column="2"
+                Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
                 Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <!--  SPACE ROW  -->
@@ -118,14 +106,14 @@
 
             <!--  Current profit  -->
             <Label
-                Grid.Row="7"
+                Grid.Row="5"
                 Grid.Column="0"
                 Text="Current profit"
                 FontAttributes="Bold"
                 Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
-                Grid.Row="7"
+                Grid.Row="5"
                 Grid.Column="2"
                 Text="{Binding CurrentProfit, Converter={StaticResource AmountToAmountStringConverter}}"
                 TextColor="{Binding CurrentProfit, Converter={StaticResource ProfitToColorConverter}}"

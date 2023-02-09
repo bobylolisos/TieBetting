@@ -6,8 +6,8 @@
     xmlns:base="clr-namespace:TieBetting.Views.Base"
     xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:converters="clr-namespace:TieBetting.Converters"
-    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
+    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     x:Name="TeamsViewContentPage"
     Title="TeamsView"
     x:DataType="navigationViewModels:TeamsViewModel">
@@ -85,7 +85,7 @@
                             <Label
                                 Grid.Row="0"
                                 Grid.Column="0"
-                                Text="Total bet"
+                                Text="Total bets"
                                 Style="{StaticResource RowHeaderLabelStyle}" />
 
                             <Label
@@ -97,49 +97,52 @@
                             <Label
                                 Grid.Row="1"
                                 Grid.Column="0"
-                                Text="Total win"
+                                Text="In session"
+                                Margin="10,3"
+                                FontSize="10"
                                 Style="{StaticResource RowHeaderLabelStyle}" />
 
                             <Label
                                 Grid.Row="1"
                                 Grid.Column="2"
-                                Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
+                                Text="{Binding BetsInSession, Converter={StaticResource AmountToAmountStringConverter}}"
+                                FontSize="10"
                                 Style="{StaticResource RowValueLabelStyle}" />
 
                             <Label
                                 Grid.Row="2"
                                 Grid.Column="0"
-                                Text="Matches won"
+                                Text="Total wins"
                                 Style="{StaticResource RowHeaderLabelStyle}" />
 
                             <Label
                                 Grid.Row="2"
                                 Grid.Column="2"
-                                Text="{Binding MatchesWonPercent}"
+                                Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
                                 Style="{StaticResource RowValueLabelStyle}" />
 
                             <!--  Second column  -->
                             <Label
                                 Grid.Row="0"
                                 Grid.Column="4"
-                                Text="Session bets"
+                                Text="Matches won"
                                 Style="{StaticResource RowHeaderLabelStyle}" />
 
                             <Label
                                 Grid.Row="0"
                                 Grid.Column="6"
-                                Text="{Binding BetsInSession, Converter={StaticResource AmountToAmountStringConverter}}"
+                                Text="{Binding MatchesWonPercent}"
                                 HorizontalTextAlignment="Start"
                                 Style="{StaticResource RowValueLabelStyle}" />
 
                             <Label
-                                Grid.Row="1"
+                                Grid.Row="2"
                                 Grid.Column="4"
                                 Text="Session matches"
                                 Style="{StaticResource RowHeaderLabelStyle}" />
 
                             <Label
-                                Grid.Row="1"
+                                Grid.Row="2"
                                 Grid.Column="6"
                                 Text="{Binding LostMatchesInSession}"
                                 HorizontalTextAlignment="Start"

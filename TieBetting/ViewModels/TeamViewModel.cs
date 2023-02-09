@@ -13,7 +13,7 @@ public class TeamViewModel
 
     public string Image => Team.Image;
 
-    public int TotalBet => Team.TotalBet;
+    public int TotalBet => Team.TotalBet + BetsInSession;
 
     public int TotalWin => (int)Team.TotalWin;
 

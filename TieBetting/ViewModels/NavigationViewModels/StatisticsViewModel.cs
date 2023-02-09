@@ -152,11 +152,10 @@ public class StatisticsViewModel : ViewModelNavigationBase
             return;
         }
 
-        TotalBet = teams.Sum(x => x.TotalBet);
+        TotalBet = teams.Sum(x => x.TotalBet) + teams.Sum(x => x.CurrentBetSession);
         TotalWin = (int)teams.Sum(x => x.TotalWin);
-        TotalProfit = TotalWin - TotalBet;
         BetsInSession = teams.Sum(x => x.CurrentBetSession);
-        CurrentProfit = TotalWin - TotalBet - BetsInSession;
+        CurrentProfit = TotalWin - TotalBet;
 
         var hasMatches = teams.Any(x => x.Statuses.Any());
         if (hasMatches)

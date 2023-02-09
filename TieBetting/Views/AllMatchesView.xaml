@@ -55,64 +55,63 @@
         <Grid
             Grid.Row="1"
             Grid.Column="0"
-            RowDefinitions="Auto,Auto,Auto"
+            RowDefinitions="Auto,Auto,Auto,Auto"
             ColumnDefinitions="Auto,20,Auto,30,Auto,20,Auto,*"
             Margin="5,0"
             Padding="8"
             BackgroundColor="White">
 
-            <!--  First column  -->
             <Label
                 Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="8"
+                Text="{Binding Profit, Converter={StaticResource AmountToAmountStringConverter}}"
+                TextColor="{Binding Profit, Converter={StaticResource ProfitToColorConverter}}"
+                HorizontalTextAlignment="End"
+                FontSize="22"
+                Style="{StaticResource RowValueLabelStyle}" />
+
+            <!--  First column  -->
+            <Label
+                Grid.Row="1"
                 Grid.Column="0"
                 Text="Season bets"
                 Style="{StaticResource RowHeaderLabelStyle}" />
 
             <Label
-                Grid.Row="0"
+                Grid.Row="1"
                 Grid.Column="2"
                 Text="{Binding TotalBet, Converter={StaticResource AmountToAmountStringConverter}}"
                 Style="{StaticResource RowValueLabelStyle}" />
 
             <Label
-                Grid.Row="1"
-                Grid.Column="0"
-                Text="Season wins"
-                Style="{StaticResource RowHeaderLabelStyle}" />
-
-            <Label
-                Grid.Row="1"
-                Grid.Column="2"
-                Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
-                Style="{StaticResource RowValueLabelStyle}" />
-
-            <Label
                 Grid.Row="2"
                 Grid.Column="0"
+                Margin="10,3"
                 Text="In session"
+                FontSize="10"
                 Style="{StaticResource RowHeaderLabelStyle}" />
 
             <Label
                 Grid.Row="2"
                 Grid.Column="2"
                 Text="{Binding CurrentBetSession, Converter={StaticResource AmountToAmountStringConverter}}"
+                FontSize="10"
                 Style="{StaticResource RowValueLabelStyle}" />
 
-            <!--  Second column  -->
             <Label
-                Grid.Row="0"
-                Grid.Column="4"
-                Text="Profit"
+                Grid.Row="3"
+                Grid.Column="0"
+                Text="Season wins"
                 Style="{StaticResource RowHeaderLabelStyle}" />
 
             <Label
-                Grid.Row="0"
-                Grid.Column="6"
-                Text="{Binding Profit, Converter={StaticResource AmountToAmountStringConverter}}"
-                TextColor="{Binding Profit, Converter={StaticResource ProfitToColorConverter}}"
-                HorizontalTextAlignment="Start"
+                Grid.Row="3"
+                Grid.Column="2"
+                Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
                 Style="{StaticResource RowValueLabelStyle}" />
 
+            <!--  Second column  -->
             <Label
                 Grid.Row="1"
                 Grid.Column="4"
