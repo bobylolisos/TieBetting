@@ -8,7 +8,7 @@
     xmlns:converters="clr-namespace:TieBetting.Converters"
     xmlns:models="clr-namespace:TieBetting.Models"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
-    x:Name="This"
+    x:Name="MatchDetailsViewContentPage"
     Title="MatchDetailsView"
     x:DataType="viewModels:MatchDetailsViewModel">
     <Shell.BackButtonBehavior>
@@ -123,7 +123,7 @@
                         <behaviors:AnimationBehavior.Command>
                             <x:Binding
                                 Path="BindingContext.EnterRateCommand"
-                                Source="{x:Reference This}" />
+                                Source="{x:Reference MatchDetailsViewContentPage}" />
                         </behaviors:AnimationBehavior.Command>
                     </behaviors:AnimationBehavior>
 
