@@ -4,7 +4,7 @@ X Ta bort de RowHeaderLabelStyle & RowValueLabelStyle som är lika som i TieBetti
 X Extension för att plocka ut ett team istället för detta _allTeams.Single(y => y.Name == match.HomeTeam)
 - Ändra så att Total Bets alltid innehåller alla bets och session-bets betyder nuvarande bets men att de ingår i Total Bets, just nu är det olika på olika ställen
 X Lägg till så att man ser att TabBarItem är disablad Opacity = 0.3
-- Skapa undermapp för navigerbara vymodeller
+X Skapa undermapp för navigerbara vymodeller
 
 
 Match
@@ -33,6 +33,7 @@ Team/Matches
 
 
 Settings
+	- Flytta slider under label
 	- View expected bet chain
 
 

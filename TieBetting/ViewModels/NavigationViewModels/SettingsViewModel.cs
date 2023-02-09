@@ -1,4 +1,4 @@
-﻿namespace TieBetting.ViewModels;
+﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
 public class SettingsViewModel : ViewModelNavigationBase
 {
@@ -7,7 +7,7 @@ public class SettingsViewModel : ViewModelNavigationBase
     private int _expectedWinAmount;
     private int _upcomingMatchesToFetch;
 
-    public SettingsViewModel(INavigationService navigationService, IQueryService queryService) 
+    public SettingsViewModel(INavigationService navigationService, IQueryService queryService)
         : base(navigationService)
     {
         _queryService = queryService;

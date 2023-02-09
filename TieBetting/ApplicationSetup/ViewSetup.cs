@@ -5,27 +5,40 @@ public static class ViewSetup
     public static MauiAppBuilder SetupViews(this MauiAppBuilder builder)
     {
         // Pages
-        builder.RegisterViewTransient<MainView>();
-        builder.RegisterViewTransient<MatchDetailsView>();
-        builder.RegisterViewTransient<TeamsView>();
-        builder.RegisterViewTransient<StatisticsView>();
-        builder.RegisterViewTransient<SettingsView>();
-        builder.RegisterViewTransient<AllMatchesView>();
-        builder.RegisterViewTransient<TeamMatchesView>();
-        builder.RegisterViewTransient<MatchMaintenanceView>();
+        builder.RegisterNavigationViewTransient<MainView>();
+        builder.RegisterNavigationViewTransient<MatchDetailsView>();
+        builder.RegisterNavigationViewTransient<TeamsView>();
+        builder.RegisterNavigationViewTransient<StatisticsView>();
+        builder.RegisterNavigationViewTransient<SettingsView>();
+        builder.RegisterNavigationViewTransient<AllMatchesView>();
+        builder.RegisterNavigationViewTransient<TeamMatchesView>();
+        builder.RegisterNavigationViewTransient<MatchMaintenanceView>();
 
         // Popups
-        builder.RegisterViewTransient<EnterRateView>();
+        builder.RegisterPopupViewTransient<EnterRateView>();
 
         return builder;
     }
 
-    private static void RegisterViewTransient<T>(this MauiAppBuilder builder) where T : ContentPage
+    private static void RegisterNavigationViewTransient<T>(this MauiAppBuilder builder)
+        where T : ContentPage
+    {
+        builder.RegisterViewTransient<T>(true);
+    }
+
+    private static void RegisterPopupViewTransient<T>(this MauiAppBuilder builder)
+        where T : ContentPage
+    {
+        builder.RegisterViewTransient<T>(false);
+    }
+
+    private static void RegisterViewTransient<T>(this MauiAppBuilder builder, bool navigationViewModel) where T : ContentPage
     {
         var viewType = typeof(T);
         var viewName = viewType.Name;
         var viewModelName = $"{viewName}Model";
-        var fullViewModelName = $"TieBetting.ViewModels.{viewModelName}";
+        var viewModelPath = navigationViewModel ? "TieBetting.ViewModels.NavigationViewModels" : "TieBetting.ViewModels";
+        var fullViewModelName = $"{viewModelPath}.{viewModelName}";
 
         var viewModelServiceType = Type.GetType(fullViewModelName);
         if (viewModelServiceType == null)

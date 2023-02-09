@@ -5,9 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:TieBetting.Views.Base"
     xmlns:converters="clr-namespace:TieBetting.Converters"
-    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
+    xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     Title="StatisticsView"
-    x:DataType="viewModels:StatisticsViewModel"
+    x:DataType="navigationViewModels:StatisticsViewModel"
     BackgroundColor="{StaticResource Gray100}">
 
     <Shell.BackButtonBehavior>

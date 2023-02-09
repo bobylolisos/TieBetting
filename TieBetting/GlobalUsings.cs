@@ -22,6 +22,7 @@ global using TieBetting.Models;
 
 
 global using TieBetting.ViewModels.Base;
+global using TieBetting.ViewModels.NavigationViewModels;
 global using TieBetting.ViewModels;
 
 
@@ -41,4 +42,4 @@ global using TieBetting.Services.Popup.PopupParameters;
 
 
 global using TieBetting.Shared;
-
+global using TieBetting.Shared.Components.TabBar;

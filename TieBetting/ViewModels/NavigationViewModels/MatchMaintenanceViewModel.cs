@@ -1,10 +1,8 @@
-﻿using TieBetting.Shared.Components.TabBar;
-
-namespace TieBetting.ViewModels;
+﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
 public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Command, ITabBarItem2Command, ITabBarItem3Command
 {
-    public MatchMaintenanceViewModel(INavigationService navigationService) 
+    public MatchMaintenanceViewModel(INavigationService navigationService)
         : base(navigationService)
     {
         TabBarItem1Command = new AsyncRelayCommand(ExecuteChangeStatusCommand, CanExecuteChangeStatusCommand);
@@ -17,7 +15,7 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Co
     public AsyncRelayCommand TabBarItem1Command { get; }
 
     public AsyncRelayCommand TabBarItem2Command { get; }
-    
+
     public AsyncRelayCommand TabBarItem3Command { get; }
 
     public override Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)

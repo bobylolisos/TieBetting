@@ -1,4 +1,4 @@
-﻿namespace TieBetting.ViewModels;
+﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
 public class TeamMatchesViewModel : ViewModelNavigationBase
 {
@@ -11,7 +11,7 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
     private IReadOnlyCollection<Match> _allTeamMatches;
     private Team _team;
 
-    public TeamMatchesViewModel(INavigationService navigationService, IQueryService queryService, ISaverService saverService) 
+    public TeamMatchesViewModel(INavigationService navigationService, IQueryService queryService, ISaverService saverService)
         : base(navigationService)
     {
         _queryService = queryService;

@@ -4,12 +4,13 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:TieBetting.Views.Base"
-    xmlns:converters="clr-namespace:TieBetting.Converters"
-    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    Title="AllMatchesView"
+    xmlns:converters="clr-namespace:TieBetting.Converters"
+    xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
+    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     x:Name="AllMatchesViewContentPage"
-    x:DataType="viewModels:AllMatchesViewModel"
+    Title="AllMatchesView"
+    x:DataType="navigationViewModels:AllMatchesViewModel"
     Background="{StaticResource Gray100}">
 
     <Shell.BackButtonBehavior>

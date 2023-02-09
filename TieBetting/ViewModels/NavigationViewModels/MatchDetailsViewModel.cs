@@ -1,6 +1,4 @@
-﻿using Google.Protobuf.WellKnownTypes;
-
-namespace TieBetting.ViewModels;
+﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
 public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateChangedMessage>
 {

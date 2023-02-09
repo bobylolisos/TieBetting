@@ -1,4 +1,4 @@
-﻿namespace TieBetting.ViewModels;
+﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
 public class StatisticsViewModel : ViewModelNavigationBase
 {
@@ -19,7 +19,7 @@ public class StatisticsViewModel : ViewModelNavigationBase
     private string _longestLostStreakInSessionTeamName;
     private int _matchesWonCount;
 
-    public StatisticsViewModel(INavigationService navigationService, IQueryService queryService) 
+    public StatisticsViewModel(INavigationService navigationService, IQueryService queryService)
         : base(navigationService)
     {
         _queryService = queryService;

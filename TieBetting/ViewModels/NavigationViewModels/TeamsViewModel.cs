@@ -1,8 +1,8 @@
-﻿namespace TieBetting.ViewModels;
+﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
 public class TeamsViewModel : ViewModelNavigationBase
 {
-    public TeamsViewModel(INavigationService navigationService) 
+    public TeamsViewModel(INavigationService navigationService)
         : base(navigationService)
     {
         NavigateToTeamMatchesViewCommand = new AsyncRelayCommand<TeamViewModel>(ExecuteNavigateToTeamMatchesViewCommand);

@@ -7,10 +7,11 @@
     xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:converters="clr-namespace:TieBetting.Converters"
     xmlns:models="clr-namespace:TieBetting.Models"
+    xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     x:Name="MatchDetailsViewContentPage"
     Title="MatchDetailsView"
-    x:DataType="viewModels:MatchDetailsViewModel">
+    x:DataType="navigationViewModels:MatchDetailsViewModel">
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding NavigateBackCommand}" />
     </Shell.BackButtonBehavior>

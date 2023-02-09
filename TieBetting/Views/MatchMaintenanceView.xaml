@@ -5,10 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:TieBetting.Views.Base"
     xmlns:converters="clr-namespace:TieBetting.Converters"
+    xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     Title="MatchMaintenanceView"
-    x:DataType="viewModels:MatchMaintenanceViewModel"
+    x:DataType="navigationViewModels:MatchMaintenanceViewModel"
     Background="{StaticResource Gray100}">
 
     <Shell.BackButtonBehavior>
