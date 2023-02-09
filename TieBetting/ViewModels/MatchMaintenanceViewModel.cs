@@ -46,6 +46,18 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Co
             return false;
         }
 
+        var homeTeamHasLaterActiveMatches = Match.HomeTeam.Matches.Any(x => x.Day > Match.Day && x.MatchStatus != MatchStatus.NotActive);
+        if (homeTeamHasLaterActiveMatches)
+        {
+            return false;
+        }
+
+        var awayTeamHasLaterActiveMatches = Match.AwayTeam.Matches.Any(x => x.Day > Match.Day && x.MatchStatus != MatchStatus.NotActive);
+        if (awayTeamHasLaterActiveMatches)
+        {
+            return false;
+        }
+
         return Match.Status != MatchStatus.NotActive;
     }
 

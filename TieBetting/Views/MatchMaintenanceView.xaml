@@ -117,20 +117,6 @@
             TabBarItem2Label="Date"
             TabBarItem3ImageSource="delete.svg"
             TabBarItem3Label="Delete" />
-        <!--
-        <tabBar:TabBar
-            Grid.Row="2"
-            Grid.Column="0"
-            TabBarItem1Command="{Binding ChangeStatusCommand}"
-            TabBarItem1ImageSource="edit.svg"
-            TabBarItem1Label="Status"
-            TabBarItem2Command="{Binding ChangeDateCommand}"
-            TabBarItem2ImageSource="edit.svg"
-            TabBarItem2Label="Date"
-            TabBarItem3Command="{Binding DeleteMatchCommand}"
-            TabBarItem3ImageSource="delete.svg"
-            TabBarItem3Label="Delete" />
-            -->
 
     </Grid>
 </base:ViewBase>

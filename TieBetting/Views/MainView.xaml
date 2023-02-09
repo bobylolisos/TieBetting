@@ -206,22 +206,6 @@
             TabBarItem3Label="Statistics"
             TabBarItem4ImageSource="settings.svg"
             TabBarItem4Label="Settings" />
-        <!--
-        <tabBar:TabBar
-            Grid.Row="2"
-            Grid.Column="0"
-            TabBarItem1Command="{Binding NavigateToTeamsViewCommand}"
-            TabBarItem1ImageSource="shirt.svg"
-            TabBarItem1Label="Teams"
-            TabBarItem2Command="{Binding NavigateToAllMatchesViewCommand}"
-            TabBarItem2ImageSource="hockeypuck.svg"
-            TabBarItem2Label="Matches"
-            TabBarItem3Command="{Binding NavigateToStatisticsViewCommand}"
-            TabBarItem3ImageSource="statistics.svg"
-            TabBarItem3Label="Statistics"
-            TabBarItem4Command="{Binding NavigateToSettingsCommand}"
-            TabBarItem4ImageSource="settings.svg"
-            TabBarItem4Label="Settings" />
-    -->
+
     </Grid>
 </ContentPage>

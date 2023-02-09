@@ -17,14 +17,17 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
         _queryService = queryService;
         _saverService = saverService;
 
+        NavigateToMatchMaintenanceViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchMaintenanceViewCommand);
         AbandonSessionCommand = new AsyncRelayCommand(ExecuteAbandonSessionCommand);
     }
+
+    public AsyncRelayCommand<MatchViewModel> NavigateToMatchMaintenanceViewCommand { get; }
+
+    public AsyncRelayCommand AbandonSessionCommand { get; }
 
     public ObservableCollection<string> Seasons { get; } = new();
 
     public ObservableCollection<MatchViewModel> Matches { get; set; } = new();
-
-    public AsyncRelayCommand AbandonSessionCommand { get; }
 
     public string HeaderImage
     {
@@ -87,9 +90,13 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
 
     }
 
+    private async Task ExecuteNavigateToMatchMaintenanceViewCommand(MatchViewModel matchViewModel)
+    {
+        await NavigationService.NavigateToPageAsync<MatchMaintenanceView>(new MatchMaintenanceViewNavigationParameter(matchViewModel));
+    }
+
     private Task ExecuteAbandonSessionCommand()
     {
         return Task.CompletedTask;
     }
-
 }

@@ -7,8 +7,10 @@
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     xmlns:converters="clr-namespace:TieBetting.Converters"
     xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
+    xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title="TeamMatchesView"
     x:DataType="viewModels:TeamMatchesViewModel"
+    x:Name="TeamMatchesViewContentPage"
     Background="{StaticResource Gray100}">
 
     <Shell.BackButtonBehavior>
@@ -87,6 +89,19 @@
                         BackgroundColor="White"
                         MinimumWidthRequest="100">
 
+                        <Grid.Behaviors>
+                            <behaviors:AnimationBehavior CommandParameter="{Binding Path=.}">
+                                <behaviors:AnimationBehavior.Command>
+                                    <x:Binding
+                                        Path="BindingContext.NavigateToMatchMaintenanceViewCommand"
+                                        Source="{x:Reference TeamMatchesViewContentPage}" />
+                                </behaviors:AnimationBehavior.Command>
+                                <behaviors:AnimationBehavior.AnimationType>
+                                    <behaviors:FadeAnimation Length="50" />
+                                </behaviors:AnimationBehavior.AnimationType>
+                            </behaviors:AnimationBehavior>
+                        </Grid.Behaviors>
+
                         <Grid
                             Grid.Row="0"
                             Grid.RowSpan="2"
@@ -156,13 +171,5 @@
             TabBarItem4ImageSource="settings.svg"
             TabBarItem4Label="Abandon session" />
 
-        <!--
-        <tabBar:TabBar
-            Grid.Row="3"
-            Grid.Column="0"
-            TabBarItem4Command="{Binding AbandonSessionCommand}"
-            TabBarItem4ImageSource="settings.svg"
-            TabBarItem4Label="Abandon session" />
-    -->
     </Grid>
 </base:ViewBase>

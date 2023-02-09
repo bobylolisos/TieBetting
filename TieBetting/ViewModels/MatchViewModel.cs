@@ -3,8 +3,6 @@
 public class MatchViewModel : ViewModelBase
 {
     protected readonly Match Match;
-    protected readonly Team HomeTeam;
-    protected readonly Team AwayTeam;
 
     public MatchViewModel(Match match, Team homeTeam, Team awayTeam)
     {
@@ -14,6 +12,10 @@ public class MatchViewModel : ViewModelBase
 
         Date = match.Date.ToString("yyyy-MM-dd");
     }
+    public Team HomeTeam { get; }
+    
+    public Team AwayTeam { get; }
+
     public string Id => Match.Id;
 
     public int Day => Match.Day;
