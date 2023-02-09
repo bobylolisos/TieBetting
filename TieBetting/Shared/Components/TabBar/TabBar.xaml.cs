@@ -25,14 +25,14 @@ public partial class TabBar : ContentView
         set => SetValue(TabBarItem1LabelProperty, value);
     }
 
-    public static BindableProperty TabBarItem1CommandProperty = BindableProperty.Create(
-        nameof(TabBarItem1Command), typeof(IAsyncRelayCommand), typeof(TabBar), null, BindingMode.OneWay);
+    //public static BindableProperty TabBarItem1CommandProperty = BindableProperty.Create(
+    //    nameof(TabBarItem1Command), typeof(IAsyncRelayCommand), typeof(TabBar), null, BindingMode.OneWay);
 
-    public IAsyncRelayCommand TabBarItem1Command
-    {
-        get => (IAsyncRelayCommand)GetValue(TabBarItem1CommandProperty);
-        set => SetValue(TabBarItem1CommandProperty, value);
-    }
+    //public IAsyncRelayCommand TabBarItem1Command
+    //{
+    //    get => (IAsyncRelayCommand)GetValue(TabBarItem1CommandProperty);
+    //    set => SetValue(TabBarItem1CommandProperty, value);
+    //}
 
     public static BindableProperty TabBarItem2ImageSourceProperty = BindableProperty.Create(
         nameof(TabBarItem2ImageSource), typeof(string), typeof(TabBar), string.Empty, BindingMode.OneWay);
@@ -52,14 +52,14 @@ public partial class TabBar : ContentView
         set => SetValue(TabBarItem2LabelProperty, value);
     }
 
-    public static BindableProperty TabBarItem2CommandProperty = BindableProperty.Create(
-        nameof(TabBarItem2Command), typeof(IAsyncRelayCommand), typeof(TabBar), null, BindingMode.OneWay);
+    //public static BindableProperty TabBarItem2CommandProperty = BindableProperty.Create(
+    //    nameof(TabBarItem2Command), typeof(IAsyncRelayCommand), typeof(TabBar), null, BindingMode.OneWay);
 
-    public IAsyncRelayCommand TabBarItem2Command
-    {
-        get => (IAsyncRelayCommand)GetValue(TabBarItem2CommandProperty);
-        set => SetValue(TabBarItem2CommandProperty, value);
-    }
+    //public IAsyncRelayCommand TabBarItem2Command
+    //{
+    //    get => (IAsyncRelayCommand)GetValue(TabBarItem2CommandProperty);
+    //    set => SetValue(TabBarItem2CommandProperty, value);
+    //}
 
     public static BindableProperty TabBarItem3ImageSourceProperty = BindableProperty.Create(
         nameof(TabBarItem3ImageSource), typeof(string), typeof(TabBar), string.Empty, BindingMode.OneWay);
@@ -79,14 +79,14 @@ public partial class TabBar : ContentView
         set => SetValue(TabBarItem3LabelProperty, value);
     }
 
-    public static BindableProperty TabBarItem3CommandProperty = BindableProperty.Create(
-        nameof(TabBarItem3Command), typeof(IAsyncRelayCommand), typeof(TabBar), null, BindingMode.OneWay);
+    //public static BindableProperty TabBarItem3CommandProperty = BindableProperty.Create(
+    //    nameof(TabBarItem3Command), typeof(IAsyncRelayCommand), typeof(TabBar), null, BindingMode.OneWay);
 
-    public IAsyncRelayCommand TabBarItem3Command
-    {
-        get => (IAsyncRelayCommand)GetValue(TabBarItem3CommandProperty);
-        set => SetValue(TabBarItem3CommandProperty, value);
-    }
+    //public IAsyncRelayCommand TabBarItem3Command
+    //{
+    //    get => (IAsyncRelayCommand)GetValue(TabBarItem3CommandProperty);
+    //    set => SetValue(TabBarItem3CommandProperty, value);
+    //}
 
     public static BindableProperty TabBarItem4ImageSourceProperty = BindableProperty.Create(
         nameof(TabBarItem4ImageSource), typeof(string), typeof(TabBar), string.Empty, BindingMode.OneWay);
@@ -106,12 +106,12 @@ public partial class TabBar : ContentView
         set => SetValue(TabBarItem4LabelProperty, value);
     }
 
-    public static BindableProperty TabBarItem4CommandProperty = BindableProperty.Create(
-        nameof(TabBarItem4Command), typeof(IAsyncRelayCommand), typeof(TabBar), null, BindingMode.OneWay);
+    //public static BindableProperty TabBarItem4CommandProperty = BindableProperty.Create(
+    //    nameof(TabBarItem4Command), typeof(IAsyncRelayCommand), typeof(TabBar), null, BindingMode.OneWay);
 
-    public IAsyncRelayCommand TabBarItem4Command
-    {
-        get => (IAsyncRelayCommand)GetValue(TabBarItem4CommandProperty);
-        set => SetValue(TabBarItem4CommandProperty, value);
-    }
+    //public IAsyncRelayCommand TabBarItem4Command
+    //{
+    //    get => (IAsyncRelayCommand)GetValue(TabBarItem4CommandProperty);
+    //    set => SetValue(TabBarItem4CommandProperty, value);
+    //}
 }

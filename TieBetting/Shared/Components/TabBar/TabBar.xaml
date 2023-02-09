@@ -10,6 +10,7 @@
     <ContentView.Resources>
         <tabBar:TabBarItemVisibilityConverter x:Key="VisibleWhenHasTabBarItemConverter" />
         <tabBar:TabBarSeparatorVisibilityConverter x:Key="VisibleWhenHasTabBarItemAlignedConverter" />
+        <tabBar:TabBarOpacityConverter x:Key="TabBarOpacityConverter" />
     </ContentView.Resources>
 
     <Grid
@@ -23,9 +24,11 @@
             Grid.Column="0"
             RowDefinitions="*,Auto"
             HorizontalOptions="Center"
-            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem1Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}">
+            x:DataType="tabBar:ITabBarItem1Command"
+            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem1Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}"
+            Opacity="{Binding TabBarItem1Command, Converter={StaticResource TabBarOpacityConverter}}">
             <Grid.Behaviors>
-                <behaviors:AnimationBehavior Command="{Binding Source={x:Reference TabBarView}, Path=TabBarItem1Command}">
+                <behaviors:AnimationBehavior Command="{Binding TabBarItem1Command}">
                     <behaviors:AnimationBehavior.AnimationType>
                         <behaviors:FadeAnimation Length="50" />
                     </behaviors:AnimationBehavior.AnimationType>
@@ -70,9 +73,11 @@
             Grid.Column="2"
             RowDefinitions="*,Auto"
             HorizontalOptions="Center"
-            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem2Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}">
+            x:DataType="tabBar:ITabBarItem2Command"
+            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem2Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}"
+            Opacity="{Binding TabBarItem2Command, Converter={StaticResource TabBarOpacityConverter}}">
             <Grid.Behaviors>
-                <behaviors:AnimationBehavior Command="{Binding Source={x:Reference TabBarView}, Path=TabBarItem2Command}">
+                <behaviors:AnimationBehavior Command="{Binding TabBarItem2Command}">
                     <behaviors:AnimationBehavior.AnimationType>
                         <behaviors:FadeAnimation Length="50" />
                     </behaviors:AnimationBehavior.AnimationType>
@@ -114,9 +119,11 @@
             Grid.Column="4"
             RowDefinitions="*,Auto"
             HorizontalOptions="Center"
-            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem3Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}">
+            x:DataType="tabBar:ITabBarItem3Command"
+            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem3Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}"
+            Opacity="{Binding TabBarItem3Command, Converter={StaticResource TabBarOpacityConverter}}">
             <Grid.Behaviors>
-                <behaviors:AnimationBehavior Command="{Binding Source={x:Reference TabBarView}, Path=TabBarItem3Command}">
+                <behaviors:AnimationBehavior Command="{Binding TabBarItem3Command}">
                     <behaviors:AnimationBehavior.AnimationType>
                         <behaviors:FadeAnimation Length="50" />
                     </behaviors:AnimationBehavior.AnimationType>
@@ -158,9 +165,11 @@
             Grid.Column="6"
             RowDefinitions="*,Auto"
             HorizontalOptions="Center"
-            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem4Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}">
+            x:DataType="tabBar:ITabBarItem4Command"
+            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem4Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}"
+            Opacity="{Binding TabBarItem4Command, Converter={StaticResource TabBarOpacityConverter}}">
             <Grid.Behaviors>
-                <behaviors:AnimationBehavior Command="{Binding Source={x:Reference TabBarView}, Path=TabBarItem4Command}">
+                <behaviors:AnimationBehavior Command="{Binding TabBarItem4Command}">
                     <behaviors:AnimationBehavior.AnimationType>
                         <behaviors:FadeAnimation Length="50" />
                     </behaviors:AnimationBehavior.AnimationType>

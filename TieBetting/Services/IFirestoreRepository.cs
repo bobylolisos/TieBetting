@@ -10,8 +10,6 @@ public interface IFirestoreRepository
 
     Task<IReadOnlyCollection<Match>> GetAllMatchesAsync();
 
-    Task<IReadOnlyCollection<Match>> GetNextMatchesAsync(int? numberOfMatches = null);
-
     Task<IReadOnlyCollection<Match>> GetPreviousOngoingMatchesAsync();
 
     Task AddTeamAsync(Team team);

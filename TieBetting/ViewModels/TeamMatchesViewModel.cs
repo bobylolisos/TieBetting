@@ -3,6 +3,7 @@
 public class TeamMatchesViewModel : ViewModelNavigationBase
 {
     private readonly IQueryService _queryService;
+    private readonly ISaverService _saverService;
     private string _headerText;
     private string _headerImage;
     private string _selectedSeason;
@@ -10,15 +11,20 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
     private IReadOnlyCollection<Match> _allTeamMatches;
     private Team _team;
 
-    public TeamMatchesViewModel(INavigationService navigationService, IQueryService queryService) 
+    public TeamMatchesViewModel(INavigationService navigationService, IQueryService queryService, ISaverService saverService) 
         : base(navigationService)
     {
         _queryService = queryService;
+        _saverService = saverService;
+
+        AbandonSessionCommand = new AsyncRelayCommand(ExecuteAbandonSessionCommand);
     }
 
     public ObservableCollection<string> Seasons { get; } = new();
 
     public ObservableCollection<MatchViewModel> Matches { get; set; } = new();
+
+    public AsyncRelayCommand AbandonSessionCommand { get; }
 
     public string HeaderImage
     {
@@ -80,4 +86,10 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
         await base.OnNavigatingToAsync(navigationParameter);
 
     }
+
+    private Task ExecuteAbandonSessionCommand()
+    {
+        return Task.CompletedTask;
+    }
+
 }

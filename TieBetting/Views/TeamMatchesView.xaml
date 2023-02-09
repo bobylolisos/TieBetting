@@ -6,6 +6,7 @@
     xmlns:base="clr-namespace:TieBetting.Views.Base"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     xmlns:converters="clr-namespace:TieBetting.Converters"
+    xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
     Title="TeamMatchesView"
     x:DataType="viewModels:TeamMatchesViewModel"
     Background="{StaticResource Gray100}">
@@ -23,7 +24,7 @@
         <converters:MatchStatusToBackgroundColorConverter x:Key="MatchStatusToBackgroundColorConverter" />
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto,Auto,*">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
         <Grid
             Grid.Row="0"
             Grid.Column="0"
@@ -149,5 +150,19 @@
 
         </CollectionView>
 
+        <tabBar:TabBar
+            Grid.Row="3"
+            Grid.Column="0"
+            TabBarItem4ImageSource="settings.svg"
+            TabBarItem4Label="Abandon session" />
+
+        <!--
+        <tabBar:TabBar
+            Grid.Row="3"
+            Grid.Column="0"
+            TabBarItem4Command="{Binding AbandonSessionCommand}"
+            TabBarItem4ImageSource="settings.svg"
+            TabBarItem4Label="Abandon session" />
+    -->
     </Grid>
 </base:ViewBase>

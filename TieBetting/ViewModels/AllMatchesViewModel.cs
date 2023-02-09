@@ -13,7 +13,12 @@ public class AllMatchesViewModel : ViewModelNavigationBase
         : base(navigationService)
     {
         _queryService = queryService;
+
+        NavigateToMatchMaintenanceViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchMaintenanceViewCommand);
     }
+
+    public AsyncRelayCommand<MatchViewModel> NavigateToMatchMaintenanceViewCommand { get; }
+
 
     public ObservableCollection<string> Seasons { get; } = new();
 
@@ -152,4 +157,8 @@ public class AllMatchesViewModel : ViewModelNavigationBase
         return currentSession;
     }
 
+    private async Task ExecuteNavigateToMatchMaintenanceViewCommand(MatchViewModel matchViewModel)
+    {
+        await NavigationService.NavigateToPageAsync<MatchMaintenanceView>(new MatchMaintenanceViewNavigationParameter(matchViewModel));
+    }
 }

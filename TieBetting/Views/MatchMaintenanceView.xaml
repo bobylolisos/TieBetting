@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:ViewBase
+    x:Class="TieBetting.Views.MatchMaintenanceView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:TieBetting.Views.Base"
+    xmlns:converters="clr-namespace:TieBetting.Converters"
+    xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
+    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
+    Title="MatchMaintenanceView"
+    x:DataType="viewModels:MatchMaintenanceViewModel"
+    Background="{StaticResource Gray100}">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding NavigateBackCommand}" />
+    </Shell.BackButtonBehavior>
+    <Shell.TitleView>
+        <Label
+            Text="MAINTENANCE"
+            Style="{StaticResource HeaderLabelStyle}" />
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <converters:HasDoubleToVisibilityConverter
+            x:Key="VisibleWhenHasRateConverter"
+            VisibilityWhenHasDecimal="True"
+            VisibilityWhenNoDecimal="False" />
+        <converters:HasDoubleToVisibilityConverter
+            x:Key="HiddenWhenHasRateConverter"
+            VisibilityWhenHasDecimal="False"
+            VisibilityWhenNoDecimal="True" />
+        <converters:MatchStatusToBackgroundColorConverter x:Key="MatchStatusToBackgroundColorConverter" />
+        <converters:MatchStatusToStatusButtonVisibilityConverter x:Key="MatchStatusToStatusButtonVisibilityConverter" />
+        <converters:MatchStatusToVisibilityConverter
+            x:Key="VisibleWhenNotActiveConverter"
+            NotActiveVisibility="True" />
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Grid BindingContext="{Binding Match}">
+            <Grid
+                Grid.Row="0"
+                Grid.Column="0"
+                RowDefinitions="Auto,Auto"
+                ColumnDefinitions="6,20,*,20,Auto,20,*,20"
+                Margin="5"
+                HorizontalOptions="Fill"
+                x:DataType="viewModels:MatchViewModel"
+                BackgroundColor="White"
+                MinimumWidthRequest="100">
+
+                <Grid
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    BackgroundColor="{Binding Status, Converter={StaticResource MatchStatusToBackgroundColorConverter}}" />
+
+                <!--  Row 0  -->
+                <Image
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    WidthRequest="40"
+                    Margin="0,3"
+                    Source="{Binding HomeTeamImage}" />
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="3"
+                    Margin="0,3"
+                    Text="{Binding Date}"
+                    TextColor="{StaticResource Black}"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    CharacterSpacing="1.4"
+                    FontSize="14" />
+
+                <Image
+                    Grid.Row="0"
+                    Grid.Column="6"
+                    WidthRequest="40"
+                    Margin="0,3"
+                    Source="{Binding AwayTeamImage}" />
+
+
+                <!--  Row 1  -->
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    Margin="0,3"
+                    Text="{Binding HomeTeamName}"
+                    TextColor="{StaticResource Black}"
+                    HorizontalTextAlignment="Center"
+                    CharacterSpacing="1.4"
+                    FontSize="15" />
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="5"
+                    Grid.ColumnSpan="3"
+                    Margin="0,3"
+                    Text="{Binding AwayTeamName}"
+                    TextColor="{StaticResource Black}"
+                    HorizontalTextAlignment="Center"
+                    CharacterSpacing="1.4"
+                    FontSize="15" />
+            </Grid>
+        </Grid>
+
+        <tabBar:TabBar
+            Grid.Row="2"
+            Grid.Column="0"
+            TabBarItem1ImageSource="edit.svg"
+            TabBarItem1Label="Status"
+            TabBarItem2ImageSource="edit.svg"
+            TabBarItem2Label="Date"
+            TabBarItem3ImageSource="delete.svg"
+            TabBarItem3Label="Delete" />
+        <!--
+        <tabBar:TabBar
+            Grid.Row="2"
+            Grid.Column="0"
+            TabBarItem1Command="{Binding ChangeStatusCommand}"
+            TabBarItem1ImageSource="edit.svg"
+            TabBarItem1Label="Status"
+            TabBarItem2Command="{Binding ChangeDateCommand}"
+            TabBarItem2ImageSource="edit.svg"
+            TabBarItem2Label="Date"
+            TabBarItem3Command="{Binding DeleteMatchCommand}"
+            TabBarItem3ImageSource="delete.svg"
+            TabBarItem3Label="Delete" />
+            -->
+
+    </Grid>
+</base:ViewBase>

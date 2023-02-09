@@ -6,7 +6,9 @@
     xmlns:base="clr-namespace:TieBetting.Views.Base"
     xmlns:converters="clr-namespace:TieBetting.Converters"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
+    xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title="AllMatchesView"
+    x:Name="AllMatchesViewContentPage"
     x:DataType="viewModels:AllMatchesViewModel"
     Background="{StaticResource Gray100}">
 
@@ -158,6 +160,19 @@
                         HorizontalOptions="Fill"
                         BackgroundColor="White"
                         MinimumWidthRequest="100">
+
+                        <Grid.Behaviors>
+                            <behaviors:AnimationBehavior CommandParameter="{Binding Path=.}">
+                                <behaviors:AnimationBehavior.Command>
+                                    <x:Binding
+                                        Path="BindingContext.NavigateToMatchMaintenanceViewCommand"
+                                        Source="{x:Reference AllMatchesViewContentPage}" />
+                                </behaviors:AnimationBehavior.Command>
+                                <behaviors:AnimationBehavior.AnimationType>
+                                    <behaviors:FadeAnimation Length="50" />
+                                </behaviors:AnimationBehavior.AnimationType>
+                            </behaviors:AnimationBehavior>
+                        </Grid.Behaviors>
 
                         <Grid
                             Grid.Row="0"

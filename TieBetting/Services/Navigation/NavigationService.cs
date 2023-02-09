@@ -155,12 +155,12 @@ public class NavigationService : INavigationService
     {
         try
         {
+            await Task.Delay(1);
             return _services.GetService<T>();
         }
         catch (Exception e)
         {
             var message = e.InnerException?.Message ?? e.Message;
-            await Application.Current.MainPage.DisplayAlert("NavigationService Error", message, "Ok");
 
             Console.WriteLine(e);
             throw;

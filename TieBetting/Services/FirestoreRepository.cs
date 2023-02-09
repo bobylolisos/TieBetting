@@ -111,33 +111,13 @@ public class FirestoreRepository : IFirestoreRepository
 
     }
 
-    public async Task<IReadOnlyCollection<Match>> GetNextMatchesAsync(int? numberOfMatches = null)
-    {
-        try
-        {
-            Debug.WriteLine("GetNextMatchesAsync - Begin");
-
-            var firestoreDb = await CreateFirestoreDbAsync();
-
-            var allMatches = await GetAllMatchesAsync(firestoreDb);
-
-            var upcomingMatches = allMatches.Where(x => x.Day >= DayProvider.TodayDay);
-            if (numberOfMatches.HasValue)
-            {
-                return upcomingMatches.Take(numberOfMatches.Value).ToList();
-
-            }
-            return upcomingMatches.ToList();
-
-        }
-        finally
-        {
-            Debug.WriteLine("GetNextMatchesAsync - Done");
-        }
-    }
-
     public async Task<IReadOnlyCollection<Match>> GetAllMatchesAsync()
     {
+        if (_allMatchesCache != null)
+        {
+            return _allMatchesCache;
+        }
+
         var firestoreDb = await CreateFirestoreDbAsync();
 
         return await GetAllMatchesAsync(firestoreDb);

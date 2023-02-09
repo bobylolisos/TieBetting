@@ -1,6 +1,8 @@
-﻿namespace TieBetting.ViewModels;
+﻿using TieBetting.Shared.Components.TabBar;
 
-public class MainViewModel : ViewModelNavigationBase
+namespace TieBetting.ViewModels;
+
+public class MainViewModel : ViewModelNavigationBase, ITabBarItem1Command, ITabBarItem2Command, ITabBarItem3Command, ITabBarItem4Command
 {
     private readonly ICalendarFileDownloadService _calendarFileDownloadService;
     private readonly IQueryService _queryService;
@@ -18,10 +20,10 @@ public class MainViewModel : ViewModelNavigationBase
         _navigationService = navigationService;
         RefreshCommand = new AsyncRelayCommand(ExecuteRefreshCommand);
         NavigateToMatchDetailsViewCommand = new AsyncRelayCommand<MatchBettingViewModel>(ExecuteNavigateToMatchDetailsViewCommand);
-        NavigateToStatisticsViewCommand = new AsyncRelayCommand(ExecuteNavigateToStatisticsViewCommand);
-        NavigateToTeamsViewCommand = new AsyncRelayCommand(ExecuteNavigateToTeamsViewCommand);
-        NavigateToAllMatchesViewCommand = new AsyncRelayCommand(ExecuteNavigateToAllMatchesViewCommand);
-        NavigateToSettingsCommand = new AsyncRelayCommand(ExecuteNavigateToSettingsCommand);
+        TabBarItem1Command = new AsyncRelayCommand(ExecuteNavigateToTeamsViewCommand);
+        TabBarItem2Command = new AsyncRelayCommand(ExecuteNavigateToAllMatchesViewCommand);
+        TabBarItem3Command = new AsyncRelayCommand(ExecuteNavigateToStatisticsViewCommand);
+        TabBarItem4Command = new AsyncRelayCommand(ExecuteNavigateToSettingsCommand);
     }
 
     public ObservableCollection<MatchBettingGroupViewModel> Matches { get; set; } = new();
@@ -30,13 +32,14 @@ public class MainViewModel : ViewModelNavigationBase
 
     public AsyncRelayCommand<MatchBettingViewModel> NavigateToMatchDetailsViewCommand { get; set; }
 
-    public AsyncRelayCommand NavigateToTeamsViewCommand { get; set; }
+    public AsyncRelayCommand TabBarItem1Command { get; }
+    
+    public AsyncRelayCommand TabBarItem2Command { get; }
+    
+    public AsyncRelayCommand TabBarItem3Command { get; }
+    
+    public AsyncRelayCommand TabBarItem4Command { get; }
 
-    public AsyncRelayCommand NavigateToAllMatchesViewCommand { get; set; }
-
-    public AsyncRelayCommand NavigateToStatisticsViewCommand { get; set; }
-
-    public AsyncRelayCommand NavigateToSettingsCommand { get; set; }
 
     public bool IsRefreshing
     {

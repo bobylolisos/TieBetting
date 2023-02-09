@@ -24,9 +24,17 @@ public class QueryService : IQueryService
         return _repository.GetAllMatchesAsync();
     }
 
-    public Task<IReadOnlyCollection<Match>> GetNextMatchesAsync(int? numberOfMatches = null)
+    public async Task<IReadOnlyCollection<Match>> GetNextMatchesAsync(int? numberOfMatches = null)
     {
-        return _repository.GetNextMatchesAsync(numberOfMatches);
+        var allMatches = await _repository.GetAllMatchesAsync();
+
+        var upcomingMatches = allMatches.Where(x => x.Day >= DayProvider.TodayDay);
+        if (numberOfMatches.HasValue)
+        {
+            return upcomingMatches.Take(numberOfMatches.Value).ToList();
+
+        }
+        return upcomingMatches.ToList();
     }
 
     public Task<IReadOnlyCollection<Match>> GetPreviousOngoingMatchesAsync()
