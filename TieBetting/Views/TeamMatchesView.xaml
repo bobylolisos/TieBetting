@@ -169,8 +169,8 @@
         <tabBar:TabBar
             Grid.Row="3"
             Grid.Column="0"
-            TabBarItem4ImageSource="settings.svg"
-            TabBarItem4Label="Abandon session" />
+            TabBarItem4ImageSource="delete.svg"
+            TabBarItem4Label="Abandon" />
 
     </Grid>
 </base:ViewBase>

@@ -95,8 +95,8 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
         await NavigationService.NavigateToPageAsync<MatchMaintenanceView>(new MatchMaintenanceViewNavigationParameter(matchViewModel));
     }
 
-    private Task ExecuteAbandonSessionCommand()
+    private async Task ExecuteAbandonSessionCommand()
     {
-        return Task.CompletedTask;
+        await Application.Current.MainPage.DisplayAlert("Not implemented", "Not implemented!", "Ok");
     }
 }

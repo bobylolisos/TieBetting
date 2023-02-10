@@ -32,9 +32,9 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Co
         return base.OnNavigatingToAsync(navigationParameter);
     }
 
-    private Task ExecuteChangeStatusCommand()
+    private async Task ExecuteChangeStatusCommand()
     {
-        return Task.CompletedTask;
+        await Application.Current.MainPage.DisplayAlert("Not implemented", "Not implemented!", "Ok");
     }
 
     private bool CanExecuteChangeStatusCommand()
@@ -59,9 +59,9 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Co
         return Match.Status != MatchStatus.NotActive;
     }
 
-    private Task ExecuteChangeDateCommand()
+    private async Task ExecuteChangeDateCommand()
     {
-        return Task.CompletedTask;
+        await Application.Current.MainPage.DisplayAlert("Not implemented", "Not implemented!", "Ok");
     }
 
     private bool CanExecuteChangeDateCommand()
@@ -74,9 +74,9 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Co
         return Match.Status == MatchStatus.NotActive;
     }
 
-    private Task ExecuteDeleteMatchCommand()
+    private async Task ExecuteDeleteMatchCommand()
     {
-        return Task.CompletedTask;
+        await Application.Current.MainPage.DisplayAlert("Not implemented", "Not implemented!", "Ok");
     }
 
     private bool CanExecuteDeleteMatchCommand()
