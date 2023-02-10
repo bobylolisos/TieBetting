@@ -9,7 +9,7 @@
     xmlns:models="clr-namespace:TieBetting.Models"
     xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
-    x:Name="MatchDetailsViewContentPage"
+    x:Name="This"
     Title="MatchDetailsView"
     x:DataType="navigationViewModels:MatchDetailsViewModel">
     <Shell.BackButtonBehavior>
@@ -124,7 +124,7 @@
                         <behaviors:AnimationBehavior.Command>
                             <x:Binding
                                 Path="BindingContext.EnterRateCommand"
-                                Source="{x:Reference MatchDetailsViewContentPage}" />
+                                Source="{x:Reference This}" />
                         </behaviors:AnimationBehavior.Command>
                     </behaviors:AnimationBehavior>
 

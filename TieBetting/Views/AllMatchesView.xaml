@@ -8,7 +8,7 @@
     xmlns:converters="clr-namespace:TieBetting.Converters"
     xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
-    x:Name="AllMatchesViewContentPage"
+    x:Name="This"
     Title="AllMatchesView"
     x:DataType="navigationViewModels:AllMatchesViewModel"
     Background="{StaticResource Gray100}">
@@ -176,7 +176,7 @@
                                 <behaviors:AnimationBehavior.Command>
                                     <x:Binding
                                         Path="BindingContext.NavigateToMatchMaintenanceViewCommand"
-                                        Source="{x:Reference AllMatchesViewContentPage}" />
+                                        Source="{x:Reference This}" />
                                 </behaviors:AnimationBehavior.Command>
                                 <behaviors:AnimationBehavior.AnimationType>
                                     <behaviors:FadeAnimation Length="50" />

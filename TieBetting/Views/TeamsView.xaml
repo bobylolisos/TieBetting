@@ -8,7 +8,7 @@
     xmlns:converters="clr-namespace:TieBetting.Converters"
     xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
-    x:Name="TeamsViewContentPage"
+    x:Name="This"
     Title="TeamsView"
     x:DataType="navigationViewModels:TeamsViewModel">
     <Shell.TitleView>
@@ -39,7 +39,7 @@
                                 <behaviors:AnimationBehavior.Command>
                                     <x:Binding
                                         Path="BindingContext.NavigateToTeamMatchesViewCommand"
-                                        Source="{x:Reference TeamsViewContentPage}" />
+                                        Source="{x:Reference This}" />
                                 </behaviors:AnimationBehavior.Command>
                                 <behaviors:AnimationBehavior.AnimationType>
                                     <behaviors:FadeAnimation Length="50" />

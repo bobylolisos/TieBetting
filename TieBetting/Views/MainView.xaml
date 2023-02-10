@@ -8,7 +8,7 @@
     xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
-    x:Name="MainViewContentPage"
+    x:Name="This"
     Title="MainView"
     x:DataType="navigationViewModels:MainViewModel">
     <ContentPage.Resources>
@@ -69,7 +69,7 @@
                                     <behaviors:AnimationBehavior.Command>
                                         <x:Binding
                                             Path="BindingContext.NavigateToMatchDetailsViewCommand"
-                                            Source="{x:Reference MainViewContentPage}" />
+                                            Source="{x:Reference This}" />
                                     </behaviors:AnimationBehavior.Command>
                                     <behaviors:AnimationBehavior.AnimationType>
                                         <behaviors:FadeAnimation Length="50" />

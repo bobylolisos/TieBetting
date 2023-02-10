@@ -9,7 +9,7 @@
     xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
-    x:Name="TeamMatchesViewContentPage"
+    x:Name="This"
     Title="TeamMatchesView"
     x:DataType="navigationViewModels:TeamMatchesViewModel"
     Background="{StaticResource Gray100}">
@@ -95,7 +95,7 @@
                                 <behaviors:AnimationBehavior.Command>
                                     <x:Binding
                                         Path="BindingContext.NavigateToMatchMaintenanceViewCommand"
-                                        Source="{x:Reference TeamMatchesViewContentPage}" />
+                                        Source="{x:Reference This}" />
                                 </behaviors:AnimationBehavior.Command>
                                 <behaviors:AnimationBehavior.AnimationType>
                                     <behaviors:FadeAnimation Length="50" />
