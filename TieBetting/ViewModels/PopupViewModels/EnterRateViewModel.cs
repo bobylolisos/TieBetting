@@ -1,4 +1,4 @@
-﻿namespace TieBetting.ViewModels;
+﻿namespace TieBetting.ViewModels.PopupViewModels;
 
 public class EnterRateViewModel : ViewModelBase, IPopupViewModel
 {

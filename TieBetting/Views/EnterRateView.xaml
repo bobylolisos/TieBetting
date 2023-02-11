@@ -3,10 +3,10 @@
     x:Class="TieBetting.Views.EnterRateView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:popupViewModels="clr-namespace:TieBetting.ViewModels.PopupViewModels"
     xmlns:shared="clr-namespace:TieBetting.Shared"
-    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     Title="EnterRateView"
-    x:DataType="viewModels:EnterRateViewModel">
+    x:DataType="popupViewModels:EnterRateViewModel">
     <shared:BasePopupPage.Resources>
         <Style
             x:Key="ButtonStyle"

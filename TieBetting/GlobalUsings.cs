@@ -21,9 +21,10 @@ global using TieBetting.Providers;
 global using TieBetting.Models;
 
 
+global using TieBetting.ViewModels;
 global using TieBetting.ViewModels.Base;
 global using TieBetting.ViewModels.NavigationViewModels;
-global using TieBetting.ViewModels;
+global using TieBetting.ViewModels.PopupViewModels;
 
 
 global using TieBetting.Views.Base;
