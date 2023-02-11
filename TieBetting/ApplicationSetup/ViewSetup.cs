@@ -15,7 +15,7 @@ public static class ViewSetup
         builder.RegisterNavigationViewTransient<MatchMaintenanceView>();
 
         // Popups
-        builder.RegisterPopupViewTransient<EnterRateView>();
+        builder.RegisterPopupViewTransient<EnterRatePopupView>();
 
         return builder;
     }
@@ -37,7 +37,7 @@ public static class ViewSetup
         var viewType = typeof(T);
         var viewName = viewType.Name;
         var viewModelName = $"{viewName}Model";
-        var viewModelPath = navigationViewModel ? "TieBetting.ViewModels.NavigationViewModels" : "TieBetting.ViewModels";
+        var viewModelPath = navigationViewModel ? "TieBetting.ViewModels.NavigationViewModels" : "TieBetting.ViewModels.PopupViewModels";
         var fullViewModelName = $"{viewModelPath}.{viewModelName}";
 
         var viewModelServiceType = Type.GetType(fullViewModelName);

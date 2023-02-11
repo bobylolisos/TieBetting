@@ -1,10 +1,10 @@
 ﻿namespace TieBetting.ViewModels.PopupViewModels;
 
-public class EnterRateViewModel : ViewModelBase, IPopupViewModel
+public class EnterRatePopupViewModel : ViewModelBase, IPopupViewModel
 {
     private string _rate;
 
-    public EnterRateViewModel()
+    public EnterRatePopupViewModel()
     {
         DigitCommand = new RelayCommand<string>(ExecuteDigitCommand, CanExecuteDigitCommand);
         CommaCommand = new RelayCommand(ExecuteCommaCommand, CanExecuteCommaCommand);

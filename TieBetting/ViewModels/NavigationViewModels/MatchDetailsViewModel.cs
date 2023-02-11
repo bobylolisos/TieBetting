@@ -51,7 +51,7 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
 
     private async Task ExecuteEnterRateCommand()
     {
-        await _popupService.OpenPopupAsync<EnterRateView>(new EnterRatePopupParameter(Match.Rate));
+        await _popupService.OpenPopupAsync<EnterRatePopupView>(new EnterRatePopupParameter(Match.Rate));
     }
 
     private bool CanExecuteEnterRateCommand()
