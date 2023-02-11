@@ -62,15 +62,20 @@
             Padding="8"
             BackgroundColor="White">
 
-            <Image
+            <Frame
                 Grid.Row="0"
                 Grid.Column="0"
                 Grid.ColumnSpan="8"
                 Margin="0,5"
+                Padding="7"
                 HorizontalOptions="Start"
-                MaximumHeightRequest="40"
-                MaximumWidthRequest="60"
-                Source="{Binding SelectedSeason, Converter={StaticResource LeagueToImageConverter}}" />
+                BorderColor="LightGray"
+                CornerRadius="5">
+                <Image
+                    HeightRequest="40"
+                    WidthRequest="60"
+                    Source="{Binding SelectedSeason, Converter={StaticResource LeagueToImageConverter}}" />
+            </Frame>
             <Label
                 Grid.Row="0"
                 Grid.Column="0"
