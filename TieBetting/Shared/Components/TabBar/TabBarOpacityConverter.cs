@@ -6,9 +6,9 @@ public class TabBarOpacityConverter : ValueConverterBase<AsyncRelayCommand>
     {
         if (value != null && value.CanExecute(null) == false)
         {
-            return "0.3";
+            return 0.3;
         }
 
-        return "1.0";
+        return 1.0;
     }
 }
