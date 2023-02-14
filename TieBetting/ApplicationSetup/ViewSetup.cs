@@ -16,6 +16,7 @@ public static class ViewSetup
 
         // Popups
         builder.RegisterPopupViewTransient<EnterRatePopupView>();
+        builder.RegisterPopupViewTransient<SelectStatusPopupView>();
 
         return builder;
     }

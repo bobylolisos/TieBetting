@@ -3,15 +3,17 @@
 public class AllMatchesViewModel : ViewModelNavigationBase
 {
     private readonly IQueryService _queryService;
+    private readonly ISaverService _saverService;
     private Settings _settings;
     private string _selectedSeason;
     private IReadOnlyCollection<Match> _allMatches;
     private IReadOnlyCollection<Team> _allTeams;
 
-    public AllMatchesViewModel(INavigationService navigationService, IQueryService queryService)
+    public AllMatchesViewModel(INavigationService navigationService, IQueryService queryService, ISaverService saverService)
         : base(navigationService)
     {
         _queryService = queryService;
+        _saverService = saverService;
 
         NavigateToMatchMaintenanceViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchMaintenanceViewCommand);
     }
@@ -61,7 +63,7 @@ public class AllMatchesViewModel : ViewModelNavigationBase
                     var singleGroupedMatches = new List<MatchViewModel>();
                     foreach (var match in groupedSeasonMatch)
                     {
-                        singleGroupedMatches.Add(new MatchViewModel(match, _allTeams.GetTeam(match.HomeTeam), _allTeams.GetTeam(match.AwayTeam)));
+                        singleGroupedMatches.Add(new MatchViewModel(_saverService, match, _allTeams.GetTeam(match.HomeTeam), _allTeams.GetTeam(match.AwayTeam)));
                     }
 
                     groupdViewModels.Add(new MatchGroupViewModel($"{groupedSeasonMatch.Key:yyyy-MM-dd}", singleGroupedMatches));

@@ -7,6 +7,7 @@ X Lägg till så att man ser att TabBarItem är disablad Opacity = 0.3
 X Skapa undermapp för navigerbara vymodeller
 - Bild för SHL & HA, använda i AllMatches bredvid total-summan
 - Graf
+- Om man ändrar status så uppdateras inte vymodellen på huvudsidan, kanske queryservice ska få returnera vymodeller så att alla vyer jobbar me samma vymodell?
 
 Match
 	X Förhindra att man kan sätta ny status (rate??) på en match där ett lag redan har en pågående match

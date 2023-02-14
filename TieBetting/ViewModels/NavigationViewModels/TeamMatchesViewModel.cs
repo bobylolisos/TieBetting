@@ -52,7 +52,7 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
                 var seasonMatches = _allTeamMatches.Where(x => x.Season == SelectedSeason).OrderBy(x => x.Day);
                 foreach (var match in seasonMatches)
                 {
-                    Matches.Add(new MatchViewModel(match, _allTeams.GetTeam(match.HomeTeam), _allTeams.GetTeam(match.AwayTeam)));
+                    Matches.Add(new MatchViewModel(_saverService, match, _allTeams.GetTeam(match.HomeTeam), _allTeams.GetTeam(match.AwayTeam)));
                 }
             }
         }

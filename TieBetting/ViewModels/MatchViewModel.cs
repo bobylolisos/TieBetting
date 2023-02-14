@@ -2,10 +2,12 @@
 
 public class MatchViewModel : ViewModelBase
 {
+    private readonly ISaverService _saverService;
     protected readonly Match Match;
 
-    public MatchViewModel(Match match, Team homeTeam, Team awayTeam)
+    public MatchViewModel(ISaverService saverService, Match match, Team homeTeam, Team awayTeam)
     {
+        _saverService = saverService;
         Match = match;
         HomeTeam = homeTeam;
         AwayTeam = awayTeam;
@@ -45,4 +47,35 @@ public class MatchViewModel : ViewModelBase
     public double? TotalWin => HomeTeamWin + AwayTeamWin;
 
     public string Date { get; }
+
+    public virtual async Task SetStatus(MatchStatus matchStatus)
+    {
+        Match.Status = (int)matchStatus;
+
+        OnPropertyChanged(nameof(Status));
+
+        await _saverService.UpdateMatchAsync(Match);
+    }
+
+    public virtual async Task SetRate(double? rate)
+    {
+        Match.Rate = null;
+        Match.HomeTeamBet = null;
+        Match.AwayTeamBet = null;
+        Match.Status = 0;
+
+        OnPropertyChanged(nameof(Rate));
+        OnPropertyChanged(nameof(Status));
+
+        OnPropertyChanged(nameof(HomeTeamBet));
+        OnPropertyChanged(nameof(HomeTeamWin));
+
+        OnPropertyChanged(nameof(AwayTeamBet));
+        OnPropertyChanged(nameof(AwayTeamWin));
+
+        OnPropertyChanged(nameof(TotalBet));
+        OnPropertyChanged(nameof(TotalWin));
+
+        await _saverService.UpdateMatchAsync(Match);
+    }
 }

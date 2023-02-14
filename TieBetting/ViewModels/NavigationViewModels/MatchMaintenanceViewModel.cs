@@ -2,9 +2,12 @@
 
 public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Command, ITabBarItem2Command, ITabBarItem3Command
 {
-    public MatchMaintenanceViewModel(INavigationService navigationService)
+    private readonly IPopupService _popupService;
+
+    public MatchMaintenanceViewModel(INavigationService navigationService, IPopupService popupService)
         : base(navigationService)
     {
+        _popupService = popupService;
         TabBarItem1Command = new AsyncRelayCommand(ExecuteChangeStatusCommand, CanExecuteChangeStatusCommand);
         TabBarItem2Command = new AsyncRelayCommand(ExecuteChangeDateCommand, CanExecuteChangeDateCommand);
         TabBarItem3Command = new AsyncRelayCommand(ExecuteDeleteMatchCommand, CanExecuteDeleteMatchCommand);
@@ -34,7 +37,9 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Co
 
     private async Task ExecuteChangeStatusCommand()
     {
-        await Application.Current.MainPage.DisplayAlert("Not implemented", "Not implemented!", "Ok");
+        await _popupService.OpenPopupAsync<SelectStatusPopupView>(new SelectStatusPopupParameter(Match));
+
+        OnPropertyChanged(nameof(Match));
     }
 
     private bool CanExecuteChangeStatusCommand()

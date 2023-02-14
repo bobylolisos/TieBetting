@@ -66,7 +66,7 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
         {
             return false;
         }
-        if (Match.HomeTeam.Matches.Any(x => x.MatchStatus == MatchStatus.NotActive && x.Day >= DayProvider.TodayDay && x.Rate.HasValue))
+        if (Match.HomeTeam.Matches.Any(x => x.MatchStatus == MatchStatus.NotActive && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
         {
             return false;
         }
@@ -75,7 +75,7 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
         {
             return false;
         }
-        if (Match.AwayTeam.Matches.Any(x => x.MatchStatus == MatchStatus.NotActive && x.Day >= DayProvider.TodayDay && x.Rate.HasValue))
+        if (Match.AwayTeam.Matches.Any(x => x.MatchStatus == MatchStatus.NotActive && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
         {
             return false;
         }

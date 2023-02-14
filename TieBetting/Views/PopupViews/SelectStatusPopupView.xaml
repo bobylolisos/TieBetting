@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<shared:BasePopupPage
+    x:Class="TieBetting.Views.PopupViews.SelectStatusPopupView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:TieBetting.Converters"
+    xmlns:models="clr-namespace:TieBetting.Models"
+    xmlns:popupViewModels="clr-namespace:TieBetting.ViewModels.PopupViewModels"
+    xmlns:shared="clr-namespace:TieBetting.Shared"
+    x:Name="This"
+    Title="SelectStatusPopupView"
+    x:DataType="popupViewModels:SelectStatusPopupViewModel">
+
+    <ContentPage.Resources>
+        <converters:MatchStatusToChangeStatusButtonVisibilityConverter x:Key="MatchStatusToChangeStatusButtonVisibilityConverter" />
+    </ContentPage.Resources>
+
+
+    <shared:BasePopupPage.PopupContent>
+        <Grid RowDefinitions="Auto,20,Auto">
+            <Label
+                Grid.Row="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Text="Select status"
+                FontSize="35" />
+            <!--  Set status buttons  -->
+            <Grid
+                Grid.Row="2"
+                Grid.Column="0"
+                RowDefinitions="Auto,Auto,Auto,Auto"
+                ColumnDefinitions="*"
+                Margin="0,20">
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="5"
+                    Text="Not active"
+                    TextColor="White"
+                    BackgroundColor="DarkGray"
+                    Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
+                    CommandParameter="{x:Static models:MatchStatus.NotActive}"
+                    FontSize="16"
+                    IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToChangeStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.NotActive}}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="5"
+                    Text="Active"
+                    TextColor="Black"
+                    BackgroundColor="Orange"
+                    Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
+                    CommandParameter="{x:Static models:MatchStatus.Active}"
+                    FontSize="16"
+                    IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToChangeStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Active}}" />
+                <Button
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="5"
+                    Text="Lost"
+                    TextColor="White"
+                    BackgroundColor="OrangeRed"
+                    Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
+                    CommandParameter="{x:Static models:MatchStatus.Lost}"
+                    FontSize="16"
+                    IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToChangeStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Lost}}" />
+                <Button
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="5"
+                    Text="Win"
+                    TextColor="White"
+                    BackgroundColor="Green"
+                    Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
+                    CommandParameter="{x:Static models:MatchStatus.Win}"
+                    FontSize="16"
+                    IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToChangeStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Win}}" />
+
+            </Grid>
+
+
+        </Grid>
+    </shared:BasePopupPage.PopupContent>
+
+</shared:BasePopupPage>

@@ -6,7 +6,7 @@ public class MatchBettingViewModel : MatchViewModel
     private readonly Settings _settings;
 
     public MatchBettingViewModel(ISaverService saverService, Settings settings, Match match, Team homeTeam, Team awayTeam) 
-        : base(match, homeTeam, awayTeam)
+        : base(saverService, match, homeTeam, awayTeam)
     {
         _saverService = saverService;
         _settings = settings;
@@ -32,7 +32,7 @@ public class MatchBettingViewModel : MatchViewModel
 
     public int AwayTeamCurrentBetSession => AwayTeam.CurrentBetSession;
 
-    public async Task SetRate(double? rate)
+    public override async Task SetRate(double? rate)
     {
         if (rate.HasValue == false)
         {
@@ -84,7 +84,7 @@ public class MatchBettingViewModel : MatchViewModel
         await _saverService.UpdateMatchAsync(Match);
     }
 
-    public async Task SetStatus(MatchStatus matchStatus)
+    public override async Task SetStatus(MatchStatus matchStatus)
     {
         Match.Status = (int)matchStatus;
 
