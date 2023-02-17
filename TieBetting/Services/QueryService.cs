@@ -108,7 +108,7 @@ public class QueryService : IQueryService
 
             teamsList.ForEach(x => x.ReCalculateValues());
 
-            _teams = new List<TeamViewModel>(teamsList.OrderBy(x => x.Name));
+            _teams = new List<TeamViewModel>(teamsList.OrderByTeamName());
             _matches = new List<MatchBettingViewModel>(matchesList.OrderBy(x => x.Day));
         }
 

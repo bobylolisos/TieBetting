@@ -31,4 +31,14 @@ public static class MatchExtensions
     {
         return matches.Any(x => x.Id == matchId);
     }
+
+    public static bool HasHomeTeamBet(this MatchViewModel match)
+    {
+        return match.HomeTeamBet.HasValue && match.HomeTeamBet > 0;
+    }
+
+    public static bool HasAwayTeamBet(this MatchViewModel match)
+    {
+        return match.AwayTeamBet.HasValue && match.AwayTeamBet > 0;
+    }
 }

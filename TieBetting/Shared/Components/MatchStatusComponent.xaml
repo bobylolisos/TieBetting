@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="TieBetting.Shared.Components.MatchStatusComponent"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:TieBetting.Shared.Components"
+    xmlns:models="clr-namespace:TieBetting.Models"
+    xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
+    x:DataType="viewModels:MatchViewModel">
+
+    <ContentView.Resources>
+        <components:TeamMatchStatusToBackgroundColorConverter x:Key="TeamMatchStatusToBackgroundColorConverter" />
+    </ContentView.Resources>
+
+    <Grid RowDefinitions="*,*">
+        <Grid
+            Grid.Row="0"
+            Grid.Column="0">
+            <Grid.BackgroundColor>
+                <MultiBinding Converter="{StaticResource TeamMatchStatusToBackgroundColorConverter}">
+                    <Binding Path="MatchStatus" />
+                    <Binding Path="." />
+                    <Binding Source="{x:Static models:TeamType.HomeTeam}" />
+                </MultiBinding>
+
+            </Grid.BackgroundColor>
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0">
+            <Grid.BackgroundColor>
+                <MultiBinding Converter="{StaticResource TeamMatchStatusToBackgroundColorConverter}">
+                    <Binding Path="MatchStatus" />
+                    <Binding Path="." />
+                    <Binding Source="{x:Static models:TeamType.AwayTeam}" />
+                </MultiBinding>
+
+            </Grid.BackgroundColor>
+        </Grid>
+    </Grid>
+</ContentView>

@@ -18,6 +18,10 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
 
     public string Image => _team.Image;
 
+    public bool IsActive => _team.IsActive;
+
+    public bool IsDormant => !IsActive;
+
     public int BetsInSession { get; private set; }
 
     public int LostMatchesInSession => _statuses.CountNumberOfPreviousLostMatches();
@@ -71,7 +75,7 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
             {
                 if (currentSessionDone == false)
                 {
-                    if (match.IsWin())
+                    if (match.IsWin() && match.HasHomeTeamBet())
                     {
                         currentSessionDone = true;
                     }
@@ -83,7 +87,7 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
                 totalBet += match.GetActivatedHomeTeamBet();
                 totalWin += match.HomeTeamWin ?? 0;
 
-                if (match.IsDone())
+                if (match.IsDone() && match.HasHomeTeamBet())
                 {
                     _statuses.Insert(0, match.IsWin());
                 }
@@ -94,7 +98,7 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
             {
                 if (currentSessionDone == false)
                 {
-                    if (match.IsWin())
+                    if (match.IsWin() && match.HasAwayTeamBet())
                     {
                         currentSessionDone = true;
                     }
@@ -106,7 +110,7 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
                 totalBet += match.GetActivatedAwayTeamBet();
                 totalWin += match.AwayTeamWin ?? 0;
 
-                if (match.IsDone())
+                if (match.IsDone() && match.HasAwayTeamBet())
                 {
                     _statuses.Insert(0, match.IsWin());
                 }

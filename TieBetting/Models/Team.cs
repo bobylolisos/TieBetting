@@ -8,4 +8,7 @@ public class Team
 
     [FirestoreProperty]
     public string Image { get; set; }
+
+    [FirestoreProperty] 
+    public bool IsActive { get; set; } = true;
 }

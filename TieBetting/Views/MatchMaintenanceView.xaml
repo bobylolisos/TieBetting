@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:TieBetting.Views.Base"
-    xmlns:converters="clr-namespace:TieBetting.Converters"
+    xmlns:components="clr-namespace:TieBetting.Shared.Components"
     xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
@@ -21,22 +21,6 @@
             Style="{StaticResource HeaderLabelStyle}" />
     </Shell.TitleView>
 
-    <ContentPage.Resources>
-        <converters:HasDoubleToVisibilityConverter
-            x:Key="VisibleWhenHasRateConverter"
-            VisibilityWhenHasDecimal="True"
-            VisibilityWhenNoDecimal="False" />
-        <converters:HasDoubleToVisibilityConverter
-            x:Key="HiddenWhenHasRateConverter"
-            VisibilityWhenHasDecimal="False"
-            VisibilityWhenNoDecimal="True" />
-        <converters:MatchStatusToBackgroundColorConverter x:Key="MatchStatusToBackgroundColorConverter" />
-        <converters:MatchStatusToStatusButtonVisibilityConverter x:Key="MatchStatusToStatusButtonVisibilityConverter" />
-        <converters:MatchStatusToVisibilityConverter
-            x:Key="VisibleWhenNotActiveConverter"
-            NotActiveVisibility="True" />
-    </ContentPage.Resources>
-
     <Grid RowDefinitions="Auto,*,Auto">
         <Grid BindingContext="{Binding Match}">
             <Grid
@@ -50,11 +34,11 @@
                 BackgroundColor="White"
                 MinimumWidthRequest="100">
 
-                <Grid
+                <components:MatchStatusComponent
                     Grid.Row="0"
                     Grid.RowSpan="2"
                     Grid.Column="0"
-                    BackgroundColor="{Binding MatchStatus, Converter={StaticResource MatchStatusToBackgroundColorConverter}}" />
+                    BindingContext="{Binding Path=.}" />
 
                 <!--  Row 0  -->
                 <Image

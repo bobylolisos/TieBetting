@@ -6,4 +6,11 @@ public static class TeamExtensions
     {
         return teams.SingleOrDefault(y => y.Name == teamName);
     }
+    public static IReadOnlyCollection<TeamViewModel> OrderByTeamName(this IReadOnlyCollection<TeamViewModel> teams)
+    {
+        var culture = new CultureInfo("sv-SE");
+        var result = teams.OrderBy(x => x.Name, StringComparer.Create(culture, false));
+
+        return result.ToList();
+    }
 }

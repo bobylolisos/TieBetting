@@ -47,6 +47,18 @@
                             </behaviors:AnimationBehavior>
                         </Grid.Behaviors>
 
+                        <Label
+                            Grid.Row="0"
+                            Grid.RowSpan="3"
+                            Grid.Column="0"
+                            Text="IS DORMANT"
+                            TextColor="#55FF0000"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            CharacterSpacing="1.4"
+                            FontSize="35"
+                            IsVisible="{Binding IsDormant}" />
+
                         <Grid
                             Grid.Row="0"
                             Grid.Column="0"
@@ -97,8 +109,8 @@
                             <Label
                                 Grid.Row="1"
                                 Grid.Column="0"
-                                Text="In session"
                                 Margin="10,3"
+                                Text="In session"
                                 FontSize="10"
                                 Style="{StaticResource RowHeaderLabelStyle}" />
 

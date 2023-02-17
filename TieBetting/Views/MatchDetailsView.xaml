@@ -36,6 +36,7 @@
         <converters:MatchStatusToVisibilityConverter
             x:Key="VisibleWhenNotActiveConverter"
             NotActiveVisibility="True" />
+        <converters:IsDormantToStringConverter x:Key="IsDormantToStringConverter" />
     </ContentPage.Resources>
 
 
@@ -47,7 +48,7 @@
             Margin="10"
             BindingContext="{Binding Match}">
             <Grid
-                RowDefinitions="Auto,Auto"
+                RowDefinitions="Auto,Auto,Auto"
                 ColumnDefinitions="*,Auto,*"
                 x:DataType="viewModels:MatchBettingViewModel">
                 <!--  Row 0  -->
@@ -86,6 +87,27 @@
                     HorizontalTextAlignment="Center"
                     CharacterSpacing="1.4"
                     FontSize="20" />
+
+                <!--  Row 2  -->
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="0,3"
+                    Text="{Binding Path=., Converter={StaticResource IsDormantToStringConverter}, ConverterParameter={x:Static models:TeamType.HomeTeam}}"
+                    TextColor="Red"
+                    HorizontalTextAlignment="Center"
+                    CharacterSpacing="1.4"
+                    FontSize="14" />
+
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Margin="0,3"
+                    Text="{Binding Path=., Converter={StaticResource IsDormantToStringConverter}, ConverterParameter={x:Static models:TeamType.AwayTeam}}"
+                    TextColor="Red"
+                    HorizontalTextAlignment="Center"
+                    CharacterSpacing="1.4"
+                    FontSize="14" />
 
             </Grid>
 

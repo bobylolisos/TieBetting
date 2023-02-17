@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:TieBetting.Views.Base"
     xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:components="clr-namespace:TieBetting.Shared.Components"
     xmlns:converters="clr-namespace:TieBetting.Converters"
     xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
@@ -25,7 +26,6 @@
     <ContentPage.Resources>
         <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
         <converters:ProfitToColorConverter x:Key="ProfitToColorConverter" />
-        <converters:MatchStatusToBackgroundColorConverter x:Key="MatchStatusToBackgroundColorConverter" />
         <converters:LeagueToImageConverter x:Key="LeagueToImageConverter" />
     </ContentPage.Resources>
 
@@ -72,8 +72,8 @@
                 BorderColor="LightGray"
                 CornerRadius="5">
                 <Image
-                    HeightRequest="40"
                     WidthRequest="60"
+                    HeightRequest="40"
                     Source="{Binding SelectedSeason, Converter={StaticResource LeagueToImageConverter}}" />
             </Frame>
             <Label
@@ -189,11 +189,11 @@
                             </behaviors:AnimationBehavior>
                         </Grid.Behaviors>
 
-                        <Grid
+                        <components:MatchStatusComponent
                             Grid.Row="0"
                             Grid.RowSpan="2"
                             Grid.Column="0"
-                            BackgroundColor="{Binding MatchStatus, Converter={StaticResource MatchStatusToBackgroundColorConverter}}" />
+                            BindingContext="{Binding Path=.}" />
 
                         <!--  Row 0  -->
                         <Image

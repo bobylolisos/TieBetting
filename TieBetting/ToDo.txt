@@ -2,17 +2,17 @@
 X Använd IQueryService istället för IRepository
 X Ta bort de RowHeaderLabelStyle & RowValueLabelStyle som är lika som i TieBettingStyles.xaml
 X Extension för att plocka ut ett team istället för detta _allTeams.Single(y => y.Name == match.HomeTeam)
-- Ändra så att Total Bets alltid innehåller alla bets och session-bets betyder nuvarande bets men att de ingår i Total Bets, just nu är det olika på olika ställen
+X Ändra så att Total Bets alltid innehåller alla bets och session-bets betyder nuvarande bets men att de ingår i Total Bets, just nu är det olika på olika ställen
 X Lägg till så att man ser att TabBarItem är disablad Opacity = 0.3
 X Skapa undermapp för navigerbara vymodeller
-- Bild för SHL & HA, använda i AllMatches bredvid total-summan
+X Bild för SHL & HA, använda i AllMatches bredvid total-summan
 - Graf
-- Om man ändrar status så uppdateras inte vymodellen på huvudsidan, kanske queryservice ska få returnera vymodeller så att alla vyer jobbar me samma vymodell?
+X Om man ändrar status så uppdateras inte vymodellen på huvudsidan, kanske queryservice ska få returnera vymodeller så att alla vyer jobbar me samma vymodell?
 - Fixa ersättning för Application.Current.MainPage.DisplayAlert
 
 Match
 	X Förhindra att man kan sätta ny status (rate??) på en match där ett lag redan har en pågående match
-
+	- Ta bort Rate-Knapp om man inte får sätta rate pga att det finns oklarade matcher och presentera en text istället
 
 Stats
 

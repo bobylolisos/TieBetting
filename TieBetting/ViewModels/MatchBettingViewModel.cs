@@ -52,25 +52,33 @@ public class MatchBettingViewModel : MatchViewModel
         {
             Match.Rate = rate.Value;
 
-            for (var i = 1; i < int.MaxValue; i++)
+            Match.HomeTeamBet = 0;
+            if (HomeTeam.IsActive)
             {
-                var win = i * Rate;
-
-                if (win - i - HomeTeam.BetsInSession >= _settings.ExpectedWinAmount)
+                for (var i = 1; i < int.MaxValue; i++)
                 {
-                    Match.HomeTeamBet = i;
-                    break;
+                    var win = i * Rate;
+
+                    if (win - i - HomeTeam.BetsInSession >= _settings.ExpectedWinAmount)
+                    {
+                        Match.HomeTeamBet = i;
+                        break;
+                    }
                 }
             }
 
-            for (var i = 1; i < int.MaxValue; i++)
+            Match.AwayTeamBet = 0;
+            if (AwayTeam.IsActive)
             {
-                var win = i * Rate;
-
-                if (win - i - AwayTeam.BetsInSession >= _settings.ExpectedWinAmount)
+                for (var i = 1; i < int.MaxValue; i++)
                 {
-                    Match.AwayTeamBet = i;
-                    break;
+                    var win = i * Rate;
+
+                    if (win - i - AwayTeam.BetsInSession >= _settings.ExpectedWinAmount)
+                    {
+                        Match.AwayTeamBet = i;
+                        break;
+                    }
                 }
             }
         }
