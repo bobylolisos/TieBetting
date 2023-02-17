@@ -11,7 +11,7 @@ public class MatchStatusToChangeStatusButtonVisibilityConverter : ValueConverter
 
         if (value == MatchStatus.Active)
         {
-            return parameter == MatchStatus.NotActive;
+            return parameter != MatchStatus.Active;
         }
 
         if (value == MatchStatus.Lost)

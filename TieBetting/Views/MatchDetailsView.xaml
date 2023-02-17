@@ -8,6 +8,7 @@
     xmlns:converters="clr-namespace:TieBetting.Converters"
     xmlns:models="clr-namespace:TieBetting.Models"
     xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
+    xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     x:Name="This"
     Title="MatchDetailsView"
@@ -38,192 +39,204 @@
     </ContentPage.Resources>
 
 
-    <Grid
-        RowDefinitions="Auto,*"
-        Margin="10"
-        BindingContext="{Binding Match}">
+    <Grid RowDefinitions="*, Auto">
         <Grid
-            RowDefinitions="Auto,Auto"
-            ColumnDefinitions="*,Auto,*"
-            x:DataType="viewModels:MatchBettingViewModel">
-            <!--  Row 0  -->
-            <Image
-                Grid.Row="0"
-                Grid.Column="0"
-                WidthRequest="60"
-                Margin="0,3"
-                Source="{Binding HomeTeamImage}" />
-
-            <Image
-                Grid.Row="0"
-                Grid.Column="2"
-                WidthRequest="60"
-                Margin="0,3"
-                Source="{Binding AwayTeamImage}" />
-
-
-            <!--  Row 1  -->
-            <Label
-                Grid.Row="1"
-                Grid.Column="0"
-                Margin="0,3"
-                Text="{Binding HomeTeamName}"
-                TextColor="{StaticResource Black}"
-                HorizontalTextAlignment="Center"
-                CharacterSpacing="1.4"
-                FontSize="20" />
-
-            <Label
-                Grid.Row="1"
-                Grid.Column="2"
-                Margin="0,3"
-                Text="{Binding AwayTeamName}"
-                TextColor="{StaticResource Black}"
-                HorizontalTextAlignment="Center"
-                CharacterSpacing="1.4"
-                FontSize="20" />
-
-        </Grid>
-
-        <Grid
-            Grid.Row="1"
+            Grid.Row="0"
             Grid.Column="0"
-            RowDefinitions="30,Auto,Auto,Auto"
-            x:DataType="viewModels:MatchBettingViewModel">
-
-            <!--  Rate circle  -->
-            <Frame
-                Grid.Row="1"
-                Grid.Column="0"
-                WidthRequest="100"
-                HeightRequest="100"
-                BackgroundColor="{Binding MatchStatus, Converter={StaticResource MatchStatusToBackgroundColorConverter}}"
-                BorderColor="Gray"
-                CornerRadius="50">
-                <Grid>
-                    <Label
-                        Padding="0"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        Text="{Binding Rate, StringFormat='{}{0:N2}'}"
-                        HorizontalTextAlignment="Center"
-                        CharacterSpacing="1"
-                        FontSize="22"
-                        IsVisible="{Binding Rate, Converter={StaticResource VisibleWhenHasRateConverter}}" />
-                    <Label
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        Text="?"
-                        HorizontalTextAlignment="Center"
-                        CharacterSpacing="1"
-                        FontSize="40"
-                        IsVisible="{Binding Rate, Converter={StaticResource HiddenWhenHasRateConverter}}" />
-                </Grid>
-                <Frame.Behaviors>
-                    <behaviors:AnimationBehavior>
-                        <behaviors:AnimationBehavior.Command>
-                            <x:Binding
-                                Path="BindingContext.EnterRateCommand"
-                                Source="{x:Reference This}" />
-                        </behaviors:AnimationBehavior.Command>
-                    </behaviors:AnimationBehavior>
-
-                </Frame.Behaviors>
-            </Frame>
-
-            <!--  Amount to bet  -->
+            RowDefinitions="Auto,*, Auto"
+            Margin="10"
+            BindingContext="{Binding Match}">
             <Grid
-                Grid.Row="2"
-                Grid.Column="0"
                 RowDefinitions="Auto,Auto"
                 ColumnDefinitions="*,Auto,*"
-                Margin="0,20,0,0"
-                IsVisible="{Binding Rate, Converter={StaticResource VisibleWhenHasRateConverter}}">
-                <Label
+                x:DataType="viewModels:MatchBettingViewModel">
+                <!--  Row 0  -->
+                <Image
                     Grid.Row="0"
-                    Grid.Column="1"
-                    Text="Amount to bet:"
-                    HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
-                    FontSize="16"
-                    IsVisible="{Binding MatchStatus, Converter={StaticResource VisibleWhenNotActiveConverter}}" />
-                <Grid
+                    Grid.Column="0"
+                    WidthRequest="60"
+                    Margin="0,3"
+                    Source="{Binding HomeTeamImage}" />
+
+                <Image
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    WidthRequest="60"
+                    Margin="0,3"
+                    Source="{Binding AwayTeamImage}" />
+
+
+                <!--  Row 1  -->
+                <Label
                     Grid.Row="1"
                     Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    ColumnDefinitions="*,*,*"
-                    Margin="0,10,0,0">
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Text="{Binding HomeTeamBet}"
-                        HorizontalTextAlignment="Center"
-                        VerticalTextAlignment="Center"
-                        FontSize="18" />
+                    Margin="0,3"
+                    Text="{Binding HomeTeamName}"
+                    TextColor="{StaticResource Black}"
+                    HorizontalTextAlignment="Center"
+                    CharacterSpacing="1.4"
+                    FontSize="20" />
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="0,3"
+                    Text="{Binding AwayTeamName}"
+                    TextColor="{StaticResource Black}"
+                    HorizontalTextAlignment="Center"
+                    CharacterSpacing="1.4"
+                    FontSize="20" />
+
+            </Grid>
+
+            <Grid
+                Grid.Row="1"
+                Grid.Column="0"
+                RowDefinitions="30,Auto,Auto,Auto"
+                x:DataType="viewModels:MatchBettingViewModel">
+
+                <!--  Rate circle  -->
+                <Frame
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    WidthRequest="100"
+                    HeightRequest="100"
+                    BackgroundColor="{Binding MatchStatus, Converter={StaticResource MatchStatusToBackgroundColorConverter}}"
+                    BorderColor="Gray"
+                    CornerRadius="50">
+                    <Grid>
+                        <Label
+                            Padding="0"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Text="{Binding Rate, StringFormat='{}{0:N2}'}"
+                            HorizontalTextAlignment="Center"
+                            CharacterSpacing="1"
+                            FontSize="22"
+                            IsVisible="{Binding Rate, Converter={StaticResource VisibleWhenHasRateConverter}}" />
+                        <Label
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Text="?"
+                            HorizontalTextAlignment="Center"
+                            CharacterSpacing="1"
+                            FontSize="40"
+                            IsVisible="{Binding Rate, Converter={StaticResource HiddenWhenHasRateConverter}}" />
+                    </Grid>
+                    <Frame.Behaviors>
+                        <behaviors:AnimationBehavior>
+                            <behaviors:AnimationBehavior.Command>
+                                <x:Binding
+                                    Path="BindingContext.EnterRateCommand"
+                                    Source="{x:Reference This}" />
+                            </behaviors:AnimationBehavior.Command>
+                        </behaviors:AnimationBehavior>
+
+                    </Frame.Behaviors>
+                </Frame>
+
+                <!--  Amount to bet  -->
+                <Grid
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    RowDefinitions="Auto,Auto"
+                    ColumnDefinitions="*,Auto,*"
+                    Margin="0,20,0,0"
+                    IsVisible="{Binding Rate, Converter={StaticResource VisibleWhenHasRateConverter}}">
                     <Label
                         Grid.Row="0"
                         Grid.Column="1"
-                        Text="{Binding TotalBet}"
+                        Text="Amount to bet:"
                         HorizontalTextAlignment="Center"
                         VerticalTextAlignment="Center"
-                        FontSize="26" />
-                    <Label
+                        FontSize="16"
+                        IsVisible="{Binding MatchStatus, Converter={StaticResource VisibleWhenNotActiveConverter}}" />
+                    <Grid
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        ColumnDefinitions="*,*,*"
+                        Margin="0,10,0,0">
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="{Binding HomeTeamBet}"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            FontSize="18" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="{Binding TotalBet}"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            FontSize="26" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Text="{Binding AwayTeamBet}"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            FontSize="18" />
+                    </Grid>
+                </Grid>
+
+                <!--  Set status buttons  -->
+                <Grid
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    ColumnDefinitions="*,Auto,Auto,*"
+                    Margin="0,20"
+                    IsVisible="{Binding Rate, Converter={StaticResource VisibleWhenHasRateConverter}}">
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        WidthRequest="150"
+                        Margin="5"
+                        Text="Active"
+                        TextColor="Black"
+                        BackgroundColor="Orange"
+                        Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
+                        CommandParameter="{x:Static models:MatchStatus.Active}"
+                        FontSize="16"
+                        IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Active}}" />
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        WidthRequest="150"
+                        Margin="5"
+                        Padding="0"
+                        Text="Lost"
+                        TextColor="White"
+                        BackgroundColor="OrangeRed"
+                        Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
+                        CommandParameter="{x:Static models:MatchStatus.Lost}"
+                        FontSize="16"
+                        IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Lost}}" />
+                    <Button
                         Grid.Row="0"
                         Grid.Column="2"
-                        Text="{Binding AwayTeamBet}"
-                        HorizontalTextAlignment="Center"
-                        VerticalTextAlignment="Center"
-                        FontSize="18" />
+                        WidthRequest="150"
+                        Margin="5"
+                        Text="Win"
+                        TextColor="White"
+                        BackgroundColor="Green"
+                        Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
+                        CommandParameter="{x:Static models:MatchStatus.Win}"
+                        FontSize="16"
+                        IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Win}}" />
+
                 </Grid>
-            </Grid>
-
-            <!--  Set status buttons  -->
-            <Grid
-                Grid.Row="3"
-                Grid.Column="0"
-                ColumnDefinitions="*,Auto,Auto,*"
-                Margin="0,20"
-                IsVisible="{Binding Rate, Converter={StaticResource VisibleWhenHasRateConverter}}">
-                <Button
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    WidthRequest="150"
-                    Margin="5"
-                    Text="Active"
-                    TextColor="Black"
-                    BackgroundColor="Orange"
-                    Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
-                    CommandParameter="{x:Static models:MatchStatus.Active}"
-                    FontSize="16"
-                    IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Active}}" />
-                <Button
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    WidthRequest="150"
-                    Margin="5"
-                    Padding="0"
-                    Text="Lost"
-                    TextColor="White"
-                    BackgroundColor="OrangeRed"
-                    Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
-                    CommandParameter="{x:Static models:MatchStatus.Lost}"
-                    FontSize="16"
-                    IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Lost}}" />
-                <Button
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    WidthRequest="150"
-                    Margin="5"
-                    Text="Win"
-                    TextColor="White"
-                    BackgroundColor="Green"
-                    Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
-                    CommandParameter="{x:Static models:MatchStatus.Win}"
-                    FontSize="16"
-                    IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Win}}" />
 
             </Grid>
-
         </Grid>
+
+        <tabBar:TabBar
+            Grid.Row="1"
+            Grid.Column="0"
+            IsVisible="{Binding BindingContext.IsTabBarVisible, Source={x:Reference This}}"
+            TabBarItem1ImageSource="edit.svg"
+            TabBarItem1Label="Status" />
+
     </Grid>
 </base:ViewBase>
