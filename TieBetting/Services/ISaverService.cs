@@ -2,8 +2,6 @@
 
 public interface ISaverService
 {
-    void ClearCache();
-
     Task AddMatchesAsync(IReadOnlyCollection<Match> matches);
     
     Task AddTeamAsync(Team team);

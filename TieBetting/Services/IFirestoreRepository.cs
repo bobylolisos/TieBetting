@@ -2,15 +2,11 @@
 
 public interface IFirestoreRepository
 {
-    void ClearCache();
-
     Task<Settings> GetSettingsAsync();
 
     Task AddMatchesAsync(IReadOnlyCollection<Match> matches);
 
-    Task<IReadOnlyCollection<Match>> GetAllMatchesAsync();
-
-    Task<IReadOnlyCollection<Match>> GetPreviousOngoingMatchesAsync();
+    Task<IReadOnlyCollection<Match>> GetMatchesAsync();
 
     Task AddTeamAsync(Team team);
 

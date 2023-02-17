@@ -13,6 +13,12 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
         SetStatusCommand = new AsyncRelayCommand<MatchStatus>(ExecuteSetStatusCommand);
     }
 
+    public MatchBettingViewModel Match { get; set; }
+
+    public AsyncRelayCommand EnterRateCommand { get; set; }
+
+    public AsyncRelayCommand<MatchStatus> SetStatusCommand { get; set; }
+
     public override Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
     {
         if (navigationParameter is MatchDetailsViewNavigationParameter parameter)
@@ -23,12 +29,6 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
 
         return base.OnNavigatingToAsync(navigationParameter);
     }
-
-    public MatchBettingViewModel Match { get; set; }
-
-    public AsyncRelayCommand EnterRateCommand { get; set; }
-
-    public AsyncRelayCommand<MatchStatus> SetStatusCommand { get; set; }
 
     public async void Receive(MatchRateChangedMessage message)
     {
@@ -56,26 +56,26 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
 
     private bool CanExecuteEnterRateCommand()
     {
-        if (Match.Status != MatchStatus.NotActive)
+        if (Match.IsActiveOrDone())
         {
             return false;
         }
 
         // Make sure we won't set rate on match before an active match reported status
-        if (Match.HomeTeam.Matches.Any(x => x.MatchStatus == MatchStatus.Active))
+        if (Match.HomeTeam.Matches.Any(x => x.IsActive()))
         {
             return false;
         }
-        if (Match.HomeTeam.Matches.Any(x => x.MatchStatus == MatchStatus.NotActive && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
+        if (Match.HomeTeam.Matches.Any(x => x.IsNotActive() && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
         {
             return false;
         }
 
-        if (Match.AwayTeam.Matches.Any(x => x.MatchStatus == MatchStatus.Active))
+        if (Match.AwayTeam.Matches.Any(x => x.IsActive()))
         {
             return false;
         }
-        if (Match.AwayTeam.Matches.Any(x => x.MatchStatus == MatchStatus.NotActive && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
+        if (Match.AwayTeam.Matches.Any(x => x.IsNotActive() && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
         {
             return false;
         }
@@ -85,7 +85,7 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
 
     private async Task ExecuteSetStatusCommand(MatchStatus matchStatus)
     {
-        if (matchStatus != Match.Status)
+        if (matchStatus != Match.MatchStatus)
         {
             await Match.SetStatus(matchStatus);
 

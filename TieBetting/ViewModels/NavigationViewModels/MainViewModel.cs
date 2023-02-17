@@ -6,7 +6,7 @@ public class MainViewModel : ViewModelNavigationBase, ITabBarItem1Command, ITabB
     private readonly IQueryService _queryService;
     private readonly ISaverService _saverService;
     private readonly INavigationService _navigationService;
-    private IReadOnlyCollection<Team> _teams;
+    private IReadOnlyCollection<TeamViewModel> _teams;
     private bool _isRefreshing;
 
     public MainViewModel(ICalendarFileDownloadService calendarFileDownloadService, IQueryService queryService, ISaverService saverService, INavigationService navigationService)
@@ -54,7 +54,7 @@ public class MainViewModel : ViewModelNavigationBase, ITabBarItem1Command, ITabB
     {
         try
         {
-            _saverService.ClearCache();
+            _queryService.ClearCache();
 
             await Reload();
         }
@@ -96,8 +96,8 @@ public class MainViewModel : ViewModelNavigationBase, ITabBarItem1Command, ITabB
 
         var matches = await _calendarFileDownloadService.DownloadAsync(href);
 
-        var dateTime = new DateTime(2022, 12, 15);
-        var latestMatches = matches.Where(x => x.Date > dateTime).ToList();
+        var startDay = DayProvider.GetDay(new DateTime(2022, 12, 15));
+        var latestMatches = matches.Where(x => x.Day > startDay).ToList();
         await _saverService.AddMatchesAsync(latestMatches);
     }
 
@@ -115,28 +115,7 @@ public class MainViewModel : ViewModelNavigationBase, ITabBarItem1Command, ITabB
 
         _teams = await _queryService.GetTeamsAsync();
 
-        var fetchedPreviousMatches = await _queryService.GetPreviousOngoingMatchesAsync();
-
-        var previousMatches = new List<MatchBettingViewModel>();
-        foreach (var previousMatch in fetchedPreviousMatches.OrderBy(x => x.Day))
-        {
-            var homeTeam = _teams.GetTeamOrDefault(previousMatch.HomeTeam);
-
-            if (homeTeam == null)
-            {
-                homeTeam = await _saverService.CreateTeamAsync(previousMatch.HomeTeam);
-            }
-
-            var awayTeam = _teams.GetTeamOrDefault(previousMatch.AwayTeam);
-            if (awayTeam == null)
-            {
-                awayTeam = await _saverService.CreateTeamAsync(previousMatch.AwayTeam);
-            }
-
-            var matchViewModel = new MatchBettingViewModel(_saverService, settings, previousMatch, homeTeam, awayTeam);
-
-            previousMatches.Add(matchViewModel);
-        }
+        var previousMatches = await _queryService.GetPreviousOngoingMatchesAsync();
 
         if (previousMatches.Any())
         {
@@ -153,30 +132,15 @@ public class MainViewModel : ViewModelNavigationBase, ITabBarItem1Command, ITabB
 
         var todayMatches = new List<MatchBettingViewModel>();
         var upcomingMatches = new List<MatchBettingViewModel>();
-        foreach (var match in fetchedUpcomingMatches.OrderBy(x => x.Day))
+        foreach (var match in fetchedUpcomingMatches)
         {
-            var homeTeam = _teams.GetTeamOrDefault(match.HomeTeam);
-
-            if (homeTeam == null)
-            {
-                homeTeam = await _saverService.CreateTeamAsync(match.HomeTeam);
-            }
-
-            var awayTeam = _teams.GetTeamOrDefault(match.AwayTeam);
-            if (awayTeam == null)
-            {
-                awayTeam = await _saverService.CreateTeamAsync(match.AwayTeam);
-            }
-
-            var matchViewModel = new MatchBettingViewModel(_saverService, settings, match, homeTeam, awayTeam);
-
             if (match.Day == todayDay)
             {
-                todayMatches.Add(matchViewModel);
+                todayMatches.Add(match);
             }
             else
             {
-                upcomingMatches.Add(matchViewModel);
+                upcomingMatches.Add(match);
             }
         }
 

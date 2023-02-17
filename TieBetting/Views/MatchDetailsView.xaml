@@ -97,7 +97,7 @@
                 Grid.Column="0"
                 WidthRequest="100"
                 HeightRequest="100"
-                BackgroundColor="{Binding Status, Converter={StaticResource MatchStatusToBackgroundColorConverter}}"
+                BackgroundColor="{Binding MatchStatus, Converter={StaticResource MatchStatusToBackgroundColorConverter}}"
                 BorderColor="Gray"
                 CornerRadius="50">
                 <Grid>
@@ -146,7 +146,7 @@
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
                     FontSize="16"
-                    IsVisible="{Binding Status, Converter={StaticResource VisibleWhenNotActiveConverter}}" />
+                    IsVisible="{Binding MatchStatus, Converter={StaticResource VisibleWhenNotActiveConverter}}" />
                 <Grid
                     Grid.Row="1"
                     Grid.Column="0"
@@ -195,7 +195,7 @@
                     Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
                     CommandParameter="{x:Static models:MatchStatus.Active}"
                     FontSize="16"
-                    IsVisible="{Binding Status, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Active}}" />
+                    IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Active}}" />
                 <Button
                     Grid.Row="0"
                     Grid.Column="1"
@@ -208,7 +208,7 @@
                     Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
                     CommandParameter="{x:Static models:MatchStatus.Lost}"
                     FontSize="16"
-                    IsVisible="{Binding Status, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Lost}}" />
+                    IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Lost}}" />
                 <Button
                     Grid.Row="0"
                     Grid.Column="2"
@@ -220,7 +220,7 @@
                     Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
                     CommandParameter="{x:Static models:MatchStatus.Win}"
                     FontSize="16"
-                    IsVisible="{Binding Status, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Win}}" />
+                    IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Win}}" />
 
             </Grid>
 

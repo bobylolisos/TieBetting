@@ -29,12 +29,4 @@ public class Match
 
     [FirestoreProperty]
     public int Status { get; set; }
-
-    public MatchStatus MatchStatus => (MatchStatus)Status;
-
-    public DateTime Date => DayProvider.GetDate(Day);
-
-    public double HomeTeamWin => MatchStatus == MatchStatus.Win && Rate.HasValue && HomeTeamBet.HasValue ? HomeTeamBet.Value * Rate.Value : 0;
-
-    public double AwayTeamWin => MatchStatus == MatchStatus.Win && Rate.HasValue && AwayTeamBet.HasValue ? AwayTeamBet.Value * Rate.Value : 0;
 }

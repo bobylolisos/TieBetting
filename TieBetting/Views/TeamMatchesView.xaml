@@ -107,7 +107,7 @@
                             Grid.Row="0"
                             Grid.RowSpan="2"
                             Grid.Column="0"
-                            BackgroundColor="{Binding Status, Converter={StaticResource MatchStatusToBackgroundColorConverter}}" />
+                            BackgroundColor="{Binding MatchStatus, Converter={StaticResource MatchStatusToBackgroundColorConverter}}" />
 
                         <!--  Row 0  -->
                         <Image

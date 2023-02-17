@@ -2,12 +2,7 @@
 
 public static class TeamExtensions
 {
-    public static Team GetTeam(this IReadOnlyCollection<Team> teams, string teamName)
-    {
-        return teams.Single(y => y.Name == teamName);
-    }
-
-    public static Team GetTeamOrDefault(this IReadOnlyCollection<Team> teams, string teamName)
+    public static TeamViewModel GetTeamOrDefault(this IReadOnlyCollection<TeamViewModel> teams, string teamName)
     {
         return teams.SingleOrDefault(y => y.Name == teamName);
     }

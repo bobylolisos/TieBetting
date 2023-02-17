@@ -2,10 +2,10 @@
 
 public class TeamMatchesViewNavigationParameter : NavigationParameterBase
 {
-    public TeamMatchesViewNavigationParameter(Team team)
+    public TeamMatchesViewNavigationParameter(TeamViewModel team)
     {
         Team = team;
     }
 
-    public Team Team { get; }
+    public TeamViewModel Team { get; }
 }

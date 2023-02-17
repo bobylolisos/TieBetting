@@ -3,17 +3,15 @@
 public class AllMatchesViewModel : ViewModelNavigationBase
 {
     private readonly IQueryService _queryService;
-    private readonly ISaverService _saverService;
     private Settings _settings;
     private string _selectedSeason;
-    private IReadOnlyCollection<Match> _allMatches;
-    private IReadOnlyCollection<Team> _allTeams;
+    private IReadOnlyCollection<MatchViewModel> _allMatches;
+    private IReadOnlyCollection<TeamViewModel> _allTeams;
 
-    public AllMatchesViewModel(INavigationService navigationService, IQueryService queryService, ISaverService saverService)
+    public AllMatchesViewModel(INavigationService navigationService, IQueryService queryService)
         : base(navigationService)
     {
         _queryService = queryService;
-        _saverService = saverService;
 
         NavigateToMatchMaintenanceViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchMaintenanceViewCommand);
     }
@@ -25,9 +23,9 @@ public class AllMatchesViewModel : ViewModelNavigationBase
 
     public ObservableCollection<MatchGroupViewModel> Matches { get; set; } = new();
 
-    public int TotalBet => Matches.Sum(x => x.Sum(y => y.TotalBet ?? 0));
+    public int TotalBet => Matches.Sum(x => x.Sum(y => y.GetActivatedTotalBet()));
 
-    public int TotalWin => (int)Matches.Sum(x => x.Sum(y => y.Status == MatchStatus.Win ? y.TotalWin ?? 0 : 0));
+    public int TotalWin => (int)Matches.Sum(x => x.Sum(y => y.TotalWin ?? 0));
 
     public int CurrentBetSession => ResolveCurrentBetSession();
 
@@ -37,8 +35,8 @@ public class AllMatchesViewModel : ViewModelNavigationBase
     {
         get
         {
-            var matchesCount = Matches.Sum(x => x.Count(x => x.Status > 0));
-            var matchesWonCount = Matches.Sum(x => x.Count(x => x.Status == MatchStatus.Win));
+            var matchesCount = Matches.Sum(x => x.Count(x => x.IsDone()));
+            var matchesWonCount = Matches.Sum(x => x.Count(x => x.IsWin()));
             if (matchesWonCount == 0)
             {
                 return "0 %";
@@ -63,7 +61,7 @@ public class AllMatchesViewModel : ViewModelNavigationBase
                     var singleGroupedMatches = new List<MatchViewModel>();
                     foreach (var match in groupedSeasonMatch)
                     {
-                        singleGroupedMatches.Add(new MatchViewModel(_saverService, match, _allTeams.GetTeam(match.HomeTeam), _allTeams.GetTeam(match.AwayTeam)));
+                        singleGroupedMatches.Add(match);
                     }
 
                     groupdViewModels.Add(new MatchGroupViewModel($"{groupedSeasonMatch.Key:yyyy-MM-dd}", singleGroupedMatches));
@@ -91,7 +89,7 @@ public class AllMatchesViewModel : ViewModelNavigationBase
 
         _allTeams = await _queryService.GetTeamsAsync();
 
-        _allMatches = await _queryService.GetAllMatchesAsync();
+        _allMatches = await _queryService.GetMatchesAsync();
 
         var seasons = _allMatches.Select(x => x.Season).Distinct().OrderBy(x => x);
 
@@ -126,13 +124,13 @@ public class AllMatchesViewModel : ViewModelNavigationBase
                 {
                     if (currentSessionDone == false)
                     {
-                        if (match.Status == MatchStatus.Win)
+                        if (match.IsWin())
                         {
                             currentSessionDone = true;
                         }
                         else
                         {
-                            currentSession += match.HomeTeamBet ?? 0;
+                            currentSession += match.GetActivatedHomeTeamBet();
                         }
                     }
                 }
@@ -141,13 +139,13 @@ public class AllMatchesViewModel : ViewModelNavigationBase
                 {
                     if (currentSessionDone == false)
                     {
-                        if (match.Status == MatchStatus.Win)
+                        if (match.IsWin())
                         {
                             currentSessionDone = true;
                         }
                         else
                         {
-                            currentSession += match.AwayTeamBet ?? 0;
+                            currentSession += match.GetActivatedAwayTeamBet();
                         }
                     }
                 }

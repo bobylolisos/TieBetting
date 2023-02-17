@@ -37,12 +37,6 @@ public class StatisticsViewModel : ViewModelNavigationBase
         set => SetProperty(ref _totalWin, value);
     }
 
-    public int TotalProfit
-    {
-        get => _totalProfit;
-        set => SetProperty(ref _totalProfit, value);
-    }
-
     public int BetsInSession
     {
         get => _betsInSession;
@@ -152,9 +146,9 @@ public class StatisticsViewModel : ViewModelNavigationBase
             return;
         }
 
-        TotalBet = teams.Sum(x => x.TotalBet) + teams.Sum(x => x.CurrentBetSession);
-        TotalWin = (int)teams.Sum(x => x.TotalWin);
-        BetsInSession = teams.Sum(x => x.CurrentBetSession);
+        TotalBet = teams.Sum(x => x.TotalBet);
+        TotalWin = teams.Sum(x => x.TotalWin);
+        BetsInSession = teams.Sum(x => x.BetsInSession);
         CurrentProfit = TotalWin - TotalBet;
 
         var hasMatches = teams.Any(x => x.Statuses.Any());

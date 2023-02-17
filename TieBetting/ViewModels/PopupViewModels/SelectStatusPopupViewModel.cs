@@ -13,7 +13,7 @@ public class SelectStatusPopupViewModel : ViewModelBase, IPopupViewModel
 
     public AsyncRelayCommand<MatchStatus> SetStatusCommand { get; set; }
 
-    public MatchStatus MatchStatus => _matchViewModel?.Status ?? MatchStatus.NotActive;
+    public MatchStatus MatchStatus => _matchViewModel?.MatchStatus ?? MatchStatus.NotActive;
 
     public Task OnOpenPopupAsync(PopupParameterBase parameter = null)
     {

@@ -5,7 +5,7 @@ public class MatchBettingViewModel : MatchViewModel
     private readonly ISaverService _saverService;
     private readonly Settings _settings;
 
-    public MatchBettingViewModel(ISaverService saverService, Settings settings, Match match, Team homeTeam, Team awayTeam) 
+    public MatchBettingViewModel(ISaverService saverService, Settings settings, Match match, TeamViewModel homeTeam, TeamViewModel awayTeam) 
         : base(saverService, match, homeTeam, awayTeam)
     {
         _saverService = saverService;
@@ -20,7 +20,7 @@ public class MatchBettingViewModel : MatchViewModel
 
     public int HomeTeamProfit => HomeTeam.Profit;
 
-    public int HomeTeamCurrentBetSession => HomeTeam.CurrentBetSession;
+    public int HomeTeamCurrentBetSession => HomeTeam.BetsInSession;
 
     public List<bool?> AwayTeamLastSixStatuses => GetAwayTeamLastSixStatuses();
 
@@ -30,7 +30,7 @@ public class MatchBettingViewModel : MatchViewModel
 
     public int AwayTeamProfit => AwayTeam.Profit;
 
-    public int AwayTeamCurrentBetSession => AwayTeam.CurrentBetSession;
+    public int AwayTeamCurrentBetSession => AwayTeam.BetsInSession;
 
     public override async Task SetRate(double? rate)
     {
@@ -56,7 +56,7 @@ public class MatchBettingViewModel : MatchViewModel
             {
                 var win = i * Rate;
 
-                if (win - i - HomeTeam.CurrentBetSession >= _settings.ExpectedWinAmount)
+                if (win - i - HomeTeam.BetsInSession >= _settings.ExpectedWinAmount)
                 {
                     Match.HomeTeamBet = i;
                     break;
@@ -67,7 +67,7 @@ public class MatchBettingViewModel : MatchViewModel
             {
                 var win = i * Rate;
 
-                if (win - i - AwayTeam.CurrentBetSession >= _settings.ExpectedWinAmount)
+                if (win - i - AwayTeam.BetsInSession >= _settings.ExpectedWinAmount)
                 {
                     Match.AwayTeamBet = i;
                     break;
@@ -79,7 +79,7 @@ public class MatchBettingViewModel : MatchViewModel
         OnPropertyChanged(nameof(HomeTeamBet));
         OnPropertyChanged(nameof(AwayTeamBet));
         OnPropertyChanged(nameof(TotalBet));
-        OnPropertyChanged(nameof(Status));
+        OnPropertyChanged(nameof(MatchStatus));
 
         await _saverService.UpdateMatchAsync(Match);
     }
@@ -93,7 +93,7 @@ public class MatchBettingViewModel : MatchViewModel
         HomeTeam.NotifyMatchStatusChanged();
         AwayTeam.NotifyMatchStatusChanged();
 
-        OnPropertyChanged(nameof(Status));
+        OnPropertyChanged(nameof(MatchStatus));
 
         OnPropertyChanged(nameof(HomeTeamTotalBet));
         OnPropertyChanged(nameof(HomeTeamTotalWin));

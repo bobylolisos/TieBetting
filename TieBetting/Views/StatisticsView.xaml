@@ -75,16 +75,16 @@
             <Label
                 Grid.Row="2"
                 Grid.Column="0"
-                Text="In session"
                 Margin="10,3"
+                Text="In session"
                 FontSize="12"
                 Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
                 Grid.Row="2"
                 Grid.Column="2"
-                FontSize="12"
                 Text="{Binding BetsInSession, Converter={StaticResource AmountToAmountStringConverter}}"
+                FontSize="12"
                 Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
 

@@ -8,18 +8,8 @@ public class FirestoreRepository : IFirestoreRepository
 
     private FirestoreDb _firestoreDb;
     private string _credentials;
-    private IReadOnlyCollection<Match> _allMatchesCache = null;
-    private List<Team> _allTeamsCache = null;
-    private Settings _settingsCache = null;
 
-    public void ClearCache()
-    {
-        _settingsCache = null;
-        _allTeamsCache = null;
-        _allMatchesCache = null;
-    }
-
-    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = false)
+    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = true)
     {
         _credentials = null;
         string filename;
@@ -70,11 +60,6 @@ public class FirestoreRepository : IFirestoreRepository
 
     public async Task<Settings> GetSettingsAsync()
     {
-        if (_settingsCache != null)
-        {
-            return _settingsCache;
-        }
-
         try
         {
             Debug.WriteLine("GetSettingsAsync - Begin");
@@ -85,9 +70,7 @@ public class FirestoreRepository : IFirestoreRepository
             Debug.WriteLine("GetSettingsAsync/GetSnapshotAsync - Begin");
             var settingsQuerySnapshot = await settingsQuery.GetSnapshotAsync();
             var documentSnapshot = settingsQuerySnapshot.Documents.First();
-            _settingsCache = documentSnapshot.ConvertTo<Settings>();
-
-            return _settingsCache;
+            return documentSnapshot.ConvertTo<Settings>();
         }
         finally
         {
@@ -111,13 +94,8 @@ public class FirestoreRepository : IFirestoreRepository
 
     }
 
-    public async Task<IReadOnlyCollection<Match>> GetAllMatchesAsync()
+    public async Task<IReadOnlyCollection<Match>> GetMatchesAsync()
     {
-        if (_allMatchesCache != null)
-        {
-            return _allMatchesCache;
-        }
-
         var firestoreDb = await CreateFirestoreDbAsync();
 
         return await GetAllMatchesAsync(firestoreDb);
@@ -125,11 +103,6 @@ public class FirestoreRepository : IFirestoreRepository
 
     public async Task<IReadOnlyCollection<Match>> GetAllMatchesAsync(FirestoreDb firestoreDb)
     {
-        if (_allMatchesCache != null)
-        {
-            return _allMatchesCache;
-        }
-
         Debug.WriteLine("GetAllMatchesAsync - Begin");
 
         var matches = new List<Match>();
@@ -150,26 +123,7 @@ public class FirestoreRepository : IFirestoreRepository
 
         Debug.WriteLine("GetAllMatchesAsync - Done");
 
-        _allMatchesCache = matches;
-        return _allMatchesCache;
-    }
-
-    public async Task<IReadOnlyCollection<Match>> GetPreviousOngoingMatchesAsync()
-    {
-        try
-        {
-            Debug.WriteLine("GetPreviousOngoingMatchesAsync - Begin");
-
-            var firestoreDb = await CreateFirestoreDbAsync();
-
-            var allMatches = await GetAllMatchesAsync(firestoreDb);
-
-            return allMatches.Where(x => x.Day < DayProvider.TodayDay && x.MatchStatus == MatchStatus.Active).ToList();
-        }
-        finally
-        {
-            Debug.WriteLine("GetPreviousOngoingMatchesAsync - Done");
-        }
+        return matches;
     }
 
     public async Task AddTeamAsync(Team team)
@@ -197,11 +151,6 @@ public class FirestoreRepository : IFirestoreRepository
 
     public async Task<IReadOnlyCollection<Team>> GetTeamsAsync()
     {
-        if (_allTeamsCache != null)
-        {
-            return _allTeamsCache;
-        }
-
         var firestoreDb = await CreateFirestoreDbAsync();
 
         List<Team> teams = new List<Team>();
@@ -212,14 +161,12 @@ public class FirestoreRepository : IFirestoreRepository
         foreach (var documentSnapshot in matchesQuerySnapshot.Documents)
         {
             var team = documentSnapshot.ConvertTo<Team>();
-            var allMatches = await GetAllMatchesAsync(firestoreDb);
-            team.AddMatches(allMatches);
             teams.Add(team);
         }
 
         Debug.WriteLine("GetTeamsAsync/GetSnapshotAsync - Done");
 
-        _allTeamsCache = teams;
+        return teams;
 
         /* --- Used when we want to update Sandbox to a copy of production firestore --- */
         //var sandboxFirestoreDb = await CreateFirestoreDbAsync(true);
@@ -228,7 +175,7 @@ public class FirestoreRepository : IFirestoreRepository
         //    await UpdateTeamAsync(team, sandboxFirestoreDb);
         //}
 
-        return _allTeamsCache;
+        //return teams;
     }
 
     public async Task UpdateMatchAsync(Match match)

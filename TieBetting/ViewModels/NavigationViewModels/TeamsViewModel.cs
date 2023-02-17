@@ -18,7 +18,7 @@ public class TeamsViewModel : ViewModelNavigationBase
         {
             foreach (var team in teamsViewNavigationParameter.Teams)
             {
-                Teams.Add(new TeamViewModel(team));
+                Teams.Add(team);
             }
         }
 
@@ -27,6 +27,6 @@ public class TeamsViewModel : ViewModelNavigationBase
 
     private async Task ExecuteNavigateToTeamMatchesViewCommand(TeamViewModel teamViewModel)
     {
-        await NavigationService.NavigateToPageAsync<TeamMatchesView>(new TeamMatchesViewNavigationParameter(teamViewModel.Team));
+        await NavigationService.NavigateToPageAsync<TeamMatchesView>(new TeamMatchesViewNavigationParameter(teamViewModel));
     }
 }

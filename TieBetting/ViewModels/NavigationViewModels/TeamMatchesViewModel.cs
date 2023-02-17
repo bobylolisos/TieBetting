@@ -2,21 +2,15 @@
 
 public class TeamMatchesViewModel : ViewModelNavigationBase
 {
-    private readonly IQueryService _queryService;
-    private readonly ISaverService _saverService;
     private string _headerText;
     private string _headerImage;
     private string _selectedSeason;
-    private IReadOnlyCollection<Team> _allTeams;
-    private IReadOnlyCollection<Match> _allTeamMatches;
-    private Team _team;
+    private IReadOnlyCollection<MatchViewModel> _allTeamMatches;
+    private TeamViewModel _team;
 
-    public TeamMatchesViewModel(INavigationService navigationService, IQueryService queryService, ISaverService saverService)
+    public TeamMatchesViewModel(INavigationService navigationService)
         : base(navigationService)
     {
-        _queryService = queryService;
-        _saverService = saverService;
-
         NavigateToMatchMaintenanceViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchMaintenanceViewCommand);
         AbandonSessionCommand = new AsyncRelayCommand(ExecuteAbandonSessionCommand);
     }
@@ -52,7 +46,7 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
                 var seasonMatches = _allTeamMatches.Where(x => x.Season == SelectedSeason).OrderBy(x => x.Day);
                 foreach (var match in seasonMatches)
                 {
-                    Matches.Add(new MatchViewModel(_saverService, match, _allTeams.GetTeam(match.HomeTeam), _allTeams.GetTeam(match.AwayTeam)));
+                    Matches.Add(match);
                 }
             }
         }
@@ -71,8 +65,6 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
         {
             throw new ArgumentException("Expected TeamMatchesViewNavigationParameter but not found!");
         }
-
-        _allTeams = await _queryService.GetTeamsAsync();
 
         _allTeamMatches = _team.Matches;
 

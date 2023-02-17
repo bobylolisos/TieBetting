@@ -1,4 +1,6 @@
-﻿namespace TieBetting.Services;
+﻿using static Android.Provider.Telephony.Mms;
+
+namespace TieBetting.Services;
 
 public class SaverService : ISaverService
 {
@@ -7,11 +9,6 @@ public class SaverService : ISaverService
     public SaverService(IFirestoreRepository repository)
     {
         _repository = repository;
-    }
-
-    public void ClearCache()
-    {
-        _repository.ClearCache();
     }
 
     public Task AddMatchesAsync(IReadOnlyCollection<Match> matches)
@@ -29,9 +26,11 @@ public class SaverService : ISaverService
         return _repository.CreateTeamAsync(teamName);
     }
 
-    public Task UpdateMatchAsync(Match match)
+    public async Task UpdateMatchAsync(Match match)
     {
-        return _repository.UpdateMatchAsync(match);
+        await _repository.UpdateMatchAsync(match);
+
+        WeakReferenceMessenger.Default.Send(new MatchUpdatedMessage(match.Id));
     }
 
     public Task UpdateTeamAsync(Team team)

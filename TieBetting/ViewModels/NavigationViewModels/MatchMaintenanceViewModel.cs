@@ -49,19 +49,19 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Co
             return false;
         }
 
-        var homeTeamHasLaterActiveMatches = Match.HomeTeam.Matches.Any(x => x.Day > Match.Day && x.MatchStatus != MatchStatus.NotActive);
+        var homeTeamHasLaterActiveMatches = Match.HomeTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone());
         if (homeTeamHasLaterActiveMatches)
         {
             return false;
         }
 
-        var awayTeamHasLaterActiveMatches = Match.AwayTeam.Matches.Any(x => x.Day > Match.Day && x.MatchStatus != MatchStatus.NotActive);
+        var awayTeamHasLaterActiveMatches = Match.AwayTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone());
         if (awayTeamHasLaterActiveMatches)
         {
             return false;
         }
 
-        return Match.Status != MatchStatus.NotActive;
+        return Match.IsActiveOrDone();
     }
 
     private async Task ExecuteChangeDateCommand()
@@ -76,7 +76,7 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Co
             return false;
         }
 
-        return Match.Status == MatchStatus.NotActive;
+        return Match.IsNotActive();
     }
 
     private async Task ExecuteDeleteMatchCommand()
@@ -91,6 +91,6 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Co
             return false;
         }
 
-        return Match.Status == MatchStatus.NotActive;
+        return Match.IsNotActive();
     }
 }

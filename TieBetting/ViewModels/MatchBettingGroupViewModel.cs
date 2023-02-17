@@ -2,7 +2,7 @@
 
 public class MatchBettingGroupViewModel : List<MatchBettingViewModel>
 {
-    public MatchBettingGroupViewModel(string name, List<MatchBettingViewModel> matches)
+    public MatchBettingGroupViewModel(string name, IReadOnlyCollection<MatchBettingViewModel> matches)
         : base(matches)
     {
         Name = name;

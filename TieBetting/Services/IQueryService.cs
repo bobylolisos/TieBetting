@@ -2,14 +2,16 @@
 
 public interface IQueryService
 {
+    void ClearCache();
+
     Task<Settings> GetSettingsAsync();
 
-    Task<IReadOnlyCollection<Team>> GetTeamsAsync();
+    Task<IReadOnlyCollection<TeamViewModel>> GetTeamsAsync();
 
-    Task<IReadOnlyCollection<Match>> GetAllMatchesAsync();
+    Task<IReadOnlyCollection<MatchBettingViewModel>> GetMatchesAsync();
 
-    Task<IReadOnlyCollection<Match>> GetNextMatchesAsync(int? numberOfMatches = null);
+    Task<IReadOnlyCollection<MatchBettingViewModel>> GetNextMatchesAsync(int? numberOfMatches = null);
 
-    Task<IReadOnlyCollection<Match>> GetPreviousOngoingMatchesAsync();
+    Task<IReadOnlyCollection<MatchBettingViewModel>> GetPreviousOngoingMatchesAsync();
 
 }

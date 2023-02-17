@@ -8,6 +8,7 @@ X Skapa undermapp för navigerbara vymodeller
 - Bild för SHL & HA, använda i AllMatches bredvid total-summan
 - Graf
 - Om man ändrar status så uppdateras inte vymodellen på huvudsidan, kanske queryservice ska få returnera vymodeller så att alla vyer jobbar me samma vymodell?
+- Fixa ersättning för Application.Current.MainPage.DisplayAlert
 
 Match
 	X Förhindra att man kan sätta ny status (rate??) på en match där ett lag redan har en pågående match
@@ -27,6 +28,7 @@ AllMatches/MatchMaintenance
 
 Team
 	X Won %
+	- Pausa spel på lag
 
 Team/Matches
 	X Select season
@@ -37,6 +39,7 @@ Team/Matches
 Settings
 	X Flytta slider under label
 	- View expected bet chain
+	- Importera matcher
 
 
 4,35

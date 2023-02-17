@@ -2,10 +2,10 @@
 
 public class TeamsViewNavigationParameter : NavigationParameterBase
 {
-    public TeamsViewNavigationParameter(IReadOnlyCollection<Team> teams)
+    public TeamsViewNavigationParameter(IReadOnlyCollection<TeamViewModel> teams)
     {
         Teams = teams;
     }
 
-    public IReadOnlyCollection<Team> Teams { get; }
+    public IReadOnlyCollection<TeamViewModel> Teams { get; }
 }
