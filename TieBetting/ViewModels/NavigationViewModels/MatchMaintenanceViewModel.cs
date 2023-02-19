@@ -44,13 +44,13 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase
             return false;
         }
 
-        var homeTeamHasLaterActiveMatches = Match.HomeTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone(TeamType.HomeTeam));
+        var homeTeamHasLaterActiveMatches = Match.HomeTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone(Match.HomeTeamName));
         if (homeTeamHasLaterActiveMatches)
         {
             return false;
         }
 
-        var awayTeamHasLaterActiveMatches = Match.AwayTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone(TeamType.AwayTeam));
+        var awayTeamHasLaterActiveMatches = Match.AwayTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone(Match.AwayTeamName));
         if (awayTeamHasLaterActiveMatches)
         {
             return false;

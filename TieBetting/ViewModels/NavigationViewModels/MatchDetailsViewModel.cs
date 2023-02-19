@@ -20,12 +20,18 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
 
     public AsyncRelayCommand<MatchStatus> SetStatusCommand { get; }
 
+    public bool IsTabBarVisible => Match?.IsAnyActiveOrDone() ?? false;
+
+    public bool HasPreviousActiveMatch => ResolveHasPreviousActiveMatch();
+
     public override Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
     {
         if (navigationParameter is MatchDetailsViewNavigationParameter parameter)
         {
             Match = parameter.MatchViewModel;
             OnPropertyChanged(nameof(Match));
+            OnPropertyChanged(nameof(IsTabBarVisible));
+            OnPropertyChanged(nameof(HasPreviousActiveMatch));
             NotifyTabItemsCanExecuteChanged();
         }
 
@@ -64,20 +70,20 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
         }
 
         // Make sure we won't set rate on match before an active match reported status
-        if (Match.HomeTeam.Matches.Any(x => x.IsActive(TeamType.HomeTeam)))
+        if (Match.HomeTeam.Matches.Any(x => x.IsActive(Match.HomeTeamName)))
         {
             return false;
         }
-        if (Match.HomeTeam.Matches.Any(x => x.IsNotActive(TeamType.HomeTeam) && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
+        if (Match.HomeTeam.Matches.Any(x => x.IsActiveOrDone(Match.HomeTeamName) && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
         {
             return false;
         }
 
-        if (Match.AwayTeam.Matches.Any(x => x.IsActive(TeamType.AwayTeam)))
+        if (Match.AwayTeam.Matches.Any(x => x.IsActive(Match.AwayTeamName)))
         {
             return false;
         }
-        if (Match.AwayTeam.Matches.Any(x => x.IsNotActive(TeamType.AwayTeam) && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
+        if (Match.AwayTeam.Matches.Any(x => x.IsActiveOrDone(Match.AwayTeamName) && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
         {
             return false;
         }
@@ -109,13 +115,13 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
             return false;
         }
 
-        var homeTeamHasLaterActiveMatches = Match.HomeTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone(TeamType.HomeTeam));
+        var homeTeamHasLaterActiveMatches = Match.HomeTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone(Match.HomeTeamName));
         if (homeTeamHasLaterActiveMatches)
         {
             return false;
         }
 
-        var awayTeamHasLaterActiveMatches = Match.AwayTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone(TeamType.AwayTeam));
+        var awayTeamHasLaterActiveMatches = Match.AwayTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone(Match.AwayTeamName));
         if (awayTeamHasLaterActiveMatches)
         {
             return false;
@@ -124,7 +130,21 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
         return Match.IsAnyActiveOrDone();
     }
 
+    private bool ResolveHasPreviousActiveMatch()
+    {
+        if (Match == null)
+        {
+            return false;
+        }
 
-    public bool IsTabBarVisible => Match?.IsAnyActiveOrDone() ?? false;
+        var hasHomeTeamActiveMatch = Match.HomeTeam.Matches.Any(x => x.Day < Match.Day && x.IsActive(Match.HomeTeamName));
+        if (hasHomeTeamActiveMatch)
+        {
+            return true;
+        }
+
+        var hasAwayTeamActiveMatch = Match.AwayTeam.Matches.Any(x => x.Day < Match.Day && x.IsActive(Match.AwayTeamName));
+        return hasAwayTeamActiveMatch;
+    }
 
 }

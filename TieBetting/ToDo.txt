@@ -13,7 +13,7 @@ X Om man ändrar status så uppdateras inte vymodellen på huvudsidan, kanske query
 
 Match
 	X Förhindra att man kan sätta ny status (rate??) på en match där ett lag redan har en pågående match
-	- Ta bort Rate-Knapp om man inte får sätta rate pga att det finns oklarade matcher och presentera en text istället
+	X Om man inte får sätta rate pga att det finns oklarade matcher, presentera en istället
 
 Stats
 

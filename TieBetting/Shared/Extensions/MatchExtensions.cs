@@ -12,6 +12,21 @@ public static class MatchExtensions
         return match.AwayTeamMatchStatus == MatchStatus.NotActive;
     }
 
+    public static bool IsNotActive(this MatchViewModel match, string teamName)
+    {
+        if (teamName == match.HomeTeamName && match.HomeTeamMatchStatus == MatchStatus.NotActive)
+        {
+            return true;
+        }
+
+        if (teamName == match.AwayTeamName && match.AwayTeamMatchStatus == MatchStatus.NotActive)
+        {
+            return true;
+        }
+
+        return true;
+    }
+
     public static bool IsActive(this MatchViewModel match, TeamType teamType)
     {
         if (teamType == TeamType.HomeTeam)
@@ -90,6 +105,21 @@ public static class MatchExtensions
         }
 
         return match.AwayTeamMatchStatus == MatchStatus.Active || match.IsDone(teamType);
+    }
+
+    public static bool IsActiveOrDone(this MatchViewModel match, string teamName)
+    {
+        if (teamName == match.HomeTeamName && (match.HomeTeamMatchStatus == MatchStatus.Active || match.HomeTeamMatchStatus == MatchStatus.Win || match.HomeTeamMatchStatus == MatchStatus.Lost))
+        {
+            return true;
+        }
+
+        if (teamName == match.AwayTeamName && (match.AwayTeamMatchStatus == MatchStatus.Active || match.AwayTeamMatchStatus == MatchStatus.Win || match.AwayTeamMatchStatus == MatchStatus.Lost))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public static bool IsAnyActiveOrDone(this MatchViewModel match)
