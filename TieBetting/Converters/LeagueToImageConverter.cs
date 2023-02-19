@@ -11,7 +11,7 @@ public class LeagueToImageConverter : ValueConverterBase<string>
             return null;
         }
 
-        if (value.ToLower().Contains("hockeyallsvenskan"))
+        if (value.ToLower().Contains("ha"))
         {
             return "ha.png";
         }

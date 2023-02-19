@@ -17,14 +17,14 @@ Match
 
 Stats
 
-AllMatches
+Season Matches
 	X Select season
 	X SHow all matches, scroll to today (scroll nor useful)
 	X CurrentBetSession, calculate only sessions bets for current season
 	- TabBar to 'Add' (only valid for future dates)
 	X Select -> Navigate to MatchMaintenance
 
-AllMatches/MatchMaintenance
+Season Matches/MatchMaintenance
 	X 'Change status'
 	- 'Change date'
 	- 'Delete'
