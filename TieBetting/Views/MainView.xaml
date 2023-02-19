@@ -203,7 +203,7 @@
             TabBarItem1ImageSource="shirt.svg"
             TabBarItem1Label="Teams"
             TabBarItem2ImageSource="hockeypuck.svg"
-            TabBarItem2Label="Matches"
+            TabBarItem2Label="Season"
             TabBarItem3ImageSource="statistics.svg"
             TabBarItem3Label="Statistics"
             TabBarItem4ImageSource="settings.svg"

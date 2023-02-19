@@ -28,11 +28,13 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
 
     public int LostMatchesInSession => _statuses.CountNumberOfPreviousLostMatches();
 
+    public int MatchesWon => _statuses.Count(x => x);
+
     public string MatchesWonPercent
     {
         get
         {
-            var matchesWonCount = _statuses.Count(x => x);
+            var matchesWonCount = MatchesWon;
             if (matchesWonCount == 0)
             {
                 return "0 %";
@@ -132,6 +134,7 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
         OnPropertyChanged(nameof(TotalWin));
         OnPropertyChanged(nameof(BetsInSession));
         OnPropertyChanged(nameof(Profit));
+        OnPropertyChanged(nameof(MatchesWon));
         OnPropertyChanged(nameof(MatchesWonPercent));
         OnPropertyChanged(nameof(LostMatchesInSession));
     }

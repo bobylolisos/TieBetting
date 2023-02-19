@@ -19,7 +19,7 @@ public class MainViewModel : ViewModelNavigationBase
         RefreshCommand = new AsyncRelayCommand(ExecuteRefreshCommand);
         NavigateToMatchDetailsViewCommand = new AsyncRelayCommand<MatchBettingViewModel>(ExecuteNavigateToMatchDetailsViewCommand);
         TabBarItem1Command = new AsyncRelayCommand(ExecuteNavigateToTeamsViewCommand);
-        TabBarItem2Command = new AsyncRelayCommand(ExecuteNavigateToAllMatchesViewCommand);
+        TabBarItem2Command = new AsyncRelayCommand(ExecuteNavigateToSeasonMatchesViewCommand);
         TabBarItem3Command = new AsyncRelayCommand(ExecuteNavigateToStatisticsViewCommand);
         TabBarItem4Command = new AsyncRelayCommand(ExecuteNavigateToSettingsCommand);
     }
@@ -70,9 +70,9 @@ public class MainViewModel : ViewModelNavigationBase
         await _navigationService.NavigateToPageAsync<TeamsView>(new TeamsViewNavigationParameter(_teams));
     }
 
-    private async Task ExecuteNavigateToAllMatchesViewCommand()
+    private async Task ExecuteNavigateToSeasonMatchesViewCommand()
     {
-        await _navigationService.NavigateToPageAsync<AllMatchesView>();
+        await _navigationService.NavigateToPageAsync<SeasonMatchesView>();
     }
 
     private async Task ExecuteNavigateToSettingsCommand()

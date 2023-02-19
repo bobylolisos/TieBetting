@@ -63,7 +63,7 @@
 	  <MauiXaml Update="Shared\Components\MatchStatusComponent.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\AllMatchesView.xaml">
+	  <MauiXaml Update="Views\SeasonMatchesView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\PopupViews\EnterRatePopupView.xaml">
@@ -96,6 +96,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\SeasonMatchesView.xaml.cs">
+	    <DependentUpon>SeasonMatchesView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\PopupViews\EnterRatePopupView.xaml.cs">
 	    <DependentUpon>EnterRatePopupView.xaml</DependentUpon>
 	  </Compile>

@@ -131,6 +131,19 @@
                             <Label
                                 Grid.Row="0"
                                 Grid.Column="6"
+                                Text="{Binding MatchesWon}"
+                                HorizontalTextAlignment="Start"
+                                Style="{StaticResource RowValueLabelStyle}" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="4"
+                                Text="Matches won"
+                                Style="{StaticResource RowHeaderLabelStyle}" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="6"
                                 Text="{Binding MatchesWonPercent}"
                                 HorizontalTextAlignment="Start"
                                 Style="{StaticResource RowValueLabelStyle}" />

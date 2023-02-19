@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class AllMatchesViewModel : ViewModelNavigationBase
+public class SeasonMatchesViewModel : ViewModelNavigationBase
 {
     private readonly IQueryService _queryService;
     private Settings _settings;
@@ -8,7 +8,7 @@ public class AllMatchesViewModel : ViewModelNavigationBase
     private IReadOnlyCollection<MatchViewModel> _allMatches;
     private IReadOnlyCollection<TeamViewModel> _allTeams;
 
-    public AllMatchesViewModel(INavigationService navigationService, IQueryService queryService)
+    public SeasonMatchesViewModel(INavigationService navigationService, IQueryService queryService)
         : base(navigationService)
     {
         _queryService = queryService;

@@ -10,7 +10,7 @@ public static class ViewSetup
         builder.RegisterNavigationViewTransient<TeamsView>();
         builder.RegisterNavigationViewTransient<StatisticsView>();
         builder.RegisterNavigationViewTransient<SettingsView>();
-        builder.RegisterNavigationViewTransient<AllMatchesView>();
+        builder.RegisterNavigationViewTransient<SeasonMatchesView>();
         builder.RegisterNavigationViewTransient<TeamMatchesView>();
         builder.RegisterNavigationViewTransient<MatchMaintenanceView>();
 
