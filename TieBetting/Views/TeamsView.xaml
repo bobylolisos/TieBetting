@@ -47,18 +47,6 @@
                             </behaviors:AnimationBehavior>
                         </Grid.Behaviors>
 
-                        <Label
-                            Grid.Row="0"
-                            Grid.RowSpan="3"
-                            Grid.Column="0"
-                            Text="IS DORMANT"
-                            TextColor="#55FF0000"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            CharacterSpacing="1.4"
-                            FontSize="35"
-                            IsVisible="{Binding IsDormant}" />
-
                         <Grid
                             Grid.Row="0"
                             Grid.Column="0"
@@ -161,6 +149,18 @@
                                 Style="{StaticResource RowValueLabelStyle}" />
 
                         </Grid>
+                        <Label
+                            Grid.Row="0"
+                            Grid.RowSpan="3"
+                            Grid.Column="0"
+                            Text="IS DORMANT"
+                            TextColor="#77FF0000"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            CharacterSpacing="1.4"
+                            FontSize="35"
+                            IsVisible="{Binding IsDormant}" />
+
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

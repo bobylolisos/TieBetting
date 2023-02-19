@@ -75,7 +75,7 @@ public class QueryService : IQueryService
             var teams = await _repository.GetTeamsAsync();
             foreach (var team in teams)
             {
-                teamsList.Add(new TeamViewModel(team));
+                teamsList.Add(new TeamViewModel(_saverService, team));
             }
 
             var matches = await _repository.GetMatchesAsync();
@@ -86,7 +86,7 @@ public class QueryService : IQueryService
                 if (homeTeam == null)
                 {
                     var savedHomeTeam = await _saverService.CreateTeamAsync(match.HomeTeam);
-                    homeTeam = new TeamViewModel(savedHomeTeam);
+                    homeTeam = new TeamViewModel(_saverService, savedHomeTeam);
                     teamsList.Add(homeTeam);
                 }
 
@@ -94,7 +94,7 @@ public class QueryService : IQueryService
                 if (awayTeam == null)
                 {
                     var savedAwayTeam = await _saverService.CreateTeamAsync(match.AwayTeam);
-                    awayTeam = new TeamViewModel(savedAwayTeam);
+                    awayTeam = new TeamViewModel(_saverService, savedAwayTeam);
                     teamsList.Add(awayTeam);
                 }
 

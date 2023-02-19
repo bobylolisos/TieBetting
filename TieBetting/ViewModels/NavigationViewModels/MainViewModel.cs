@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class MainViewModel : ViewModelNavigationBase, ITabBarItem1Command, ITabBarItem2Command, ITabBarItem3Command, ITabBarItem4Command
+public class MainViewModel : ViewModelNavigationBase
 {
     private readonly ICalendarFileDownloadService _calendarFileDownloadService;
     private readonly IQueryService _queryService;
@@ -29,15 +29,6 @@ public class MainViewModel : ViewModelNavigationBase, ITabBarItem1Command, ITabB
     public AsyncRelayCommand RefreshCommand { get; set; }
 
     public AsyncRelayCommand<MatchBettingViewModel> NavigateToMatchDetailsViewCommand { get; set; }
-
-    public AsyncRelayCommand TabBarItem1Command { get; }
-
-    public AsyncRelayCommand TabBarItem2Command { get; }
-
-    public AsyncRelayCommand TabBarItem3Command { get; }
-
-    public AsyncRelayCommand TabBarItem4Command { get; }
-
 
     public bool IsRefreshing
     {

@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateChangedMessage>, ITabBarItem1Command
+public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateChangedMessage>
 {
     private readonly IPopupService _popupService;
 
@@ -11,7 +11,7 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
 
         EnterRateCommand = new AsyncRelayCommand(ExecuteEnterRateCommand, CanExecuteEnterRateCommand);
         SetStatusCommand = new AsyncRelayCommand<MatchStatus>(ExecuteSetStatusCommand);
-        TabBarItem1Command = new AsyncRelayCommand(ExecuteTabBarItem1Command, CanExecuteTabBarItem1Command);
+        TabBarItem1Command = new AsyncRelayCommand(ExecuteShowSelectStatusPopupView, CanExecuteShowSelectStatusPopupView);
     }
 
     public MatchBettingViewModel Match { get; set; }
@@ -20,17 +20,13 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
 
     public AsyncRelayCommand<MatchStatus> SetStatusCommand { get; }
 
-    public AsyncRelayCommand TabBarItem1Command { get; }
-
-
     public override Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
     {
         if (navigationParameter is MatchDetailsViewNavigationParameter parameter)
         {
             Match = parameter.MatchViewModel;
             OnPropertyChanged(nameof(Match));
-            OnPropertyChanged(nameof(TabBarItem1Command));
-            OnPropertyChanged(nameof(IsTabBarVisible));
+            NotifyTabItemsCanExecuteChanged();
         }
 
         return base.OnNavigatingToAsync(navigationParameter);
@@ -101,16 +97,15 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
         }
     }
 
-    private async Task ExecuteTabBarItem1Command()
+    private async Task ExecuteShowSelectStatusPopupView()
     {
         await _popupService.OpenPopupAsync<SelectStatusPopupView>(new SelectStatusPopupParameter(Match));
 
         OnPropertyChanged(nameof(Match));
-        OnPropertyChanged(nameof(TabBarItem1Command));
-        OnPropertyChanged(nameof(IsTabBarVisible));
+        NotifyTabItemsCanExecuteChanged();
     }
 
-    private bool CanExecuteTabBarItem1Command()
+    private bool CanExecuteShowSelectStatusPopupView()
     {
         if (Match == null)
         {

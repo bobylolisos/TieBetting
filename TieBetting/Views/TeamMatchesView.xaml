@@ -23,7 +23,7 @@
             Style="{StaticResource HeaderLabelStyle}" />
     </Shell.TitleView>
 
-    <Grid RowDefinitions="Auto,Auto,*,Auto">
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
         <Grid
             Grid.Row="0"
             Grid.Column="0"
@@ -45,9 +45,25 @@
                 VerticalTextAlignment="Center"
                 FontSize="22" />
         </Grid>
-
         <Grid
             Grid.Row="1"
+            Grid.Column="0"
+            Margin="5"
+            Padding="5"
+            BackgroundColor="White"
+            IsVisible="{Binding IsDormant}">
+            <Label
+                Margin="15,0"
+                Text="IS DORMANT"
+                TextColor="Red"
+                HorizontalTextAlignment="Center"
+                VerticalTextAlignment="Center"
+                CharacterSpacing="1.4"
+                FontSize="22" />
+        </Grid>
+
+        <Grid
+            Grid.Row="2"
             Grid.Column="0"
             ColumnDefinitions="Auto,20,*"
             Margin="5"
@@ -70,7 +86,7 @@
         </Grid>
 
         <CollectionView
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="0"
             HorizontalOptions="Fill"
             Background="{StaticResource Gray100}"
@@ -163,8 +179,10 @@
         </CollectionView>
 
         <tabBar:TabBar
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="0"
+            TabBarItem3ImageSource="{Binding TabBarItem3Image, Mode=TwoWay}"
+            TabBarItem3Label="{Binding TabBarItem3Label, Mode=TwoWay}"
             TabBarItem4ImageSource="delete.svg"
             TabBarItem4Label="Abandon" />
 

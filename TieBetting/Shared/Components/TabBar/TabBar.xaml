@@ -3,6 +3,7 @@
     x:Class="TieBetting.Shared.Components.TabBar.TabBar"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="using:TieBetting.ViewModels.Base"
     xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
     x:Name="TabBarView">
@@ -10,7 +11,6 @@
     <ContentView.Resources>
         <tabBar:TabBarItemVisibilityConverter x:Key="VisibleWhenHasTabBarItemConverter" />
         <tabBar:TabBarSeparatorVisibilityConverter x:Key="VisibleWhenHasTabBarItemAlignedConverter" />
-        <tabBar:TabBarOpacityConverter x:Key="TabBarOpacityConverter" />
     </ContentView.Resources>
 
     <Grid
@@ -23,10 +23,20 @@
         <Grid
             Grid.Column="0"
             RowDefinitions="*,Auto"
-            HorizontalOptions="Center"
-            x:DataType="tabBar:ITabBarItem1Command"
-            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem1Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}"
-            Opacity="{Binding TabBarItem1Command, Converter={StaticResource TabBarOpacityConverter}}">
+            HorizontalOptions="Fill"
+            x:DataType="base:ViewModelNavigationBase"
+            IsEnabled="{Binding IsTabBarItem1CommandEnabled}"
+            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem1Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Opacity" Value="1.0" />
+                    <Style.Triggers>
+                        <Trigger TargetType="Grid" Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.3" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
             <Grid.Behaviors>
                 <behaviors:AnimationBehavior Command="{Binding TabBarItem1Command}">
                     <behaviors:AnimationBehavior.AnimationType>
@@ -47,10 +57,6 @@
                 HorizontalTextAlignment="Center"
                 FontSize="12" />
         </Grid>
-        <!--<Grid
-            x:Name="TabBarItem1DisabledOverlay"
-            Grid.Column="0"
-            Background="{StaticResource PrimaryHalfTransparent}" />-->
 
         <!--  Separator 1-2  -->
         <Grid
@@ -72,10 +78,20 @@
         <Grid
             Grid.Column="2"
             RowDefinitions="*,Auto"
-            HorizontalOptions="Center"
-            x:DataType="tabBar:ITabBarItem2Command"
-            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem2Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}"
-            Opacity="{Binding TabBarItem2Command, Converter={StaticResource TabBarOpacityConverter}}">
+            HorizontalOptions="Fill"
+            x:DataType="base:ViewModelNavigationBase"
+            IsEnabled="{Binding IsTabBarItem2CommandEnabled}"
+            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem2Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Opacity" Value="1.0" />
+                    <Style.Triggers>
+                        <Trigger TargetType="Grid" Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.3" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
             <Grid.Behaviors>
                 <behaviors:AnimationBehavior Command="{Binding TabBarItem2Command}">
                     <behaviors:AnimationBehavior.AnimationType>
@@ -118,10 +134,20 @@
         <Grid
             Grid.Column="4"
             RowDefinitions="*,Auto"
-            HorizontalOptions="Center"
-            x:DataType="tabBar:ITabBarItem3Command"
-            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem3Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}"
-            Opacity="{Binding TabBarItem3Command, Converter={StaticResource TabBarOpacityConverter}}">
+            HorizontalOptions="Fill"
+            x:DataType="base:ViewModelNavigationBase"
+            IsEnabled="{Binding IsTabBarItem3CommandEnabled}"
+            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem3Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Opacity" Value="1.0" />
+                    <Style.Triggers>
+                        <Trigger TargetType="Grid" Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.3" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
             <Grid.Behaviors>
                 <behaviors:AnimationBehavior Command="{Binding TabBarItem3Command}">
                     <behaviors:AnimationBehavior.AnimationType>
@@ -164,10 +190,20 @@
         <Grid
             Grid.Column="6"
             RowDefinitions="*,Auto"
-            HorizontalOptions="Center"
-            x:DataType="tabBar:ITabBarItem4Command"
-            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem4Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}"
-            Opacity="{Binding TabBarItem4Command, Converter={StaticResource TabBarOpacityConverter}}">
+            HorizontalOptions="Fill"
+            x:DataType="base:ViewModelNavigationBase"
+            IsEnabled="{Binding IsTabBarItem4CommandEnabled}"
+            IsVisible="{Binding Source={x:Reference TabBarView}, Path=TabBarItem4Label, Converter={StaticResource VisibleWhenHasTabBarItemConverter}}">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Opacity" Value="1.0" />
+                    <Style.Triggers>
+                        <Trigger TargetType="Grid" Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.3" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
             <Grid.Behaviors>
                 <behaviors:AnimationBehavior Command="{Binding TabBarItem4Command}">
                     <behaviors:AnimationBehavior.AnimationType>

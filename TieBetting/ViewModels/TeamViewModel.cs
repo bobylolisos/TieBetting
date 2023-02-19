@@ -4,10 +4,12 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
 {
     private readonly List<MatchViewModel> _matches = new();
     private readonly List<bool> _statuses = new();
+    private readonly ISaverService _saverService;
     private readonly Team _team;
 
-    public TeamViewModel(Team team)
+    public TeamViewModel(ISaverService saverService, Team team)
     {
+        _saverService = saverService;
         _team = team;
 
         WeakReferenceMessenger.Default.RegisterAll(this);
@@ -136,5 +138,11 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
         {
             ReCalculateValues();
         }
+    }
+
+    public async Task ToggleActiveStatusAsync()
+    {
+        _team.IsActive = !_team.IsActive;
+        await _saverService.UpdateTeamAsync(_team);
     }
 }

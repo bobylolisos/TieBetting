@@ -5,7 +5,6 @@ public class StatisticsViewModel : ViewModelNavigationBase
     private readonly IQueryService _queryService;
     private int _totalBet;
     private int _totalWin;
-    private int _totalProfit;
     private int _betsInSession;
     private int _currentProfit;
     private int _matchesCount;

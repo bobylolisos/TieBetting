@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Command, ITabBarItem2Command, ITabBarItem3Command
+public class MatchMaintenanceViewModel : ViewModelNavigationBase
 {
     private readonly IPopupService _popupService;
 
@@ -15,21 +15,13 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Co
 
     public MatchViewModel Match { get; set; }
 
-    public AsyncRelayCommand TabBarItem1Command { get; }
-
-    public AsyncRelayCommand TabBarItem2Command { get; }
-
-    public AsyncRelayCommand TabBarItem3Command { get; }
-
     public override Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
     {
         if (navigationParameter is MatchMaintenanceViewNavigationParameter parameter)
         {
             Match = parameter.MatchViewModel;
             OnPropertyChanged(nameof(Match));
-            OnPropertyChanged(nameof(TabBarItem1Command));
-            OnPropertyChanged(nameof(TabBarItem2Command));
-            OnPropertyChanged(nameof(TabBarItem3Command));
+            NotifyTabItemsCanExecuteChanged();
         }
 
         return base.OnNavigatingToAsync(navigationParameter);
@@ -40,6 +32,7 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Co
         await _popupService.OpenPopupAsync<SelectStatusPopupView>(new SelectStatusPopupParameter(Match));
 
         OnPropertyChanged(nameof(Match));
+        NotifyTabItemsCanExecuteChanged();
     }
 
     private bool CanExecuteChangeStatusCommand()
@@ -67,6 +60,8 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Co
     private async Task ExecuteChangeDateCommand()
     {
         await Application.Current.MainPage.DisplayAlert("Not implemented", "Not implemented!", "Ok");
+
+        NotifyTabItemsCanExecuteChanged();
     }
 
     private bool CanExecuteChangeDateCommand()
@@ -82,6 +77,8 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase, ITabBarItem1Co
     private async Task ExecuteDeleteMatchCommand()
     {
         await Application.Current.MainPage.DisplayAlert("Not implemented", "Not implemented!", "Ok");
+
+        NotifyTabItemsCanExecuteChanged();
     }
 
     private bool CanExecuteDeleteMatchCommand()

@@ -12,16 +12,17 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
         : base(navigationService)
     {
         NavigateToMatchMaintenanceViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchMaintenanceViewCommand);
-        AbandonSessionCommand = new AsyncRelayCommand(ExecuteAbandonSessionCommand);
+        TabBarItem3Command = new AsyncRelayCommand(ExecuteToggleActiveStatusCommand, CanExecuteToggleActiveStatusCommand);
+        TabBarItem4Command = new AsyncRelayCommand(ExecuteAbandonCommand);
     }
 
     public AsyncRelayCommand<MatchViewModel> NavigateToMatchMaintenanceViewCommand { get; }
 
-    public AsyncRelayCommand AbandonSessionCommand { get; }
-
     public ObservableCollection<string> Seasons { get; } = new();
 
     public ObservableCollection<MatchViewModel> Matches { get; set; } = new();
+
+    public bool IsDormant => _team != null && _team.IsDormant;
 
     public string HeaderImage
     {
@@ -60,6 +61,7 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
             HeaderImage = team.Image;
             HeaderText = team.Name;
             _team = team;
+            UpdateLabelAndImageOnTabBarItem3();
         }
         else
         {
@@ -77,9 +79,17 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
 
         SelectedSeason = Seasons.Last();
 
+        OnPropertyChanged(nameof(IsDormant));
+        NotifyTabItemsCanExecuteChanged();
 
         await base.OnNavigatingToAsync(navigationParameter);
 
+    }
+
+    private void UpdateLabelAndImageOnTabBarItem3()
+    {
+        TabBarItem3Label = IsDormant ? "Activate" : "To dormant";
+        TabBarItem3Image = IsDormant ? "play.svg" : "pause.svg";
     }
 
     private async Task ExecuteNavigateToMatchMaintenanceViewCommand(MatchViewModel matchViewModel)
@@ -87,7 +97,20 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
         await NavigationService.NavigateToPageAsync<MatchMaintenanceView>(new MatchMaintenanceViewNavigationParameter(matchViewModel));
     }
 
-    private async Task ExecuteAbandonSessionCommand()
+    private async Task ExecuteToggleActiveStatusCommand()
+    {
+        await _team.ToggleActiveStatusAsync();
+        UpdateLabelAndImageOnTabBarItem3();
+        OnPropertyChanged(nameof(IsDormant));
+        NotifyTabItemsCanExecuteChanged();
+    }
+
+    private bool CanExecuteToggleActiveStatusCommand()
+    {
+        return _team != null;
+    }
+
+    private async Task ExecuteAbandonCommand()
     {
         await Application.Current.MainPage.DisplayAlert("Not implemented", "Not implemented!", "Ok");
     }
