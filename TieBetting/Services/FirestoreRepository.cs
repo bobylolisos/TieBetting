@@ -9,7 +9,7 @@ public class FirestoreRepository : IFirestoreRepository
     private FirestoreDb _firestoreDb;
     private string _credentials;
 
-    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = true)
+    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = false)
     {
         _credentials = null;
         string filename;
@@ -123,6 +123,21 @@ public class FirestoreRepository : IFirestoreRepository
 
         Debug.WriteLine("GetAllMatchesAsync - Done");
 
+        foreach (var match in matches)
+        {
+            if (match.Season == "HA 2022/23")
+            {
+                match.Season = "HA 22/23";
+            }
+            if (match.Season == "SHL 2022/2023")
+            {
+                match.Season = "SHL 22/23";
+            }
+        }
+
+        await UpdateMatchesAsync(matches.Where(x => x.Season == "HA 22/23").ToList(), firestoreDb);
+        await UpdateMatchesAsync(matches.Where(x => x.Season == "SHL 22/23").ToList(), firestoreDb);
+
         return matches;
     }
 
@@ -192,6 +207,14 @@ public class FirestoreRepository : IFirestoreRepository
 
         var teamDocumentReference = firestoreDb.Collection(TeamsCollectionKey).Document(team.Name);
         await teamDocumentReference.SetAsync(team);
+    }
+
+    public async Task UpdateSettingsAsync(Settings settings)
+    {
+        var firestoreDb = await CreateFirestoreDbAsync();
+
+        var settingsDocumentReference = firestoreDb.Collection(SettingsCollectionKey).Document(settings.Id);
+        await settingsDocumentReference.SetAsync(settings);
     }
 
     private async Task UpdateMatchesAsync(IReadOnlyCollection<Match> matches, FirestoreDb firestoreDb)

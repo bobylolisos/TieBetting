@@ -11,4 +11,6 @@ public interface ISaverService
     Task UpdateMatchAsync(Match match);
 
     Task UpdateTeamAsync(Team team);
+
+    Task UpdateSettingsAsync(Settings settings);
 }

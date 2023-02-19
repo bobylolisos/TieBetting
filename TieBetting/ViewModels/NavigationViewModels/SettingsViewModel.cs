@@ -3,14 +3,16 @@
 public class SettingsViewModel : ViewModelNavigationBase
 {
     private readonly IQueryService _queryService;
+    private readonly ISaverService _saverService;
     private Settings _settings;
     private int _expectedWinAmount;
     private int _upcomingMatchesToFetch;
 
-    public SettingsViewModel(INavigationService navigationService, IQueryService queryService)
+    public SettingsViewModel(INavigationService navigationService, IQueryService queryService, ISaverService saverService)
         : base(navigationService)
     {
         _queryService = queryService;
+        _saverService = saverService;
     }
 
     public int ExpectedWinAmount
@@ -43,9 +45,16 @@ public class SettingsViewModel : ViewModelNavigationBase
         await base.OnNavigatingToAsync(navigationParameter);
     }
 
-    public override Task OnNavigatedFromAsync(bool isForwardNavigation)
+    public override async Task OnNavigatedFromAsync(bool isForwardNavigation)
     {
-        // Todo: Save settings
-        return base.OnNavigatedFromAsync(isForwardNavigation);
+        if (_settings.ExpectedWinAmount != ExpectedWinAmount || _settings.UpcomingFetchCount != UpcomingMatchesToFetch)
+        {
+            _settings.ExpectedWinAmount = ExpectedWinAmount;
+            _settings.UpcomingFetchCount = UpcomingMatchesToFetch;
+
+            await _saverService.UpdateSettingsAsync(_settings);
+        }
+
+        await base.OnNavigatedFromAsync(isForwardNavigation);
     }
 }

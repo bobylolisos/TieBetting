@@ -35,4 +35,9 @@ public class SaverService : ISaverService
     {
         return _repository.UpdateTeamAsync(team);
     }
+
+    public Task UpdateSettingsAsync(Settings settings)
+    {
+        return _repository.UpdateSettingsAsync(settings);
+    }
 }

@@ -3,6 +3,8 @@
 [FirestoreData]
 public class Settings
 {
+    [FirestoreProperty]
+    public string Id { get; set; }
 
     [FirestoreProperty]
     public int ExpectedWinAmount { get; set; }
@@ -12,4 +14,7 @@ public class Settings
 
     [FirestoreProperty]
     public string DefaultSeason { get; set; }
+
+    [FirestoreProperty]
+    public List<string> Seasons { get; set; }
 }
