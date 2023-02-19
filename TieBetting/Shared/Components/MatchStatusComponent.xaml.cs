@@ -26,17 +26,18 @@ public class TeamMatchStatusToBackgroundColorConverter : IMultiValueConverter
             return Colors.DarkGray;
         }
 
-        if (teamType == TeamType.HomeTeam && matchViewModel.HasHomeTeamBet() != true)
+        if (teamType == TeamType.HomeTeam)
         {
-            return Colors.DarkGray;
+            return GetMatchStatusColor(matchViewModel.HomeTeamMatchStatus);
         }
 
-        if (teamType == TeamType.AwayTeam && matchViewModel.HasAwayTeamBet() != true)
-        {
-            return Colors.DarkGray;
-        }
+        // Away team
+        return GetMatchStatusColor(matchViewModel.AwayTeamMatchStatus);
+    }
 
-        switch (matchViewModel.MatchStatus)
+    private static object GetMatchStatusColor(MatchStatus matchStatus)
+    {
+        switch (matchStatus)
         {
             case MatchStatus.NotActive:
                 return Colors.DarkGray;
@@ -46,8 +47,10 @@ public class TeamMatchStatusToBackgroundColorConverter : IMultiValueConverter
                 return Colors.OrangeRed;
             case MatchStatus.Win:
                 return Colors.Green;
+            case MatchStatus.Dormant:
+                return Colors.Brown;
             default:
-                throw new ArgumentNullException($"Uknown status on match: <{matchViewModel.MatchStatus}");
+                throw new ArgumentNullException($"Unknown status on match: <{matchStatus}");
         }
     }
 

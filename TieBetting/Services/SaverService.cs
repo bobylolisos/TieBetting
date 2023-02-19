@@ -1,6 +1,4 @@
-﻿using static Android.Provider.Telephony.Mms;
-
-namespace TieBetting.Services;
+﻿namespace TieBetting.Services;
 
 public class SaverService : ISaverService
 {

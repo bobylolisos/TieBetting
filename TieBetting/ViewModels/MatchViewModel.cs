@@ -30,7 +30,9 @@ public class MatchViewModel : ViewModelBase
 
     public int? HomeTeamBet => Match.HomeTeamBet;
 
-    public double? HomeTeamWin => this.IsWin() ? Match.HomeTeamBet * Rate : 0;
+    public double? HomeTeamWin => this.IsWin(TeamType.HomeTeam) ? Match.HomeTeamBet * Rate : 0;
+
+    public MatchStatus HomeTeamMatchStatus => (MatchStatus)Match.HomeTeamStatus;
 
     public string AwayTeamName => Match.AwayTeam;
 
@@ -38,11 +40,13 @@ public class MatchViewModel : ViewModelBase
 
     public int? AwayTeamBet => Match.AwayTeamBet;
 
-    public double? AwayTeamWin => this.IsWin() ? Match.AwayTeamBet * Rate : 0;
+    public double? AwayTeamWin => this.IsWin(TeamType.AwayTeam) ? Match.AwayTeamBet * Rate : 0;
+
+    public MatchStatus AwayTeamMatchStatus => (MatchStatus)Match.AwayTeamStatus;
 
     public double? Rate => Match.Rate;
 
-    public MatchStatus MatchStatus => (MatchStatus)Match.Status;
+    public MatchStatus MatchStatus => ResolveMatchStatus();
 
     public int? TotalBet => HomeTeamBet + AwayTeamBet;
 
@@ -52,7 +56,31 @@ public class MatchViewModel : ViewModelBase
 
     public virtual async Task SetStatus(MatchStatus matchStatus)
     {
-        Match.Status = (int)matchStatus;
+        if (matchStatus == MatchStatus.NotActive)
+        {
+            Match.HomeTeamStatus = (int)MatchStatus.NotActive;
+            Match.AwayTeamStatus = (int)MatchStatus.NotActive;
+        }
+        else
+        {
+            if (this.HasBet(TeamType.HomeTeam))
+            {
+                Match.HomeTeamStatus = (int)matchStatus;
+            }
+            else if (AwayTeam.IsDormant)
+            {
+                Match.HomeTeamStatus = (int)MatchStatus.Dormant;
+            }
+
+            if (this.HasBet(TeamType.AwayTeam))
+            {
+                Match.AwayTeamStatus = (int)matchStatus;
+            }
+            else if (AwayTeam.IsDormant)
+            {
+                Match.AwayTeamStatus = (int)MatchStatus.Dormant;
+            }
+        }
 
         OnPropertyChanged(nameof(MatchStatus));
 
@@ -63,8 +91,9 @@ public class MatchViewModel : ViewModelBase
     {
         Match.Rate = null;
         Match.HomeTeamBet = null;
+        Match.HomeTeamStatus = 0;
         Match.AwayTeamBet = null;
-        Match.Status = 0;
+        Match.AwayTeamStatus = 0;
 
         OnPropertyChanged(nameof(Rate));
         OnPropertyChanged(nameof(MatchStatus));
@@ -83,7 +112,7 @@ public class MatchViewModel : ViewModelBase
 
     public int GetActivatedHomeTeamBet()
     {
-        if (MatchStatus is MatchStatus.Active or MatchStatus.Win or MatchStatus.Lost)
+        if (HomeTeamMatchStatus is MatchStatus.Active or MatchStatus.Win or MatchStatus.Lost)
         {
             return HomeTeamBet ?? 0;
         }
@@ -93,7 +122,7 @@ public class MatchViewModel : ViewModelBase
 
     public int GetActivatedAwayTeamBet()
     {
-        if (MatchStatus is MatchStatus.Active or MatchStatus.Win or MatchStatus.Lost)
+        if (AwayTeamMatchStatus is MatchStatus.Active or MatchStatus.Win or MatchStatus.Lost)
         {
             return AwayTeamBet ?? 0;
         }
@@ -106,4 +135,25 @@ public class MatchViewModel : ViewModelBase
     {
         return GetActivatedHomeTeamBet() + GetActivatedAwayTeamBet();
     }
+
+    private MatchStatus ResolveMatchStatus()
+    {
+        if (this.IsActiveOrDone(TeamType.HomeTeam))
+        {
+            return HomeTeamMatchStatus;
+        }
+
+        if (this.IsActiveOrDone(TeamType.AwayTeam))
+        {
+            return AwayTeamMatchStatus;
+        }
+
+        if (this.IsDormant(TeamType.HomeTeam) || this.IsDormant(TeamType.AwayTeam))
+        {
+            return MatchStatus.Dormant;
+        }
+
+        return MatchStatus.NotActive;
+    }
+
 }

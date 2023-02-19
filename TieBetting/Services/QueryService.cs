@@ -60,7 +60,7 @@ public class QueryService : IQueryService
     {
         await EnsureDatabaseIsLoaded();
 
-        return _matches.Where(x => x.Day < DayProvider.TodayDay && x.IsActive()).OrderBy(x => x.Day).ToList();
+        return _matches.Where(x => x.Day < DayProvider.TodayDay && x.IsAnyActive()).OrderBy(x => x.Day).ToList();
     }
 
     private async Task EnsureDatabaseIsLoaded()

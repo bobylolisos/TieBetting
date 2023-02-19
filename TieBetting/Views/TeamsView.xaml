@@ -78,7 +78,7 @@
                             Grid.Row="2"
                             Grid.Column="0"
                             RowDefinitions="Auto,Auto,Auto"
-                            ColumnDefinitions="Auto,20,Auto,30,Auto,20,Auto,*"
+                            ColumnDefinitions="Auto,15,Auto,20,Auto,15,Auto,*"
                             Margin="5,0">
 
                             <!--  First column  -->

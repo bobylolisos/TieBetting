@@ -9,7 +9,7 @@ public class FirestoreRepository : IFirestoreRepository
     private FirestoreDb _firestoreDb;
     private string _credentials;
 
-    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = true)
+    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = false)
     {
         _credentials = null;
         string filename;
@@ -101,7 +101,7 @@ public class FirestoreRepository : IFirestoreRepository
         return await GetAllMatchesAsync(firestoreDb);
     }
 
-    public async Task<IReadOnlyCollection<Match>> GetAllMatchesAsync(FirestoreDb firestoreDb)
+    private async Task<IReadOnlyCollection<Match>> GetAllMatchesAsync(FirestoreDb firestoreDb)
     {
         Debug.WriteLine("GetAllMatchesAsync - Begin");
 
@@ -194,9 +194,6 @@ public class FirestoreRepository : IFirestoreRepository
         await teamDocumentReference.SetAsync(team);
     }
 
-    /// <summary>
-    /// Used when we want to update Sandbox to a copy of TieBetting firestore
-    /// </summary>
     private async Task UpdateMatchesAsync(IReadOnlyCollection<Match> matches, FirestoreDb firestoreDb)
     {
         var batch = firestoreDb.StartBatch();

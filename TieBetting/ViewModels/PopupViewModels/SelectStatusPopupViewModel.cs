@@ -13,7 +13,7 @@ public class SelectStatusPopupViewModel : ViewModelBase, IPopupViewModel
 
     public AsyncRelayCommand<MatchStatus> SetStatusCommand { get; set; }
 
-    public MatchStatus MatchStatus => _matchViewModel?.MatchStatus ?? MatchStatus.NotActive;
+    public MatchStatus MatchStatus => ResolveMatchStatus();
 
     public Task OnOpenPopupAsync(PopupParameterBase parameter = null)
     {
@@ -30,6 +30,31 @@ public class SelectStatusPopupViewModel : ViewModelBase, IPopupViewModel
     {
         return Task.FromResult(true);
 
+    }
+
+    private MatchStatus ResolveMatchStatus()
+    {
+        if (_matchViewModel == null)
+        {
+            return MatchStatus.NotActive;
+        }
+
+        if (_matchViewModel.IsActiveOrDone(TeamType.HomeTeam))
+        {
+            return _matchViewModel.HomeTeamMatchStatus;
+        }
+
+        if (_matchViewModel.IsActiveOrDone(TeamType.AwayTeam))
+        {
+            return _matchViewModel.AwayTeamMatchStatus;
+        }
+
+        if (_matchViewModel.IsDormant(TeamType.HomeTeam) || _matchViewModel.IsDormant(TeamType.AwayTeam))
+        {
+            return MatchStatus.Dormant;
+        }
+
+        return MatchStatus.NotActive;
     }
 
     private async Task ExecuteSetStatusCommand(MatchStatus matchStatus)

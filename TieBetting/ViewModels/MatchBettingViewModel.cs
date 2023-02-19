@@ -38,8 +38,9 @@ public class MatchBettingViewModel : MatchViewModel
         {
             Match.Rate = null;
             Match.HomeTeamBet = null;
+            Match.HomeTeamStatus = 0;
             Match.AwayTeamBet = null;
-            Match.Status = 0;
+            Match.AwayTeamStatus = 0;
         }
         else if (rate.Value < 2)
         {
@@ -94,7 +95,31 @@ public class MatchBettingViewModel : MatchViewModel
 
     public override async Task SetStatus(MatchStatus matchStatus)
     {
-        Match.Status = (int)matchStatus;
+        if (matchStatus == MatchStatus.NotActive)
+        {
+            Match.HomeTeamStatus = (int)MatchStatus.NotActive;
+            Match.AwayTeamStatus = (int)MatchStatus.NotActive;
+        }
+        else
+        {
+            if (this.HasBet(TeamType.HomeTeam))
+            {
+                Match.HomeTeamStatus = (int)matchStatus;
+            }
+            else if (AwayTeam.IsDormant)
+            {
+                Match.HomeTeamStatus = (int)MatchStatus.Dormant;
+            }
+
+            if (this.HasBet(TeamType.AwayTeam))
+            {
+                Match.AwayTeamStatus = (int)matchStatus;
+            }
+            else if (AwayTeam.IsDormant)
+            {
+                Match.AwayTeamStatus = (int)MatchStatus.Dormant;
+            }
+        }
 
         await _saverService.UpdateMatchAsync(Match);
 

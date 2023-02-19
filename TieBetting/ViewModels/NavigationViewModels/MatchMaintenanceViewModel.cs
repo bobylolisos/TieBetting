@@ -1,4 +1,6 @@
-﻿namespace TieBetting.ViewModels.NavigationViewModels;
+﻿using TieBetting.Shared.Extensions;
+
+namespace TieBetting.ViewModels.NavigationViewModels;
 
 public class MatchMaintenanceViewModel : ViewModelNavigationBase
 {
@@ -42,19 +44,19 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase
             return false;
         }
 
-        var homeTeamHasLaterActiveMatches = Match.HomeTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone());
+        var homeTeamHasLaterActiveMatches = Match.HomeTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone(TeamType.HomeTeam));
         if (homeTeamHasLaterActiveMatches)
         {
             return false;
         }
 
-        var awayTeamHasLaterActiveMatches = Match.AwayTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone());
+        var awayTeamHasLaterActiveMatches = Match.AwayTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone(TeamType.AwayTeam));
         if (awayTeamHasLaterActiveMatches)
         {
             return false;
         }
 
-        return Match.IsActiveOrDone();
+        return Match.IsAnyActiveOrDone();
     }
 
     private async Task ExecuteChangeDateCommand()
@@ -71,7 +73,7 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase
             return false;
         }
 
-        return Match.IsNotActive();
+        return Match.IsNotActive(TeamType.HomeTeam) && Match.IsNotActive(TeamType.AwayTeam);
     }
 
     private async Task ExecuteDeleteMatchCommand()
@@ -88,6 +90,6 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase
             return false;
         }
 
-        return Match.IsNotActive();
+        return Match.IsNotActive(TeamType.HomeTeam) && Match.IsNotActive(TeamType.AwayTeam);
     }
 }

@@ -58,26 +58,26 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
 
     private bool CanExecuteEnterRateCommand()
     {
-        if (Match.IsActiveOrDone())
+        if (Match.IsAnyActiveOrDone())
         {
             return false;
         }
 
         // Make sure we won't set rate on match before an active match reported status
-        if (Match.HomeTeam.Matches.Any(x => x.IsActive()))
+        if (Match.HomeTeam.Matches.Any(x => x.IsActive(TeamType.HomeTeam)))
         {
             return false;
         }
-        if (Match.HomeTeam.Matches.Any(x => x.IsNotActive() && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
+        if (Match.HomeTeam.Matches.Any(x => x.IsNotActive(TeamType.HomeTeam) && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
         {
             return false;
         }
 
-        if (Match.AwayTeam.Matches.Any(x => x.IsActive()))
+        if (Match.AwayTeam.Matches.Any(x => x.IsActive(TeamType.AwayTeam)))
         {
             return false;
         }
-        if (Match.AwayTeam.Matches.Any(x => x.IsNotActive() && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
+        if (Match.AwayTeam.Matches.Any(x => x.IsNotActive(TeamType.AwayTeam) && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
         {
             return false;
         }
@@ -87,14 +87,11 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
 
     private async Task ExecuteSetStatusCommand(MatchStatus matchStatus)
     {
-        if (matchStatus != Match.MatchStatus)
-        {
-            await Match.SetStatus(matchStatus);
+        await Match.SetStatus(matchStatus);
 
-            await ExecuteNavigateBackCommand();
+        await ExecuteNavigateBackCommand();
 
-            OnPropertyChanged(nameof(IsTabBarVisible));
-        }
+        OnPropertyChanged(nameof(IsTabBarVisible));
     }
 
     private async Task ExecuteShowSelectStatusPopupView()
@@ -112,22 +109,22 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
             return false;
         }
 
-        var homeTeamHasLaterActiveMatches = Match.HomeTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone());
+        var homeTeamHasLaterActiveMatches = Match.HomeTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone(TeamType.HomeTeam));
         if (homeTeamHasLaterActiveMatches)
         {
             return false;
         }
 
-        var awayTeamHasLaterActiveMatches = Match.AwayTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone());
+        var awayTeamHasLaterActiveMatches = Match.AwayTeam.Matches.Any(x => x.Day > Match.Day && x.IsActiveOrDone(TeamType.AwayTeam));
         if (awayTeamHasLaterActiveMatches)
         {
             return false;
         }
 
-        return Match.IsActiveOrDone();
+        return Match.IsAnyActiveOrDone();
     }
 
 
-    public bool IsTabBarVisible => Match?.IsActiveOrDone() ?? false;
+    public bool IsTabBarVisible => Match?.IsAnyActiveOrDone() ?? false;
 
 }

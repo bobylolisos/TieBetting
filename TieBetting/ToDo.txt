@@ -9,6 +9,8 @@ X Bild för SHL & HA, använda i AllMatches bredvid total-summan
 - Graf
 X Om man ändrar status så uppdateras inte vymodellen på huvudsidan, kanske queryservice ska få returnera vymodeller så att alla vyer jobbar me samma vymodell?
 - Fixa ersättning för Application.Current.MainPage.DisplayAlert
+- Ändra status på match så bör vi kolla om ett av lagen är dormant "efter" det att det lagts pengar på matchen
+
 
 Match
 	X Förhindra att man kan sätta ny status (rate??) på en match där ett lag redan har en pågående match
@@ -24,16 +26,19 @@ AllMatches
 	X Select -> Navigate to MatchMaintenance
 
 AllMatches/MatchMaintenance
-	- TabBar to 'Change status', 'Change date', 'Delete'
+	X 'Change status'
+	- 'Change date'
+	- 'Delete'
 
 Team
 	X Won %
-	- Pausa spel på lag
 
 Team/Matches
 	X Select season
 	- TabBar to 'Abandon session' (Kan endast köra abandon på senaste matchen och den måste vara förlorad. Då ändra status till 4 typ, hmmm, det går ju inte för då blir båda teamen abandon)
 	X Select -> Navigate to MatchMaintenance
+	X Pausa lag
+	- Förhindra paus på lag som har pågående match, när man sätter status på denna match så blir det fel
 
 
 Settings

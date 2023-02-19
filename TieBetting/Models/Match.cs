@@ -16,17 +16,20 @@ public class Match
     public int? HomeTeamBet { get; set; }
 
     [FirestoreProperty]
+    public int HomeTeamStatus { get; set; }
+
+    [FirestoreProperty]
     public string AwayTeam { get; set; }
 
     [FirestoreProperty]
     public int? AwayTeamBet { get; set; }
 
     [FirestoreProperty]
+    public int AwayTeamStatus { get; set; }
+    
+    [FirestoreProperty]
     public double? Rate { get; set; }
 
     [FirestoreProperty]
     public int Day { get; set; }
-
-    [FirestoreProperty]
-    public int Status { get; set; }
 }

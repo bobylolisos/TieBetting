@@ -11,12 +11,12 @@ public class IsDormantToStringConverter : ValueConverterBase<MatchViewModel, Tea
 
         var teamIsActive = teamType == TeamType.HomeTeam ? matchViewModel.HomeTeam.IsActive : matchViewModel.AwayTeam.IsActive;
 
-        if (matchViewModel.IsNotActive() || matchViewModel.IsActive())
+        if (matchViewModel.IsNotActive(teamType) || matchViewModel.IsActive(teamType))
         {
             return teamIsActive ? null : "IS DORMANT";
         }
 
-        if (matchViewModel.IsActiveOrDone())
+        if (matchViewModel.IsActiveOrDone(teamType))
         {
             if (teamType == TeamType.HomeTeam)
             {

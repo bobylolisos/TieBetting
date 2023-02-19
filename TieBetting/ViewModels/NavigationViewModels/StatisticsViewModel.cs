@@ -146,7 +146,7 @@ public class StatisticsViewModel : ViewModelNavigationBase
         }
 
         TotalBet = teams.Sum(x => x.TotalBet);
-        TotalWin = teams.Sum(x => x.TotalWin);
+        TotalWin = (int)teams.Sum(x => x.ExactTotalWin);
         BetsInSession = teams.Sum(x => x.BetsInSession);
         CurrentProfit = TotalWin - TotalBet;
 

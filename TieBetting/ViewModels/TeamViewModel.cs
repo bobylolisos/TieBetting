@@ -47,6 +47,8 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
 
     public int TotalWin { get; private set; }
 
+    public double ExactTotalWin { get; private set; }
+
     public int TotalBet { get; private set; }
 
     public int Profit => TotalWin - TotalBet;
@@ -71,13 +73,13 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
         var currentSessionDone = false;
         _statuses.Clear();
 
-        foreach (var match in Matches.Where(x => x.MatchStatus > 0).OrderByDescending(x => x.Day))
+        foreach (var match in Matches.OrderByDescending(x => x.Day))
         {
-            if (match.HomeTeamName == Name)
+            if (match.HomeTeamName == Name && match.IsActiveOrDone(TeamType.HomeTeam))
             {
                 if (currentSessionDone == false)
                 {
-                    if (match.IsWin() && match.HasHomeTeamBet())
+                    if (match.IsWin(TeamType.HomeTeam))
                     {
                         currentSessionDone = true;
                     }
@@ -89,18 +91,18 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
                 totalBet += match.GetActivatedHomeTeamBet();
                 totalWin += match.HomeTeamWin ?? 0;
 
-                if (match.IsDone() && match.HasHomeTeamBet())
+                if (match.IsDone(TeamType.HomeTeam))
                 {
-                    _statuses.Insert(0, match.IsWin());
+                    _statuses.Insert(0, match.IsWin(TeamType.HomeTeam));
                 }
 
             }
 
-            if (match.AwayTeamName == Name)
+            if (match.AwayTeamName == Name && match.IsActiveOrDone(TeamType.AwayTeam))
             {
                 if (currentSessionDone == false)
                 {
-                    if (match.IsWin() && match.HasAwayTeamBet())
+                    if (match.IsWin(TeamType.AwayTeam))
                     {
                         currentSessionDone = true;
                     }
@@ -112,19 +114,21 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
                 totalBet += match.GetActivatedAwayTeamBet();
                 totalWin += match.AwayTeamWin ?? 0;
 
-                if (match.IsDone() && match.HasAwayTeamBet())
+                if (match.IsDone(TeamType.AwayTeam))
                 {
-                    _statuses.Insert(0, match.IsWin());
+                    _statuses.Insert(0, match.IsWin(TeamType.AwayTeam));
                 }
             }
         }
 
         TotalBet = totalBet;
+        ExactTotalWin = totalWin;
         TotalWin = (int)totalWin;
         BetsInSession = currentSession;
 
         OnPropertyChanged(nameof(Statuses));
         OnPropertyChanged(nameof(TotalBet));
+        OnPropertyChanged(nameof(ExactTotalWin));
         OnPropertyChanged(nameof(TotalWin));
         OnPropertyChanged(nameof(BetsInSession));
         OnPropertyChanged(nameof(Profit));

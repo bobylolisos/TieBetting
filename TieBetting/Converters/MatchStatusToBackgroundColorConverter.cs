@@ -14,8 +14,10 @@ public class MatchStatusToBackgroundColorConverter : ValueConverterBase<MatchSta
                 return Colors.OrangeRed;
             case MatchStatus.Win:
                 return Colors.Green;
+            case MatchStatus.Dormant:
+                return Colors.Brown;
             default:
-                throw new ArgumentNullException($"Uknown status on match: <{value}");
+                throw new ArgumentNullException($"Unknown status on match: <{value}");
         }
     }
 }

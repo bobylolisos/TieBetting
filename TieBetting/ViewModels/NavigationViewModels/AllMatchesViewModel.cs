@@ -35,8 +35,8 @@ public class AllMatchesViewModel : ViewModelNavigationBase
     {
         get
         {
-            var matchesCount = Matches.Sum(x => x.Count(x => x.IsDone()));
-            var matchesWonCount = Matches.Sum(x => x.Count(x => x.IsWin()));
+            var matchesCount = Matches.Sum(x => x.Count(x => x.IsAnyDone()));
+            var matchesWonCount = Matches.Sum(x => x.Count(x => x.IsAnyWin()));
             if (matchesWonCount == 0)
             {
                 return "0 %";
@@ -124,7 +124,7 @@ public class AllMatchesViewModel : ViewModelNavigationBase
                 {
                     if (currentSessionDone == false)
                     {
-                        if (match.IsWin())
+                        if (match.IsWin(TeamType.HomeTeam))
                         {
                             currentSessionDone = true;
                         }
@@ -139,7 +139,7 @@ public class AllMatchesViewModel : ViewModelNavigationBase
                 {
                     if (currentSessionDone == false)
                     {
-                        if (match.IsWin())
+                        if (match.IsWin(TeamType.AwayTeam))
                         {
                             currentSessionDone = true;
                         }
