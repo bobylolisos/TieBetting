@@ -99,6 +99,12 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
 
     private async Task ExecuteToggleActiveStatusCommand()
     {
+        if (_team.Matches.Any(x => x.IsActive(_team.Name)))
+        {
+            await Application.Current.MainPage.DisplayAlert(TabBarItem3Label, "You have an active match. Complete that match first and then try again.", "Ok");
+            return;
+        }
+
         await _team.ToggleActiveStatusAsync();
         UpdateLabelAndImageOnTabBarItem3();
         OnPropertyChanged(nameof(IsDormant));

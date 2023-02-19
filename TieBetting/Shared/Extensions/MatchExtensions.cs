@@ -22,6 +22,21 @@ public static class MatchExtensions
         return match.AwayTeamMatchStatus == MatchStatus.Active;
     }
 
+    public static bool IsActive(this MatchViewModel match, string teamName)
+    {
+        if (teamName == match.HomeTeamName && match.HomeTeamMatchStatus == MatchStatus.Active)
+        {
+            return true;
+        }
+
+        if (teamName == match.AwayTeamName && match.AwayTeamMatchStatus == MatchStatus.Active)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public static bool IsAnyActive(this MatchViewModel match)
     {
         return match.HomeTeamMatchStatus == MatchStatus.Active || match.AwayTeamMatchStatus == MatchStatus.Active;

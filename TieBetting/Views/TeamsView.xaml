@@ -138,7 +138,7 @@
                             <Label
                                 Grid.Row="1"
                                 Grid.Column="4"
-                                Text="Matches won"
+                                Text="Matches won %"
                                 Style="{StaticResource RowHeaderLabelStyle}" />
 
                             <Label
