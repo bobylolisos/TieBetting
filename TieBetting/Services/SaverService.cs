@@ -14,21 +14,38 @@ public class SaverService : ISaverService
         return _repository.AddMatchesAsync(matches);
     }
 
-    public Task AddTeamAsync(Team team)
+    public async Task<TeamViewModel> CreateTeamAsync(string teamName)
     {
-        return _repository.AddTeamAsync(team);
+        var team = await _repository.CreateTeamAsync(teamName);
+
+        return new TeamViewModel(this, team);
     }
 
-    public Task<Team> CreateTeamAsync(string teamName)
+    public async Task<MatchViewModel> CreateMatchAsync(string season, TeamViewModel homeTeam, TeamViewModel awayTeam, DateTime date)
     {
-        return _repository.CreateTeamAsync(teamName);
+        var match = await _repository.CreateMatchAsync(season, homeTeam.Name, awayTeam.Name, date);
+
+        var vm = new MatchViewModel(this, match, homeTeam, awayTeam);
+
+        homeTeam.AddMatch(vm);
+        awayTeam.AddMatch(vm);
+
+        WeakReferenceMessenger.Default.Send(new MatchCreatedMessage(vm));
+        WeakReferenceMessenger.Default.Send(new RefreshRequiredMessage());
+
+        return vm;
     }
 
-    public async Task UpdateMatchAsync(Match match)
+    public async Task UpdateMatchAsync(Match match, bool refreshRequired = false)
     {
         await _repository.UpdateMatchAsync(match);
 
         WeakReferenceMessenger.Default.Send(new MatchUpdatedMessage(match.Id));
+
+        if (refreshRequired)
+        {
+            WeakReferenceMessenger.Default.Send(new RefreshRequiredMessage());
+        }
     }
 
     public Task UpdateTeamAsync(Team team)

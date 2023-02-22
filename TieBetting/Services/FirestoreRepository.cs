@@ -9,7 +9,7 @@ public class FirestoreRepository : IFirestoreRepository
     private FirestoreDb _firestoreDb;
     private string _credentials;
 
-    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = false)
+    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = true)
     {
         _credentials = null;
         string filename;
@@ -123,25 +123,10 @@ public class FirestoreRepository : IFirestoreRepository
 
         Debug.WriteLine("GetAllMatchesAsync - Done");
 
-        foreach (var match in matches)
-        {
-            if (match.Season == "HA 2022/23")
-            {
-                match.Season = "HA 22/23";
-            }
-            if (match.Season == "SHL 2022/2023")
-            {
-                match.Season = "SHL 22/23";
-            }
-        }
-
-        await UpdateMatchesAsync(matches.Where(x => x.Season == "HA 22/23").ToList(), firestoreDb);
-        await UpdateMatchesAsync(matches.Where(x => x.Season == "SHL 22/23").ToList(), firestoreDb);
-
         return matches;
     }
 
-    public async Task AddTeamAsync(Team team)
+    private async Task AddTeamAsync(Team team)
     {
         var firestoreDb = await CreateFirestoreDbAsync();
 
@@ -162,6 +147,22 @@ public class FirestoreRepository : IFirestoreRepository
         await AddTeamAsync(team);
 
         return team;
+    }
+
+    public async Task<Match> CreateMatchAsync(string season, string homeTeam, string awayTeam, DateTime date)
+    {
+        var match = new Match
+        {
+            Id = "TB-" + Guid.NewGuid(),
+            Season = season,
+            HomeTeam = homeTeam,
+            AwayTeam = awayTeam,
+            Day = DayProvider.GetDay(date)
+        };
+
+        await UpdateMatchAsync(match);
+
+        return match;
     }
 
     public async Task<IReadOnlyCollection<Team>> GetTeamsAsync()

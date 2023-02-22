@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class MainViewModel : ViewModelNavigationBase
+public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequiredMessage>
 {
     private readonly ICalendarFileDownloadService _calendarFileDownloadService;
     private readonly IQueryService _queryService;
@@ -8,6 +8,8 @@ public class MainViewModel : ViewModelNavigationBase
     private readonly INavigationService _navigationService;
     private IReadOnlyCollection<TeamViewModel> _teams;
     private bool _isRefreshing;
+    private bool _isReloading;
+    private bool _refreshRequired = true;
 
     public MainViewModel(ICalendarFileDownloadService calendarFileDownloadService, IQueryService queryService, ISaverService saverService, INavigationService navigationService)
     : base(navigationService)
@@ -22,6 +24,8 @@ public class MainViewModel : ViewModelNavigationBase
         TabBarItem2Command = new AsyncRelayCommand(ExecuteNavigateToSeasonMatchesViewCommand);
         TabBarItem3Command = new AsyncRelayCommand(ExecuteNavigateToStatisticsViewCommand);
         TabBarItem4Command = new AsyncRelayCommand(ExecuteNavigateToSettingsCommand);
+
+        WeakReferenceMessenger.Default.RegisterAll(this);
     }
 
     public ObservableCollection<MatchBettingGroupViewModel> Matches { get; set; } = new();
@@ -36,23 +40,27 @@ public class MainViewModel : ViewModelNavigationBase
         set => SetProperty(ref _isRefreshing, value);
     }
 
+    public bool IsReloading
+    {
+        get => _isReloading;
+        set => SetProperty(ref _isReloading, value);
+    }
+
     public override async Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
+    {
+        await Reload();
+    }
+
+    public override async Task OnNavigatedBackAsync()
     {
         await Reload();
     }
 
     private async Task ExecuteRefreshCommand()
     {
-        try
-        {
-            _queryService.ClearCache();
-
-            await Reload();
-        }
-        finally
-        {
-            IsRefreshing = false;
-        }
+        IsRefreshing = false;
+        _refreshRequired = true;
+        await Reload();
     }
 
     private async Task ExecuteNavigateToMatchDetailsViewCommand(MatchBettingViewModel viewModel)
@@ -101,63 +109,85 @@ public class MainViewModel : ViewModelNavigationBase
 
     private async Task Reload()
     {
-        var settings = await _queryService.GetSettingsAsync();
-        Matches.Clear();
-
-        _teams = await _queryService.GetTeamsAsync();
-
-        var previousMatches = await _queryService.GetPreviousOngoingMatchesAsync();
-
-        if (previousMatches.Any())
+        try
         {
-            Matches.Add(new MatchBettingGroupViewModel("Previous", previousMatches));
-        }
-
-
-        var fetchedUpcomingMatches = await _queryService.GetNextMatchesAsync(settings.UpcomingFetchCount);
-
-        var todayDay = DayProvider.TodayDay;
-        Debug.WriteLine("");
-        Debug.WriteLine($"Today day is: {todayDay}");
-        Debug.WriteLine("");
-
-        var todayMatches = new List<MatchBettingViewModel>();
-        var upcomingMatches = new List<MatchBettingViewModel>();
-        foreach (var match in fetchedUpcomingMatches)
-        {
-            if (match.Day == todayDay)
+            if (_refreshRequired != true)
             {
-                todayMatches.Add(match);
+                return;
+            }
+            _queryService.ClearCache();
+
+            IsReloading = true;
+
+            var settings = await _queryService.GetSettingsAsync();
+            Matches.Clear();
+
+            _teams = await _queryService.GetTeamsAsync();
+
+            var previousMatches = await _queryService.GetPreviousOngoingMatchesAsync();
+
+            if (previousMatches.Any())
+            {
+                Matches.Add(new MatchBettingGroupViewModel("Previous", previousMatches));
+            }
+
+
+            var fetchedUpcomingMatches = await _queryService.GetNextMatchesAsync(settings.UpcomingFetchCount);
+
+            var todayDay = DayProvider.TodayDay;
+            Debug.WriteLine("");
+            Debug.WriteLine($"Today day is: {todayDay}");
+            Debug.WriteLine("");
+
+            var todayMatches = new List<MatchBettingViewModel>();
+            var upcomingMatches = new List<MatchBettingViewModel>();
+            foreach (var match in fetchedUpcomingMatches)
+            {
+                if (match.Day == todayDay)
+                {
+                    todayMatches.Add(match);
+                }
+                else
+                {
+                    upcomingMatches.Add(match);
+                }
+            }
+
+            if (todayMatches.Any())
+            {
+                Matches.Add(new MatchBettingGroupViewModel($"{DateTime.Today:yyyy-MM-dd}   Today", todayMatches));
             }
             else
             {
-                upcomingMatches.Add(match);
+                Matches.Add(new MatchBettingGroupViewModel($"{DateTime.Today:yyyy-MM-dd}   Today, no matches",
+                    new List<MatchBettingViewModel>()));
             }
-        }
 
-        if (todayMatches.Any())
-        {
-            Matches.Add(new MatchBettingGroupViewModel($"{DateTime.Today:yyyy-MM-dd}   Today", todayMatches));
-        }
-        else
-        {
-            Matches.Add(new MatchBettingGroupViewModel($"{DateTime.Today:yyyy-MM-dd}   Today, no matches",
-                new List<MatchBettingViewModel>()));
-        }
-
-        if (upcomingMatches.Any())
-        {
-            var groupedUpcomingMatches = upcomingMatches.GroupBy(x => x.Date).Select(x => x.ToList());
-            foreach (var groupedUpcomingMatch in groupedUpcomingMatches)
+            if (upcomingMatches.Any())
             {
-                Matches.Add(new MatchBettingGroupViewModel(groupedUpcomingMatch[0].Date, groupedUpcomingMatch));
+                var groupedUpcomingMatches = upcomingMatches.GroupBy(x => x.Date).Select(x => x.ToList());
+                foreach (var groupedUpcomingMatch in groupedUpcomingMatches)
+                {
+                    Matches.Add(new MatchBettingGroupViewModel(groupedUpcomingMatch[0].Date, groupedUpcomingMatch));
+                }
             }
-        }
 
-        if (Matches.Any() == false)
+            if (Matches.Any() == false)
+            {
+                Matches.Add(new MatchBettingGroupViewModel("No matches", new List<MatchBettingViewModel>()));
+            }
+
+            _refreshRequired = false;
+        }
+        finally
         {
-            Matches.Add(new MatchBettingGroupViewModel("No matches", new List<MatchBettingViewModel>()));
+            IsReloading = false;
         }
     }
 
+    public void Receive(RefreshRequiredMessage message)
+    {
+        _refreshRequired = true;
+        Matches.Clear();
+    }
 }

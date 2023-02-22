@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<shared:BasePopupPage
+    x:Class="TieBetting.Views.PopupViews.EditMatchPopupView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:TieBetting.Converters"
+    xmlns:popupViewModels="clr-namespace:TieBetting.ViewModels.PopupViewModels"
+    xmlns:shared="clr-namespace:TieBetting.Shared"
+    x:DataType="popupViewModels:EditMatchPopupViewModel">
+
+    <shared:BasePopupPage.Resources>
+        <Style
+            x:Key="ButtonStyle"
+            TargetType="Button">
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="FontSize" Value="18" />
+        </Style>
+        <converters:BooleanToVisibilityConverter
+            x:Key="VisibleWhenFalseConverter"
+            False="True"
+            True="False" />
+    </shared:BasePopupPage.Resources>
+
+    <shared:BasePopupPage.PopupContent>
+        <Grid RowDefinitions="Auto,20,*,Auto">
+            <Grid
+                Grid.Row="0"
+                Grid.Column="0"
+                RowDefinitions="Auto,Auto"
+                ColumnDefinitions="20,*,20,Auto,20,*,20"
+                Margin="5"
+                HorizontalOptions="Fill"
+                BackgroundColor="White"
+                MinimumWidthRequest="100">
+
+                <!--  Row 0  -->
+                <Image
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    WidthRequest="40"
+                    Margin="0,3"
+                    Source="{Binding HomeTeamImage}" />
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="3"
+                    Margin="0,3"
+                    Text="{Binding SelectedDate, StringFormat='{}{0:yyyy-MM-dd}'}"
+                    TextColor="{StaticResource Black}"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    CharacterSpacing="1.4"
+                    FontSize="14" />
+
+                <Image
+                    Grid.Row="0"
+                    Grid.Column="5"
+                    WidthRequest="40"
+                    Margin="0,3"
+                    Source="{Binding AwayTeamImage}" />
+
+
+                <!--  Row 1  -->
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="0,3"
+                    Text="{Binding HomeTeamName}"
+                    TextColor="{StaticResource Black}"
+                    HorizontalTextAlignment="Center"
+                    CharacterSpacing="1.4"
+                    FontSize="15" />
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="4"
+                    Grid.ColumnSpan="3"
+                    Margin="0,3"
+                    Text="{Binding AwayTeamName}"
+                    TextColor="{StaticResource Black}"
+                    HorizontalTextAlignment="Center"
+                    CharacterSpacing="1.4"
+                    FontSize="15" />
+            </Grid>
+
+            <Grid
+                Grid.Row="2"
+                Grid.Column="0"
+                RowDefinitions="40,40,40,40"
+                ColumnDefinitions="Auto,20,*"
+                Margin="5"
+                Padding="5,0"
+                BackgroundColor="White">
+
+                <!--  Season select  -->
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Season"
+                    HorizontalTextAlignment="Start"
+                    VerticalTextAlignment="Center"
+                    FontSize="14" />
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Text="{Binding SelectedSeason}"
+                    HorizontalTextAlignment="Start"
+                    VerticalTextAlignment="Center"
+                    FontSize="14" />
+
+                <!--  Home team select  -->
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="Home team"
+                    HorizontalTextAlignment="Start"
+                    VerticalTextAlignment="Center"
+                    FontSize="14" />
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Text="{Binding HomeTeamName}"
+                    HorizontalTextAlignment="Start"
+                    VerticalTextAlignment="Center"
+                    FontSize="14"
+                    IsVisible="{Binding IsTeamSelectable, Converter={StaticResource VisibleWhenFalseConverter}}" />
+                <Picker
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    IsVisible="{Binding IsTeamSelectable}"
+                    ItemDisplayBinding="{Binding Name}"
+                    ItemsSource="{Binding Teams}"
+                    SelectedItem="{Binding SelectedHomeTeam}" />
+
+                <!--  Away team select  -->
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="Away team"
+                    HorizontalTextAlignment="Start"
+                    VerticalTextAlignment="Center"
+                    FontSize="14" />
+
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Text="{Binding AwayTeamName}"
+                    HorizontalTextAlignment="Start"
+                    VerticalTextAlignment="Center"
+                    FontSize="14"
+                    IsVisible="{Binding IsTeamSelectable, Converter={StaticResource VisibleWhenFalseConverter}}" />
+                <Picker
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    IsVisible="{Binding IsTeamSelectable}"
+                    ItemDisplayBinding="{Binding Name}"
+                    ItemsSource="{Binding Teams}"
+                    SelectedItem="{Binding SelectedAwayTeam}" />
+
+                <!--  Date select  -->
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Text="Date"
+                    HorizontalTextAlignment="Start"
+                    VerticalTextAlignment="Center"
+                    FontSize="14" />
+
+                <DatePicker
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Date="{Binding SelectedDate}"
+                    Format="yyyy-MM-dd" />
+
+            </Grid>
+
+            <Button
+                Grid.Row="3"
+                WidthRequest="174"
+                HeightRequest="50"
+                Margin="0,8"
+                Text="Save"
+                Command="{Binding SaveChangesCommand}"
+                Style="{StaticResource ButtonStyle}" />
+        </Grid>
+
+    </shared:BasePopupPage.PopupContent>
+</shared:BasePopupPage>

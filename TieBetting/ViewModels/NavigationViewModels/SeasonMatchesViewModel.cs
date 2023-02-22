@@ -1,19 +1,22 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class SeasonMatchesViewModel : ViewModelNavigationBase
+public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCreatedMessage>
 {
     private readonly IQueryService _queryService;
+    private readonly IPopupService _popupService;
     private Settings _settings;
     private string _selectedSeason;
     private IReadOnlyCollection<MatchViewModel> _allMatches;
     private IReadOnlyCollection<TeamViewModel> _allTeams;
 
-    public SeasonMatchesViewModel(INavigationService navigationService, IQueryService queryService)
+    public SeasonMatchesViewModel(INavigationService navigationService, IQueryService queryService, IPopupService popupService)
         : base(navigationService)
     {
         _queryService = queryService;
+        _popupService = popupService;
 
         NavigateToMatchMaintenanceViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchMaintenanceViewCommand);
+        TabBarItem1Command = new AsyncRelayCommand(ExecuteNavigateToAddMatchViewCommand);
     }
 
     public AsyncRelayCommand<MatchViewModel> NavigateToMatchMaintenanceViewCommand { get; }
@@ -159,5 +162,37 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase
     private async Task ExecuteNavigateToMatchMaintenanceViewCommand(MatchViewModel matchViewModel)
     {
         await NavigationService.NavigateToPageAsync<MatchMaintenanceView>(new MatchMaintenanceViewNavigationParameter(matchViewModel));
+    }
+
+    private async Task ExecuteNavigateToAddMatchViewCommand()
+    {
+        await _popupService.OpenPopupAsync<EditMatchPopupView>(new AddMatchPopupParameter(SelectedSeason));
+    }
+
+    public void RegisterMessages()
+    {
+        WeakReferenceMessenger.Default.RegisterAll(this);
+    }
+
+    public void UnregisterMessages()
+    {
+        WeakReferenceMessenger.Default.UnregisterAll(this);
+    }
+
+    public void Receive(MatchCreatedMessage message)
+    {
+        var groupViewModel = Matches.FirstOrDefault(x => x.Name == "- Added -");
+        if (groupViewModel != null)
+        {
+            Matches.Remove(groupViewModel);
+            groupViewModel.Add(message.Match);
+            Matches.Insert(0, groupViewModel);
+        }
+        else
+        {
+            var matchGroupViewModel = new MatchGroupViewModel("- Added -", new List<MatchViewModel> { message.Match });
+            Matches.Insert(0, matchGroupViewModel);
+        }
+
     }
 }

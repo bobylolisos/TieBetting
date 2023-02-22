@@ -11,6 +11,10 @@
     x:Name="This"
     Title="TeamsView"
     x:DataType="navigationViewModels:TeamsViewModel">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding NavigateBackCommand}" />
+    </Shell.BackButtonBehavior>
     <Shell.TitleView>
         <Label
             Text="TEAMS"

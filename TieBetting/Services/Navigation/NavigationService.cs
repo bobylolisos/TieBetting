@@ -91,6 +91,15 @@ public class NavigationService : INavigationService
 
         // Todo: Change animated to TRUE. 2022-12-29 the value TRUE throws NullReferenceException
         await Navigation.PopAsync(false);
+
+        var previousPage = Navigation.NavigationStack.Count > 1 ? Navigation.NavigationStack[^1] : null;
+        var previousViewModel = previousPage?.BindingContext;
+
+        if (previousViewModel is ViewModelNavigationBase viewModelNavigationBase)
+        {
+            await viewModelNavigationBase.OnNavigatedBackAsync();
+        }
+
         return true;
     }
 

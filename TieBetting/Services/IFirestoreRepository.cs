@@ -8,9 +8,9 @@ public interface IFirestoreRepository
 
     Task<IReadOnlyCollection<Match>> GetMatchesAsync();
 
-    Task AddTeamAsync(Team team);
-
     Task<Team> CreateTeamAsync(string teamName);
+
+    Task<Match> CreateMatchAsync(string season, string homeTeam, string awayTeam, DateTime date);
 
     Task<IReadOnlyCollection<Team>> GetTeamsAsync();
 

@@ -11,9 +11,8 @@ public class MatchViewModel : ViewModelBase
         Match = match;
         HomeTeam = homeTeam;
         AwayTeam = awayTeam;
-
-        Date = DayProvider.GetDate(match.Day).ToString("yyyy-MM-dd");
     }
+
     public TeamViewModel HomeTeam { get; }
     
     public TeamViewModel AwayTeam { get; }
@@ -52,7 +51,7 @@ public class MatchViewModel : ViewModelBase
 
     public double? TotalWin => HomeTeamWin + AwayTeamWin;
 
-    public string Date { get; }
+    public string Date => DayProvider.GetDate(Day).ToString("yyyy-MM-dd");
 
     public virtual async Task SetStatus(MatchStatus matchStatus)
     {
@@ -108,6 +107,15 @@ public class MatchViewModel : ViewModelBase
         OnPropertyChanged(nameof(TotalWin));
 
         await _saverService.UpdateMatchAsync(Match);
+    }
+
+    public async Task SetDateAsync(DateTime matchDate)
+    {
+        Match.Day = DayProvider.GetDay(matchDate);
+
+        await _saverService.UpdateMatchAsync(Match, true);
+
+        OnPropertyChanged(nameof(Date));
     }
 
     public int GetActivatedHomeTeamBet()

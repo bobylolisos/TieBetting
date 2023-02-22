@@ -209,5 +209,11 @@
             TabBarItem4ImageSource="settings.svg"
             TabBarItem4Label="Settings" />
 
+        <ActivityIndicator
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            Grid.Column="0"
+            WidthRequest="50"
+            IsRunning="{Binding IsReloading}" />
     </Grid>
 </ContentPage>

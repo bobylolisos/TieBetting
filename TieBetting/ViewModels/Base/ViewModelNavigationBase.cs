@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels.Base;
 
-public abstract class ViewModelNavigationBase : ObservableObject//, ITabBarItem1Command, ITabBarItem2Command, ITabBarItem3Command, ITabBarItem4Command
+public abstract class ViewModelNavigationBase : ObservableObject
 {
     protected readonly INavigationService NavigationService;
     private string _tabBarItem1Label;
@@ -49,20 +49,17 @@ public abstract class ViewModelNavigationBase : ObservableObject//, ITabBarItem1
         return Task.CompletedTask;
     }
 
+    public virtual Task OnNavigatedBackAsync()
+    {
+        return Task.CompletedTask;
+    }
+
     protected virtual async Task ExecuteNavigateBackCommand()
     {
         await NavigationService.NavigateBackAsync();
     }
 
-    public bool IsTabBarItem1CommandEnabled => ResolveIsTabBarItem1CommandEnabled();
-
-    private bool ResolveIsTabBarItem1CommandEnabled()
-    {
-        var enabled = TabBarItem1Command?.CanExecute(null) ?? true;
-
-        Debug.WriteLine("IsTabBarItem1CommandEnabled: " + enabled);
-        return enabled;
-    }
+    public bool IsTabBarItem1CommandEnabled => TabBarItem1Command?.CanExecute(null) ?? true;
 
     public bool IsTabBarItem2CommandEnabled => TabBarItem2Command?.CanExecute(null) ?? true;
 

@@ -61,7 +61,7 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase
 
     private async Task ExecuteChangeDateCommand()
     {
-        await Application.Current.MainPage.DisplayAlert("Not implemented", "Not implemented!", "Ok");
+        await _popupService.OpenPopupAsync<EditMatchPopupView>(new EditMatchPopupParameter(Match));
 
         NotifyTabItemsCanExecuteChanged();
     }

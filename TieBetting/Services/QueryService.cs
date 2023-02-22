@@ -85,16 +85,14 @@ public class QueryService : IQueryService
 
                 if (homeTeam == null)
                 {
-                    var savedHomeTeam = await _saverService.CreateTeamAsync(match.HomeTeam);
-                    homeTeam = new TeamViewModel(_saverService, savedHomeTeam);
+                    homeTeam = await _saverService.CreateTeamAsync(match.HomeTeam);
                     teamsList.Add(homeTeam);
                 }
 
                 var awayTeam = teamsList.GetTeamOrDefault(match.AwayTeam);
                 if (awayTeam == null)
                 {
-                    var savedAwayTeam = await _saverService.CreateTeamAsync(match.AwayTeam);
-                    awayTeam = new TeamViewModel(_saverService, savedAwayTeam);
+                    awayTeam = await _saverService.CreateTeamAsync(match.AwayTeam);
                     teamsList.Add(awayTeam);
                 }
 

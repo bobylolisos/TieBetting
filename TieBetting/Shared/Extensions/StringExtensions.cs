@@ -72,7 +72,7 @@ public static class StringExtensions
             case { } str when str.Contains("färjestad"):
                 return "Färjestad";
             case { } str when str.Contains("leksands"):
-                return "Leksands";
+                return "Leksand";
             case { } str when str.Contains("örebro"):
                 return "Örebro";
             case { } str when str.Contains("linköping"):
