@@ -11,6 +11,7 @@ X Om man ändrar status så uppdateras inte vymodellen på huvudsidan, kanske query
 - Fixa ersättning för Application.Current.MainPage.DisplayAlert
 - Uppdatera matcher från Leksands till Leksand (redan fixat i importern till Leksand)
 - Flytta images till undermappar
+- Behövs refresh iom DevExpress?
 
 
 Match

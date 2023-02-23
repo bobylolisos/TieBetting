@@ -12,8 +12,6 @@ public class MatchBettingViewModel : MatchViewModel
         _settings = settings;
     }
 
-    public List<bool?> HomeTeamLastSixStatuses => GetHomeTeamLastSixStatuses();
-
     public int HomeTeamTotalBet => HomeTeam.TotalBet;
 
     public int HomeTeamTotalWin => (int)HomeTeam.TotalWin;
@@ -22,7 +20,7 @@ public class MatchBettingViewModel : MatchViewModel
 
     public int HomeTeamCurrentBetSession => HomeTeam.BetsInSession;
 
-    public List<bool?> AwayTeamLastSixStatuses => GetAwayTeamLastSixStatuses();
+    public int HomeTeamLostMatches => HomeTeam.LostMatchesInSession;
 
     public int AwayTeamTotalBet => AwayTeam.TotalBet;
 
@@ -31,6 +29,8 @@ public class MatchBettingViewModel : MatchViewModel
     public int AwayTeamProfit => AwayTeam.Profit;
 
     public int AwayTeamCurrentBetSession => AwayTeam.BetsInSession;
+
+    public int AwayTeamLostMatches => AwayTeam.LostMatchesInSession;
 
     public override async Task SetRate(double? rate)
     {
@@ -95,33 +95,7 @@ public class MatchBettingViewModel : MatchViewModel
 
     public override async Task SetStatus(MatchStatus matchStatus)
     {
-        if (matchStatus == MatchStatus.NotActive)
-        {
-            Match.HomeTeamStatus = (int)MatchStatus.NotActive;
-            Match.AwayTeamStatus = (int)MatchStatus.NotActive;
-        }
-        else
-        {
-            if (this.HasBet(TeamType.HomeTeam))
-            {
-                Match.HomeTeamStatus = (int)matchStatus;
-            }
-            else if (AwayTeam.IsDormant)
-            {
-                Match.HomeTeamStatus = (int)MatchStatus.Dormant;
-            }
-
-            if (this.HasBet(TeamType.AwayTeam))
-            {
-                Match.AwayTeamStatus = (int)matchStatus;
-            }
-            else if (AwayTeam.IsDormant)
-            {
-                Match.AwayTeamStatus = (int)MatchStatus.Dormant;
-            }
-        }
-
-        await _saverService.UpdateMatchAsync(Match);
+        await SetStatusAndUpdate(matchStatus);
 
         HomeTeam.NotifyMatchStatusChanged();
         AwayTeam.NotifyMatchStatusChanged();
@@ -132,49 +106,12 @@ public class MatchBettingViewModel : MatchViewModel
         OnPropertyChanged(nameof(HomeTeamTotalWin));
         OnPropertyChanged(nameof(HomeTeamProfit));
         OnPropertyChanged(nameof(HomeTeamCurrentBetSession));
-        OnPropertyChanged(nameof(HomeTeamLastSixStatuses));
+        OnPropertyChanged(nameof(HomeTeamLostMatches));
 
         OnPropertyChanged(nameof(AwayTeamTotalBet));
         OnPropertyChanged(nameof(AwayTeamTotalWin));
         OnPropertyChanged(nameof(AwayTeamProfit));
         OnPropertyChanged(nameof(AwayTeamCurrentBetSession));
-        OnPropertyChanged(nameof(AwayTeamLastSixStatuses));
-    }
-
-    private List<bool?> GetHomeTeamLastSixStatuses()
-    {
-        var result = new List<bool?>();
-
-        var homeTeamLastSixStatuses = HomeTeam.Statuses.TakeLastItems(6).ToList();
-        for (var i = homeTeamLastSixStatuses.Count; i < 6; i++)
-        {
-            result.Add(null);
-        }
-
-        foreach (var homeTeamLastSixStatus in homeTeamLastSixStatuses)
-        {
-            result.Add(homeTeamLastSixStatus);
-        }
-
-        return result;
-    }
-
-    private List<bool?> GetAwayTeamLastSixStatuses()
-    {
-        var result = new List<bool?>();
-
-        var awayTeamLastSixStatuses = AwayTeam.Statuses.TakeLastItems(6).Reverse();
-        foreach (var awayTeamLastSixStatus in awayTeamLastSixStatuses)
-        {
-            result.Add(awayTeamLastSixStatus);
-        }
-
-        for (var i = result.Count; i < 6; i++)
-        {
-            result.Add(null);
-        }
-
-        return result;
-
+        OnPropertyChanged(nameof(AwayTeamLostMatches));
     }
 }

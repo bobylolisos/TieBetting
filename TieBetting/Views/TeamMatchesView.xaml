@@ -9,6 +9,7 @@
     xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
+    xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
     x:Name="This"
     Title="TeamMatchesView"
     x:DataType="navigationViewModels:TeamMatchesViewModel"
@@ -85,13 +86,14 @@
 
         </Grid>
 
-        <CollectionView
+        <dxcv:DXCollectionView
             Grid.Row="3"
             Grid.Column="0"
             HorizontalOptions="Fill"
             Background="{StaticResource Gray100}"
-            ItemsSource="{Binding Matches}">
-            <CollectionView.ItemTemplate>
+            ItemsSource="{Binding Matches}"
+            SelectionMode="None">
+            <dxcv:DXCollectionView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:MatchViewModel">
 
                     <Grid
@@ -174,9 +176,9 @@
                     </Grid>
 
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
+            </dxcv:DXCollectionView.ItemTemplate>
 
-        </CollectionView>
+        </dxcv:DXCollectionView>
 
         <tabBar:TabBar
             Grid.Row="4"

@@ -12,6 +12,11 @@ public static class MatchExtensions
         return match.AwayTeamMatchStatus == MatchStatus.NotActive;
     }
 
+    public static bool IsAnyNotActive(this MatchViewModel match)
+    {
+        return match.HomeTeamMatchStatus == MatchStatus.NotActive || match.AwayTeamMatchStatus == MatchStatus.NotActive;
+    }
+
     public static bool IsNotActive(this MatchViewModel match, string teamName)
     {
         if (teamName == match.HomeTeamName && match.HomeTeamMatchStatus == MatchStatus.NotActive)
@@ -130,16 +135,5 @@ public static class MatchExtensions
     public static bool HasMatch(this IReadOnlyCollection<MatchViewModel> matches, string matchId)
     {
         return matches.Any(x => x.Id == matchId);
-    }
-
-    public static bool HasBet(this MatchViewModel match, TeamType teamType)
-    {
-        if (teamType == TeamType.HomeTeam)
-        {
-            return match.HomeTeamBet.HasValue && match.HomeTeamBet > 0;
-        }
-
-        // Away team
-        return match.AwayTeamBet.HasValue && match.AwayTeamBet > 0;
     }
 }

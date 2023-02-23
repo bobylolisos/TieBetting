@@ -17,6 +17,11 @@ public class MatchViewModel : ViewModelBase
     
     public TeamViewModel AwayTeam { get; }
 
+    /// <summary>
+    /// For grouping in CollectionView
+    /// </summary>
+    public string GroupHeader => ResolveGroupHeader();
+
     public string Id => Match.Id;
 
     public string Season => Match.Season;
@@ -55,35 +60,9 @@ public class MatchViewModel : ViewModelBase
 
     public virtual async Task SetStatus(MatchStatus matchStatus)
     {
-        if (matchStatus == MatchStatus.NotActive)
-        {
-            Match.HomeTeamStatus = (int)MatchStatus.NotActive;
-            Match.AwayTeamStatus = (int)MatchStatus.NotActive;
-        }
-        else
-        {
-            if (this.HasBet(TeamType.HomeTeam))
-            {
-                Match.HomeTeamStatus = (int)matchStatus;
-            }
-            else if (AwayTeam.IsDormant)
-            {
-                Match.HomeTeamStatus = (int)MatchStatus.Dormant;
-            }
-
-            if (this.HasBet(TeamType.AwayTeam))
-            {
-                Match.AwayTeamStatus = (int)matchStatus;
-            }
-            else if (AwayTeam.IsDormant)
-            {
-                Match.AwayTeamStatus = (int)MatchStatus.Dormant;
-            }
-        }
+        await SetStatusAndUpdate(matchStatus);
 
         OnPropertyChanged(nameof(MatchStatus));
-
-        await _saverService.UpdateMatchAsync(Match);
     }
 
     public virtual async Task SetRate(double? rate)
@@ -115,6 +94,7 @@ public class MatchViewModel : ViewModelBase
 
         await _saverService.UpdateMatchAsync(Match, true);
 
+        OnPropertyChanged(nameof(GroupHeader));
         OnPropertyChanged(nameof(Date));
     }
 
@@ -164,4 +144,62 @@ public class MatchViewModel : ViewModelBase
         return MatchStatus.NotActive;
     }
 
+    protected async Task SetStatusAndUpdate(MatchStatus matchStatus)
+    {
+        if (matchStatus == MatchStatus.NotActive)
+        {
+            Match.HomeTeamStatus = (int)MatchStatus.NotActive;
+            Match.AwayTeamStatus = (int)MatchStatus.NotActive;
+        }
+
+        if (matchStatus == MatchStatus.Active)
+        {
+            if (HomeTeam.IsDormant)
+            {
+                Match.HomeTeamStatus = (int)MatchStatus.Dormant;
+            }
+            else
+            {
+                Match.HomeTeamStatus = (int)MatchStatus.Active;
+            }
+
+            if (AwayTeam.IsDormant)
+            {
+                Match.AwayTeamStatus = (int)MatchStatus.Dormant;
+            }
+            else
+            {
+                Match.AwayTeamStatus = (int)MatchStatus.Active;
+            }
+        }
+
+        if (matchStatus == MatchStatus.Win || matchStatus == MatchStatus.Lost)
+        {
+            if (Match.HomeTeamStatus != (int)MatchStatus.Dormant)
+            {
+                Match.HomeTeamStatus = (int)matchStatus;
+            }
+            if (Match.AwayTeamStatus != (int)MatchStatus.Dormant)
+            {
+                Match.AwayTeamStatus = (int)matchStatus;
+            }
+        }
+
+        await _saverService.UpdateMatchAsync(Match);
+    }
+
+    private string ResolveGroupHeader()
+    {
+        if (Day < DayProvider.TodayDay)
+        {
+            return $"{Date}   Previous";
+        }
+
+        if (Day == DayProvider.TodayDay)
+        {
+            return $"{Date}   Today";
+        }
+
+        return Date;
+    }
 }

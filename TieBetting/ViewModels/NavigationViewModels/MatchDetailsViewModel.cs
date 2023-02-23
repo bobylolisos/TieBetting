@@ -69,6 +69,11 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
             return false;
         }
 
+        if (Match.HomeTeam.IsDormant && Match.AwayTeam.IsDormant)
+        {
+            return false;
+        }
+
         // Make sure we won't set rate on match before an active match reported status
         if (Match.HomeTeam.Matches.Any(x => x.IsActive(Match.HomeTeamName)))
         {

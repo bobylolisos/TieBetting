@@ -28,7 +28,7 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
         WeakReferenceMessenger.Default.RegisterAll(this);
     }
 
-    public ObservableCollection<MatchBettingGroupViewModel> Matches { get; set; } = new();
+    public ObservableCollection<MatchBettingViewModel> Matches { get; set; } = new();
 
     public AsyncRelayCommand RefreshCommand { get; set; }
 
@@ -126,9 +126,9 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
 
             var previousMatches = await _queryService.GetPreviousOngoingMatchesAsync();
 
-            if (previousMatches.Any())
+            foreach (var previousMatch in previousMatches)
             {
-                Matches.Add(new MatchBettingGroupViewModel("Previous", previousMatches));
+                Matches.Add(previousMatch);
             }
 
 
@@ -139,42 +139,9 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
             Debug.WriteLine($"Today day is: {todayDay}");
             Debug.WriteLine("");
 
-            var todayMatches = new List<MatchBettingViewModel>();
-            var upcomingMatches = new List<MatchBettingViewModel>();
-            foreach (var match in fetchedUpcomingMatches)
+            foreach (var upcomingMatch in fetchedUpcomingMatches)
             {
-                if (match.Day == todayDay)
-                {
-                    todayMatches.Add(match);
-                }
-                else
-                {
-                    upcomingMatches.Add(match);
-                }
-            }
-
-            if (todayMatches.Any())
-            {
-                Matches.Add(new MatchBettingGroupViewModel($"{DateTime.Today:yyyy-MM-dd}   Today", todayMatches));
-            }
-            else
-            {
-                Matches.Add(new MatchBettingGroupViewModel($"{DateTime.Today:yyyy-MM-dd}   Today, no matches",
-                    new List<MatchBettingViewModel>()));
-            }
-
-            if (upcomingMatches.Any())
-            {
-                var groupedUpcomingMatches = upcomingMatches.GroupBy(x => x.Date).Select(x => x.ToList());
-                foreach (var groupedUpcomingMatch in groupedUpcomingMatches)
-                {
-                    Matches.Add(new MatchBettingGroupViewModel(groupedUpcomingMatch[0].Date, groupedUpcomingMatch));
-                }
-            }
-
-            if (Matches.Any() == false)
-            {
-                Matches.Add(new MatchBettingGroupViewModel("No matches", new List<MatchBettingViewModel>()));
+                Matches.Add(upcomingMatch);
             }
 
             _refreshRequired = false;

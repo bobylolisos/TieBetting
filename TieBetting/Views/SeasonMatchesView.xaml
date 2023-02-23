@@ -7,6 +7,7 @@
     xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:components="clr-namespace:TieBetting.Shared.Components"
     xmlns:converters="clr-namespace:TieBetting.Converters"
+    xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
     xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
@@ -147,30 +148,30 @@
             </Grid>
 
 
-            <CollectionView
+            <dxcv:DXCollectionView
                 Grid.Row="3"
                 Grid.Column="0"
                 HorizontalOptions="Fill"
                 Background="{StaticResource Gray100}"
-                IsGrouped="True"
-                ItemsSource="{Binding Matches}">
-                <CollectionView.GroupHeaderTemplate>
+                ItemsSource="{Binding Matches}"
+                SelectionMode="None">
+                <dxcv:DXCollectionView.GroupDescription>
+                    <dxcv:GroupDescription
+                        FieldName="Date"
+                        GroupInterval="DisplayText" />
+                </dxcv:DXCollectionView.GroupDescription>
+
+                <dxcv:DXCollectionView.GroupHeaderTemplate>
                     <DataTemplate>
                         <Label
                             Margin="10,4,0,0"
-                            Text="{Binding Name}"
-                            x:DataType="viewModels:MatchGroupViewModel"
+                            Text="{Binding Value}"
+                            x:DataType="dxcv:GroupInfo"
                             FontSize="20" />
                     </DataTemplate>
-                </CollectionView.GroupHeaderTemplate>
-                <CollectionView.GroupFooterTemplate>
-                    <DataTemplate>
-                        <!--  Add some space to next grouped collection  -->
-                        <Grid RowDefinitions="10" />
-                    </DataTemplate>
-                </CollectionView.GroupFooterTemplate>
+                </dxcv:DXCollectionView.GroupHeaderTemplate>
 
-                <CollectionView.ItemTemplate>
+                <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate x:DataType="viewModels:MatchViewModel">
 
                         <Grid
@@ -253,9 +254,9 @@
                         </Grid>
 
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
+                </dxcv:DXCollectionView.ItemTemplate>
 
-            </CollectionView>
+            </dxcv:DXCollectionView>
         </Grid>
 
         <tabBar:TabBar

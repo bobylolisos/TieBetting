@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCreatedMessage>
+public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCreatedMessage>, IPubSub<MatchUpdatedMessage>
 {
     private readonly IQueryService _queryService;
     private readonly IPopupService _popupService;
@@ -24,11 +24,11 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCrea
 
     public ObservableCollection<string> Seasons { get; } = new();
 
-    public ObservableCollection<MatchGroupViewModel> Matches { get; set; } = new();
+    public ObservableCollection<MatchViewModel> Matches { get; set; } = new();
 
-    public int TotalBet => Matches.Sum(x => x.Sum(y => y.GetActivatedTotalBet()));
+    public int TotalBet => Matches.Sum(y => y.GetActivatedTotalBet());
 
-    public int TotalWin => (int)Matches.Sum(x => x.Sum(y => y.TotalWin ?? 0));
+    public int TotalWin => (int)Matches.Sum(y => y.TotalWin ?? 0);
 
     public int CurrentBetSession => ResolveCurrentBetSession();
 
@@ -38,8 +38,8 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCrea
     {
         get
         {
-            var matchesCount = Matches.Sum(x => x.Count(x => x.IsAnyDone()));
-            var matchesWonCount = Matches.Sum(x => x.Count(x => x.IsAnyWin()));
+            var matchesCount = Matches.Count(x => x.IsAnyDone());
+            var matchesWonCount = Matches.Count(x => x.IsAnyWin());
             if (matchesWonCount == 0)
             {
                 return "0 %";
@@ -57,21 +57,11 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCrea
             if (SetProperty(ref _selectedSeason, value))
             {
                 Matches.Clear();
-                var groupedSeasonMatches = _allMatches.Where(x => x.Season == SelectedSeason).GroupBy(x => x.Date).OrderBy(y => y.Key);
-                var groupdViewModels = new List<MatchGroupViewModel>();
-                foreach (var groupedSeasonMatch in groupedSeasonMatches)
-                {
-                    var singleGroupedMatches = new List<MatchViewModel>();
-                    foreach (var match in groupedSeasonMatch)
-                    {
-                        singleGroupedMatches.Add(match);
-                    }
 
-                    groupdViewModels.Add(new MatchGroupViewModel($"{groupedSeasonMatch.Key:yyyy-MM-dd}", singleGroupedMatches));
-                }
-                foreach (var groupdViewModel in groupdViewModels)
+                var seasonMatches = _allMatches.Where(x => x.Season == SelectedSeason);
+                foreach (var matchViewModel in seasonMatches)
                 {
-                    Matches.Add(groupdViewModel);
+                    Matches.Add(matchViewModel);
                 }
 
                 OnPropertyChanged(nameof(TotalBet));
@@ -119,7 +109,7 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCrea
         foreach (var team in _allTeams)
         {
             var currentSessionDone = false;
-            var matchesForTeam = Matches.SelectMany(x => x.Where(y => y.HomeTeamName == team.Name || y.AwayTeamName == team.Name)).OrderByDescending(x => x.Day);
+            var matchesForTeam = Matches.Where(y => y.HomeTeamName == team.Name || y.AwayTeamName == team.Name).OrderByDescending(x => x.Day);
 
             foreach (var match in matchesForTeam)
             {
@@ -181,18 +171,13 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCrea
 
     public void Receive(MatchCreatedMessage message)
     {
-        var groupViewModel = Matches.FirstOrDefault(x => x.Name == "- Added -");
-        if (groupViewModel != null)
-        {
-            Matches.Remove(groupViewModel);
-            groupViewModel.Add(message.Match);
-            Matches.Insert(0, groupViewModel);
-        }
-        else
-        {
-            var matchGroupViewModel = new MatchGroupViewModel("- Added -", new List<MatchViewModel> { message.Match });
-            Matches.Insert(0, matchGroupViewModel);
-        }
+        Matches.Add(message.Match);
+    }
 
+    public void Receive(MatchUpdatedMessage message)
+    {
+        var item = Matches.FirstOrDefault(x => x.Id == message.MatchId);
+        Matches.Remove(item);
+        Matches.Add(item);
     }
 }

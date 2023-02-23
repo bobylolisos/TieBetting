@@ -130,7 +130,7 @@ public class NavigationService : INavigationService
         var fromViewModel = GetPageViewModelBase(p);
         if (fromViewModel is not null)
         {
-            if (fromViewModel is IPubSub pubSub)
+            if (fromViewModel is IPubSub pubSub && isForward == false)
             {
                 pubSub.UnregisterMessages();
             }

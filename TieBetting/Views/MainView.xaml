@@ -6,6 +6,7 @@
     xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:components="clr-namespace:TieBetting.Shared.Components"
     xmlns:converters="clr-namespace:TieBetting.Converters"
+    xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
     xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
@@ -13,7 +14,7 @@
     Title="MainView"
     x:DataType="navigationViewModels:MainViewModel">
     <ContentPage.Resources>
-        <converters:TeamStatusToBackgroundColorConverter x:Key="TeamStatusToBackgroundColorConverter" />
+        <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
     </ContentPage.Resources>
 
     <Shell.NavBarIsVisible>False</Shell.NavBarIsVisible>
@@ -36,26 +37,26 @@
             Grid.Row="1"
             Command="{Binding RefreshCommand}"
             IsRefreshing="{Binding IsRefreshing}">
-            <CollectionView
+            <dxcv:DXCollectionView
                 Background="{StaticResource Gray100}"
-                IsGrouped="True"
-                ItemsSource="{Binding Matches}">
-                <CollectionView.GroupHeaderTemplate>
+                ItemsSource="{Binding Matches}"
+                SelectionMode="None">
+                <dxcv:DXCollectionView.GroupDescription>
+                    <dxcv:GroupDescription
+                        FieldName="GroupHeader"
+                        GroupInterval="DisplayText" />
+                </dxcv:DXCollectionView.GroupDescription>
+
+                <dxcv:DXCollectionView.GroupHeaderTemplate>
                     <DataTemplate>
                         <Label
                             Margin="10,4,0,0"
-                            Text="{Binding Name}"
-                            x:DataType="viewModels:MatchBettingGroupViewModel"
+                            Text="{Binding Value}"
+                            x:DataType="dxcv:GroupInfo"
                             FontSize="20" />
                     </DataTemplate>
-                </CollectionView.GroupHeaderTemplate>
-                <CollectionView.GroupFooterTemplate>
-                    <DataTemplate>
-                        <!--  Add some space to next grouped collection  -->
-                        <Grid RowDefinitions="10" />
-                    </DataTemplate>
-                </CollectionView.GroupFooterTemplate>
-                <CollectionView.ItemTemplate>
+                </dxcv:DXCollectionView.GroupHeaderTemplate>
+                <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate x:DataType="viewModels:MatchBettingViewModel">
 
                         <Grid
@@ -84,12 +85,56 @@
                                 BindingContext="{Binding Path=.}" />
 
                             <!--  Row 0  -->
-                            <Image
+                            <Grid
                                 Grid.Row="0"
                                 Grid.Column="1"
-                                WidthRequest="40"
-                                Margin="0,3"
-                                Source="{Binding HomeTeamImage}" />
+                                ColumnDefinitions="*,Auto,*">
+                                <Image
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    WidthRequest="40"
+                                    Margin="0,3"
+                                    Source="{Binding HomeTeamImage}" />
+
+                                <!--  Home team lost matches circle  -->
+                                <Grid
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Margin="2,3"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Start">
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="IsVisible" Value="True" />
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding HomeTeamLostMatches}"
+                                                    TargetType="Grid"
+                                                    Value="0">
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+
+                                    <BoxView
+                                        WidthRequest="18"
+                                        HeightRequest="18"
+                                        Margin="2,0"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        CornerRadius="9"
+                                        Color="OrangeRed" />
+                                    <Label
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        Text="{Binding HomeTeamLostMatches}"
+                                        TextColor="White"
+                                        FontAttributes="Bold"
+                                        FontSize="10" />
+                                </Grid>
+
+                            </Grid>
 
                             <Label
                                 Grid.Row="0"
@@ -103,12 +148,55 @@
                                 CharacterSpacing="1.4"
                                 FontSize="16" />
 
-                            <Image
+                            <!--  Away team lost matches circle  -->
+                            <Grid
                                 Grid.Row="0"
                                 Grid.Column="3"
-                                WidthRequest="40"
-                                Margin="0,3"
-                                Source="{Binding AwayTeamImage}" />
+                                ColumnDefinitions="*,Auto,*">
+                                <Image
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    WidthRequest="40"
+                                    Margin="0,3"
+                                    Source="{Binding AwayTeamImage}" />
+                                <Grid
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="2,3"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Start">
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="IsVisible" Value="True" />
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding AwayTeamLostMatches}"
+                                                    TargetType="Grid"
+                                                    Value="0">
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+
+                                    <BoxView
+                                        WidthRequest="18"
+                                        HeightRequest="18"
+                                        Margin="2,0"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        CornerRadius="9"
+                                        Color="OrangeRed" />
+                                    <Label
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        Text="{Binding AwayTeamLostMatches}"
+                                        TextColor="White"
+                                        FontAttributes="Bold"
+                                        FontSize="10" />
+                                </Grid>
+
+                            </Grid>
 
 
                             <!--  Row 1  -->
@@ -122,24 +210,15 @@
                                 CharacterSpacing="1.4"
                                 FontSize="15" />
 
-                            <VerticalStackLayout
+                            <Label
                                 Grid.Row="1"
                                 Grid.RowSpan="2"
-                                Grid.Column="2">
-                                <Label
-                                    Text="{Binding Rate, StringFormat='{}{0:N2}'}"
-                                    TextColor="{StaticResource Black}"
-                                    HorizontalTextAlignment="Center"
-                                    VerticalTextAlignment="Center"
-                                    FontSize="16"
-                                    MinimumHeightRequest="3" />
-                                <Label
-                                    Text="{Binding TotalBet}"
-                                    TextColor="{StaticResource Black}"
-                                    HorizontalTextAlignment="Center"
-                                    VerticalTextAlignment="Center"
-                                    FontSize="14" />
-                            </VerticalStackLayout>
+                                Grid.Column="2"
+                                Text="{Binding TotalBet, Converter={StaticResource AmountToAmountStringConverter}}"
+                                TextColor="{StaticResource Black}"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center"
+                                FontSize="14" />
 
                             <Label
                                 Grid.Row="1"
@@ -150,52 +229,12 @@
                                 HorizontalTextAlignment="Center"
                                 CharacterSpacing="1.4"
                                 FontSize="15" />
-
-
-                            <!--  Row 2  -->
-                            <CollectionView
-                                Grid.Row="2"
-                                Grid.Column="1"
-                                HorizontalOptions="Center"
-                                ItemsLayout="HorizontalList"
-                                ItemsSource="{Binding HomeTeamLastSixStatuses}">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <BoxView
-                                            WidthRequest="8"
-                                            HeightRequest="8"
-                                            Margin="2,0"
-                                            CornerRadius="4"
-                                            Color="{Binding Path=., Converter={StaticResource TeamStatusToBackgroundColorConverter}}" />
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-
-                            </CollectionView>
-                            <CollectionView
-                                Grid.Row="2"
-                                Grid.Column="3"
-                                HorizontalOptions="Center"
-                                ItemsLayout="HorizontalList"
-                                ItemsSource="{Binding AwayTeamLastSixStatuses}">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <BoxView
-                                            WidthRequest="8"
-                                            HeightRequest="8"
-                                            Margin="2,0"
-                                            CornerRadius="4"
-                                            Color="{Binding Path=., Converter={StaticResource TeamStatusToBackgroundColorConverter}}" />
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-
-                            </CollectionView>
-
                         </Grid>
 
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
+                </dxcv:DXCollectionView.ItemTemplate>
 
-            </CollectionView>
+            </dxcv:DXCollectionView>
         </RefreshView>
         <tabBar:TabBar
             Grid.Row="2"

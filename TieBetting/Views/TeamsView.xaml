@@ -8,6 +8,7 @@
     xmlns:converters="clr-namespace:TieBetting.Converters"
     xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
+    xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
     x:Name="This"
     Title="TeamsView"
     x:DataType="navigationViewModels:TeamsViewModel">
@@ -27,10 +28,11 @@
     </ContentPage.Resources>
 
     <Grid>
-        <CollectionView
+        <dxcv:DXCollectionView
             Background="{StaticResource Gray100}"
-            ItemsSource="{Binding Teams}">
-            <CollectionView.ItemTemplate>
+            ItemsSource="{Binding Teams}"
+            SelectionMode="None">
+            <dxcv:DXCollectionView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:TeamViewModel">
                     <Grid
                         RowDefinitions="Auto,10,*"
@@ -180,8 +182,8 @@
 
                     </Grid>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            </dxcv:DXCollectionView.ItemTemplate>
+        </dxcv:DXCollectionView>
 
     </Grid>
 </base:ViewBase>
