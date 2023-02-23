@@ -11,7 +11,7 @@ X Om man ändrar status så uppdateras inte vymodellen på huvudsidan, kanske query
 - Fixa ersättning för Application.Current.MainPage.DisplayAlert
 X Uppdatera matcher från Leksands till Leksand (redan fixat i importern till Leksand) Fixat i tiebetting, struntar i Sandbox
 - Flytta images till undermappar
-- Behövs refresh iom DevExpress?
+X Behövs refresh iom DevExpress?
 
 
 Match
@@ -24,12 +24,12 @@ Season Matches
 	X Select season
 	X SHow all matches, scroll to today (scroll nor useful)
 	X CurrentBetSession, calculate only sessions bets for current season
-	- TabBar to 'Add' (only valid for future dates)
+	X TabBar to 'Add' (only valid for future dates)
 	X Select -> Navigate to MatchMaintenance
 
 Season Matches/MatchMaintenance
 	X 'Change status'
-	- 'Change date'
+	X 'Change date'
 	- 'Delete'
 
 Team

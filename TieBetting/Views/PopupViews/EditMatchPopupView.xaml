@@ -22,7 +22,7 @@
     </shared:BasePopupPage.Resources>
 
     <shared:BasePopupPage.PopupContent>
-        <Grid RowDefinitions="Auto,20,*,Auto">
+        <Grid RowDefinitions="Auto,20,*,40,Auto">
             <Grid
                 Grid.Row="0"
                 Grid.Column="0"
@@ -178,8 +178,16 @@
 
             </Grid>
 
-            <Button
+            <Label
                 Grid.Row="3"
+                Text="{Binding ErrorMessage}"
+                HorizontalTextAlignment="Center"
+                VerticalTextAlignment="Center"
+                TextColor="Red"
+                FontSize="14" />
+
+            <Button
+                Grid.Row="4"
                 WidthRequest="174"
                 HeightRequest="50"
                 Margin="0,8"

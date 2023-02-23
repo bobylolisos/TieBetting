@@ -14,6 +14,7 @@ public class EditMatchPopupViewModel : ViewModelBase, IPopupViewModel
     private string _awayTeamName;
     private DateTime _selectedDate;
     private MatchViewModel _matchViewModel;
+    private string _errorMessage;
 
     public EditMatchPopupViewModel(IQueryService queryService, ISaverService saverService, IPopupService popupService)
     {
@@ -21,7 +22,7 @@ public class EditMatchPopupViewModel : ViewModelBase, IPopupViewModel
         _saverService = saverService;
         _popupService = popupService;
 
-        SaveChangesCommand = new AsyncRelayCommand(ExecuteSaveChangesCommand);
+        SaveChangesCommand = new AsyncRelayCommand(ExecuteSaveChangesCommand, CanExecuteSaveChangesCommand);
     }
 
     public AsyncRelayCommand SaveChangesCommand { get; }
@@ -37,7 +38,17 @@ public class EditMatchPopupViewModel : ViewModelBase, IPopupViewModel
     public DateTime SelectedDate
     {
         get => _selectedDate;
-        set => SetProperty(ref _selectedDate, value);
+        set
+        {
+            SetProperty(ref _selectedDate, value);
+            SaveChangesCommand.NotifyCanExecuteChanged();
+        }
+    }
+
+    public string ErrorMessage
+    {
+        get => _errorMessage;
+        set => SetProperty(ref _errorMessage, value);
     }
 
     public TeamViewModel SelectedHomeTeam
@@ -49,6 +60,7 @@ public class EditMatchPopupViewModel : ViewModelBase, IPopupViewModel
             {
                 HomeTeamName = _selectedHomeTeam?.Name ?? "Choose wisely";
                 HomeTeamImage = SelectedHomeTeam?.Image ?? "shirt_black.svg";
+                SaveChangesCommand.NotifyCanExecuteChanged();
             }
         }
     }
@@ -76,6 +88,7 @@ public class EditMatchPopupViewModel : ViewModelBase, IPopupViewModel
             {
                 AwayTeamName = _selectedAwayTeam?.Name ?? "Choose wisely";
                 AwayTeamImage = _selectedAwayTeam?.Image ?? "shirt_black.svg";
+                SaveChangesCommand.NotifyCanExecuteChanged();
             }
         }
     }
@@ -125,6 +138,7 @@ public class EditMatchPopupViewModel : ViewModelBase, IPopupViewModel
         }
 
         OnPropertyChanged(nameof(IsTeamSelectable));
+        SaveChangesCommand.NotifyCanExecuteChanged();
     }
 
     public Task<bool> OnClosePopupAsync()
@@ -146,4 +160,53 @@ public class EditMatchPopupViewModel : ViewModelBase, IPopupViewModel
         await _popupService.ClosePopupAsync();
     }
 
+    private bool CanExecuteSaveChangesCommand()
+    {
+        if (_selectedHomeTeam == null || _selectedAwayTeam == null)
+        {
+            ErrorMessage = null;
+            return false;
+        }
+
+        if (_selectedHomeTeam == _selectedAwayTeam)
+        {
+            ErrorMessage = "Same teams!";
+            return false;
+        }
+
+        if (_matchViewModel != null && DateTime.Parse(_matchViewModel.Date) == _selectedDate)
+        {
+            ErrorMessage = "Date is same as original!";
+            return false;
+        }
+
+        var futureHomeTeamMatches = _selectedHomeTeam.Matches.Where(x => DateTime.Parse(x.Date) > _selectedDate);
+        if (futureHomeTeamMatches.Any(x => x.IsAnyActiveOrDone()))
+        {
+            ErrorMessage = "Date is before ongoing matches!";
+            return false;
+        }
+
+        var futureAwayTeamMatches = _selectedAwayTeam.Matches.Where(x => DateTime.Parse(x.Date) > _selectedDate);
+        if (futureAwayTeamMatches.Any(x => x.IsAnyActiveOrDone()))
+        {
+            ErrorMessage = "Date is before ongoing matches!";
+            return false;
+        }
+
+        if (_selectedHomeTeam.Matches.Any(x => DateTime.Parse(x.Date) == _selectedDate && x.Date != _matchViewModel?.Date))
+        {
+            ErrorMessage = "Match on date already exists!";
+            return false;
+        }
+
+        if (_selectedAwayTeam.Matches.Any(x => DateTime.Parse(x.Date) == _selectedDate && x.Date != _matchViewModel?.Date))
+        {
+            ErrorMessage = "Match on date already exists!";
+            return false;
+        }
+
+        ErrorMessage = null;
+        return true;
+    }
 }
