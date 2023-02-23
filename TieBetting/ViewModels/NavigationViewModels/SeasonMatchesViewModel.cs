@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCreatedMessage>, IPubSub<MatchUpdatedMessage>
+public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCreatedMessage>
 {
     private readonly IQueryService _queryService;
     private readonly IPopupService _popupService;
@@ -93,9 +93,21 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCrea
 
         SelectedSeason = Seasons.Single(x => x == _settings.DefaultSeason);
 
-
-
         await base.OnNavigatingToAsync(navigationParameter);
+    }
+
+    public override async Task OnNavigatedBackAsync()
+    {
+        await ReloadAsync();
+    }
+
+    private async Task ReloadAsync()
+    {
+        _allMatches = await _queryService.GetMatchesAsync();
+
+        var selectedSeason = SelectedSeason;
+        SelectedSeason = null;
+        SelectedSeason = selectedSeason;
     }
 
     private int ResolveCurrentBetSession()
@@ -169,15 +181,9 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCrea
         WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
-    public void Receive(MatchCreatedMessage message)
+    public async void Receive(MatchCreatedMessage message)
     {
-        Matches.Add(message.Match);
+        await ReloadAsync();
     }
 
-    public void Receive(MatchUpdatedMessage message)
-    {
-        var item = Matches.FirstOrDefault(x => x.Id == message.MatchId);
-        Matches.Remove(item);
-        Matches.Add(item);
-    }
 }

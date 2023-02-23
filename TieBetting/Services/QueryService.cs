@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.Services;
 
-public class QueryService : IQueryService
+public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
 {
     private readonly IFirestoreRepository _repository;
     private readonly ISaverService _saverService;
@@ -13,6 +13,8 @@ public class QueryService : IQueryService
     {
         _repository = repository;
         _saverService = saverService;
+
+        WeakReferenceMessenger.Default.RegisterAll(this);
     }
 
     public void ClearCache()
@@ -47,7 +49,7 @@ public class QueryService : IQueryService
     {
         await EnsureDatabaseIsLoaded();
 
-        var upcomingMatches = _matches.Where(x => x.Day >= DayProvider.TodayDay);
+        var upcomingMatches = _matches.OrderBy(x => x.Day).Where(x => x.Day >= DayProvider.TodayDay);
         if (numberOfMatches.HasValue)
         {
             return upcomingMatches.Take(numberOfMatches.Value).ToList();
@@ -112,4 +114,14 @@ public class QueryService : IQueryService
 
     }
 
+    public void Receive(MatchCreatedMessage message)
+    {
+        var matchViewModel = message.Match;
+
+        var matchBettingViewModel = new MatchBettingViewModel(_saverService, _settings, matchViewModel.Match, matchViewModel.HomeTeam, matchViewModel.AwayTeam);
+        matchBettingViewModel.HomeTeam.AddMatch(matchViewModel);
+        matchBettingViewModel.AwayTeam.AddMatch(matchViewModel);
+
+        _matches.Add(matchBettingViewModel);
+    }
 }

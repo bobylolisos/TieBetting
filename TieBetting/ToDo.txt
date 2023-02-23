@@ -9,7 +9,7 @@ X Bild för SHL & HA, använda i AllMatches bredvid total-summan
 - Graf
 X Om man ändrar status så uppdateras inte vymodellen på huvudsidan, kanske queryservice ska få returnera vymodeller så att alla vyer jobbar me samma vymodell?
 - Fixa ersättning för Application.Current.MainPage.DisplayAlert
-- Uppdatera matcher från Leksands till Leksand (redan fixat i importern till Leksand)
+X Uppdatera matcher från Leksands till Leksand (redan fixat i importern till Leksand) Fixat i tiebetting, struntar i Sandbox
 - Flytta images till undermappar
 - Behövs refresh iom DevExpress?
 

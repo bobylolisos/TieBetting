@@ -55,7 +55,7 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
 
     public int Profit => TotalWin - TotalBet;
 
-    public IReadOnlyCollection<MatchViewModel> Matches => _matches;
+    public IReadOnlyCollection<MatchViewModel> Matches => _matches.OrderBy(x => x.Day).ToList();
 
     public void AddMatch(MatchViewModel match)
     {

@@ -7,7 +7,6 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
     private readonly ISaverService _saverService;
     private readonly INavigationService _navigationService;
     private IReadOnlyCollection<TeamViewModel> _teams;
-    private bool _isRefreshing;
     private bool _isReloading;
     private bool _refreshRequired = true;
 
@@ -18,7 +17,6 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
         _queryService = queryService;
         _saverService = saverService;
         _navigationService = navigationService;
-        RefreshCommand = new AsyncRelayCommand(ExecuteRefreshCommand);
         NavigateToMatchDetailsViewCommand = new AsyncRelayCommand<MatchBettingViewModel>(ExecuteNavigateToMatchDetailsViewCommand);
         TabBarItem1Command = new AsyncRelayCommand(ExecuteNavigateToTeamsViewCommand);
         TabBarItem2Command = new AsyncRelayCommand(ExecuteNavigateToSeasonMatchesViewCommand);
@@ -30,15 +28,8 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
 
     public ObservableCollection<MatchBettingViewModel> Matches { get; set; } = new();
 
-    public AsyncRelayCommand RefreshCommand { get; set; }
 
     public AsyncRelayCommand<MatchBettingViewModel> NavigateToMatchDetailsViewCommand { get; set; }
-
-    public bool IsRefreshing
-    {
-        get => _isRefreshing;
-        set => SetProperty(ref _isRefreshing, value);
-    }
 
     public bool IsReloading
     {
@@ -48,19 +39,12 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
 
     public override async Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
     {
-        await Reload();
+        await ReloadAsync();
     }
 
     public override async Task OnNavigatedBackAsync()
     {
-        await Reload();
-    }
-
-    private async Task ExecuteRefreshCommand()
-    {
-        IsRefreshing = false;
-        _refreshRequired = true;
-        await Reload();
+        await ReloadAsync();
     }
 
     private async Task ExecuteNavigateToMatchDetailsViewCommand(MatchBettingViewModel viewModel)
@@ -107,7 +91,7 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
         //await ImportCalendarToDatabase();
     }
 
-    private async Task Reload()
+    private async Task ReloadAsync()
     {
         try
         {
@@ -115,7 +99,6 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
             {
                 return;
             }
-            _queryService.ClearCache();
 
             IsReloading = true;
 

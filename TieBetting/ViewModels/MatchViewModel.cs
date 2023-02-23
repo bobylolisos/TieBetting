@@ -3,7 +3,6 @@
 public class MatchViewModel : ViewModelBase
 {
     private readonly ISaverService _saverService;
-    protected readonly Match Match;
 
     public MatchViewModel(ISaverService saverService, Match match, TeamViewModel homeTeam, TeamViewModel awayTeam)
     {
@@ -12,6 +11,8 @@ public class MatchViewModel : ViewModelBase
         HomeTeam = homeTeam;
         AwayTeam = awayTeam;
     }
+
+    public Match Match { get; }
 
     public TeamViewModel HomeTeam { get; }
     

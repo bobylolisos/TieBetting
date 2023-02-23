@@ -2,15 +2,17 @@
 
 public class TeamMatchesViewModel : ViewModelNavigationBase
 {
+    private readonly IQueryService _queryService;
     private string _headerText;
     private string _headerImage;
     private string _selectedSeason;
     private IReadOnlyCollection<MatchViewModel> _allTeamMatches;
     private TeamViewModel _team;
 
-    public TeamMatchesViewModel(INavigationService navigationService)
+    public TeamMatchesViewModel(INavigationService navigationService, IQueryService queryService)
         : base(navigationService)
     {
+        _queryService = queryService;
         NavigateToMatchMaintenanceViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchMaintenanceViewCommand);
         TabBarItem3Command = new AsyncRelayCommand(ExecuteToggleActiveStatusCommand, CanExecuteToggleActiveStatusCommand);
         TabBarItem4Command = new AsyncRelayCommand(ExecuteAbandonCommand);
@@ -84,6 +86,22 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
 
         await base.OnNavigatingToAsync(navigationParameter);
 
+    }
+
+    public override async Task OnNavigatedBackAsync()
+    {
+        await ReloadAsync();
+    }
+
+    private async Task ReloadAsync()
+    {
+        var teams = await _queryService.GetTeamsAsync();
+        _team = teams.Single(x => x.Name == _team.Name);
+        _allTeamMatches = _team.Matches;
+
+        var selectedSeason = SelectedSeason;
+        SelectedSeason = null;
+        SelectedSeason = selectedSeason;
     }
 
     private void UpdateLabelAndImageOnTabBarItem3()
