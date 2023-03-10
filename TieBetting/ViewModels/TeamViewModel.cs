@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels;
 
-public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
+public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRecipient<TeamUpdatedMessage>
 {
     private readonly List<MatchViewModel> _matches = new();
     private readonly List<bool> _statuses = new();
@@ -62,10 +62,10 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
         _matches.Add(match);
     }
 
-    public void NotifyMatchStatusChanged()
-    {
-        ReCalculateValues();
-    }
+    //public void NotifyMatchStatusChanged()
+    //{
+    //    ReCalculateValues();
+    //}
 
     public void ReCalculateValues()
     {
@@ -137,11 +137,20 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
         OnPropertyChanged(nameof(MatchesWon));
         OnPropertyChanged(nameof(MatchesWonPercent));
         OnPropertyChanged(nameof(LostMatchesInSession));
+        OnPropertyChanged(nameof(IsDormant));
     }
 
     public void Receive(MatchUpdatedMessage message)
     {
         if (Matches.HasMatch(message.MatchId))
+        {
+            ReCalculateValues();
+        }
+    }
+
+    public void Receive(TeamUpdatedMessage message)
+    {
+        if (Name == message.TeamName)
         {
             ReCalculateValues();
         }

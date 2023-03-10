@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels;
 
-public class MatchViewModel : ViewModelBase
+public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
 {
     private readonly ISaverService _saverService;
 
@@ -10,6 +10,8 @@ public class MatchViewModel : ViewModelBase
         Match = match;
         HomeTeam = homeTeam;
         AwayTeam = awayTeam;
+
+        WeakReferenceMessenger.Default.RegisterAll(this);
     }
 
     public Match Match { get; }
@@ -225,5 +227,17 @@ public class MatchViewModel : ViewModelBase
         }
 
         return Date;
+    }
+
+    public void Receive(TeamUpdatedMessage message)
+    {
+        if (HomeTeamName == message.TeamName || AwayTeamName == message.TeamName)
+        {
+            OnTeamUpdated();
+        }
+    }
+
+    protected virtual void OnTeamUpdated()
+    {
     }
 }

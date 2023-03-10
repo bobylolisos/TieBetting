@@ -97,8 +97,8 @@ public class MatchBettingViewModel : MatchViewModel
     {
         await SetStatusAndUpdateAsync(matchStatus);
 
-        HomeTeam.NotifyMatchStatusChanged();
-        AwayTeam.NotifyMatchStatusChanged();
+        //HomeTeam.NotifyMatchStatusChanged();
+        //AwayTeam.NotifyMatchStatusChanged();
 
         OnPropertyChanged(nameof(MatchStatus));
 
@@ -112,6 +112,14 @@ public class MatchBettingViewModel : MatchViewModel
         OnPropertyChanged(nameof(AwayTeamTotalWin));
         OnPropertyChanged(nameof(AwayTeamProfit));
         OnPropertyChanged(nameof(AwayTeamCurrentBetSession));
+        OnPropertyChanged(nameof(AwayTeamLostMatches));
+    }
+
+    protected override void OnTeamUpdated()
+    {
+        base.OnTeamUpdated();
+
+        OnPropertyChanged(nameof(HomeTeamLostMatches));
         OnPropertyChanged(nameof(AwayTeamLostMatches));
     }
 }
