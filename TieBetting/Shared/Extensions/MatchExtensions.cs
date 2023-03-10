@@ -77,6 +77,21 @@ public static class MatchExtensions
         return match.HomeTeamMatchStatus == MatchStatus.Win || match.AwayTeamMatchStatus == MatchStatus.Win;
     }
 
+    public static bool IsLost(this MatchViewModel match, TeamType teamType)
+    {
+        if (teamType == TeamType.HomeTeam)
+        {
+            return match.HomeTeamMatchStatus == MatchStatus.Lost;
+        }
+
+        return match.AwayTeamMatchStatus == MatchStatus.Lost;
+    }
+
+    public static bool IsAnyLost(this MatchViewModel match)
+    {
+        return match.HomeTeamMatchStatus == MatchStatus.Lost || match.AwayTeamMatchStatus == MatchStatus.Lost;
+    }
+
     public static bool IsDormant(this MatchViewModel match, TeamType teamType)
     {
         if (teamType == TeamType.HomeTeam)
@@ -91,15 +106,16 @@ public static class MatchExtensions
     {
         if (teamType == TeamType.HomeTeam)
         {
-            return match.HomeTeamMatchStatus == MatchStatus.Win || match.HomeTeamMatchStatus == MatchStatus.Lost;
+            return match.HomeTeamMatchStatus == MatchStatus.Win || match.HomeTeamMatchStatus == MatchStatus.Lost || match.HomeTeamMatchStatus == MatchStatus.Abandon;
         }
 
-        return match.AwayTeamMatchStatus == MatchStatus.Win || match.AwayTeamMatchStatus == MatchStatus.Lost;
+        return match.AwayTeamMatchStatus == MatchStatus.Win || match.AwayTeamMatchStatus == MatchStatus.Lost || match.AwayTeamMatchStatus == MatchStatus.Abandon;
     }
 
     public static bool IsAnyDone(this MatchViewModel match)
     {
-        return match.HomeTeamMatchStatus == MatchStatus.Win || match.HomeTeamMatchStatus == MatchStatus.Lost || match.AwayTeamMatchStatus == MatchStatus.Win || match.AwayTeamMatchStatus == MatchStatus.Lost;
+        return match.HomeTeamMatchStatus == MatchStatus.Win || match.HomeTeamMatchStatus == MatchStatus.Lost || match.HomeTeamMatchStatus == MatchStatus.Abandon || 
+               match.AwayTeamMatchStatus == MatchStatus.Win || match.AwayTeamMatchStatus == MatchStatus.Lost || match.AwayTeamMatchStatus == MatchStatus.Abandon;
     }
 
     public static bool IsActiveOrDone(this MatchViewModel match, TeamType teamType)
@@ -114,12 +130,12 @@ public static class MatchExtensions
 
     public static bool IsActiveOrDone(this MatchViewModel match, string teamName)
     {
-        if (teamName == match.HomeTeamName && (match.HomeTeamMatchStatus == MatchStatus.Active || match.HomeTeamMatchStatus == MatchStatus.Win || match.HomeTeamMatchStatus == MatchStatus.Lost))
+        if (teamName == match.HomeTeamName && match.IsActiveOrDone(TeamType.HomeTeam))
         {
             return true;
         }
 
-        if (teamName == match.AwayTeamName && (match.AwayTeamMatchStatus == MatchStatus.Active || match.AwayTeamMatchStatus == MatchStatus.Win || match.AwayTeamMatchStatus == MatchStatus.Lost))
+        if (teamName == match.AwayTeamName && match.IsActiveOrDone(TeamType.AwayTeam))
         {
             return true;
         }
@@ -130,6 +146,16 @@ public static class MatchExtensions
     public static bool IsAnyActiveOrDone(this MatchViewModel match)
     {
         return match.HomeTeamMatchStatus == MatchStatus.Active || match.AwayTeamMatchStatus == MatchStatus.Active || match.IsAnyDone();
+    }
+
+    public static bool IsAbandon(this MatchViewModel match, TeamType teamType)
+    {
+        if (teamType == TeamType.HomeTeam)
+        {
+            return match.HomeTeamMatchStatus == MatchStatus.Abandon;
+        }
+
+        return match.AwayTeamMatchStatus == MatchStatus.Abandon;
     }
 
     public static bool HasMatch(this IReadOnlyCollection<MatchViewModel> matches, string matchId)

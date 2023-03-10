@@ -49,6 +49,8 @@ public class TeamMatchStatusToBackgroundColorConverter : IMultiValueConverter
                 return Colors.Green;
             case MatchStatus.Dormant:
                 return Colors.Black;
+            case MatchStatus.Abandon:
+                return Colors.Brown;
             default:
                 throw new ArgumentNullException($"Unknown status on match: <{matchStatus}");
         }

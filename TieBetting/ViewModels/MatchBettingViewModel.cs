@@ -93,9 +93,9 @@ public class MatchBettingViewModel : MatchViewModel
         await _saverService.UpdateMatchAsync(Match);
     }
 
-    public override async Task SetStatus(MatchStatus matchStatus)
+    public override async Task SetStatusAsync(MatchStatus matchStatus)
     {
-        await SetStatusAndUpdate(matchStatus);
+        await SetStatusAndUpdateAsync(matchStatus);
 
         HomeTeam.NotifyMatchStatusChanged();
         AwayTeam.NotifyMatchStatusChanged();

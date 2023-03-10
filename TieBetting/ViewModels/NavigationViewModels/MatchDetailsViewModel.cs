@@ -98,7 +98,7 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
 
     private async Task ExecuteSetStatusCommand(MatchStatus matchStatus)
     {
-        await Match.SetStatus(matchStatus);
+        await Match.SetStatusAsync(matchStatus);
 
         await ExecuteNavigateBackCommand();
 

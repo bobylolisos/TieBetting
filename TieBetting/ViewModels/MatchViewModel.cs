@@ -59,9 +59,25 @@ public class MatchViewModel : ViewModelBase
 
     public string Date => DayProvider.GetDate(Day).ToString("yyyy-MM-dd");
 
-    public virtual async Task SetStatus(MatchStatus matchStatus)
+    public virtual async Task SetStatusAsync(MatchStatus matchStatus)
     {
-        await SetStatusAndUpdate(matchStatus);
+        await SetStatusAndUpdateAsync(matchStatus);
+
+        OnPropertyChanged(nameof(MatchStatus));
+    }
+
+    public virtual async Task SetAbandonAsync(TeamViewModel team)
+    {
+        if (team == HomeTeam)
+        {
+            Match.HomeTeamStatus = (int)MatchStatus.Abandon;
+        }
+        else
+        {
+            Match.AwayTeamStatus = (int)MatchStatus.Abandon;
+        }
+
+        await _saverService.UpdateMatchAsync(Match);
 
         OnPropertyChanged(nameof(MatchStatus));
     }
@@ -101,7 +117,8 @@ public class MatchViewModel : ViewModelBase
 
     public int GetActivatedHomeTeamBet()
     {
-        if (HomeTeamMatchStatus is MatchStatus.Active or MatchStatus.Win or MatchStatus.Lost)
+        // Todo: Kan jag kolla på HomeTeamMatchStatus != MatchStatus.NotActive istället?
+        if (HomeTeamMatchStatus is MatchStatus.Active or MatchStatus.Win or MatchStatus.Lost or MatchStatus.Abandon)
         {
             return HomeTeamBet ?? 0;
         }
@@ -111,7 +128,8 @@ public class MatchViewModel : ViewModelBase
 
     public int GetActivatedAwayTeamBet()
     {
-        if (AwayTeamMatchStatus is MatchStatus.Active or MatchStatus.Win or MatchStatus.Lost)
+        // Todo: Kan jag kolla på AwayTeamMatchStatus != MatchStatus.NotActive istället?
+        if (AwayTeamMatchStatus is MatchStatus.Active or MatchStatus.Win or MatchStatus.Lost or MatchStatus.Abandon)
         {
             return AwayTeamBet ?? 0;
         }
@@ -127,12 +145,12 @@ public class MatchViewModel : ViewModelBase
 
     private MatchStatus ResolveMatchStatus()
     {
-        if (this.IsActiveOrDone(TeamType.HomeTeam))
+        if (this.IsActiveOrDone(TeamType.HomeTeam) && this.IsAbandon(TeamType.HomeTeam) == false)
         {
             return HomeTeamMatchStatus;
         }
 
-        if (this.IsActiveOrDone(TeamType.AwayTeam))
+        if (this.IsActiveOrDone(TeamType.AwayTeam) && this.IsAbandon(TeamType.AwayTeam) == false)
         {
             return AwayTeamMatchStatus;
         }
@@ -142,10 +160,15 @@ public class MatchViewModel : ViewModelBase
             return MatchStatus.Dormant;
         }
 
+        if (this.IsAbandon(TeamType.HomeTeam) || this.IsAbandon(TeamType.AwayTeam))
+        {
+            return MatchStatus.Abandon;
+        }
+
         return MatchStatus.NotActive;
     }
 
-    protected async Task SetStatusAndUpdate(MatchStatus matchStatus)
+    protected async Task SetStatusAndUpdateAsync(MatchStatus matchStatus)
     {
         if (matchStatus == MatchStatus.NotActive)
         {

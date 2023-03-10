@@ -7,7 +7,7 @@ public class MatchStatusToVisibilityConverter : ValueConverterBase<MatchStatus>
     public bool LostVisibility { get; set; } = false;
     public bool WinVisibility { get; set; } = false;
     public bool DormantVisibility { get; set; } = false;
-
+    public bool AbandonVisibility { get; set; } = false;
 
     protected override object Convert(MatchStatus value, object parameter)
     {
@@ -23,6 +23,8 @@ public class MatchStatusToVisibilityConverter : ValueConverterBase<MatchStatus>
                 return WinVisibility;
             case MatchStatus.Dormant:
                 return DormantVisibility;
+            case MatchStatus.Abandon:
+                return AbandonVisibility;
             default:
                 throw new ArgumentOutOfRangeException(nameof(value), value, null);
         }

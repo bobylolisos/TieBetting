@@ -9,7 +9,7 @@ public class FirestoreRepository : IFirestoreRepository
     private FirestoreDb _firestoreDb;
     private string _credentials;
 
-    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = true)
+    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = false)
     {
         _credentials = null;
         string filename;

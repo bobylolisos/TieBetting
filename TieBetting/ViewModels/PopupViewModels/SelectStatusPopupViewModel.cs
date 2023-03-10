@@ -39,12 +39,12 @@ public class SelectStatusPopupViewModel : ViewModelBase, IPopupViewModel
             return MatchStatus.NotActive;
         }
 
-        if (_matchViewModel.IsActiveOrDone(TeamType.HomeTeam))
+        if (_matchViewModel.IsActiveOrDone(TeamType.HomeTeam) && _matchViewModel.IsAbandon(TeamType.HomeTeam) == false)
         {
             return _matchViewModel.HomeTeamMatchStatus;
         }
 
-        if (_matchViewModel.IsActiveOrDone(TeamType.AwayTeam))
+        if (_matchViewModel.IsActiveOrDone(TeamType.AwayTeam) && _matchViewModel.IsAbandon(TeamType.AwayTeam) == false)
         {
             return _matchViewModel.AwayTeamMatchStatus;
         }
@@ -52,6 +52,11 @@ public class SelectStatusPopupViewModel : ViewModelBase, IPopupViewModel
         if (_matchViewModel.IsDormant(TeamType.HomeTeam) || _matchViewModel.IsDormant(TeamType.AwayTeam))
         {
             return MatchStatus.Dormant;
+        }
+
+        if (_matchViewModel.IsAbandon(TeamType.HomeTeam) || _matchViewModel.IsAbandon(TeamType.AwayTeam))
+        {
+            return MatchStatus.Abandon;
         }
 
         return MatchStatus.NotActive;
@@ -64,7 +69,7 @@ public class SelectStatusPopupViewModel : ViewModelBase, IPopupViewModel
             await _matchViewModel.SetRate(null);
         }
 
-        await _matchViewModel.SetStatus(matchStatus);
+        await _matchViewModel.SetStatusAsync(matchStatus);
 
         await _popupService.ClosePopupAsync();
     }

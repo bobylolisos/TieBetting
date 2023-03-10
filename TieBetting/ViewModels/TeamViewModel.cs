@@ -81,7 +81,7 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
             {
                 if (currentSessionDone == false)
                 {
-                    if (match.IsWin(TeamType.HomeTeam))
+                    if (match.IsWin(TeamType.HomeTeam) || match.IsAbandon(TeamType.HomeTeam))
                     {
                         currentSessionDone = true;
                     }
@@ -104,7 +104,7 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>
             {
                 if (currentSessionDone == false)
                 {
-                    if (match.IsWin(TeamType.AwayTeam))
+                    if (match.IsWin(TeamType.AwayTeam) || match.IsAbandon(TeamType.AwayTeam))
                     {
                         currentSessionDone = true;
                     }

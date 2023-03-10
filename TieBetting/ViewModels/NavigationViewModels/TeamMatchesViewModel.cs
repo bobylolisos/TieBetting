@@ -15,7 +15,7 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
         _queryService = queryService;
         NavigateToMatchMaintenanceViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchMaintenanceViewCommand);
         TabBarItem3Command = new AsyncRelayCommand(ExecuteToggleActiveStatusCommand, CanExecuteToggleActiveStatusCommand);
-        TabBarItem4Command = new AsyncRelayCommand(ExecuteAbandonCommand);
+        TabBarItem4Command = new AsyncRelayCommand(ExecuteAbandonCommand, CanExecuteAbandonCommand);
     }
 
     public AsyncRelayCommand<MatchViewModel> NavigateToMatchMaintenanceViewCommand { get; }
@@ -83,6 +83,7 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
 
         OnPropertyChanged(nameof(IsDormant));
         NotifyTabItemsCanExecuteChanged();
+        TabBarItem4Command.NotifyCanExecuteChanged();
 
         await base.OnNavigatingToAsync(navigationParameter);
 
@@ -136,6 +137,43 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
 
     private async Task ExecuteAbandonCommand()
     {
-        await Application.Current.MainPage.DisplayAlert("Not implemented", "Not implemented!", "Ok");
+        var lastLostMatch = GetLastLostMatch();
+
+        await lastLostMatch.SetAbandonAsync(_team);
+    }
+
+    private bool CanExecuteAbandonCommand()
+    {
+        if (_team == null)
+        {
+            return false;
+        }
+
+        var lastLostMatch = GetLastLostMatch();
+
+        if (lastLostMatch == null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private MatchViewModel GetLastLostMatch()
+    {
+        var lastDoneMatch = _team.Matches.LastOrDefault(x => x.IsAnyDone());
+        if (lastDoneMatch != null && lastDoneMatch.IsAnyLost())
+        {
+            if (lastDoneMatch.HomeTeam == _team && lastDoneMatch.IsLost(TeamType.HomeTeam))
+            {
+                return lastDoneMatch;
+            }
+            if (lastDoneMatch.AwayTeam == _team && lastDoneMatch.IsLost(TeamType.AwayTeam))
+            {
+                return lastDoneMatch;
+            }
+        }
+
+        return null;
     }
 }
