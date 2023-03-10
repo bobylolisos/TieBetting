@@ -13,10 +13,9 @@ public class StatisticsViewModel : ViewModelNavigationBase
     private string _bestTeamProfitTeamName;
     private int _worstTeamProfit;
     private string _worstTeamProfitTeamName;
-    private string _longestLostStreakTeamName;
     private int _longestLostStreakInSession;
-    private string _longestLostStreakInSessionTeamName;
     private int _matchesWonCount;
+    private int _abandonedBets;
 
     public StatisticsViewModel(INavigationService navigationService, IQueryService queryService)
         : base(navigationService)
@@ -40,6 +39,12 @@ public class StatisticsViewModel : ViewModelNavigationBase
     {
         get => _betsInSession;
         set => SetProperty(ref _betsInSession, value);
+    }
+
+    public int AbandonedBets
+    {
+        get => _abandonedBets;
+        set => SetProperty(ref _abandonedBets, value);
     }
 
     public int CurrentProfit
@@ -92,22 +97,10 @@ public class StatisticsViewModel : ViewModelNavigationBase
         set => SetProperty(ref _longestLostStreak, value);
     }
 
-    public string LongestLostStreakTeamName
-    {
-        get => _longestLostStreakTeamName;
-        set => SetProperty(ref _longestLostStreakTeamName, value);
-    }
-
     public int LongestLostStreakInSession
     {
         get => _longestLostStreakInSession;
         set => SetProperty(ref _longestLostStreakInSession, value);
-    }
-
-    public string LongestLostStreakInSessionTeamName
-    {
-        get => _longestLostStreakInSessionTeamName;
-        set => SetProperty(ref _longestLostStreakInSessionTeamName, value);
     }
 
     public int BestTeamProfit
@@ -139,8 +132,9 @@ public class StatisticsViewModel : ViewModelNavigationBase
         await base.OnNavigatingToAsync(navigationParameter);
 
         var teams = await _queryService.GetTeamsAsync();
+        var matches = await _queryService.GetMatchesAsync();
 
-        if (teams.Any() != true)
+        if (teams.Any() != true || matches.Any() != true)
         {
             return;
         }
@@ -148,24 +142,16 @@ public class StatisticsViewModel : ViewModelNavigationBase
         TotalBet = teams.Sum(x => x.TotalBet);
         TotalWin = (int)teams.Sum(x => x.ExactTotalWin);
         BetsInSession = teams.Sum(x => x.BetsInSession);
+        AbandonedBets = teams.Sum(x => x.AbandonedBets);
         CurrentProfit = TotalWin - TotalBet;
 
         var hasMatches = teams.Any(x => x.Statuses.Any());
         if (hasMatches)
         {
-            MatchesCount = teams.Sum(x => x.Statuses.Count) / 2;
-            MatchesWonCount = teams.SelectMany(x => x.Statuses).Count(y => y) / 2;
-
-            LongestLostStreak = teams.Max(x => x.Statuses.CountMaxNumberOfLostMatches());
-            var longestLostStreakTeams = teams.Where(x => x.Statuses.CountMaxNumberOfLostMatches() == LongestLostStreak).ToList();
-            var longestLostStreakMultipleTeamsText = longestLostStreakTeams.Count > 1 ? $"+ {longestLostStreakTeams.Count - 1}" : "";
-            LongestLostStreakTeamName = $"{longestLostStreakTeams.First().Name} {longestLostStreakMultipleTeamsText}";
+            MatchesCount = matches.Count(x => x.IsAnyDone() || x.IsAnyAbandoned());
+            MatchesWonCount = teams.Sum(x => x.MatchesWon) / 2;
 
             LongestLostStreakInSession = teams.Max(x => x.Statuses.CountNumberOfPreviousLostMatches());
-            var longestLostStreakInSessionTeams = teams.Where(x => x.Statuses.CountNumberOfPreviousLostMatches() == LongestLostStreakInSession).ToList();
-            var longestLostStreakInSessionMultipleTeamsText = longestLostStreakInSessionTeams.Count > 1 ? $"+ {longestLostStreakInSessionTeams.Count - 1}" : "";
-            LongestLostStreakInSessionTeamName = $"{longestLostStreakInSessionTeams.First().Name} {longestLostStreakInSessionMultipleTeamsText}";
-
         }
 
         BestTeamProfit = teams.Max(x => x.Profit);
@@ -173,7 +159,6 @@ public class StatisticsViewModel : ViewModelNavigationBase
 
         WorstTeamProfit = teams.Min(x => x.Profit);
         WorstTeamProfitTeamName = teams.First(x => x.Profit == WorstTeamProfit).Name;
-
 
     }
 }

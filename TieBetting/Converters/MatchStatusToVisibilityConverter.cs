@@ -23,7 +23,7 @@ public class MatchStatusToVisibilityConverter : ValueConverterBase<MatchStatus>
                 return WinVisibility;
             case MatchStatus.Dormant:
                 return DormantVisibility;
-            case MatchStatus.Abandon:
+            case MatchStatus.Abandoned:
                 return AbandonVisibility;
             default:
                 throw new ArgumentOutOfRangeException(nameof(value), value, null);

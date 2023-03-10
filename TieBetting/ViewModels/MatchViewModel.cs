@@ -72,11 +72,11 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
     {
         if (team == HomeTeam)
         {
-            Match.HomeTeamStatus = (int)MatchStatus.Abandon;
+            Match.HomeTeamStatus = (int)MatchStatus.Abandoned;
         }
         else
         {
-            Match.AwayTeamStatus = (int)MatchStatus.Abandon;
+            Match.AwayTeamStatus = (int)MatchStatus.Abandoned;
         }
 
         await _saverService.UpdateMatchAsync(Match);
@@ -120,7 +120,7 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
     public int GetActivatedHomeTeamBet()
     {
         // Todo: Kan jag kolla på HomeTeamMatchStatus != MatchStatus.NotActive istället?
-        if (HomeTeamMatchStatus is MatchStatus.Active or MatchStatus.Win or MatchStatus.Lost or MatchStatus.Abandon)
+        if (HomeTeamMatchStatus is MatchStatus.Active or MatchStatus.Win or MatchStatus.Lost or MatchStatus.Abandoned)
         {
             return HomeTeamBet ?? 0;
         }
@@ -131,7 +131,7 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
     public int GetActivatedAwayTeamBet()
     {
         // Todo: Kan jag kolla på AwayTeamMatchStatus != MatchStatus.NotActive istället?
-        if (AwayTeamMatchStatus is MatchStatus.Active or MatchStatus.Win or MatchStatus.Lost or MatchStatus.Abandon)
+        if (AwayTeamMatchStatus is MatchStatus.Active or MatchStatus.Win or MatchStatus.Lost or MatchStatus.Abandoned)
         {
             return AwayTeamBet ?? 0;
         }
@@ -147,12 +147,12 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
 
     private MatchStatus ResolveMatchStatus()
     {
-        if (this.IsActiveOrDone(TeamType.HomeTeam) && this.IsAbandon(TeamType.HomeTeam) == false)
+        if (this.IsActiveOrDone(TeamType.HomeTeam) && this.IsAbandoned(TeamType.HomeTeam) == false)
         {
             return HomeTeamMatchStatus;
         }
 
-        if (this.IsActiveOrDone(TeamType.AwayTeam) && this.IsAbandon(TeamType.AwayTeam) == false)
+        if (this.IsActiveOrDone(TeamType.AwayTeam) && this.IsAbandoned(TeamType.AwayTeam) == false)
         {
             return AwayTeamMatchStatus;
         }
@@ -162,9 +162,9 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
             return MatchStatus.Dormant;
         }
 
-        if (this.IsAbandon(TeamType.HomeTeam) || this.IsAbandon(TeamType.AwayTeam))
+        if (this.IsAbandoned(TeamType.HomeTeam) || this.IsAbandoned(TeamType.AwayTeam))
         {
-            return MatchStatus.Abandon;
+            return MatchStatus.Abandoned;
         }
 
         return MatchStatus.NotActive;

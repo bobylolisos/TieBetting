@@ -43,7 +43,7 @@
         <Grid
             Grid.Row="0"
             Grid.Column="0"
-            RowDefinitions="Auto,Auto,Auto,Auto,10,Auto"
+            RowDefinitions="Auto,Auto,Auto,Auto,Auto,10,Auto"
             ColumnDefinitions="Auto,30,Auto,*"
             Margin="6,8,6,3"
             Padding="8"
@@ -87,16 +87,31 @@
                 FontSize="12"
                 Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
+            <!--  Abandoned  -->
+            <Label
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="10,3"
+                Text="Abandoned"
+                FontSize="12"
+                Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
+
+            <Label
+                Grid.Row="3"
+                Grid.Column="2"
+                Text="{Binding AbandonedBets, Converter={StaticResource AmountToAmountStringConverter}}"
+                FontSize="12"
+                Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <!--  Win  -->
             <Label
-                Grid.Row="3"
+                Grid.Row="4"
                 Grid.Column="0"
                 Text="Total wins"
                 Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
-                Grid.Row="3"
+                Grid.Row="4"
                 Grid.Column="2"
                 Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
                 Style="{StaticResource StatisticsRowValueLabelStyle}" />
@@ -106,14 +121,14 @@
 
             <!--  Current profit  -->
             <Label
-                Grid.Row="5"
+                Grid.Row="6"
                 Grid.Column="0"
                 Text="Current profit"
                 FontAttributes="Bold"
                 Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
-                Grid.Row="5"
+                Grid.Row="6"
                 Grid.Column="2"
                 Text="{Binding CurrentProfit, Converter={StaticResource AmountToAmountStringConverter}}"
                 TextColor="{Binding CurrentProfit, Converter={StaticResource ProfitToColorConverter}}"
@@ -187,13 +202,6 @@
                 Text="{Binding LongestLostStreak}"
                 Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
-            <Label
-                Grid.Row="3"
-                Grid.Column="5"
-                Text="{Binding LongestLostStreakTeamName}"
-                HorizontalTextAlignment="Start"
-                Style="{StaticResource StatisticsRowValueLabelStyle}" />
-
             <!--  Longest lost streak in session  -->
             <Label
                 Grid.Row="4"
@@ -206,13 +214,6 @@
                 Grid.Row="4"
                 Grid.Column="2"
                 Text="{Binding LongestLostStreakInSession}"
-                Style="{StaticResource StatisticsRowValueLabelStyle}" />
-
-            <Label
-                Grid.Row="4"
-                Grid.Column="5"
-                Text="{Binding LongestLostStreakInSessionTeamName}"
-                HorizontalTextAlignment="Start"
                 Style="{StaticResource StatisticsRowValueLabelStyle}" />
 
             <!--  Best team profit  -->

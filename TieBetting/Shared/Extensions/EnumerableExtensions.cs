@@ -7,13 +7,13 @@ public static class EnumerableExtensions
         return source.Skip(Math.Max(0, source.Count() - n));
     }
 
-    public static int CountNumberOfPreviousLostMatches(this IEnumerable<bool> statuses)
+    public static int CountNumberOfPreviousLostMatches(this IEnumerable<MatchStatus> statuses)
     {
         var result = 0;
 
         foreach (var status in statuses.Reverse())
         {
-            if (status)
+            if (status == MatchStatus.Win || status == MatchStatus.Abandoned)
             {
                 return result;
             }
@@ -22,28 +22,5 @@ public static class EnumerableExtensions
         }
 
         return result;
-    }
-
-    public static int CountMaxNumberOfLostMatches(this IEnumerable<bool> statuses)
-    {
-        var max = 0;
-        var result = 0;
-
-        foreach (var status in statuses)
-        {
-            if (status)
-            {
-                if (result > max)
-                {
-                    max = result;
-                }
-                result = 0;
-                continue;
-            }
-
-            result++;
-        }
-
-        return Math.Max(result, max);
     }
 }

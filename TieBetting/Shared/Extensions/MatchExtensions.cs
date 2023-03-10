@@ -106,16 +106,16 @@ public static class MatchExtensions
     {
         if (teamType == TeamType.HomeTeam)
         {
-            return match.HomeTeamMatchStatus == MatchStatus.Win || match.HomeTeamMatchStatus == MatchStatus.Lost || match.HomeTeamMatchStatus == MatchStatus.Abandon;
+            return match.HomeTeamMatchStatus == MatchStatus.Win || match.HomeTeamMatchStatus == MatchStatus.Lost || match.HomeTeamMatchStatus == MatchStatus.Abandoned;
         }
 
-        return match.AwayTeamMatchStatus == MatchStatus.Win || match.AwayTeamMatchStatus == MatchStatus.Lost || match.AwayTeamMatchStatus == MatchStatus.Abandon;
+        return match.AwayTeamMatchStatus == MatchStatus.Win || match.AwayTeamMatchStatus == MatchStatus.Lost || match.AwayTeamMatchStatus == MatchStatus.Abandoned;
     }
 
     public static bool IsAnyDone(this MatchViewModel match)
     {
-        return match.HomeTeamMatchStatus == MatchStatus.Win || match.HomeTeamMatchStatus == MatchStatus.Lost || match.HomeTeamMatchStatus == MatchStatus.Abandon || 
-               match.AwayTeamMatchStatus == MatchStatus.Win || match.AwayTeamMatchStatus == MatchStatus.Lost || match.AwayTeamMatchStatus == MatchStatus.Abandon;
+        return match.HomeTeamMatchStatus == MatchStatus.Win || match.HomeTeamMatchStatus == MatchStatus.Lost || match.HomeTeamMatchStatus == MatchStatus.Abandoned || 
+               match.AwayTeamMatchStatus == MatchStatus.Win || match.AwayTeamMatchStatus == MatchStatus.Lost || match.AwayTeamMatchStatus == MatchStatus.Abandoned;
     }
 
     public static bool IsActiveOrDone(this MatchViewModel match, TeamType teamType)
@@ -148,14 +148,19 @@ public static class MatchExtensions
         return match.HomeTeamMatchStatus == MatchStatus.Active || match.AwayTeamMatchStatus == MatchStatus.Active || match.IsAnyDone();
     }
 
-    public static bool IsAbandon(this MatchViewModel match, TeamType teamType)
+    public static bool IsAbandoned(this MatchViewModel match, TeamType teamType)
     {
         if (teamType == TeamType.HomeTeam)
         {
-            return match.HomeTeamMatchStatus == MatchStatus.Abandon;
+            return match.HomeTeamMatchStatus == MatchStatus.Abandoned;
         }
 
-        return match.AwayTeamMatchStatus == MatchStatus.Abandon;
+        return match.AwayTeamMatchStatus == MatchStatus.Abandoned;
+    }
+
+    public static bool IsAnyAbandoned(this MatchViewModel match)
+    {
+        return match.HomeTeamMatchStatus == MatchStatus.Abandoned || match.AwayTeamMatchStatus == MatchStatus.Abandoned;
     }
 
     public static bool HasMatch(this IReadOnlyCollection<MatchViewModel> matches, string matchId)

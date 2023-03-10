@@ -7,5 +7,5 @@ public enum MatchStatus
     Lost = 2,
     Win = 3,
     Dormant = 4,
-    Abandon = 5
+    Abandoned = 5
 }

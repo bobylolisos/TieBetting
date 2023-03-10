@@ -3,7 +3,7 @@
 public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRecipient<TeamUpdatedMessage>
 {
     private readonly List<MatchViewModel> _matches = new();
-    private readonly List<bool> _statuses = new();
+    private readonly List<MatchStatus> _statuses = new();
     private readonly ISaverService _saverService;
     private readonly Team _team;
 
@@ -28,7 +28,7 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
 
     public int LostMatchesInSession => _statuses.CountNumberOfPreviousLostMatches();
 
-    public int MatchesWon => _statuses.Count(x => x);
+    public int MatchesWon => _statuses.Count(x => x == MatchStatus.Win);
 
     public string MatchesWonPercent
     {
@@ -45,13 +45,15 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
         }
     }
 
-    public List<bool> Statuses => _statuses;
+    public List<MatchStatus> Statuses => _statuses;
 
     public int TotalWin { get; private set; }
 
     public double ExactTotalWin { get; private set; }
 
     public int TotalBet { get; private set; }
+
+    public int AbandonedBets { get; private set; }
 
     public int Profit => TotalWin - TotalBet;
 
@@ -73,6 +75,8 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
         var totalBet = 0;
         var currentSession = 0;
         var currentSessionDone = false;
+        var abandonBets = 0;
+        var abandonSession = false;
         _statuses.Clear();
 
         foreach (var match in Matches.OrderByDescending(x => x.Day))
@@ -81,7 +85,7 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
             {
                 if (currentSessionDone == false)
                 {
-                    if (match.IsWin(TeamType.HomeTeam) || match.IsAbandon(TeamType.HomeTeam))
+                    if (match.IsWin(TeamType.HomeTeam) || match.IsAbandoned(TeamType.HomeTeam))
                     {
                         currentSessionDone = true;
                     }
@@ -90,12 +94,26 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
                         currentSession += match.GetActivatedHomeTeamBet();
                     }
                 }
+
+                if (match.IsAbandoned(TeamType.HomeTeam) || abandonSession)
+                {
+                    if (match.IsWin(TeamType.HomeTeam))
+                    {
+                        abandonSession = false;
+                    }
+                    else if (match.IsLost(TeamType.HomeTeam) || match.IsAbandoned(TeamType.HomeTeam))
+                    {
+                        abandonBets += match.GetActivatedHomeTeamBet();
+                        abandonSession = true;
+                    }
+                }
+
                 totalBet += match.GetActivatedHomeTeamBet();
                 totalWin += match.HomeTeamWin ?? 0;
 
                 if (match.IsDone(TeamType.HomeTeam))
                 {
-                    _statuses.Insert(0, match.IsWin(TeamType.HomeTeam));
+                    _statuses.Insert(0, match.HomeTeamMatchStatus);
                 }
 
             }
@@ -104,7 +122,7 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
             {
                 if (currentSessionDone == false)
                 {
-                    if (match.IsWin(TeamType.AwayTeam) || match.IsAbandon(TeamType.AwayTeam))
+                    if (match.IsWin(TeamType.AwayTeam) || match.IsAbandoned(TeamType.AwayTeam))
                     {
                         currentSessionDone = true;
                     }
@@ -113,12 +131,26 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
                         currentSession += match.GetActivatedAwayTeamBet();
                     }
                 }
+
+                if (match.IsAbandoned(TeamType.AwayTeam) || abandonSession)
+                {
+                    if (match.IsWin(TeamType.AwayTeam))
+                    {
+                        abandonSession = false;
+                    }
+                    else if (match.IsLost(TeamType.AwayTeam) || match.IsAbandoned(TeamType.AwayTeam))
+                    {
+                        abandonBets += match.GetActivatedAwayTeamBet();
+                        abandonSession = true;
+                    }
+                }
+
                 totalBet += match.GetActivatedAwayTeamBet();
                 totalWin += match.AwayTeamWin ?? 0;
 
                 if (match.IsDone(TeamType.AwayTeam))
                 {
-                    _statuses.Insert(0, match.IsWin(TeamType.AwayTeam));
+                    _statuses.Insert(0, match.AwayTeamMatchStatus);
                 }
             }
         }
@@ -127,12 +159,14 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
         ExactTotalWin = totalWin;
         TotalWin = (int)totalWin;
         BetsInSession = currentSession;
+        AbandonedBets = abandonBets;
 
         OnPropertyChanged(nameof(Statuses));
         OnPropertyChanged(nameof(TotalBet));
         OnPropertyChanged(nameof(ExactTotalWin));
         OnPropertyChanged(nameof(TotalWin));
         OnPropertyChanged(nameof(BetsInSession));
+        OnPropertyChanged(nameof(AbandonedBets));
         OnPropertyChanged(nameof(Profit));
         OnPropertyChanged(nameof(MatchesWon));
         OnPropertyChanged(nameof(MatchesWonPercent));
