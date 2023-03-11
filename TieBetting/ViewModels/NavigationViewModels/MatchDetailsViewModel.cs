@@ -16,7 +16,7 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IRecipient<MatchRa
         TabBarItem1Command = new AsyncRelayCommand(ExecuteShowSelectStatusPopupView, CanExecuteShowSelectStatusPopupView);
     }
 
-    public MatchBettingViewModel Match { get; set; }
+    public MatchViewModel Match { get; set; }
 
     public AsyncRelayCommand EnterRateCommand { get; }
 

@@ -8,10 +8,10 @@ public interface IQueryService
 
     Task<IReadOnlyCollection<TeamViewModel>> GetTeamsAsync();
 
-    Task<IReadOnlyCollection<MatchBettingViewModel>> GetMatchesAsync();
+    Task<IReadOnlyCollection<MatchViewModel>> GetMatchesAsync();
 
-    Task<IReadOnlyCollection<MatchBettingViewModel>> GetNextMatchesAsync(int? numberOfMatches = null);
+    Task<IReadOnlyCollection<MatchViewModel>> GetNextMatchesAsync(int? numberOfMatches = null);
 
-    Task<IReadOnlyCollection<MatchBettingViewModel>> GetPreviousOngoingMatchesAsync();
+    Task<IReadOnlyCollection<MatchViewModel>> GetPreviousOngoingMatchesAsync();
 
 }

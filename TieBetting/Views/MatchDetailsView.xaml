@@ -50,7 +50,7 @@
             <Grid
                 RowDefinitions="Auto,Auto,Auto"
                 ColumnDefinitions="*,Auto,*"
-                x:DataType="viewModels:MatchBettingViewModel">
+                x:DataType="viewModels:MatchViewModel">
                 <!--  Row 0  -->
                 <Image
                     Grid.Row="0"
@@ -115,7 +115,7 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 RowDefinitions="30,Auto,Auto,Auto,Auto"
-                x:DataType="viewModels:MatchBettingViewModel">
+                x:DataType="viewModels:MatchViewModel">
 
                 <!--  Rate circle  -->
                 <Frame

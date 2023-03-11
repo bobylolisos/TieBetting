@@ -2,10 +2,10 @@
 
 public class MatchCreatedMessage : MessageBase
 {
-    public MatchCreatedMessage(MatchViewModel match)
+    public MatchCreatedMessage(Match match)
     {
         Match = match;
     }
 
-    public MatchViewModel Match { get; }
+    public Match Match { get; }
 }

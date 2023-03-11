@@ -1,4 +1,6 @@
-﻿namespace TieBetting.Services;
+﻿using TieBetting.Models;
+
+namespace TieBetting.Services;
 
 public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
 {
@@ -7,7 +9,7 @@ public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
     private readonly IMessenger _messenger;
 
     private List<TeamViewModel> _teams;
-    private List<MatchBettingViewModel> _matches;
+    private List<MatchViewModel> _matches;
     private Settings _settings;
 
     public QueryService(IFirestoreRepository repository, ISaverService saverService, IMessenger messenger)
@@ -40,14 +42,14 @@ public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
         return _teams;
     }
 
-    public async Task<IReadOnlyCollection<MatchBettingViewModel>> GetMatchesAsync()
+    public async Task<IReadOnlyCollection<MatchViewModel>> GetMatchesAsync()
     {
         await EnsureDatabaseIsLoaded();
 
         return _matches.OrderBy(x => x.Day).ToList();
     }
 
-    public async Task<IReadOnlyCollection<MatchBettingViewModel>> GetNextMatchesAsync(int? numberOfMatches = null)
+    public async Task<IReadOnlyCollection<MatchViewModel>> GetNextMatchesAsync(int? numberOfMatches = null)
     {
         await EnsureDatabaseIsLoaded();
 
@@ -60,7 +62,7 @@ public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
         return upcomingMatches.OrderBy(x => x.Day).ToList();
     }
 
-    public async Task<IReadOnlyCollection<MatchBettingViewModel>> GetPreviousOngoingMatchesAsync()
+    public async Task<IReadOnlyCollection<MatchViewModel>> GetPreviousOngoingMatchesAsync()
     {
         await EnsureDatabaseIsLoaded();
 
@@ -74,7 +76,7 @@ public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
             _settings = await _repository.GetSettingsAsync();
 
             var teamsList = new List<TeamViewModel>();
-            var matchesList = new List<MatchBettingViewModel>();
+            var matchesList = new List<MatchViewModel>();
 
             var teams = await _repository.GetTeamsAsync();
             foreach (var team in teams)
@@ -86,25 +88,28 @@ public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
             //matches = matches.Where(x => x.HomeTeam == "Aik" || x.AwayTeam == "Aik" || x.HomeTeam == "Björklöven" || x.AwayTeam == "Björklöven").ToList();
             foreach (var match in matches.OrderBy(x => x.Day))
             {
-                var homeTeam = teamsList.GetTeamOrDefault(match.HomeTeam);
+                var homeTeamViewModel = teamsList.GetTeamOrDefault(match.HomeTeam);
 
-                if (homeTeam == null)
+                if (homeTeamViewModel == null)
                 {
-                    homeTeam = await _saverService.CreateTeamAsync(match.HomeTeam);
-                    teamsList.Add(homeTeam);
+                    var homeTeam = await _saverService.CreateTeamAsync(match.HomeTeam);
+                    homeTeamViewModel = new TeamViewModel(_messenger, _saverService, homeTeam);
+
+                    teamsList.Add(homeTeamViewModel);
                 }
 
-                var awayTeam = teamsList.GetTeamOrDefault(match.AwayTeam);
-                if (awayTeam == null)
+                var awayTeamViewModel = teamsList.GetTeamOrDefault(match.AwayTeam);
+                if (awayTeamViewModel == null)
                 {
-                    awayTeam = await _saverService.CreateTeamAsync(match.AwayTeam);
-                    teamsList.Add(awayTeam);
+                    var awayTeam = await _saverService.CreateTeamAsync(match.AwayTeam);
+                    awayTeamViewModel = new TeamViewModel(_messenger, _saverService, awayTeam);
+                    teamsList.Add(awayTeamViewModel);
                 }
 
-                var matchViewModel = new MatchBettingViewModel(_messenger, _saverService, _settings, match, homeTeam, awayTeam);
+                var matchViewModel = new MatchViewModel(_messenger, _saverService, _settings, match, homeTeamViewModel, awayTeamViewModel);
 
-                homeTeam.AddMatch(matchViewModel);
-                awayTeam.AddMatch(matchViewModel);
+                homeTeamViewModel.AddMatch(matchViewModel);
+                awayTeamViewModel.AddMatch(matchViewModel);
 
                 matchesList.Add(matchViewModel);
             }
@@ -112,19 +117,22 @@ public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
             teamsList.ForEach(x => x.ReCalculateValues());
 
             _teams = new List<TeamViewModel>(teamsList.OrderByTeamName());
-            _matches = new List<MatchBettingViewModel>(matchesList.OrderBy(x => x.Day));
+            _matches = new List<MatchViewModel>(matchesList.OrderBy(x => x.Day));
         }
 
     }
 
     public void Receive(MatchCreatedMessage message)
     {
-        var matchViewModel = message.Match;
+        var match = message.Match;
 
-        var matchBettingViewModel = new MatchBettingViewModel(_messenger, _saverService, _settings, matchViewModel.Match, matchViewModel.HomeTeam, matchViewModel.AwayTeam);
-        matchBettingViewModel.HomeTeam.AddMatch(matchViewModel);
-        matchBettingViewModel.AwayTeam.AddMatch(matchViewModel);
+        var homeTeam = _teams.GetTeamOrDefault(match.HomeTeam);
+        var awayTeam = _teams.GetTeamOrDefault(match.AwayTeam);
 
-        _matches.Add(matchBettingViewModel);
+        var matchViewModel = new MatchViewModel(_messenger, _saverService, _settings, match, homeTeam, awayTeam);
+        homeTeam.AddMatch(matchViewModel);
+        awayTeam.AddMatch(matchViewModel);
+
+        _matches.Add(matchViewModel);
     }
 }

@@ -3,10 +3,12 @@
 public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
 {
     private readonly ISaverService _saverService;
+    private readonly Settings _settings;
 
-    public MatchViewModel(IMessenger messenger, ISaverService saverService, Match match, TeamViewModel homeTeam, TeamViewModel awayTeam)
+    public MatchViewModel(IMessenger messenger, ISaverService saverService, Settings settings, Match match, TeamViewModel homeTeam, TeamViewModel awayTeam)
     {
         _saverService = saverService;
+        _settings = settings;
         Match = match;
         HomeTeam = homeTeam;
         AwayTeam = awayTeam;
@@ -37,6 +39,16 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
 
     public int? HomeTeamBet => Match.HomeTeamBet;
 
+    public int HomeTeamTotalBet => HomeTeam.TotalBet;
+
+    public int HomeTeamTotalWin => (int)HomeTeam.TotalWin;
+
+    public int HomeTeamProfit => HomeTeam.Profit;
+
+    public int HomeTeamCurrentBetSession => HomeTeam.BetsInSession;
+
+    public int HomeTeamLostMatches => HomeTeam.LostMatchesInSession;
+
     public double? HomeTeamWin => this.IsWin(TeamType.HomeTeam) ? Match.HomeTeamBet * Rate : 0;
 
     public MatchStatus HomeTeamMatchStatus => (MatchStatus)Match.HomeTeamStatus;
@@ -46,6 +58,16 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
     public string AwayTeamImage => AwayTeam.Image;
 
     public int? AwayTeamBet => Match.AwayTeamBet;
+
+    public int AwayTeamTotalBet => AwayTeam.TotalBet;
+
+    public int AwayTeamTotalWin => (int)AwayTeam.TotalWin;
+
+    public int AwayTeamProfit => AwayTeam.Profit;
+
+    public int AwayTeamCurrentBetSession => AwayTeam.BetsInSession;
+
+    public int AwayTeamLostMatches => AwayTeam.LostMatchesInSession;
 
     public double? AwayTeamWin => this.IsWin(TeamType.AwayTeam) ? Match.AwayTeamBet * Rate : 0;
 
@@ -63,9 +85,60 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
 
     public virtual async Task SetStatusAsync(MatchStatus matchStatus)
     {
-        await SetStatusAndUpdateAsync(matchStatus);
+        if (matchStatus == MatchStatus.NotActive)
+        {
+            Match.HomeTeamStatus = (int)MatchStatus.NotActive;
+            Match.AwayTeamStatus = (int)MatchStatus.NotActive;
+        }
+
+        if (matchStatus == MatchStatus.Active)
+        {
+            if (HomeTeam.IsDormant)
+            {
+                Match.HomeTeamStatus = (int)MatchStatus.Dormant;
+            }
+            else
+            {
+                Match.HomeTeamStatus = (int)MatchStatus.Active;
+            }
+
+            if (AwayTeam.IsDormant)
+            {
+                Match.AwayTeamStatus = (int)MatchStatus.Dormant;
+            }
+            else
+            {
+                Match.AwayTeamStatus = (int)MatchStatus.Active;
+            }
+        }
+
+        if (matchStatus == MatchStatus.Win || matchStatus == MatchStatus.Lost)
+        {
+            if (Match.HomeTeamStatus != (int)MatchStatus.Dormant)
+            {
+                Match.HomeTeamStatus = (int)matchStatus;
+            }
+            if (Match.AwayTeamStatus != (int)MatchStatus.Dormant)
+            {
+                Match.AwayTeamStatus = (int)matchStatus;
+            }
+        }
+
+        await _saverService.UpdateMatchAsync(Match);
 
         OnPropertyChanged(nameof(MatchStatus));
+
+        OnPropertyChanged(nameof(HomeTeamTotalBet));
+        OnPropertyChanged(nameof(HomeTeamTotalWin));
+        OnPropertyChanged(nameof(HomeTeamProfit));
+        OnPropertyChanged(nameof(HomeTeamCurrentBetSession));
+        OnPropertyChanged(nameof(HomeTeamLostMatches));
+
+        OnPropertyChanged(nameof(AwayTeamTotalBet));
+        OnPropertyChanged(nameof(AwayTeamTotalWin));
+        OnPropertyChanged(nameof(AwayTeamProfit));
+        OnPropertyChanged(nameof(AwayTeamCurrentBetSession));
+        OnPropertyChanged(nameof(AwayTeamLostMatches));
     }
 
     public virtual async Task SetAbandonAsync(TeamViewModel team)
@@ -86,11 +159,55 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
 
     public virtual async Task SetRate(double? rate)
     {
-        Match.Rate = null;
-        Match.HomeTeamBet = null;
-        Match.HomeTeamStatus = 0;
-        Match.AwayTeamBet = null;
-        Match.AwayTeamStatus = 0;
+        if (rate.HasValue == false)
+        {
+            Match.Rate = null;
+            Match.HomeTeamBet = null;
+            Match.HomeTeamStatus = 0;
+            Match.AwayTeamBet = null;
+            Match.AwayTeamStatus = 0;
+        }
+        else if (rate.Value < 2)
+        {
+            // Todo: Visa dialog, orimligt värde
+            if (Debugger.IsAttached)
+                Debugger.Break();
+            return;
+        }
+        else
+        {
+            Match.Rate = rate.Value;
+
+            Match.HomeTeamBet = 0;
+            if (HomeTeam.IsActive)
+            {
+                for (var i = 1; i < int.MaxValue; i++)
+                {
+                    var win = i * Rate;
+
+                    if (win - i - HomeTeam.BetsInSession >= _settings.ExpectedWinAmount)
+                    {
+                        Match.HomeTeamBet = i;
+                        break;
+                    }
+                }
+            }
+
+            Match.AwayTeamBet = 0;
+            if (AwayTeam.IsActive)
+            {
+                for (var i = 1; i < int.MaxValue; i++)
+                {
+                    var win = i * Rate;
+
+                    if (win - i - AwayTeam.BetsInSession >= _settings.ExpectedWinAmount)
+                    {
+                        Match.AwayTeamBet = i;
+                        break;
+                    }
+                }
+            }
+        }
 
         OnPropertyChanged(nameof(Rate));
         OnPropertyChanged(nameof(MatchStatus));
@@ -170,50 +287,6 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
         return MatchStatus.NotActive;
     }
 
-    protected async Task SetStatusAndUpdateAsync(MatchStatus matchStatus)
-    {
-        if (matchStatus == MatchStatus.NotActive)
-        {
-            Match.HomeTeamStatus = (int)MatchStatus.NotActive;
-            Match.AwayTeamStatus = (int)MatchStatus.NotActive;
-        }
-
-        if (matchStatus == MatchStatus.Active)
-        {
-            if (HomeTeam.IsDormant)
-            {
-                Match.HomeTeamStatus = (int)MatchStatus.Dormant;
-            }
-            else
-            {
-                Match.HomeTeamStatus = (int)MatchStatus.Active;
-            }
-
-            if (AwayTeam.IsDormant)
-            {
-                Match.AwayTeamStatus = (int)MatchStatus.Dormant;
-            }
-            else
-            {
-                Match.AwayTeamStatus = (int)MatchStatus.Active;
-            }
-        }
-
-        if (matchStatus == MatchStatus.Win || matchStatus == MatchStatus.Lost)
-        {
-            if (Match.HomeTeamStatus != (int)MatchStatus.Dormant)
-            {
-                Match.HomeTeamStatus = (int)matchStatus;
-            }
-            if (Match.AwayTeamStatus != (int)MatchStatus.Dormant)
-            {
-                Match.AwayTeamStatus = (int)matchStatus;
-            }
-        }
-
-        await _saverService.UpdateMatchAsync(Match);
-    }
-
     private string ResolveGroupHeader()
     {
         if (Day < DayProvider.TodayDay)
@@ -233,11 +306,8 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
     {
         if (HomeTeamName == message.TeamName || AwayTeamName == message.TeamName)
         {
-            OnTeamUpdated();
+            OnPropertyChanged(nameof(HomeTeamLostMatches));
+            OnPropertyChanged(nameof(AwayTeamLostMatches));
         }
-    }
-
-    protected virtual void OnTeamUpdated()
-    {
     }
 }

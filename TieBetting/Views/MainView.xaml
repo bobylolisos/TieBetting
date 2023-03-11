@@ -55,7 +55,7 @@
                 </DataTemplate>
             </dxcv:DXCollectionView.GroupHeaderTemplate>
             <dxcv:DXCollectionView.ItemTemplate>
-                <DataTemplate x:DataType="viewModels:MatchBettingViewModel">
+                <DataTemplate x:DataType="viewModels:MatchViewModel">
 
                     <Grid
                         RowDefinitions="Auto,Auto,*,5"
