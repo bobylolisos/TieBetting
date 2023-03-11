@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <base:ViewBase
-    x:Class="TieBetting.Views.MatchDetailsView"
+    x:Class="TieBetting.Views.MatchBettingView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:TieBetting.Views.Base"
@@ -11,8 +11,8 @@
     xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
     x:Name="This"
-    Title="MatchDetailsView"
-    x:DataType="navigationViewModels:MatchDetailsViewModel">
+    Title="MatchBettingView"
+    x:DataType="navigationViewModels:MatchBettingViewModel">
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding NavigateBackCommand}" />
     </Shell.BackButtonBehavior>

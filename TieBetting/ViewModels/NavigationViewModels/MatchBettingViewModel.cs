@@ -1,11 +1,11 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class MatchDetailsViewModel : ViewModelNavigationBase, IRecipient<MatchRateChangedMessage>
+public class MatchBettingViewModel : ViewModelNavigationBase, IRecipient<MatchRateChangedMessage>
 {
     private readonly IPopupService _popupService;
     private readonly IMessenger _messenger;
 
-    public MatchDetailsViewModel(INavigationService navigationService, IPopupService popupService, IMessenger messenger) 
+    public MatchBettingViewModel(INavigationService navigationService, IPopupService popupService, IMessenger messenger) 
         : base(navigationService)
     {
         _popupService = popupService;
@@ -28,7 +28,7 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IRecipient<MatchRa
 
     public override Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
     {
-        if (navigationParameter is MatchDetailsViewNavigationParameter parameter)
+        if (navigationParameter is MatchBettingViewNavigationParameter parameter)
         {
             Match = parameter.MatchViewModel;
             OnPropertyChanged(nameof(Match));

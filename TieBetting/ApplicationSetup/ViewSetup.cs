@@ -6,7 +6,7 @@ public static class ViewSetup
     {
         // Pages
         builder.RegisterNavigationViewTransient<MainView>();
-        builder.RegisterNavigationViewTransient<MatchDetailsView>();
+        builder.RegisterNavigationViewTransient<MatchBettingView>();
         builder.RegisterNavigationViewTransient<TeamsView>();
         builder.RegisterNavigationViewTransient<StatisticsView>();
         builder.RegisterNavigationViewTransient<SettingsView>();

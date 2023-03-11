@@ -67,7 +67,7 @@
                             <behaviors:AnimationBehavior CommandParameter="{Binding Path=.}">
                                 <behaviors:AnimationBehavior.Command>
                                     <x:Binding
-                                        Path="BindingContext.NavigateToMatchDetailsViewCommand"
+                                        Path="BindingContext.NavigateToMatchBettingViewCommand"
                                         Source="{x:Reference This}" />
                                 </behaviors:AnimationBehavior.Command>
                                 <behaviors:AnimationBehavior.AnimationType>

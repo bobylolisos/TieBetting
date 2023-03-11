@@ -1,8 +1,8 @@
 ﻿namespace TieBetting.Services.Navigation.NavigationParameters;
 
-public class MatchDetailsViewNavigationParameter : NavigationParameterBase
+public class MatchBettingViewNavigationParameter : NavigationParameterBase
 {
-    public MatchDetailsViewNavigationParameter(MatchViewModel matchViewModel)
+    public MatchBettingViewNavigationParameter(MatchViewModel matchViewModel)
     {
         MatchViewModel = matchViewModel;
     }

@@ -17,7 +17,7 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
         _queryService = queryService;
         _saverService = saverService;
         _navigationService = navigationService;
-        NavigateToMatchDetailsViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchDetailsViewCommand);
+        NavigateToMatchBettingViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchBettingViewCommand);
         TabBarItem1Command = new AsyncRelayCommand(ExecuteNavigateToTeamsViewCommand);
         TabBarItem2Command = new AsyncRelayCommand(ExecuteNavigateToSeasonMatchesViewCommand);
         TabBarItem3Command = new AsyncRelayCommand(ExecuteNavigateToStatisticsViewCommand);
@@ -29,7 +29,7 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
     public ObservableCollection<MatchViewModel> Matches { get; set; } = new();
 
 
-    public AsyncRelayCommand<MatchViewModel> NavigateToMatchDetailsViewCommand { get; set; }
+    public AsyncRelayCommand<MatchViewModel> NavigateToMatchBettingViewCommand { get; set; }
 
     public bool IsReloading
     {
@@ -47,9 +47,9 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
         await ReloadAsync();
     }
 
-    private async Task ExecuteNavigateToMatchDetailsViewCommand(MatchViewModel viewModel)
+    private async Task ExecuteNavigateToMatchBettingViewCommand(MatchViewModel viewModel)
     {
-        await _navigationService.NavigateToPageAsync<MatchDetailsView>(new MatchDetailsViewNavigationParameter(viewModel));
+        await _navigationService.NavigateToPageAsync<MatchBettingView>(new MatchBettingViewNavigationParameter(viewModel));
     }
 
     private async Task ExecuteNavigateToStatisticsViewCommand()

@@ -73,7 +73,7 @@
 	  <MauiXaml Update="Views\MainView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\MatchDetailsView.xaml">
+	  <MauiXaml Update="Views\MatchBettingView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\MatchMaintenanceView.xaml">
@@ -97,6 +97,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\MatchBettingView.xaml.cs">
+	    <DependentUpon>MatchBettingView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\SeasonMatchesView.xaml.cs">
 	    <DependentUpon>SeasonMatchesView.xaml</DependentUpon>
 	  </Compile>
