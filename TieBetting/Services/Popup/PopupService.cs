@@ -3,10 +3,12 @@
 public class PopupService : IPopupService
 {
     private readonly IServiceProvider _services;
+    private readonly IDialogService _dialogService;
 
-    public PopupService(IServiceProvider services)
+    public PopupService(IServiceProvider services, IDialogService dialogService)
     {
         _services = services;
+        _dialogService = dialogService;
     }
 
     private INavigation Navigation
@@ -37,7 +39,7 @@ public class PopupService : IPopupService
         catch (Exception e)
         {
             var message = e.InnerException?.Message ?? e.Message;
-            await Application.Current.MainPage.DisplayAlert("PopupService Error", message, "Ok");
+            await _dialogService.ShowMessage("PopupService Error", message);
 
             Console.WriteLine(e);
             throw;

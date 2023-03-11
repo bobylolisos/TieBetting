@@ -5,11 +5,13 @@ namespace TieBetting.ViewModels.NavigationViewModels;
 public class MatchMaintenanceViewModel : ViewModelNavigationBase
 {
     private readonly IPopupService _popupService;
+    private readonly IDialogService _dialogService;
 
-    public MatchMaintenanceViewModel(INavigationService navigationService, IPopupService popupService)
+    public MatchMaintenanceViewModel(INavigationService navigationService, IPopupService popupService, IDialogService dialogService)
         : base(navigationService)
     {
         _popupService = popupService;
+        _dialogService = dialogService;
         TabBarItem1Command = new AsyncRelayCommand(ExecuteChangeStatusCommand, CanExecuteChangeStatusCommand);
         TabBarItem2Command = new AsyncRelayCommand(ExecuteChangeDateCommand, CanExecuteChangeDateCommand);
         TabBarItem3Command = new AsyncRelayCommand(ExecuteDeleteMatchCommand, CanExecuteDeleteMatchCommand);
@@ -78,7 +80,7 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase
 
     private async Task ExecuteDeleteMatchCommand()
     {
-        await Application.Current.MainPage.DisplayAlert("Not implemented", "Not implemented!", "Ok");
+        await _dialogService.ShowMessage("Not implemented", "Not implemented!");
 
         NotifyTabItemsCanExecuteChanged();
     }

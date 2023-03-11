@@ -16,8 +16,8 @@ X Byt namn på MatchDetailsView till MatchBettingViewModel efter det att MatchBet
 X Byt namn på vy/vymodell TeamMatchesView till TeamMaintenanceView
 X Kan man ersätta WeakReferenceMessenger.Default.RegisterAll(this); med nått, typ IMessenger
 X Flytta images till undermappar
-- Graf
 - Fixa ersättning för Application.Current.MainPage.DisplayAlert
+- Graf
 
 
 Match

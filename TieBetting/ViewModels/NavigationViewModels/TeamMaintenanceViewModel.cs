@@ -4,17 +4,19 @@ public class TeamMaintenanceViewModel : ViewModelNavigationBase, IRecipient<Team
 {
     private readonly IQueryService _queryService;
     private readonly IMessenger _messenger;
+    private readonly IDialogService _dialogService;
     private string _headerText;
     private string _headerImage;
     private string _selectedSeason;
     private IReadOnlyCollection<MatchViewModel> _allTeamMatches;
     private TeamViewModel _team;
 
-    public TeamMaintenanceViewModel(INavigationService navigationService, IQueryService queryService, IMessenger messenger)
+    public TeamMaintenanceViewModel(INavigationService navigationService, IQueryService queryService, IMessenger messenger, IDialogService dialogService)
         : base(navigationService)
     {
         _queryService = queryService;
         _messenger = messenger;
+        _dialogService = dialogService;
         NavigateToMatchMaintenanceViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchMaintenanceViewCommand);
         TabBarItem3Command = new AsyncRelayCommand(ExecuteToggleActiveStatusCommand, CanExecuteToggleActiveStatusCommand);
         TabBarItem4Command = new AsyncRelayCommand(ExecuteAbandonCommand, CanExecuteAbandonCommand);
@@ -133,7 +135,7 @@ public class TeamMaintenanceViewModel : ViewModelNavigationBase, IRecipient<Team
     {
         if (_team.Matches.Any(x => x.IsActive(_team.Name)))
         {
-            await Application.Current.MainPage.DisplayAlert(TabBarItem3Label, "You have an active match. Complete that match first and then try again.", "Ok");
+            await _dialogService.ShowMessage(TabBarItem3Label, "You have an active match. Complete that match first and then try again.");
             return;
         }
 

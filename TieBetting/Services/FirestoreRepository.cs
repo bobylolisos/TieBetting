@@ -2,6 +2,7 @@
 
 public class FirestoreRepository : IFirestoreRepository
 {
+    private readonly IDialogService _dialogService;
     private const string SettingsCollectionKey = "settings";
     private const string TeamsCollectionKey = "teams";
     private const string MatchesCollectionKey = "matches";
@@ -9,7 +10,12 @@ public class FirestoreRepository : IFirestoreRepository
     private FirestoreDb _firestoreDb;
     private string _credentials;
 
-    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = false)
+    public FirestoreRepository(IDialogService dialogService)
+    {
+        _dialogService = dialogService;
+    }
+
+    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = true)
     {
         _credentials = null;
         string filename;
@@ -51,7 +57,7 @@ public class FirestoreRepository : IFirestoreRepository
         catch (Exception e)
         {
             Debug.WriteLine("CreateFirestoreDbAsync - Failed");
-            await Application.Current.MainPage.DisplayAlert("Firestore init failed", e.Message, "OK");
+            await _dialogService.ShowMessage("Firestore init failed", e.Message);
 
             Application.Current.Quit();
             throw;

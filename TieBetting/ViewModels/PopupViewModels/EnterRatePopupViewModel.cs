@@ -3,11 +3,13 @@
 public class EnterRatePopupViewModel : ViewModelBase, IPopupViewModel
 {
     private readonly IMessenger _messenger;
+    private readonly IDialogService _dialogService;
     private string _rate;
 
-    public EnterRatePopupViewModel(IMessenger messenger)
+    public EnterRatePopupViewModel(IMessenger messenger, IDialogService dialogService)
     {
         _messenger = messenger;
+        _dialogService = dialogService;
 
         DigitCommand = new RelayCommand<string>(ExecuteDigitCommand, CanExecuteDigitCommand);
         CommaCommand = new RelayCommand(ExecuteCommaCommand, CanExecuteCommaCommand);
@@ -69,7 +71,7 @@ public class EnterRatePopupViewModel : ViewModelBase, IPopupViewModel
         {
             if (rate.Value > 7)
             {
-                await Application.Current.MainPage.DisplayAlert("Rate", "To high rate", "Ok");
+                await _dialogService.ShowMessage("Rate", "To high rate");
                 return false;
             }
         }
