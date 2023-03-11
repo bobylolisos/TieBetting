@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <base:ViewBase
-    x:Class="TieBetting.Views.TeamMatchesView"
+    x:Class="TieBetting.Views.TeamMaintenanceView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:TieBetting.Views.Base"
     xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:components="clr-namespace:TieBetting.Shared.Components"
+    xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
     xmlns:navigationViewModels="clr-namespace:TieBetting.ViewModels.NavigationViewModels"
     xmlns:tabBar="clr-namespace:TieBetting.Shared.Components.TabBar"
     xmlns:viewModels="clr-namespace:TieBetting.ViewModels"
-    xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
     x:Name="This"
-    Title="TeamMatchesView"
-    x:DataType="navigationViewModels:TeamMatchesViewModel"
+    Title="TeamMaintenanceView"
+    x:DataType="navigationViewModels:TeamMaintenanceViewModel"
     Background="{StaticResource Gray100}">
 
     <Shell.BackButtonBehavior>
@@ -20,7 +20,7 @@
     </Shell.BackButtonBehavior>
     <Shell.TitleView>
         <Label
-            Text="TEAM MATCHES"
+            Text="TEAM MAINTENANCE"
             Style="{StaticResource HeaderLabelStyle}" />
     </Shell.TitleView>
 

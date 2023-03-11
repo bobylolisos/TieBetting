@@ -88,7 +88,7 @@
 	  <MauiXaml Update="Views\StatisticsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\TeamMatchesView.xaml">
+	  <MauiXaml Update="Views\TeamMaintenanceView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\TeamsView.xaml">
@@ -105,6 +105,9 @@
 	  </Compile>
 	  <Compile Update="Views\PopupViews\EnterRatePopupView.xaml.cs">
 	    <DependentUpon>EnterRatePopupView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\TeamMaintenanceView.xaml.cs">
+	    <DependentUpon>TeamMaintenanceView.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 

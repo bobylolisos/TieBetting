@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class TeamMatchesViewModel : ViewModelNavigationBase, IRecipient<TeamUpdatedMessage>, IRecipient<MatchUpdatedMessage>
+public class TeamMaintenanceViewModel : ViewModelNavigationBase, IRecipient<TeamUpdatedMessage>, IRecipient<MatchUpdatedMessage>
 {
     private readonly IQueryService _queryService;
     private readonly IMessenger _messenger;
@@ -10,7 +10,7 @@ public class TeamMatchesViewModel : ViewModelNavigationBase, IRecipient<TeamUpda
     private IReadOnlyCollection<MatchViewModel> _allTeamMatches;
     private TeamViewModel _team;
 
-    public TeamMatchesViewModel(INavigationService navigationService, IQueryService queryService, IMessenger messenger)
+    public TeamMaintenanceViewModel(INavigationService navigationService, IQueryService queryService, IMessenger messenger)
         : base(navigationService)
     {
         _queryService = queryService;
@@ -59,7 +59,7 @@ public class TeamMatchesViewModel : ViewModelNavigationBase, IRecipient<TeamUpda
 
     public override Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
     {
-        if (navigationParameter is TeamMatchesViewNavigationParameter parameter)
+        if (navigationParameter is TeamMaintenanceViewNavigationParameter parameter)
         {
             var team = parameter.Team;
             HeaderImage = team.Image;
@@ -69,7 +69,7 @@ public class TeamMatchesViewModel : ViewModelNavigationBase, IRecipient<TeamUpda
         }
         else
         {
-            throw new ArgumentException("Expected TeamMatchesViewNavigationParameter but not found!");
+            throw new ArgumentException("Expected TeamMaintenanceViewNavigationParameter but not found!");
         }
 
         _allTeamMatches = _team.Matches;

@@ -44,7 +44,7 @@
                             <behaviors:AnimationBehavior CommandParameter="{Binding Path=.}">
                                 <behaviors:AnimationBehavior.Command>
                                     <x:Binding
-                                        Path="BindingContext.NavigateToTeamMatchesViewCommand"
+                                        Path="BindingContext.NavigateToTeamMaintenanceViewCommand"
                                         Source="{x:Reference This}" />
                                 </behaviors:AnimationBehavior.Command>
                                 <behaviors:AnimationBehavior.AnimationType>

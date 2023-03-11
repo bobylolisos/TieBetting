@@ -10,14 +10,14 @@ X Om man ändrar status så uppdateras inte vymodellen på huvudsidan, kanske query
 X Uppdatera matcher från Leksands till Leksand (redan fixat i importern till Leksand) Fixat i tiebetting, struntar i Sandbox
 X Behövs refresh iom DevExpress?
 X Add match - Mer utrymme för datum
-- Graf
-- Fixa ersättning för Application.Current.MainPage.DisplayAlert
-- Flytta images till undermappar
 X Ta bort IPubSub, varje vymodell får sköta detta själv
 X Stek MatchBettingViewModel, använde enbart MatchViewModel
 X Byt namn på MatchDetailsView till MatchBettingViewModel efter det att MatchBettingViewModel stekts
-- Byt namn på vy/vymodell TeamMatchesView till Team_XXX_View
+X Byt namn på vy/vymodell TeamMatchesView till TeamMaintenanceView
 X Kan man ersätta WeakReferenceMessenger.Default.RegisterAll(this); med nått, typ IMessenger
+- Graf
+- Fixa ersättning för Application.Current.MainPage.DisplayAlert
+- Flytta images till undermappar
 
 
 Match
