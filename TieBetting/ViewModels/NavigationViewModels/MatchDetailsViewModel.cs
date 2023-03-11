@@ -1,13 +1,15 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateChangedMessage>
+public class MatchDetailsViewModel : ViewModelNavigationBase, IRecipient<MatchRateChangedMessage>
 {
     private readonly IPopupService _popupService;
+    private readonly IMessenger _messenger;
 
-    public MatchDetailsViewModel(INavigationService navigationService, IPopupService popupService) 
+    public MatchDetailsViewModel(INavigationService navigationService, IPopupService popupService, IMessenger messenger) 
         : base(navigationService)
     {
         _popupService = popupService;
+        _messenger = messenger;
 
         EnterRateCommand = new AsyncRelayCommand(ExecuteEnterRateCommand, CanExecuteEnterRateCommand);
         SetStatusCommand = new AsyncRelayCommand<MatchStatus>(ExecuteSetStatusCommand);
@@ -35,7 +37,18 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
             NotifyTabItemsCanExecuteChanged();
         }
 
+        _messenger.RegisterAll(this);
+
         return base.OnNavigatingToAsync(navigationParameter);
+    }
+
+    public override Task OnNavigatedFromAsync(bool isForwardNavigation)
+    {
+        if (!isForwardNavigation)
+        {
+            _messenger.UnregisterAll(this);
+        }
+        return Task.CompletedTask;
     }
 
     public async void Receive(MatchRateChangedMessage message)
@@ -45,16 +58,6 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
             await Match.SetRate(message?.Rate);
             SetStatusCommand.NotifyCanExecuteChanged();
         }
-    }
-
-    public void RegisterMessages()
-    {
-        WeakReferenceMessenger.Default.RegisterAll(this);
-    }
-
-    public void UnregisterMessages()
-    {
-        WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
     private async Task ExecuteEnterRateCommand()
@@ -79,19 +82,19 @@ public class MatchDetailsViewModel : ViewModelNavigationBase, IPubSub<MatchRateC
         {
             return false;
         }
-        if (Match.HomeTeam.Matches.Any(x => x.IsActiveOrDone(Match.HomeTeamName) && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
-        {
-            return false;
-        }
+        //if (Match.HomeTeam.Matches.Any(x => x.IsActiveOrDone(Match.HomeTeamName) && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
+        //{
+        //    return false;
+        //}
 
         if (Match.AwayTeam.Matches.Any(x => x.IsActive(Match.AwayTeamName)))
         {
             return false;
         }
-        if (Match.AwayTeam.Matches.Any(x => x.IsActiveOrDone(Match.AwayTeamName) && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
-        {
-            return false;
-        }
+        //if (Match.AwayTeam.Matches.Any(x => x.IsActiveOrDone(Match.AwayTeamName) && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
+        //{
+        //    return false;
+        //}
 
         return true;
     }

@@ -3,10 +3,12 @@
 public class SaverService : ISaverService
 {
     private readonly IFirestoreRepository _repository;
+    private readonly IMessenger _messenger;
 
-    public SaverService(IFirestoreRepository repository)
+    public SaverService(IFirestoreRepository repository, IMessenger messenger)
     {
         _repository = repository;
+        _messenger = messenger;
     }
 
     public Task AddMatchesAsync(IReadOnlyCollection<Match> matches)
@@ -18,20 +20,20 @@ public class SaverService : ISaverService
     {
         var team = await _repository.CreateTeamAsync(teamName);
 
-        return new TeamViewModel(this, team);
+        return new TeamViewModel(_messenger, this, team);
     }
 
     public async Task<MatchViewModel> CreateMatchAsync(string season, TeamViewModel homeTeam, TeamViewModel awayTeam, DateTime date)
     {
         var match = await _repository.CreateMatchAsync(season, homeTeam.Name, awayTeam.Name, date);
 
-        var vm = new MatchViewModel(this, match, homeTeam, awayTeam);
+        var vm = new MatchViewModel(_messenger, this, match, homeTeam, awayTeam);
 
         homeTeam.AddMatch(vm);
         awayTeam.AddMatch(vm);
 
-        WeakReferenceMessenger.Default.Send(new MatchCreatedMessage(vm));
-        WeakReferenceMessenger.Default.Send(new RefreshRequiredMessage());
+        _messenger.Send(new MatchCreatedMessage(vm));
+        _messenger.Send(new RefreshRequiredMessage());
 
         return vm;
     }
@@ -40,13 +42,13 @@ public class SaverService : ISaverService
     {
         await _repository.UpdateMatchAsync(match);
 
-        WeakReferenceMessenger.Default.Send(new MatchUpdatedMessage(match.Id));
-        WeakReferenceMessenger.Default.Send(new TeamUpdatedMessage(match.HomeTeam));
-        WeakReferenceMessenger.Default.Send(new TeamUpdatedMessage(match.AwayTeam));
+        _messenger.Send(new MatchUpdatedMessage(match.Id));
+        _messenger.Send(new TeamUpdatedMessage(match.HomeTeam));
+        _messenger.Send(new TeamUpdatedMessage(match.AwayTeam));
 
         if (refreshRequired)
         {
-            WeakReferenceMessenger.Default.Send(new RefreshRequiredMessage());
+            _messenger.Send(new RefreshRequiredMessage());
         }
     }
 
@@ -54,7 +56,7 @@ public class SaverService : ISaverService
     {
         await _repository.UpdateTeamAsync(team);
 
-        WeakReferenceMessenger.Default.Send(new TeamUpdatedMessage(team.Name));
+        _messenger.Send(new TeamUpdatedMessage(team.Name));
     }
 
     public Task UpdateSettingsAsync(Settings settings)

@@ -4,14 +4,14 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
 {
     private readonly ISaverService _saverService;
 
-    public MatchViewModel(ISaverService saverService, Match match, TeamViewModel homeTeam, TeamViewModel awayTeam)
+    public MatchViewModel(IMessenger messenger, ISaverService saverService, Match match, TeamViewModel homeTeam, TeamViewModel awayTeam)
     {
         _saverService = saverService;
         Match = match;
         HomeTeam = homeTeam;
         AwayTeam = awayTeam;
 
-        WeakReferenceMessenger.Default.RegisterAll(this);
+        messenger.RegisterAll(this);
     }
 
     public Match Match { get; }

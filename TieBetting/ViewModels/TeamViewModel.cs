@@ -7,13 +7,12 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
     private readonly ISaverService _saverService;
     private readonly Team _team;
 
-    public TeamViewModel(ISaverService saverService, Team team)
+    public TeamViewModel(IMessenger messenger, ISaverService saverService, Team team)
     {
         _saverService = saverService;
         _team = team;
 
-        WeakReferenceMessenger.Default.RegisterAll(this);
-
+        messenger.RegisterAll(this);
     }
 
     public string Name => _team.Name;
@@ -63,11 +62,6 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
     {
         _matches.Add(match);
     }
-
-    //public void NotifyMatchStatusChanged()
-    //{
-    //    ReCalculateValues();
-    //}
 
     public void ReCalculateValues()
     {

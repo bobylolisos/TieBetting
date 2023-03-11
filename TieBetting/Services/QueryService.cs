@@ -4,17 +4,19 @@ public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
 {
     private readonly IFirestoreRepository _repository;
     private readonly ISaverService _saverService;
+    private readonly IMessenger _messenger;
 
     private List<TeamViewModel> _teams;
     private List<MatchBettingViewModel> _matches;
     private Settings _settings;
 
-    public QueryService(IFirestoreRepository repository, ISaverService saverService)
+    public QueryService(IFirestoreRepository repository, ISaverService saverService, IMessenger messenger)
     {
         _repository = repository;
         _saverService = saverService;
+        _messenger = messenger;
 
-        WeakReferenceMessenger.Default.RegisterAll(this);
+        _messenger.RegisterAll(this);
     }
 
     public void ClearCache()
@@ -77,11 +79,11 @@ public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
             var teams = await _repository.GetTeamsAsync();
             foreach (var team in teams)
             {
-                teamsList.Add(new TeamViewModel(_saverService, team));
+                teamsList.Add(new TeamViewModel(_messenger, _saverService, team));
             }
 
             var matches = await _repository.GetMatchesAsync();
-            matches = matches.Where(x => x.HomeTeam == "Aik" || x.AwayTeam == "Aik" || x.HomeTeam == "Björklöven" || x.AwayTeam == "Björklöven").ToList();
+            //matches = matches.Where(x => x.HomeTeam == "Aik" || x.AwayTeam == "Aik" || x.HomeTeam == "Björklöven" || x.AwayTeam == "Björklöven").ToList();
             foreach (var match in matches.OrderBy(x => x.Day))
             {
                 var homeTeam = teamsList.GetTeamOrDefault(match.HomeTeam);
@@ -99,7 +101,7 @@ public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
                     teamsList.Add(awayTeam);
                 }
 
-                var matchViewModel = new MatchBettingViewModel(_saverService, _settings, match, homeTeam, awayTeam);
+                var matchViewModel = new MatchBettingViewModel(_messenger, _saverService, _settings, match, homeTeam, awayTeam);
 
                 homeTeam.AddMatch(matchViewModel);
                 awayTeam.AddMatch(matchViewModel);
@@ -119,7 +121,7 @@ public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
     {
         var matchViewModel = message.Match;
 
-        var matchBettingViewModel = new MatchBettingViewModel(_saverService, _settings, matchViewModel.Match, matchViewModel.HomeTeam, matchViewModel.AwayTeam);
+        var matchBettingViewModel = new MatchBettingViewModel(_messenger, _saverService, _settings, matchViewModel.Match, matchViewModel.HomeTeam, matchViewModel.AwayTeam);
         matchBettingViewModel.HomeTeam.AddMatch(matchViewModel);
         matchBettingViewModel.AwayTeam.AddMatch(matchViewModel);
 

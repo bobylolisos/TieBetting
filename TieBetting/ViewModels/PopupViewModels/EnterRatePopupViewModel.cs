@@ -2,10 +2,13 @@
 
 public class EnterRatePopupViewModel : ViewModelBase, IPopupViewModel
 {
+    private readonly IMessenger _messenger;
     private string _rate;
 
-    public EnterRatePopupViewModel()
+    public EnterRatePopupViewModel(IMessenger messenger)
     {
+        _messenger = messenger;
+
         DigitCommand = new RelayCommand<string>(ExecuteDigitCommand, CanExecuteDigitCommand);
         CommaCommand = new RelayCommand(ExecuteCommaCommand, CanExecuteCommaCommand);
         RemoveDigitCommand = new RelayCommand(ExecuteRemoveDigitCommand, CanExecuteRemoveDigitCommand);
@@ -71,7 +74,7 @@ public class EnterRatePopupViewModel : ViewModelBase, IPopupViewModel
             }
         }
 
-        WeakReferenceMessenger.Default.Send(new MatchRateChangedMessage(rate));
+        _messenger.Send(new MatchRateChangedMessage(rate));
 
         return true;
     }

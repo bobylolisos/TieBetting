@@ -10,7 +10,7 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
     private bool _isReloading;
     private bool _refreshRequired = true;
 
-    public MainViewModel(ICalendarFileDownloadService calendarFileDownloadService, IQueryService queryService, ISaverService saverService, INavigationService navigationService)
+    public MainViewModel(IMessenger messenger, ICalendarFileDownloadService calendarFileDownloadService, IQueryService queryService, ISaverService saverService, INavigationService navigationService)
     : base(navigationService)
     {
         _calendarFileDownloadService = calendarFileDownloadService;
@@ -23,7 +23,7 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
         TabBarItem3Command = new AsyncRelayCommand(ExecuteNavigateToStatisticsViewCommand);
         TabBarItem4Command = new AsyncRelayCommand(ExecuteNavigateToSettingsCommand);
 
-        WeakReferenceMessenger.Default.RegisterAll(this);
+        messenger.RegisterAll(this);
     }
 
     public ObservableCollection<MatchBettingViewModel> Matches { get; set; } = new();

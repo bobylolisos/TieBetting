@@ -5,8 +5,8 @@ public class MatchBettingViewModel : MatchViewModel
     private readonly ISaverService _saverService;
     private readonly Settings _settings;
 
-    public MatchBettingViewModel(ISaverService saverService, Settings settings, Match match, TeamViewModel homeTeam, TeamViewModel awayTeam) 
-        : base(saverService, match, homeTeam, awayTeam)
+    public MatchBettingViewModel(IMessenger messenger, ISaverService saverService, Settings settings, Match match, TeamViewModel homeTeam, TeamViewModel awayTeam) 
+        : base(messenger, saverService, match, homeTeam, awayTeam)
     {
         _saverService = saverService;
         _settings = settings;
@@ -96,9 +96,6 @@ public class MatchBettingViewModel : MatchViewModel
     public override async Task SetStatusAsync(MatchStatus matchStatus)
     {
         await SetStatusAndUpdateAsync(matchStatus);
-
-        //HomeTeam.NotifyMatchStatusChanged();
-        //AwayTeam.NotifyMatchStatusChanged();
 
         OnPropertyChanged(nameof(MatchStatus));
 

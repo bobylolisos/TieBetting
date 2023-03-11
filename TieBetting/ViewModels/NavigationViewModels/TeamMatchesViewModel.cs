@@ -3,16 +3,18 @@
 public class TeamMatchesViewModel : ViewModelNavigationBase, IRecipient<TeamUpdatedMessage>, IRecipient<MatchUpdatedMessage>
 {
     private readonly IQueryService _queryService;
+    private readonly IMessenger _messenger;
     private string _headerText;
     private string _headerImage;
     private string _selectedSeason;
     private IReadOnlyCollection<MatchViewModel> _allTeamMatches;
     private TeamViewModel _team;
 
-    public TeamMatchesViewModel(INavigationService navigationService, IQueryService queryService)
+    public TeamMatchesViewModel(INavigationService navigationService, IQueryService queryService, IMessenger messenger)
         : base(navigationService)
     {
         _queryService = queryService;
+        _messenger = messenger;
         NavigateToMatchMaintenanceViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchMaintenanceViewCommand);
         TabBarItem3Command = new AsyncRelayCommand(ExecuteToggleActiveStatusCommand, CanExecuteToggleActiveStatusCommand);
         TabBarItem4Command = new AsyncRelayCommand(ExecuteAbandonCommand, CanExecuteAbandonCommand);
@@ -55,7 +57,7 @@ public class TeamMatchesViewModel : ViewModelNavigationBase, IRecipient<TeamUpda
         }
     }
 
-    public override async Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
+    public override Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
     {
         if (navigationParameter is TeamMatchesViewNavigationParameter parameter)
         {
@@ -85,14 +87,16 @@ public class TeamMatchesViewModel : ViewModelNavigationBase, IRecipient<TeamUpda
         NotifyTabItemsCanExecuteChanged();
         TabBarItem4Command.NotifyCanExecuteChanged();
 
-        WeakReferenceMessenger.Default.RegisterAll(this);
+        _messenger.RegisterAll(this);
+
+        return Task.CompletedTask;
     }
 
     public override Task OnNavigatedFromAsync(bool isForwardNavigation)
     {
         if (!isForwardNavigation)
         {
-            WeakReferenceMessenger.Default.UnregisterAll(this);
+            _messenger.UnregisterAll(this);
         }
 
         return Task.CompletedTask;

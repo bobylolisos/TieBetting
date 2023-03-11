@@ -11,6 +11,9 @@ public static class ServiceSetup
         builder.Services.AddSingleton<IQueryService, QueryService>();
         builder.Services.AddSingleton<ISaverService, SaverService>();
 
+        var messenger = WeakReferenceMessenger.Default;
+        builder.Services.AddSingleton<IMessenger>(messenger);
+
         return builder;
     }
 }

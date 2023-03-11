@@ -56,11 +56,6 @@ public class NavigationService : INavigationService
             if (toViewModel is not null)
             {
                 await toViewModel.OnNavigatingToAsync(parameter);
-
-                if (toViewModel is IPubSub pubSub)
-                {
-                    pubSub.RegisterMessages();
-                }
             }
 
             await Navigation.PushAsync(toPage, true);
@@ -130,11 +125,6 @@ public class NavigationService : INavigationService
         var fromViewModel = GetPageViewModelBase(p);
         if (fromViewModel is not null)
         {
-            if (fromViewModel is IPubSub pubSub && isForward == false)
-            {
-                pubSub.UnregisterMessages();
-            }
-
             return fromViewModel.OnNavigatedFromAsync(isForward);
         }
 

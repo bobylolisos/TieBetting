@@ -1,19 +1,21 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCreatedMessage>
+public class SeasonMatchesViewModel : ViewModelNavigationBase, IRecipient<MatchCreatedMessage>
 {
     private readonly IQueryService _queryService;
     private readonly IPopupService _popupService;
+    private readonly IMessenger _messenger;
     private Settings _settings;
     private string _selectedSeason;
     private IReadOnlyCollection<MatchViewModel> _allMatches;
     private IReadOnlyCollection<TeamViewModel> _allTeams;
 
-    public SeasonMatchesViewModel(INavigationService navigationService, IQueryService queryService, IPopupService popupService)
+    public SeasonMatchesViewModel(INavigationService navigationService, IQueryService queryService, IPopupService popupService, IMessenger messenger)
         : base(navigationService)
     {
         _queryService = queryService;
         _popupService = popupService;
+        _messenger = messenger;
 
         NavigateToMatchMaintenanceViewCommand = new AsyncRelayCommand<MatchViewModel>(ExecuteNavigateToMatchMaintenanceViewCommand);
         TabBarItem1Command = new AsyncRelayCommand(ExecuteNavigateToAddMatchViewCommand);
@@ -93,7 +95,19 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCrea
 
         SelectedSeason = Seasons.Single(x => x == _settings.DefaultSeason);
 
+        _messenger.RegisterAll(this);
+
         await base.OnNavigatingToAsync(navigationParameter);
+    }
+
+    public override Task OnNavigatedFromAsync(bool isForwardNavigation)
+    {
+        if (!isForwardNavigation)
+        {
+            _messenger.UnregisterAll(this);
+        }
+
+        return Task.CompletedTask;
     }
 
     public override async Task OnNavigatedBackAsync()
@@ -169,16 +183,6 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IPubSub<MatchCrea
     private async Task ExecuteNavigateToAddMatchViewCommand()
     {
         await _popupService.OpenPopupAsync<EditMatchPopupView>(new AddMatchPopupParameter(SelectedSeason));
-    }
-
-    public void RegisterMessages()
-    {
-        WeakReferenceMessenger.Default.RegisterAll(this);
-    }
-
-    public void UnregisterMessages()
-    {
-        WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
     public async void Receive(MatchCreatedMessage message)
