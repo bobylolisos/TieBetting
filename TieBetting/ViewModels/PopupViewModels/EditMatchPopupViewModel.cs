@@ -58,7 +58,7 @@ public class EditMatchPopupViewModel : ViewModelBase, IPopupViewModel
         {
             if (SetProperty(ref _selectedHomeTeam, value))
             {
-                HomeTeamName = _selectedHomeTeam?.Name ?? "Choose wisely";
+                HomeTeamName = _selectedHomeTeam?.Name ?? "Home";
                 HomeTeamImage = SelectedHomeTeam?.Image ?? "shirt_black.svg";
                 SaveChangesCommand.NotifyCanExecuteChanged();
             }
@@ -86,7 +86,7 @@ public class EditMatchPopupViewModel : ViewModelBase, IPopupViewModel
         {
             if (SetProperty(ref _selectedAwayTeam, value))
             {
-                AwayTeamName = _selectedAwayTeam?.Name ?? "Choose wisely";
+                AwayTeamName = _selectedAwayTeam?.Name ?? "Away";
                 AwayTeamImage = _selectedAwayTeam?.Image ?? "shirt_black.svg";
                 SaveChangesCommand.NotifyCanExecuteChanged();
             }

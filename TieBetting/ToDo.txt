@@ -9,6 +9,7 @@ X Bild för SHL & HA, använda i AllMatches bredvid total-summan
 X Om man ändrar status så uppdateras inte vymodellen på huvudsidan, kanske queryservice ska få returnera vymodeller så att alla vyer jobbar me samma vymodell?
 X Uppdatera matcher från Leksands till Leksand (redan fixat i importern till Leksand) Fixat i tiebetting, struntar i Sandbox
 X Behövs refresh iom DevExpress?
+X Add match - Mer utrymme för datum
 - Graf
 - Fixa ersättning för Application.Current.MainPage.DisplayAlert
 - Flytta images till undermappar
@@ -17,7 +18,6 @@ X Behövs refresh iom DevExpress?
 - Byt namn på MatchDetailsView till MatchBettingViewModel efter det att MatchBettingViewModel stekts
 - Byt namn på vy/vymodell TeamMatchesView till Team_XXX_View
 - Kan man ersätta WeakReferenceMessenger.Default.RegisterAll(this); med nått, typ PubSub.RegisterAll(this); ???
-- Add match - Mer utrymme för datum
 
 
 Match
@@ -46,7 +46,7 @@ Team/Matches
 	X Select -> Navigate to MatchMaintenance
 	X Pausa lag
 	X Förhindra paus på lag som har pågående match, när man sätter status på denna match så blir det fel
-	- TabBar to 'Abandon session' (Kan endast köra abandon på senaste matchen och den måste vara förlorad. Då ändra status till 4 typ)
+	X TabBar to 'Abandon session' (Kan endast köra abandon på senaste matchen och den måste vara förlorad. Då ändra status till 4 typ)
 
 
 Settings
