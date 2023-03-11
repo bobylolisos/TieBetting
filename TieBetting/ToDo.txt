@@ -16,32 +16,32 @@ X Byt namn på MatchDetailsView till MatchBettingViewModel efter det att MatchBet
 X Byt namn på vy/vymodell TeamMatchesView till TeamMaintenanceView
 X Kan man ersätta WeakReferenceMessenger.Default.RegisterAll(this); med nått, typ IMessenger
 X Flytta images till undermappar
-- Fixa ersättning för Application.Current.MainPage.DisplayAlert
+X Fixa ersättning för Application.Current.MainPage.DisplayAlert
 - Graf
 
 
-Match
+MatchBettingView
 	X Förhindra att man kan sätta ny status (rate??) på en match där ett lag redan har en pågående match
 	X Om man inte får sätta rate pga att det finns oklarade matcher, presentera en istället
 
-Stats
+StatisticsView
 
-Season Matches
+SeasonMatchesView
 	X Select season
 	X SHow all matches, scroll to today (scroll nor useful)
 	X CurrentBetSession, calculate only sessions bets for current season
 	X TabBar to 'Add' (only valid for future dates)
 	X Select -> Navigate to MatchMaintenance
 
-Season Matches/MatchMaintenance
+MatchMaintenanceView
 	X 'Change status'
 	X 'Change date'
 	- 'Delete'
 
-Team
+TeamsView
 	X Won %
 
-Team/Matches
+TeamMaintenanceView
 	X Select season
 	X Select -> Navigate to MatchMaintenance
 	X Pausa lag
@@ -49,7 +49,7 @@ Team/Matches
 	X TabBar to 'Abandon session' (Kan endast köra abandon på senaste matchen och den måste vara förlorad. Då ändra status till 4 typ)
 
 
-Settings
+SettingsView
 	X Flytta slider under label
 	- View expected bet chain
 	- Importera matcher
