@@ -16,6 +16,8 @@ public interface IFirestoreRepository
 
     Task UpdateMatchAsync(Match match);
 
+    Task DeleteMatchAsync(Match match);
+    
     Task UpdateTeamAsync(Team team);
 
     Task UpdateSettingsAsync(Settings settings);

@@ -1,17 +1,17 @@
-﻿using TieBetting.Shared.Extensions;
-
-namespace TieBetting.ViewModels.NavigationViewModels;
+﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
 public class MatchMaintenanceViewModel : ViewModelNavigationBase
 {
     private readonly IPopupService _popupService;
     private readonly IDialogService _dialogService;
+    private readonly ISaverService _saverService;
 
-    public MatchMaintenanceViewModel(INavigationService navigationService, IPopupService popupService, IDialogService dialogService)
+    public MatchMaintenanceViewModel(INavigationService navigationService, IPopupService popupService, IDialogService dialogService, ISaverService saverService)
         : base(navigationService)
     {
         _popupService = popupService;
         _dialogService = dialogService;
+        _saverService = saverService;
         TabBarItem1Command = new AsyncRelayCommand(ExecuteChangeStatusCommand, CanExecuteChangeStatusCommand);
         TabBarItem2Command = new AsyncRelayCommand(ExecuteChangeDateCommand, CanExecuteChangeDateCommand);
         TabBarItem3Command = new AsyncRelayCommand(ExecuteDeleteMatchCommand, CanExecuteDeleteMatchCommand);
@@ -80,9 +80,18 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase
 
     private async Task ExecuteDeleteMatchCommand()
     {
-        await _dialogService.ShowMessage("Not implemented", "Not implemented!");
+        var accepted = await _dialogService.ShowQuestion("Delete match", "Are you sure you want to delete this match?");
 
-        NotifyTabItemsCanExecuteChanged();
+        if (accepted == false)
+        {
+            return;
+        }
+
+        await _saverService.DeleteMatchAsync(Match.Match);
+
+        await _dialogService.ShowMessage("Match deleted", "Match deleted successfully!");
+
+        await NavigationService.NavigateBackAsync();
     }
 
     private bool CanExecuteDeleteMatchCommand()
@@ -92,6 +101,6 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase
             return false;
         }
 
-        return Match.IsNotActive(TeamType.HomeTeam) && Match.IsNotActive(TeamType.AwayTeam);
+        return Match.IsBothNotActive();
     }
 }

@@ -18,6 +18,8 @@ X Kan man ersätta WeakReferenceMessenger.Default.RegisterAll(this); med nått, ty
 X Flytta images till undermappar
 X Fixa ersättning för Application.Current.MainPage.DisplayAlert
 - Graf
+- Byt program-icon
+- Visa i gui när sandbox körs
 
 
 MatchBettingView
@@ -36,7 +38,7 @@ SeasonMatchesView
 MatchMaintenanceView
 	X 'Change status'
 	X 'Change date'
-	- 'Delete'
+	X 'Delete'
 
 TeamsView
 	X Won %

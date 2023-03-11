@@ -8,7 +8,9 @@ public interface ISaverService
 
     Task<Match> CreateMatchAsync(string season, TeamViewModel homeTeam, TeamViewModel awayTeam, DateTime date);
 
-    Task UpdateMatchAsync(Match match, bool refreshRequired = false);
+    Task UpdateMatchAsync(Match match);
+
+    Task DeleteMatchAsync(Match match);
 
     Task UpdateTeamAsync(Team team);
 

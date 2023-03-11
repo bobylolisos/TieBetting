@@ -6,4 +6,9 @@ public class DialogService : IDialogService
     {
         await Application.Current.MainPage.DisplayAlert(title, message, "OK");
     }
+
+    public async Task<bool> ShowQuestion(string title, string message)
+    {
+        return await Application.Current.MainPage.DisplayAlert(title, message, "Yes", "No");
+    }
 }

@@ -17,6 +17,11 @@ public static class MatchExtensions
         return match.HomeTeamMatchStatus == MatchStatus.NotActive || match.AwayTeamMatchStatus == MatchStatus.NotActive;
     }
 
+    public static bool IsBothNotActive(this MatchViewModel match)
+    {
+        return match.HomeTeamMatchStatus == MatchStatus.NotActive && match.AwayTeamMatchStatus == MatchStatus.NotActive;
+    }
+
     public static bool IsNotActive(this MatchViewModel match, string teamName)
     {
         if (teamName == match.HomeTeamName && match.HomeTeamMatchStatus == MatchStatus.NotActive)

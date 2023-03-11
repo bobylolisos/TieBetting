@@ -33,18 +33,20 @@ public class SaverService : ISaverService
         return match;
     }
 
-    public async Task UpdateMatchAsync(Match match, bool refreshRequired = false)
+    public async Task UpdateMatchAsync(Match match)
     {
         await _repository.UpdateMatchAsync(match);
 
         _messenger.Send(new MatchUpdatedMessage(match.Id));
         _messenger.Send(new TeamUpdatedMessage(match.HomeTeam));
         _messenger.Send(new TeamUpdatedMessage(match.AwayTeam));
+    }
 
-        if (refreshRequired)
-        {
-            _messenger.Send(new RefreshRequiredMessage());
-        }
+    public async Task DeleteMatchAsync(Match match)
+    {
+        await _repository.DeleteMatchAsync(match);
+
+        _messenger.Send(new MatchDeletedMessage(match.Id));
     }
 
     public async Task UpdateTeamAsync(Team team)

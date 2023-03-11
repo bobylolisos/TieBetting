@@ -1,8 +1,6 @@
-﻿using TieBetting.Models;
+﻿namespace TieBetting.Services;
 
-namespace TieBetting.Services;
-
-public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
+public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>, IRecipient<MatchDeletedMessage>
 {
     private readonly IFirestoreRepository _repository;
     private readonly ISaverService _saverService;
@@ -85,7 +83,7 @@ public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
             }
 
             var matches = await _repository.GetMatchesAsync();
-            //matches = matches.Where(x => x.HomeTeam == "Aik" || x.AwayTeam == "Aik" || x.HomeTeam == "Björklöven" || x.AwayTeam == "Björklöven").ToList();
+            matches = matches.Where(x => x.HomeTeam == "Aik" || x.AwayTeam == "Aik" || x.HomeTeam == "Björklöven" || x.AwayTeam == "Björklöven").ToList();
             foreach (var match in matches.OrderBy(x => x.Day))
             {
                 var homeTeamViewModel = teamsList.GetTeamOrDefault(match.HomeTeam);
@@ -134,5 +132,16 @@ public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>
         awayTeam.AddMatch(matchViewModel);
 
         _matches.Add(matchViewModel);
+    }
+
+    public void Receive(MatchDeletedMessage message)
+    {
+        var match = _matches.Single(x => x.IsEqual(message.MatchId));
+        _matches.Remove(match);
+
+        foreach (var team in _teams)
+        {
+            team.RemoveMatch(message.MatchId);
+        }
     }
 }

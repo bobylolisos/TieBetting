@@ -63,6 +63,15 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
         _matches.Add(match);
     }
 
+    public void RemoveMatch(string matchId)
+    {
+        var match = _matches.SingleOrDefault(x => x.Id == matchId);
+        if (match != null)
+        {
+            _matches.Remove(match);
+        }
+    }
+
     public void ReCalculateValues()
     {
         double totalWin = 0;

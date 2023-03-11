@@ -228,7 +228,7 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
     {
         Match.Day = DayProvider.GetDay(matchDate);
 
-        await _saverService.UpdateMatchAsync(Match, true);
+        await _saverService.UpdateMatchAsync(Match);
 
         OnPropertyChanged(nameof(GroupHeader));
         OnPropertyChanged(nameof(Date));
@@ -309,5 +309,10 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
             OnPropertyChanged(nameof(HomeTeamLostMatches));
             OnPropertyChanged(nameof(AwayTeamLostMatches));
         }
+    }
+
+    public bool IsEqual(string matchId)
+    {
+        return Match.Id == matchId;
     }
 }

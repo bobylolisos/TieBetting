@@ -245,4 +245,13 @@ public class FirestoreRepository : IFirestoreRepository
         var teamDocumentReference = firestoreDb.Collection(TeamsCollectionKey).Document(team.Name);
         await teamDocumentReference.SetAsync(team);
     }
+
+    public async Task DeleteMatchAsync(Match match)
+    {
+        var firestoreDb = await CreateFirestoreDbAsync();
+
+        var matchDocumentReference = firestoreDb.Collection(MatchesCollectionKey).Document(match.Id);
+        await matchDocumentReference.DeleteAsync();
+    }
+
 }

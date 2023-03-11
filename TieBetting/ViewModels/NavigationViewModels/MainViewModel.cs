@@ -1,12 +1,12 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequiredMessage>
+public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequiredMessage>, IRecipient<MatchUpdatedMessage>, IRecipient<MatchDeletedMessage>
 {
     private readonly ICalendarFileDownloadService _calendarFileDownloadService;
     private readonly IQueryService _queryService;
     private readonly ISaverService _saverService;
     private readonly INavigationService _navigationService;
-    private IReadOnlyCollection<TeamViewModel> _teams;
+    private ObservableCollection<TeamViewModel> _teams;
     private bool _isReloading;
     private bool _refreshRequired = true;
 
@@ -105,7 +105,8 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
             var settings = await _queryService.GetSettingsAsync();
             Matches.Clear();
 
-            _teams = await _queryService.GetTeamsAsync();
+            var readOnlyCollection = await _queryService.GetTeamsAsync();
+            _teams = new ObservableCollection<TeamViewModel>(readOnlyCollection);
 
             var previousMatches = await _queryService.GetPreviousOngoingMatchesAsync();
 
@@ -139,5 +140,26 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
     {
         _refreshRequired = true;
         Matches.Clear();
+    }
+
+    public void Receive(MatchDeletedMessage message)
+    {
+        var match = Matches.SingleOrDefault(x => x.IsEqual(message.MatchId));
+
+        if (match != null)
+        {
+            Matches.Remove(match);
+        }
+    }
+
+    public void Receive(MatchUpdatedMessage message)
+    {
+        var match = Matches.SingleOrDefault(x => x.IsEqual(message.MatchId));
+
+        if (match != null)
+        {
+            Matches.Remove(match);
+            Matches.Add(match);
+        }
     }
 }
