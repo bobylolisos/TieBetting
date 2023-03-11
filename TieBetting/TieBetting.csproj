@@ -111,4 +111,37 @@
 	  </Compile>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\League\ha.png" />
+	  <MauiImage Include="Resources\Images\League\shl.png" />
+	  <MauiImage Include="Resources\Images\Teams\aik.png" />
+	  <MauiImage Include="Resources\Images\Teams\ais.png" />
+	  <MauiImage Include="Resources\Images\Teams\bif.png" />
+	  <MauiImage Include="Resources\Images\Teams\bik.png" />
+	  <MauiImage Include="Resources\Images\Teams\dif.png" />
+	  <MauiImage Include="Resources\Images\Teams\fbk.png" />
+	  <MauiImage Include="Resources\Images\Teams\fhc.png" />
+	  <MauiImage Include="Resources\Images\Teams\hv.png" />
+	  <MauiImage Include="Resources\Images\Teams\ifb.png" />
+	  <MauiImage Include="Resources\Images\Teams\iko.png" />
+	  <MauiImage Include="Resources\Images\Teams\kik.png" />
+	  <MauiImage Include="Resources\Images\Teams\lhc.png" />
+	  <MauiImage Include="Resources\Images\Teams\lhf.png" />
+	  <MauiImage Include="Resources\Images\Teams\lif.png" />
+	  <MauiImage Include="Resources\Images\Teams\mif.png" />
+	  <MauiImage Include="Resources\Images\Teams\mik.png" />
+	  <MauiImage Include="Resources\Images\Teams\modo.png" />
+	  <MauiImage Include="Resources\Images\Teams\oik.png" />
+	  <MauiImage Include="Resources\Images\Teams\ore.png" />
+	  <MauiImage Include="Resources\Images\Teams\rbk.png" />
+	  <MauiImage Include="Resources\Images\Teams\ske.png" />
+	  <MauiImage Include="Resources\Images\Teams\ssk.png" />
+	  <MauiImage Include="Resources\Images\Teams\taif.png" />
+	  <MauiImage Include="Resources\Images\Teams\tik.png" />
+	  <MauiImage Include="Resources\Images\Teams\vh.png" />
+	  <MauiImage Include="Resources\Images\Teams\vik.png" />
+	  <MauiImage Include="Resources\Images\Teams\vlh.png" />
+	  <MauiImage Include="Resources\Images\Teams\vvik.png" />
+	</ItemGroup>
+
 </Project>
