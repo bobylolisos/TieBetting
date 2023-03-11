@@ -157,14 +157,14 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
             return AwayTeamMatchStatus;
         }
 
-        if (this.IsDormant(TeamType.HomeTeam) || this.IsDormant(TeamType.AwayTeam))
-        {
-            return MatchStatus.Dormant;
-        }
-
         if (this.IsAbandoned(TeamType.HomeTeam) || this.IsAbandoned(TeamType.AwayTeam))
         {
             return MatchStatus.Abandoned;
+        }
+
+        if (this.IsDormant(TeamType.HomeTeam) || this.IsDormant(TeamType.AwayTeam))
+        {
+            return MatchStatus.Dormant;
         }
 
         return MatchStatus.NotActive;

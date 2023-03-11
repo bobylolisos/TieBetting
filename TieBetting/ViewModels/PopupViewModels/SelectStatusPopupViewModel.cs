@@ -49,14 +49,14 @@ public class SelectStatusPopupViewModel : ViewModelBase, IPopupViewModel
             return _matchViewModel.AwayTeamMatchStatus;
         }
 
-        if (_matchViewModel.IsDormant(TeamType.HomeTeam) || _matchViewModel.IsDormant(TeamType.AwayTeam))
-        {
-            return MatchStatus.Dormant;
-        }
-
         if (_matchViewModel.IsAbandoned(TeamType.HomeTeam) || _matchViewModel.IsAbandoned(TeamType.AwayTeam))
         {
             return MatchStatus.Abandoned;
+        }
+
+        if (_matchViewModel.IsDormant(TeamType.HomeTeam) || _matchViewModel.IsDormant(TeamType.AwayTeam))
+        {
+            return MatchStatus.Dormant;
         }
 
         return MatchStatus.NotActive;

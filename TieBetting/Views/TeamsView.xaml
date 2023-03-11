@@ -57,16 +57,58 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             ColumnDefinitions="Auto,*,Auto">
-                            <Image
+                            <Grid
                                 Grid.Row="0"
                                 Grid.Column="0"
-                                WidthRequest="40"
-                                Margin="0,0"
-                                Source="{Binding Image}" />
+                                ColumnDefinitions="*,Auto,25">
+                                <Image
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    WidthRequest="40"
+                                    Margin="0,0"
+                                    Source="{Binding Image}" />
+                                <Grid
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Margin="3,0"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Start">
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="IsVisible" Value="True" />
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding LostMatchesInSession}"
+                                                    TargetType="Grid"
+                                                    Value="0">
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+
+                                    <BoxView
+                                        WidthRequest="18"
+                                        HeightRequest="18"
+                                        Margin="2,0"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        CornerRadius="9"
+                                        Color="OrangeRed" />
+                                    <Label
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        Text="{Binding LostMatchesInSession}"
+                                        TextColor="White"
+                                        FontAttributes="Bold"
+                                        FontSize="10" />
+                                </Grid>
+
+                            </Grid>
                             <Label
                                 Grid.Row="0"
                                 Grid.Column="1"
-                                Margin="15,0"
+                                Margin="5,0"
                                 Text="{Binding Name}"
                                 VerticalTextAlignment="Center"
                                 FontSize="22" />

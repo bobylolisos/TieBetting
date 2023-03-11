@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class TeamMatchesViewModel : ViewModelNavigationBase
+public class TeamMatchesViewModel : ViewModelNavigationBase, IRecipient<TeamUpdatedMessage>, IRecipient<MatchUpdatedMessage>
 {
     private readonly IQueryService _queryService;
     private string _headerText;
@@ -85,8 +85,17 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
         NotifyTabItemsCanExecuteChanged();
         TabBarItem4Command.NotifyCanExecuteChanged();
 
-        await base.OnNavigatingToAsync(navigationParameter);
+        WeakReferenceMessenger.Default.RegisterAll(this);
+    }
 
+    public override Task OnNavigatedFromAsync(bool isForwardNavigation)
+    {
+        if (!isForwardNavigation)
+        {
+            WeakReferenceMessenger.Default.UnregisterAll(this);
+        }
+
+        return Task.CompletedTask;
     }
 
     public override async Task OnNavigatedBackAsync()
@@ -175,5 +184,15 @@ public class TeamMatchesViewModel : ViewModelNavigationBase
         }
 
         return null;
+    }
+
+    public void Receive(TeamUpdatedMessage message)
+    {
+        NotifyTabItemsCanExecuteChanged();
+    }
+
+    public void Receive(MatchUpdatedMessage message)
+    {
+        NotifyTabItemsCanExecuteChanged();
     }
 }
