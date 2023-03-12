@@ -2,6 +2,8 @@
 
 public class FirestoreRepository : IFirestoreRepository
 {
+    public static bool SandBox = true;
+
     private readonly IDialogService _dialogService;
     private const string SettingsCollectionKey = "settings";
     private const string TeamsCollectionKey = "teams";
@@ -15,12 +17,12 @@ public class FirestoreRepository : IFirestoreRepository
         _dialogService = dialogService;
     }
 
-    private async Task<FirestoreDb> CreateFirestoreDbAsync(bool sandbox = false)
+    private async Task<FirestoreDb> CreateFirestoreDbAsync()
     {
         _credentials = null;
         string filename;
         string projectId;
-        if (sandbox)
+        if (SandBox)
         {
             filename = "sandbox-73692-firebase-adminsdk-6khte-b27b19a9d6.json";
             projectId = "sandbox-73692";

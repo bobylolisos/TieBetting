@@ -15,6 +15,7 @@
     x:DataType="navigationViewModels:MainViewModel">
     <ContentPage.Resources>
         <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
+        <converters:FirestoreStateToTextColorConverter x:Key="FirestoreStateToTextColorConverter" />
     </ContentPage.Resources>
 
     <Shell.NavBarIsVisible>False</Shell.NavBarIsVisible>
@@ -25,7 +26,7 @@
             BackgroundColor="{StaticResource Primary}">
             <Label
                 Text="TIE BETTING"
-                TextColor="White"
+                TextColor="{Binding Path=., Converter={StaticResource FirestoreStateToTextColorConverter}}"
                 HorizontalTextAlignment="Center"
                 VerticalTextAlignment="Center"
                 CharacterSpacing="2"
