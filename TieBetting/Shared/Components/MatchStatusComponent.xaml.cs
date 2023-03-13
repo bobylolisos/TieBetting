@@ -28,19 +28,19 @@ public class TeamMatchStatusToBackgroundColorConverter : IMultiValueConverter
 
         if (teamType == TeamType.HomeTeam)
         {
-            return GetMatchStatusColor(matchViewModel.HomeTeamMatchStatus);
+            return GetMatchStatusColor(matchViewModel.HomeTeamMatchStatus, matchViewModel.HomeTeam.IsDormant);
         }
 
         // Away team
-        return GetMatchStatusColor(matchViewModel.AwayTeamMatchStatus);
+        return GetMatchStatusColor(matchViewModel.AwayTeamMatchStatus, matchViewModel.AwayTeam.IsDormant);
     }
 
-    private static object GetMatchStatusColor(MatchStatus matchStatus)
+    private static object GetMatchStatusColor(MatchStatus matchStatus, bool isDormant)
     {
         switch (matchStatus)
         {
             case MatchStatus.NotActive:
-                return Colors.DarkGray;
+                return isDormant ? Colors.Black : Colors.DarkGray;
             case MatchStatus.Active:
                 return Colors.Orange;
             case MatchStatus.Lost:
