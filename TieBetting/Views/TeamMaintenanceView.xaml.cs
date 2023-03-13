@@ -3,6 +3,7 @@ namespace TieBetting.Views;
 public partial class TeamMaintenanceView
 {
     private readonly TeamMaintenanceViewModel _viewModel;
+    private bool _firstNavigation = true;
 
     public TeamMaintenanceView(INavigationService navigationService, TeamMaintenanceViewModel viewModel) 
         : base(navigationService)
@@ -17,6 +18,11 @@ public partial class TeamMaintenanceView
     {
         base.OnNavigatedTo(args);
 
-        MatchesCollectionView.ScrollToToday(_viewModel.Matches, 5);
+        if (_firstNavigation)
+        {
+            MatchesCollectionView.ScrollToToday(_viewModel.Matches, 5);
+
+            _firstNavigation = false;
+        }
     }
 }

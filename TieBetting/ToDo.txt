@@ -49,14 +49,13 @@ TeamMaintenanceView
 	X Pausa lag
 	X Förhindra paus på lag som har pågående match, när man sätter status på denna match så blir det fel
 	X TabBar to 'Abandon session' (Kan endast köra abandon på senaste matchen och den måste vara förlorad. Då ändra status till 4 typ)
-	- Scroll to today
+	X Scroll to today
 	- Vid abandon, visa fråga
 
 
 SeasonMatchesView
 	- Rename to SeasonView ???
-	- Sort asc/desc
-	- Scroll to today
+	X Scroll to today
 
 
 SettingsView

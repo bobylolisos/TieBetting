@@ -3,6 +3,7 @@ namespace TieBetting.Views;
 public partial class SeasonMatchesView
 {
     private readonly SeasonMatchesViewModel _viewModel;
+    private bool _firstNavigation = true;
 
     public SeasonMatchesView(INavigationService navigationService, SeasonMatchesViewModel viewModel) 
         : base(navigationService)
@@ -17,6 +18,11 @@ public partial class SeasonMatchesView
     {
         base.OnNavigatedTo(args);
 
-        MatchesCollectionView.ScrollToToday(_viewModel.Matches, 2);
+        if (_firstNavigation)
+        {
+            MatchesCollectionView.ScrollToToday(_viewModel.Matches, 2);
+
+            _firstNavigation = false;
+        }
     }
 }

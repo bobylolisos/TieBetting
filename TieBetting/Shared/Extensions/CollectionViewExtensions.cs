@@ -21,7 +21,8 @@ namespace TieBetting.Shared.Extensions
             if (match != null)
             {
                 var index = matches.IndexOf(match);
-                collectionView.ScrollTo(Math.Min(index + offset, matches.Count - 1));
+                index = index <= offset ? index : index + offset;
+                collectionView.ScrollTo(Math.Min(index, matches.Count - 1));
             }
         }
     }
