@@ -123,24 +123,39 @@
                 <Label
                     Grid.Row="3"
                     Grid.Column="0"
-                    Text="Season wins"
+                    Margin="10,3"
+                    Text="Abandoned"
+                    FontSize="10"
                     Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
                     Grid.Row="3"
                     Grid.Column="2"
-                    Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Text="{Binding AbandonedBets, Converter={StaticResource AmountToAmountStringConverter}}"
+                    FontSize="10"
                     Style="{StaticResource RowValueLabelStyle}" />
 
                 <!--  Second column  -->
                 <Label
                     Grid.Row="1"
                     Grid.Column="4"
-                    Text="Matches won"
+                    Text="Season wins"
                     Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
                     Grid.Row="1"
+                    Grid.Column="6"
+                    Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
+                    Style="{StaticResource RowValueLabelStyle}" />
+
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="4"
+                    Text="Matches won"
+                    Style="{StaticResource RowHeaderLabelStyle}" />
+
+                <Label
+                    Grid.Row="2"
                     Grid.Column="6"
                     Text="{Binding MatchesWonPercent}"
                     Style="{StaticResource RowValueLabelStyle}" />
@@ -149,6 +164,7 @@
 
 
             <dxcv:DXCollectionView
+                x:Name="MatchesCollectionView"
                 Grid.Row="3"
                 Grid.Column="0"
                 HorizontalOptions="Fill"

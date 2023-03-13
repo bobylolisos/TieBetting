@@ -32,7 +32,9 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IRecipient<MatchC
 
     public int TotalWin => (int)Matches.Sum(y => y.TotalWin ?? 0);
 
-    public int CurrentBetSession => ResolveCurrentBetSession();
+    public int CurrentBetSession { get; private set; }
+
+    public int AbandonedBets { get; private set; }
 
     public int Profit => TotalWin - TotalBet;
 
@@ -65,6 +67,8 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IRecipient<MatchC
                 {
                     Matches.Add(matchViewModel);
                 }
+
+                CalculateValues();
 
                 OnPropertyChanged(nameof(TotalBet));
                 OnPropertyChanged(nameof(TotalWin));
@@ -124,14 +128,19 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IRecipient<MatchC
         SelectedSeason = selectedSeason;
     }
 
-    private int ResolveCurrentBetSession()
+    private void CalculateValues()
     {
+        CurrentBetSession = 0;
+        AbandonedBets = 0;
+
         if (_allTeams == null)
         {
-            return 0;
+            return;
         }
 
         var currentSession = 0;
+        var abandonedBets = 0;
+        var abandonSession = false;
         foreach (var team in _allTeams)
         {
             var currentSessionDone = false;
@@ -143,7 +152,7 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IRecipient<MatchC
                 {
                     if (currentSessionDone == false)
                     {
-                        if (match.IsWin(TeamType.HomeTeam))
+                        if (match.IsWin(TeamType.HomeTeam) || match.IsAbandoned(TeamType.HomeTeam))
                         {
                             currentSessionDone = true;
                         }
@@ -152,13 +161,26 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IRecipient<MatchC
                             currentSession += match.GetActivatedHomeTeamBet();
                         }
                     }
+
+                    if (match.IsAbandoned(TeamType.HomeTeam) || abandonSession)
+                    {
+                        if (match.IsWin(TeamType.HomeTeam))
+                        {
+                            abandonSession = false;
+                        }
+                        else if (match.IsLost(TeamType.HomeTeam) || match.IsAbandoned(TeamType.HomeTeam))
+                        {
+                            abandonedBets += match.GetActivatedHomeTeamBet();
+                            abandonSession = true;
+                        }
+                    }
                 }
 
                 if (match.AwayTeamName == team.Name)
                 {
                     if (currentSessionDone == false)
                     {
-                        if (match.IsWin(TeamType.AwayTeam))
+                        if (match.IsWin(TeamType.AwayTeam) || match.IsAbandoned(TeamType.AwayTeam))
                         {
                             currentSessionDone = true;
                         }
@@ -167,12 +189,28 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IRecipient<MatchC
                             currentSession += match.GetActivatedAwayTeamBet();
                         }
                     }
+
+                    if (match.IsAbandoned(TeamType.AwayTeam) || abandonSession)
+                    {
+                        if (match.IsWin(TeamType.AwayTeam))
+                        {
+                            abandonSession = false;
+                        }
+                        else if (match.IsLost(TeamType.AwayTeam) || match.IsAbandoned(TeamType.AwayTeam))
+                        {
+                            abandonedBets += match.GetActivatedAwayTeamBet();
+                            abandonSession = true;
+                        }
+                    }
                 }
             }
 
         }
 
-        return currentSession;
+        CurrentBetSession = currentSession;
+        AbandonedBets = abandonedBets;
+        OnPropertyChanged(nameof(CurrentBetSession));
+        OnPropertyChanged(nameof(AbandonedBets));
     }
 
     private async Task ExecuteNavigateToMatchMaintenanceViewCommand(MatchViewModel matchViewModel)
