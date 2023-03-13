@@ -87,6 +87,7 @@
         </Grid>
 
         <dxcv:DXCollectionView
+            x:Name="MatchesCollectionView"
             Grid.Row="3"
             Grid.Column="0"
             HorizontalOptions="Fill"

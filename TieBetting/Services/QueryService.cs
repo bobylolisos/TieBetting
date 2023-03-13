@@ -83,7 +83,7 @@ public class QueryService : IQueryService, IRecipient<MatchCreatedMessage>, IRec
             }
 
             var matches = await _repository.GetMatchesAsync();
-            matches = matches.Where(x => x.HomeTeam == "Aik" || x.AwayTeam == "Aik" || x.HomeTeam == "Björklöven" || x.AwayTeam == "Björklöven").ToList();
+            //matches = matches.Where(x => x.HomeTeam == "Aik" || x.AwayTeam == "Aik" || x.HomeTeam == "Björklöven" || x.AwayTeam == "Björklöven").ToList();
             foreach (var match in matches.OrderBy(x => x.Day))
             {
                 var homeTeamViewModel = teamsList.GetTeamOrDefault(match.HomeTeam);
