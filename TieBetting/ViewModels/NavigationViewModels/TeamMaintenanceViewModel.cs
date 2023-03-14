@@ -51,10 +51,7 @@ public class TeamMaintenanceViewModel : ViewModelNavigationBase, IRecipient<Team
             {
                 Matches.Clear();
                 var seasonMatches = _allTeamMatches.Where(x => x.Season == SelectedSeason).OrderBy(x => x.Day);
-                foreach (var match in seasonMatches)
-                {
-                    Matches.Add(match);
-                }
+                Matches.AddRange(seasonMatches);
             }
         }
     }

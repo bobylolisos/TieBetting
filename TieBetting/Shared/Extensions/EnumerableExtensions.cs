@@ -23,4 +23,12 @@ public static class EnumerableExtensions
 
         return result;
     }
+
+    public static void AddRange<T>(this ObservableCollection<T> observableCollection, IEnumerable<T> items)
+    {
+        foreach (var item in items)
+        {
+            observableCollection.Add(item);
+        }
+    }
 }

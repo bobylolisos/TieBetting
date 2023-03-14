@@ -21,10 +21,13 @@ X Visa i gui när sandbox körs
 - Graf
 - Byt program-icon
 
+MainView
+- Om båda lagen är dormant och sedan ändrar dormant på ett lag så ändras inte den svarta färgen i MainView
 
 MatchBettingView
 	X Förhindra att man kan sätta ny status (rate??) på en match där ett lag redan har en pågående match
 	X Om man inte får sätta rate pga att det finns oklarade matcher, presentera en istället
+	- Ta bort status ur Rate-ring och gör en liggande statusbar istället
 
 StatisticsView
 
@@ -42,6 +45,7 @@ MatchMaintenanceView
 
 TeamsView
 	X Won %
+	- Visa endast Abandoned om summan är 0, och i röd färg
 
 TeamMaintenanceView
 	X Select season

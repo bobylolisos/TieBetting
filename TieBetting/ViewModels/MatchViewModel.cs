@@ -51,7 +51,7 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
 
     public double? HomeTeamWin => this.IsWin(TeamType.HomeTeam) ? Match.HomeTeamBet * Rate : 0;
 
-    public MatchStatus HomeTeamMatchStatus => (MatchStatus)Match.HomeTeamStatus;
+    public MatchStatus HomeTeamMatchStatus => ResolveTeamMatchStatus(TeamType.HomeTeam);
 
     public string AwayTeamName => Match.AwayTeam;
 
@@ -71,7 +71,7 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
 
     public double? AwayTeamWin => this.IsWin(TeamType.AwayTeam) ? Match.AwayTeamBet * Rate : 0;
 
-    public MatchStatus AwayTeamMatchStatus => (MatchStatus)Match.AwayTeamStatus;
+    public MatchStatus AwayTeamMatchStatus => ResolveTeamMatchStatus(TeamType.AwayTeam);
 
     public double? Rate => Match.Rate;
 
@@ -279,12 +279,49 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
             return MatchStatus.Abandoned;
         }
 
-        if (this.IsDormant(TeamType.HomeTeam) || this.IsDormant(TeamType.AwayTeam))
+        if (this.IsDormant(TeamType.HomeTeam) && this.IsDormant(TeamType.AwayTeam))
         {
             return MatchStatus.Dormant;
         }
 
         return MatchStatus.NotActive;
+    }
+
+    private MatchStatus ResolveTeamMatchStatus(TeamType teamType)
+    {
+        if (Match == null)
+        {
+            return MatchStatus.NotActive;
+        }
+
+        if (teamType == TeamType.HomeTeam)
+        {
+            var homeTeamStatus = (MatchStatus)Match.HomeTeamStatus;
+            if (homeTeamStatus != MatchStatus.NotActive)
+            {
+                return homeTeamStatus;
+            }
+
+            if (HomeTeam.IsDormant && Day >= DayProvider.TodayDay)
+            {
+                return MatchStatus.Dormant;
+            }
+
+            return homeTeamStatus;
+        }
+
+        var awayTeamStatus = (MatchStatus)Match.AwayTeamStatus;
+        if (awayTeamStatus != MatchStatus.NotActive)
+        {
+            return awayTeamStatus;
+        }
+
+        if (AwayTeam.IsDormant && Day >= DayProvider.TodayDay)
+        {
+            return MatchStatus.Dormant;
+        }
+
+        return awayTeamStatus;
     }
 
     private string ResolveGroupHeader()
@@ -306,6 +343,8 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
     {
         if (HomeTeamName == message.TeamName || AwayTeamName == message.TeamName)
         {
+            OnPropertyChanged(nameof(HomeTeamMatchStatus));
+            OnPropertyChanged(nameof(AwayTeamMatchStatus));
             OnPropertyChanged(nameof(HomeTeamLostMatches));
             OnPropertyChanged(nameof(AwayTeamLostMatches));
         }

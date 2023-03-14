@@ -16,10 +16,7 @@ public class TeamsViewModel : ViewModelNavigationBase
     {
         if (navigationParameter is TeamsViewNavigationParameter teamsViewNavigationParameter)
         {
-            foreach (var team in teamsViewNavigationParameter.Teams)
-            {
-                Teams.Add(team);
-            }
+            Teams.AddRange(teamsViewNavigationParameter.Teams);
         }
 
         return base.OnNavigatingToAsync(navigationParameter);
