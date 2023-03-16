@@ -48,7 +48,7 @@
             Margin="10"
             BindingContext="{Binding Match}">
             <Grid
-                RowDefinitions="Auto,Auto,Auto"
+                RowDefinitions="Auto,Auto,Auto,Auto"
                 ColumnDefinitions="*,Auto,*"
                 x:DataType="viewModels:MatchViewModel">
                 <!--  Row 0  -->
@@ -89,8 +89,23 @@
                     FontSize="20" />
 
                 <!--  Row 2  -->
-                <Label
+                <Grid
                     Grid.Row="2"
+                    Grid.Column="0"
+                    HeightRequest="6"
+                    Margin="10,5"
+                    BackgroundColor="{Binding HomeTeamMatchStatus, Converter={StaticResource MatchStatusToBackgroundColorConverter}}" />
+
+                <Grid
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    HeightRequest="6"
+                    Margin="10,5"
+                    BackgroundColor="{Binding AwayTeamMatchStatus, Converter={StaticResource MatchStatusToBackgroundColorConverter}}" />
+
+                <!--  Row 3  -->
+                <Label
+                    Grid.Row="3"
                     Grid.Column="0"
                     Margin="0,3"
                     Text="{Binding Path=., Converter={StaticResource IsDormantToStringConverter}, ConverterParameter={x:Static models:TeamType.HomeTeam}}"
@@ -100,7 +115,7 @@
                     FontSize="14" />
 
                 <Label
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Grid.Column="2"
                     Margin="0,3"
                     Text="{Binding Path=., Converter={StaticResource IsDormantToStringConverter}, ConverterParameter={x:Static models:TeamType.AwayTeam}}"
@@ -123,7 +138,7 @@
                     Grid.Column="0"
                     WidthRequest="100"
                     HeightRequest="100"
-                    BackgroundColor="{Binding MatchStatus, Converter={StaticResource MatchStatusToBackgroundColorConverter}}"
+                    BackgroundColor="LightGray"
                     BorderColor="Gray"
                     CornerRadius="50">
                     <Grid>
@@ -160,13 +175,15 @@
                 <!--  Rate disabled message  -->
                 <Label
                     Grid.Row="4"
+                    Margin="5,15"
                     HorizontalOptions="Center"
-                    VerticalOptions="Center" TextColor="Orange"
+                    VerticalOptions="Center"
                     Text="Can't change rate when ongoing match exists."
-                    IsVisible="{Binding BindingContext.HasPreviousActiveMatch, Source={x:Reference This}}"
+                    TextColor="OrangeRed"
                     HorizontalTextAlignment="Center"
-                    CharacterSpacing="1" Margin="5,15"
-                    FontSize="22" />
+                    CharacterSpacing="1"
+                    FontSize="22"
+                    IsVisible="{Binding BindingContext.HasPreviousActiveMatch, Source={x:Reference This}}" />
 
                 <!--  Amount to bet  -->
                 <Grid

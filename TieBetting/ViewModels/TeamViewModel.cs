@@ -54,6 +54,8 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
 
     public int AbandonedBets { get; private set; }
 
+    public bool HasAbandonedBets => AbandonedBets != 0;
+
     public int Profit => TotalWin - TotalBet;
 
     public IReadOnlyCollection<MatchViewModel> Matches => _matches.OrderBy(x => x.Day).ToList();
@@ -175,6 +177,7 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
         OnPropertyChanged(nameof(MatchesWonPercent));
         OnPropertyChanged(nameof(LostMatchesInSession));
         OnPropertyChanged(nameof(IsDormant));
+        OnPropertyChanged(nameof(HasAbandonedBets));
     }
 
     public void Receive(MatchUpdatedMessage message)

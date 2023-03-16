@@ -150,6 +150,12 @@
 
                 <Label
                     Grid.Row="2"
+                    Grid.Column="4"
+                    Text="Win %"
+                    Style="{StaticResource RowHeaderLabelStyle}" />
+
+                <Label
+                    Grid.Row="2"
                     Grid.Column="6"
                     Text="{Binding MatchesWonPercent}"
                     Style="{StaticResource RowValueLabelStyle}" />

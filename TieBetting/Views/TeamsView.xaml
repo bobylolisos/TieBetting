@@ -162,14 +162,18 @@
                                 Grid.Column="0"
                                 Margin="10,3"
                                 Text="Abandoned"
+                                TextColor="Red"
                                 FontSize="10"
+                                IsVisible="{Binding HasAbandonedBets}"
                                 Style="{StaticResource RowHeaderLabelStyle}" />
 
                             <Label
                                 Grid.Row="2"
                                 Grid.Column="2"
                                 Text="{Binding AbandonedBets, Converter={StaticResource AmountToAmountStringConverter}}"
+                                TextColor="Red"
                                 FontSize="10"
+                                IsVisible="{Binding HasAbandonedBets}"
                                 Style="{StaticResource RowValueLabelStyle}" />
 
                             <!--  Second column  -->
@@ -185,6 +189,12 @@
                                 Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
                                 HorizontalTextAlignment="Start"
                                 Style="{StaticResource RowValueLabelStyle}" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="4"
+                                Text="Win %"
+                                Style="{StaticResource RowHeaderLabelStyle}" />
 
                             <Label
                                 Grid.Row="1"
