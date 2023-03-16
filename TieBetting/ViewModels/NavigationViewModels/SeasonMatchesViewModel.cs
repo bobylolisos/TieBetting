@@ -75,6 +75,11 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IRecipient<MatchC
                 OnPropertyChanged(nameof(Profit));
                 OnPropertyChanged(nameof(MatchesWonPercent));
                 OnPropertyChanged(nameof(CurrentBetSession));
+
+                if (SelectedSeason != null)
+                {
+                    _messenger.Send(new SelectedSeasonChangedMessage());
+                }
             }
         }
     }
