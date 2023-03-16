@@ -41,18 +41,6 @@
                     Margin="0,3"
                     Source="{Binding HomeTeamImage}" />
 
-                <Label
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    Grid.ColumnSpan="3"
-                    Margin="0,3"
-                    Text="{Binding SelectedDate, StringFormat='{}{0:yyyy-MM-dd}'}"
-                    TextColor="{StaticResource Black}"
-                    HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
-                    CharacterSpacing="1.4"
-                    FontSize="16" />
-
                 <Image
                     Grid.Row="0"
                     Grid.Column="5"
@@ -64,25 +52,23 @@
                 <!--  Row 1  -->
                 <Label
                     Grid.Row="1"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    Margin="0,3"
+                    Grid.Column="1"
+                    Margin="0,5"
                     Text="{Binding HomeTeamName}"
                     TextColor="{StaticResource Black}"
                     HorizontalTextAlignment="Center"
                     CharacterSpacing="1.4"
-                    FontSize="15" />
+                    FontSize="18" />
 
                 <Label
                     Grid.Row="1"
-                    Grid.Column="4"
-                    Grid.ColumnSpan="3"
-                    Margin="0,3"
+                    Grid.Column="5"
+                    Margin="0,5"
                     Text="{Binding AwayTeamName}"
                     TextColor="{StaticResource Black}"
                     HorizontalTextAlignment="Center"
                     CharacterSpacing="1.4"
-                    FontSize="15" />
+                    FontSize="18" />
             </Grid>
 
             <Grid
@@ -90,7 +76,7 @@
                 Grid.Column="0"
                 RowDefinitions="40,40,40,40"
                 ColumnDefinitions="Auto,20,*"
-                Margin="5"
+                Margin="5,2"
                 Padding="5,0"
                 BackgroundColor="White">
 
@@ -131,6 +117,7 @@
                 <Picker
                     Grid.Row="1"
                     Grid.Column="2"
+                    Margin="-4,0"
                     IsVisible="{Binding IsTeamSelectable}"
                     ItemDisplayBinding="{Binding Name}"
                     ItemsSource="{Binding Teams}"
@@ -156,6 +143,7 @@
                 <Picker
                     Grid.Row="2"
                     Grid.Column="2"
+                    Margin="-4,0"
                     IsVisible="{Binding IsTeamSelectable}"
                     ItemDisplayBinding="{Binding Name}"
                     ItemsSource="{Binding Teams}"
@@ -173,6 +161,7 @@
                 <DatePicker
                     Grid.Row="3"
                     Grid.Column="2"
+                    Margin="-4,0"
                     Date="{Binding SelectedDate}"
                     Format="yyyy-MM-dd" />
 
@@ -181,9 +170,9 @@
             <Label
                 Grid.Row="3"
                 Text="{Binding ErrorMessage}"
+                TextColor="Red"
                 HorizontalTextAlignment="Center"
                 VerticalTextAlignment="Center"
-                TextColor="Red"
                 FontSize="14" />
 
             <Button

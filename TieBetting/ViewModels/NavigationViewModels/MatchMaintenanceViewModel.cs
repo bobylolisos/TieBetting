@@ -75,7 +75,7 @@ public class MatchMaintenanceViewModel : ViewModelNavigationBase
             return false;
         }
 
-        return Match.IsNotActive(TeamType.HomeTeam) && Match.IsNotActive(TeamType.AwayTeam);
+        return Match.IsActiveOrDone(TeamType.HomeTeam) == false && Match.IsActiveOrDone(TeamType.AwayTeam) == false;
     }
 
     private async Task ExecuteDeleteMatchCommand()

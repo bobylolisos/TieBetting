@@ -125,7 +125,7 @@
                         <Grid
                             Grid.Row="2"
                             Grid.Column="0"
-                            RowDefinitions="Auto,Auto,Auto,Auto"
+                            RowDefinitions="Auto,Auto,Auto"
                             ColumnDefinitions="Auto,15,Auto,20,Auto,15,Auto,*"
                             Margin="5,0">
 
@@ -133,7 +133,7 @@
                             <Label
                                 Grid.Row="0"
                                 Grid.Column="0"
-                                Text="Total bets"
+                                Text="Bets"
                                 Style="{StaticResource RowHeaderLabelStyle}" />
 
                             <Label
@@ -176,7 +176,7 @@
                             <Label
                                 Grid.Row="0"
                                 Grid.Column="4"
-                                Text="Total wins"
+                                Text="Wins"
                                 Style="{StaticResource RowHeaderLabelStyle}" />
 
                             <Label
@@ -188,31 +188,12 @@
 
                             <Label
                                 Grid.Row="1"
-                                Grid.Column="4"
-                                Text="Matches won %"
-                                Style="{StaticResource RowHeaderLabelStyle}" />
-
-                            <Label
-                                Grid.Row="1"
                                 Grid.Column="6"
                                 Text="{Binding MatchesWonPercent}"
                                 HorizontalTextAlignment="Start"
                                 Style="{StaticResource RowValueLabelStyle}" />
-
-                            <Label
-                                Grid.Row="3"
-                                Grid.Column="4"
-                                Text="Session matches"
-                                Style="{StaticResource RowHeaderLabelStyle}" />
-
-                            <Label
-                                Grid.Row="3"
-                                Grid.Column="6"
-                                Text="{Binding LostMatchesInSession}"
-                                HorizontalTextAlignment="Start"
-                                Style="{StaticResource RowValueLabelStyle}" />
-
                         </Grid>
+
                         <Label
                             Grid.Row="0"
                             Grid.RowSpan="3"

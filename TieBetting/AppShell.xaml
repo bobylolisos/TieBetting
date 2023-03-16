@@ -7,11 +7,13 @@
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Ansluter databas...."
+        Title="Connecting database..."
         Route="StartView">
         <ShellContent.Content>
             <ContentPage>
-                <ActivityIndicator IsRunning="true" WidthRequest="50" />
+                <ActivityIndicator
+                    WidthRequest="50"
+                    IsRunning="true" />
             </ContentPage>
         </ShellContent.Content>
     </ShellContent>

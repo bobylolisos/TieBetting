@@ -96,7 +96,7 @@
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
-                    Text="Season bets"
+                    Text="Bets"
                     Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
@@ -139,7 +139,7 @@
                 <Label
                     Grid.Row="1"
                     Grid.Column="4"
-                    Text="Season wins"
+                    Text="Wins"
                     Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
@@ -147,12 +147,6 @@
                     Grid.Column="6"
                     Text="{Binding TotalWin, Converter={StaticResource AmountToAmountStringConverter}}"
                     Style="{StaticResource RowValueLabelStyle}" />
-
-                <Label
-                    Grid.Row="2"
-                    Grid.Column="4"
-                    Text="Matches won"
-                    Style="{StaticResource RowHeaderLabelStyle}" />
 
                 <Label
                     Grid.Row="2"

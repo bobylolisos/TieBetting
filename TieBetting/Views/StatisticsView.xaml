@@ -62,7 +62,7 @@
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
-                Text="Total bets"
+                Text="Bets"
                 Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
@@ -107,7 +107,7 @@
             <Label
                 Grid.Row="4"
                 Grid.Column="0"
-                Text="Total wins"
+                Text="Wins"
                 Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
@@ -123,7 +123,7 @@
             <Label
                 Grid.Row="6"
                 Grid.Column="0"
-                Text="Current profit"
+                Text="Profit"
                 FontAttributes="Bold"
                 Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 

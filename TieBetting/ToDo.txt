@@ -18,6 +18,7 @@ X Kan man ersätta WeakReferenceMessenger.Default.RegisterAll(this); med nått, ty
 X Flytta images till undermappar
 X Fixa ersättning för Application.Current.MainPage.DisplayAlert
 X Visa i gui när sandbox körs
+X Ändra "Ansluter databas..."
 - Graf
 - Byt program-icon
 
@@ -37,6 +38,8 @@ SeasonMatchesView
 	X CurrentBetSession, calculate only sessions bets for current season
 	X TabBar to 'Add' (only valid for future dates)
 	X Select -> Navigate to MatchMaintenance
+	- Vid byte av säsong, scrolla till today
+	- Stats får inte plats på A71
 
 MatchMaintenanceView
 	X 'Change status'
@@ -56,10 +59,12 @@ TeamMaintenanceView
 	X Scroll to today
 	- Vid abandon, visa fråga
 
+EditMatchPopupView
+	X Ta bort datum i EditMatchView
 
 SeasonMatchesView
-	- Rename to SeasonView ???
 	X Scroll to today
+	- Rename to SeasonView ???
 
 
 SettingsView
