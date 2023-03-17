@@ -40,6 +40,11 @@
             Background="{StaticResource Gray100}"
             ItemsSource="{Binding Matches}"
             SelectionMode="None">
+            <dxcv:DXCollectionView.SortDescriptions>
+                <dxcv:SortDescription
+                    FieldName="HomeTeamName"
+                    SortOrder="Ascending" />
+            </dxcv:DXCollectionView.SortDescriptions>
             <dxcv:DXCollectionView.GroupDescription>
                 <dxcv:GroupDescription
                     FieldName="GroupHeader"

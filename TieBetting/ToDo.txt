@@ -19,11 +19,11 @@ X Flytta images till undermappar
 X Fixa ersättning för Application.Current.MainPage.DisplayAlert
 X Visa i gui när sandbox körs
 X Ändra "Ansluter databas..."
-- Graf
 - Byt program-icon
 
 MainView
 	X Om båda lagen är dormant och sedan ändrar dormant på ett lag så ändras inte den svarta färgen i MainView
+	X När man markerar en match slutstatus så sorteras den om i MainView, störigt
 
 MatchBettingView
 	X Förhindra att man kan sätta ny status (rate??) på en match där ett lag redan har en pågående match
@@ -31,6 +31,7 @@ MatchBettingView
 	X Ta bort status ur Rate-ring och gör en liggande statusbar istället
 
 StatisticsView
+	- Graf
 
 SeasonMatchesView
 	X Select season
@@ -41,6 +42,7 @@ SeasonMatchesView
 	X Scroll to today
 	X Vid byte av säsong, scrolla till today
 	X Stats får inte plats på A71
+	- Rename to SeasonView
 
 MatchMaintenanceView
 	X 'Change status'
@@ -66,8 +68,10 @@ EditMatchPopupView
 SettingsView
 	X Flytta slider under label
 	- View expected bet chain
-	- Importera matcher
+	- Navigera till importera matcher
 
+ImportMatchesView
+	- Välj kalenderfil och lista de matcher som inte finns importerade
 
 4,35
 1	15		15
