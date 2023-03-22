@@ -193,11 +193,43 @@
                             <Label
                                 Grid.Row="1"
                                 Grid.Column="4"
+                                Text="Matches"
+                                Style="{StaticResource RowHeaderLabelStyle}" />
+
+                            <Grid
+                                Grid.Row="1"
+                                Grid.Column="6"
+                                ColumnDefinitions="Auto,Auto,Auto">
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Text="{Binding MatchesWon}"
+                                    HorizontalTextAlignment="Start"
+                                    Style="{StaticResource RowValueLabelStyle}" />
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Text="/"
+                                    Margin="3,0"
+                                    HorizontalTextAlignment="Start"
+                                    Style="{StaticResource RowValueLabelStyle}" />
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Text="{Binding MatchesCount}"
+                                    HorizontalTextAlignment="Start"
+                                    Style="{StaticResource RowValueLabelStyle}" />
+                            </Grid>
+
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="4"
                                 Text="Win %"
                                 Style="{StaticResource RowHeaderLabelStyle}" />
 
                             <Label
-                                Grid.Row="1"
+                                Grid.Row="2"
                                 Grid.Column="6"
                                 Text="{Binding MatchesWonPercent}"
                                 HorizontalTextAlignment="Start"

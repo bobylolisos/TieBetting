@@ -220,7 +220,7 @@
             <Label
                 Grid.Row="5"
                 Grid.Column="0"
-                Text="Best team profit"
+                Text="Best profit"
                 Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label
@@ -249,7 +249,7 @@
             <Label
                 Grid.Row="6"
                 Grid.Column="0"
-                Text="Worst team profit"
+                Text="Worst profit"
                 Style="{StaticResource StatisticsRowHeaderLabelStyle}" />
 
             <Label

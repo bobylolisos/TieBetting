@@ -32,6 +32,7 @@ MatchBettingView
 
 StatisticsView
 	- Graf
+	- Longest lost streak är alltid 0
 
 SeasonMatchesView
 	X Select season
@@ -61,6 +62,8 @@ TeamMaintenanceView
 	X TabBar to 'Abandon session' (Kan endast köra abandon på senaste matchen och den måste vara förlorad. Då ändra status till 4 typ)
 	X Scroll to today
 	- Vid abandon, visa fråga
+	- Mer statistik, typ historik på förlustssviter etc
+	- Visa prognos på framtida bets
 
 EditMatchPopupView
 	X Ta bort datum i EditMatchView
@@ -69,6 +72,7 @@ SettingsView
 	X Flytta slider under label
 	- View expected bet chain
 	- Navigera till importera matcher
+	- Val av bet-kedja, (50:- * 18), (100:- * 5, 50 * 13) etc och ta bort slider förväntad vinst
 
 ImportMatchesView
 	- Välj kalenderfil och lista de matcher som inte finns importerade

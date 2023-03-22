@@ -29,6 +29,8 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
 
     public int MatchesWon => _statuses.Count(x => x == MatchStatus.Win);
 
+    public int MatchesCount => _statuses.Count;
+
     public string MatchesWonPercent
     {
         get
@@ -174,6 +176,7 @@ public class TeamViewModel : ViewModelBase, IRecipient<MatchUpdatedMessage>, IRe
         OnPropertyChanged(nameof(AbandonedBets));
         OnPropertyChanged(nameof(Profit));
         OnPropertyChanged(nameof(MatchesWon));
+        OnPropertyChanged(nameof(MatchesCount));
         OnPropertyChanged(nameof(MatchesWonPercent));
         OnPropertyChanged(nameof(LostMatchesInSession));
         OnPropertyChanged(nameof(IsDormant));
