@@ -41,6 +41,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\Teams\kal.png" />
+	  <None Remove="Resources\Images\Teams\nyb.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="3.1.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0-preview3" />
 		<PackageReference Include="DevExpress.Maui.CollectionView" Version="22.2.4" />
@@ -64,7 +69,7 @@
 	  <MauiXaml Update="Views\PopupViews\EditMatchPopupView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\SeasonMatchesView.xaml">
+	  <MauiXaml Update="Views\SeasonView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\PopupViews\EnterRatePopupView.xaml">
@@ -100,8 +105,8 @@
 	  <Compile Update="Views\MatchBettingView.xaml.cs">
 	    <DependentUpon>MatchBettingView.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\SeasonMatchesView.xaml.cs">
-	    <DependentUpon>SeasonMatchesView.xaml</DependentUpon>
+	  <Compile Update="Views\SeasonView.xaml.cs">
+	    <DependentUpon>SeasonView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\PopupViews\EnterRatePopupView.xaml.cs">
 	    <DependentUpon>EnterRatePopupView.xaml</DependentUpon>
@@ -124,6 +129,7 @@
 	  <MauiImage Include="Resources\Images\Teams\hv.png" />
 	  <MauiImage Include="Resources\Images\Teams\ifb.png" />
 	  <MauiImage Include="Resources\Images\Teams\iko.png" />
+	  <MauiImage Include="Resources\Images\Teams\kal.png" />
 	  <MauiImage Include="Resources\Images\Teams\kik.png" />
 	  <MauiImage Include="Resources\Images\Teams\lhc.png" />
 	  <MauiImage Include="Resources\Images\Teams\lhf.png" />
@@ -131,6 +137,7 @@
 	  <MauiImage Include="Resources\Images\Teams\mif.png" />
 	  <MauiImage Include="Resources\Images\Teams\mik.png" />
 	  <MauiImage Include="Resources\Images\Teams\modo.png" />
+	  <MauiImage Include="Resources\Images\Teams\nyb.png" />
 	  <MauiImage Include="Resources\Images\Teams\oik.png" />
 	  <MauiImage Include="Resources\Images\Teams\ore.png" />
 	  <MauiImage Include="Resources\Images\Teams\rbk.png" />

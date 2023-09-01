@@ -1,11 +1,11 @@
 namespace TieBetting.Views;
 
-public partial class SeasonMatchesView : IRecipient<SelectedSeasonChangedMessage>
+public partial class SeasonView : IRecipient<SelectedSeasonChangedMessage>
 {
-    private readonly SeasonMatchesViewModel _viewModel;
+    private readonly SeasonViewModel _viewModel;
     private bool _firstNavigation = true;
 
-    public SeasonMatchesView(INavigationService navigationService, IMessenger messenger, SeasonMatchesViewModel viewModel) 
+    public SeasonView(INavigationService navigationService, IMessenger messenger, SeasonViewModel viewModel) 
         : base(navigationService)
     {
         _viewModel = viewModel;

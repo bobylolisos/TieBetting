@@ -77,8 +77,12 @@ public static class StringExtensions
                 return "Örebro";
             case { } str when str.Contains("linköping"):
                 return "Linköping";
+            case { } str when str.Contains("nybro"):
+                return "Nybro";
+            case { } str when str.Contains("kalmar"):
+                return "Kalmar";
 
-            default: return null;
+            default: throw new ArgumentOutOfRangeException(stringValue);
         }
 
     }

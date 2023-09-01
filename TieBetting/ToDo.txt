@@ -43,7 +43,7 @@ SeasonMatchesView
 	X Scroll to today
 	X Vid byte av säsong, scrolla till today
 	X Stats får inte plats på A71
-	- Rename to SeasonView
+	X Rename to SeasonView
 
 MatchMaintenanceView
 	X 'Change status'

@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class SeasonMatchesViewModel : ViewModelNavigationBase, IRecipient<MatchCreatedMessage>
+public class SeasonViewModel : ViewModelNavigationBase, IRecipient<MatchCreatedMessage>
 {
     private readonly IQueryService _queryService;
     private readonly IPopupService _popupService;
@@ -10,7 +10,7 @@ public class SeasonMatchesViewModel : ViewModelNavigationBase, IRecipient<MatchC
     private IReadOnlyCollection<MatchViewModel> _allMatches;
     private IReadOnlyCollection<TeamViewModel> _allTeams;
 
-    public SeasonMatchesViewModel(INavigationService navigationService, IQueryService queryService, IPopupService popupService, IMessenger messenger)
+    public SeasonViewModel(INavigationService navigationService, IQueryService queryService, IPopupService popupService, IMessenger messenger)
         : base(navigationService)
     {
         _queryService = queryService;

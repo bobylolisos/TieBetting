@@ -64,7 +64,7 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
 
     private async Task ExecuteNavigateToSeasonMatchesViewCommand()
     {
-        await _navigationService.NavigateToPageAsync<SeasonMatchesView>();
+        await _navigationService.NavigateToPageAsync<SeasonView>();
     }
 
     private async Task ExecuteNavigateToSettingsCommand()
