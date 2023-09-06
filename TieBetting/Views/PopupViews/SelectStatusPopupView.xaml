@@ -28,7 +28,7 @@
             <Grid
                 Grid.Row="2"
                 Grid.Column="0"
-                RowDefinitions="Auto,Auto,Auto,Auto"
+                RowDefinitions="Auto,Auto,Auto,Auto,Auto"
                 ColumnDefinitions="*"
                 Margin="0,20">
                 <Button
@@ -57,6 +57,17 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     Margin="5"
+                    Text="Dormant"
+                    TextColor="Black"
+                    BackgroundColor="Brown"
+                    Command="{Binding BindingContext.SetStatusCommand, Source={x:Reference This}}"
+                    CommandParameter="{x:Static models:MatchStatus.Dormant}"
+                    FontSize="16"
+                    IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToChangeStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Dormant}}" />
+                <Button
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="5"
                     Text="Lost"
                     TextColor="White"
                     BackgroundColor="OrangeRed"
@@ -65,7 +76,7 @@
                     FontSize="16"
                     IsVisible="{Binding MatchStatus, Converter={StaticResource MatchStatusToChangeStatusButtonVisibilityConverter}, ConverterParameter={x:Static models:MatchStatus.Lost}}" />
                 <Button
-                    Grid.Row="3"
+                    Grid.Row="4"
                     Grid.Column="0"
                     Margin="5"
                     Text="Win"

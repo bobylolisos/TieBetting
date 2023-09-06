@@ -7,6 +7,8 @@ public class SettingsViewModel : ViewModelNavigationBase
     private Settings _settings;
     private int _expectedWinAmount;
     private int _upcomingMatchesToFetch;
+    private int _warnToBetWhenRateExceeds;
+    private int _warnToBetWhenLostMatchesExceeds;
 
     public SettingsViewModel(INavigationService navigationService, IQueryService queryService, ISaverService saverService)
         : base(navigationService)
@@ -29,6 +31,31 @@ public class SettingsViewModel : ViewModelNavigationBase
 
     public bool ExpectedWinAmountChanged => ExpectedWinAmount != _settings?.ExpectedWinAmount;
 
+    public int WarnToBetWhenRateExceeds
+    {
+        get => _warnToBetWhenRateExceeds;
+        set
+        {
+            if (value == _warnToBetWhenRateExceeds) return;
+            _warnToBetWhenRateExceeds = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(WarnToBetWhenRateExceedsText));
+        }
+    }
+
+    public string WarnToBetWhenRateExceedsText => WarnToBetWhenRateExceeds.ToString().Insert(1, ".");
+
+    public int WarnToBetWhenLostMatchesExceeds
+    {
+        get => _warnToBetWhenLostMatchesExceeds;
+        set
+        {
+            if (value == _warnToBetWhenLostMatchesExceeds) return;
+            _warnToBetWhenLostMatchesExceeds = value;
+            OnPropertyChanged();
+        }
+    }
+
     public int UpcomingMatchesToFetch
     {
         get => _upcomingMatchesToFetch;
@@ -40,6 +67,8 @@ public class SettingsViewModel : ViewModelNavigationBase
         _settings = await _queryService.GetSettingsAsync();
 
         ExpectedWinAmount = _settings.ExpectedWinAmount;
+        WarnToBetWhenRateExceeds = _settings.WarnToBetWhenRateExceeds;
+        WarnToBetWhenLostMatchesExceeds = _settings.WarnToBetWhenLostMatchesExceeds;
         UpcomingMatchesToFetch = _settings.UpcomingFetchCount;
 
         await base.OnNavigatingToAsync(navigationParameter);
@@ -47,9 +76,14 @@ public class SettingsViewModel : ViewModelNavigationBase
 
     public override async Task OnNavigatedFromAsync(bool isForwardNavigation)
     {
-        if (_settings.ExpectedWinAmount != ExpectedWinAmount || _settings.UpcomingFetchCount != UpcomingMatchesToFetch)
+        if (_settings.ExpectedWinAmount != ExpectedWinAmount || 
+            _settings.WarnToBetWhenRateExceeds != WarnToBetWhenRateExceeds ||
+            _settings.WarnToBetWhenLostMatchesExceeds != WarnToBetWhenLostMatchesExceeds ||
+            _settings.UpcomingFetchCount != UpcomingMatchesToFetch)
         {
             _settings.ExpectedWinAmount = ExpectedWinAmount;
+            _settings.WarnToBetWhenRateExceeds = WarnToBetWhenRateExceeds;
+            _settings.WarnToBetWhenLostMatchesExceeds = WarnToBetWhenLostMatchesExceeds;
             _settings.UpcomingFetchCount = UpcomingMatchesToFetch;
 
             await _saverService.UpdateSettingsAsync(_settings);

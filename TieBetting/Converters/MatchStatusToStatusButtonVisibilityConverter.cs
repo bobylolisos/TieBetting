@@ -6,12 +6,12 @@ public class MatchStatusToStatusButtonVisibilityConverter : ValueConverterBase<M
     {
         if (value == MatchStatus.NotActive)
         {
-            return parameter == MatchStatus.Active;
+            return parameter == MatchStatus.Active || parameter == MatchStatus.Dormant;
         }
 
         if (value == MatchStatus.Active)
         {
-            return parameter == MatchStatus.Lost || parameter == MatchStatus.Win;
+            return parameter == MatchStatus.Lost || parameter == MatchStatus.Win || parameter == MatchStatus.Dormant;
         }
 
         return false;

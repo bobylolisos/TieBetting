@@ -22,7 +22,7 @@ public class MatchBettingViewModel : ViewModelNavigationBase, IRecipient<MatchRa
 
     public AsyncRelayCommand<MatchStatus> SetStatusCommand { get; }
 
-    public bool IsTabBarVisible => Match?.IsAnyActiveOrDone() ?? false;
+    public bool IsTabBarVisible => Match != null ? Match.IsAnyActiveOrDone() || Match.MatchStatus == MatchStatus.Dormant : false;
 
     public bool HasPreviousActiveMatch => ResolveHasPreviousActiveMatch();
 
@@ -72,7 +72,7 @@ public class MatchBettingViewModel : ViewModelNavigationBase, IRecipient<MatchRa
             return false;
         }
 
-        if (Match.HomeTeam.IsDormant && Match.AwayTeam.IsDormant)
+        if (Match.MatchStatus == MatchStatus.Dormant || (Match.HomeTeam.IsDormant && Match.AwayTeam.IsDormant))
         {
             return false;
         }
@@ -135,7 +135,7 @@ public class MatchBettingViewModel : ViewModelNavigationBase, IRecipient<MatchRa
             return false;
         }
 
-        return Match.IsAnyActiveOrDone();
+        return Match.IsAnyActiveOrDone() || Match.MatchStatus == MatchStatus.Dormant;
     }
 
     private bool ResolveHasPreviousActiveMatch()

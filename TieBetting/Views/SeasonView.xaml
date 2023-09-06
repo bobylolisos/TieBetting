@@ -226,17 +226,29 @@
                                 Margin="0,3"
                                 Source="{Binding HomeTeamImage}" />
 
-                            <Label
+                            <Grid
                                 Grid.Row="0"
                                 Grid.Column="3"
                                 Grid.ColumnSpan="3"
-                                Margin="0,3"
-                                Text="{Binding Date}"
-                                TextColor="{StaticResource Black}"
-                                HorizontalTextAlignment="Center"
-                                VerticalTextAlignment="Center"
-                                CharacterSpacing="1.4"
-                                FontSize="14" />
+                                RowDefinitions="Auto,Auto"
+                                Margin="0,3">
+
+                                <Label
+                                    Grid.Row="0"
+                                    Text="{Binding Date}"
+                                    TextColor="{StaticResource Black}"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    CharacterSpacing="1.2"
+                                    FontSize="14" />
+                                <Label
+                                    Grid.Row="1"
+                                    Text="{Binding Rate, StringFormat='{}{0:N2}'}"
+                                    TextColor="{StaticResource Black}"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    FontSize="12" />
+                            </Grid>
 
                             <Image
                                 Grid.Row="0"

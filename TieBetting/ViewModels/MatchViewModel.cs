@@ -112,6 +112,12 @@ public class MatchViewModel : ViewModelBase, IRecipient<TeamUpdatedMessage>
             }
         }
 
+        if (matchStatus == MatchStatus.Dormant)
+        {
+            Match.HomeTeamStatus = (int)MatchStatus.Dormant;
+            Match.AwayTeamStatus = (int)MatchStatus.Dormant;
+        }
+
         if (matchStatus == MatchStatus.Win || matchStatus == MatchStatus.Lost)
         {
             if (Match.HomeTeamStatus != (int)MatchStatus.Dormant)

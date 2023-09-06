@@ -42,7 +42,7 @@
         </Style>
     </ContentPage.Resources>
     <Grid
-        RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
         Margin="6,8,6,3">
 
         <!--  Expected amount to win  -->
@@ -82,15 +82,71 @@
             IsVisible="{Binding ExpectedWinAmountChanged, Converter={StaticResource VisibleWhenTrueConverter}}"
             Style="{StaticResource SettingsRowValueLabelStyle}" />
 
-        <!--  Upcoming matches to load  -->
+        <!--  Warn to bet when rate exceeds  -->
         <Label
             Grid.Row="3"
+            Grid.Column="0"
+            Text="Warn to bet when rate exceeds"
+            Style="{StaticResource SettingsRowHeaderLabelStyle}" />
+
+        <Grid
+            Grid.Row="4"
+            Grid.Column="0"
+            RowDefinitions="Auto,Auto"
+            ColumnDefinitions="*,10,auto">
+            <Slider
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="-15,0"
+                VerticalOptions="Center"
+                Maximum="80"
+                Minimum="30"
+                MinimumTrackColor="{StaticResource Primary}"
+                Value="{Binding WarnToBetWhenRateExceeds}" />
+            <Label
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="{Binding WarnToBetWhenRateExceedsText}"
+                Style="{StaticResource SettingsRowValueLabelStyle}" />
+        </Grid>
+
+        <!--  Warn to bet when lost matches exceeds  -->
+        <Label
+            Grid.Row="5"
+            Grid.Column="0"
+            Text="Warn to bet when lost matches exceeds"
+            Style="{StaticResource SettingsRowHeaderLabelStyle}" />
+
+        <Grid
+            Grid.Row="6"
+            Grid.Column="0"
+            RowDefinitions="Auto,Auto"
+            ColumnDefinitions="*,10,auto">
+            <Slider
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="-15,0"
+                VerticalOptions="Center"
+                Maximum="30"
+                Minimum="10"
+                MinimumTrackColor="{StaticResource Primary}"
+                Value="{Binding WarnToBetWhenLostMatchesExceeds}" />
+            <Label
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="{Binding WarnToBetWhenLostMatchesExceeds}"
+                Style="{StaticResource SettingsRowValueLabelStyle}" />
+        </Grid>
+
+        <!--  Upcoming matches to load  -->
+        <Label
+            Grid.Row="7"
             Grid.Column="0"
             Text="Upcoming matches to load"
             Style="{StaticResource SettingsRowHeaderLabelStyle}" />
 
         <Grid
-            Grid.Row="4"
+            Grid.Row="8"
             Grid.Column="0"
             RowDefinitions="Auto,Auto"
             ColumnDefinitions="*,10,auto">
@@ -109,7 +165,6 @@
                 Text="{Binding UpcomingMatchesToFetch}"
                 Style="{StaticResource SettingsRowValueLabelStyle}" />
         </Grid>
-
 
     </Grid>
 </base:ViewBase>

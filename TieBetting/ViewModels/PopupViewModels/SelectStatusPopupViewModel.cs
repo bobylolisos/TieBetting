@@ -64,11 +64,6 @@ public class SelectStatusPopupViewModel : ViewModelBase, IPopupViewModel
 
     private async Task ExecuteSetStatusCommand(MatchStatus matchStatus)
     {
-        if (matchStatus == MatchStatus.NotActive)
-        {
-            await _matchViewModel.SetRate(null);
-        }
-
         await _matchViewModel.SetStatusAsync(matchStatus);
 
         await _popupService.ClosePopupAsync();

@@ -9,6 +9,11 @@ public class MatchStatusToChangeStatusButtonVisibilityConverter : ValueConverter
             return false;
         }
 
+        if (value == MatchStatus.Dormant)
+        {
+            return parameter == MatchStatus.NotActive;
+        }
+
         if (value == MatchStatus.Active)
         {
             return parameter != MatchStatus.Active;

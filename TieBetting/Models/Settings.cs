@@ -10,6 +10,12 @@ public class Settings
     public int ExpectedWinAmount { get; set; }
 
     [FirestoreProperty]
+    public int WarnToBetWhenRateExceeds { get; set; }
+
+    [FirestoreProperty]
+    public int WarnToBetWhenLostMatchesExceeds { get; set; }
+
+    [FirestoreProperty]
     public int UpcomingFetchCount { get; set; }
 
     [FirestoreProperty]

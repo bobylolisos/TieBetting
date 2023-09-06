@@ -140,17 +140,30 @@
 
                         </Grid>
 
-                        <Label
+                        <Grid 
                             Grid.Row="0"
                             Grid.Column="1"
                             Grid.ColumnSpan="3"
-                            Margin="0,3"
-                            VerticalOptions="Center"
-                            Text="{Binding Date}"
-                            TextColor="{StaticResource Black}"
-                            HorizontalTextAlignment="Center"
-                            CharacterSpacing="1.4"
-                            FontSize="16" />
+                            RowDefinitions="Auto,Auto"
+                            Margin="0,3,0,0">
+                            <Label
+                                Grid.Row="0"
+                                VerticalOptions="Center"
+                                Text="{Binding Date}"
+                                TextColor="{StaticResource Black}"
+                                HorizontalTextAlignment="Center"
+                                CharacterSpacing="1.4"
+                                FontSize="16" />
+                            <Label
+                                Grid.Row="1"
+                                VerticalOptions="Center"
+                                Text="{Binding Rate, StringFormat='{}{0:N2}'}"
+                                TextColor="{StaticResource Black}"
+                                HorizontalTextAlignment="Center"
+                                CharacterSpacing="1.4"
+                                FontSize="12" />
+
+                        </Grid>
 
                         <!--  Away team lost matches circle  -->
                         <Grid
@@ -218,11 +231,11 @@
                             Grid.Row="1"
                             Grid.RowSpan="2"
                             Grid.Column="2"
-                            Text="{Binding TotalBet, Converter={StaticResource AmountToAmountStringConverter}}"
+                            Text="{Binding TotalBet}"
                             TextColor="{StaticResource Black}"
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
-                            FontSize="14" />
+                            FontSize="15" />
 
                         <Label
                             Grid.Row="1"
