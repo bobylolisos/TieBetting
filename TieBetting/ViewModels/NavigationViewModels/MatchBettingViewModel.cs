@@ -4,12 +4,16 @@ public class MatchBettingViewModel : ViewModelNavigationBase, IRecipient<MatchRa
 {
     private readonly IPopupService _popupService;
     private readonly IMessenger _messenger;
+    private readonly IQueryService _queryService;
+    private readonly IDialogService _dialogService;
 
-    public MatchBettingViewModel(INavigationService navigationService, IPopupService popupService, IMessenger messenger) 
+    public MatchBettingViewModel(INavigationService navigationService, IPopupService popupService, IMessenger messenger, IQueryService queryService, IDialogService dialogService) 
         : base(navigationService)
     {
         _popupService = popupService;
         _messenger = messenger;
+        _queryService = queryService;
+        _dialogService = dialogService;
 
         EnterRateCommand = new AsyncRelayCommand(ExecuteEnterRateCommand, CanExecuteEnterRateCommand);
         SetStatusCommand = new AsyncRelayCommand<MatchStatus>(ExecuteSetStatusCommand);
@@ -101,6 +105,27 @@ public class MatchBettingViewModel : ViewModelNavigationBase, IRecipient<MatchRa
 
     private async Task ExecuteSetStatusCommand(MatchStatus matchStatus)
     {
+        var settings = await _queryService.GetSettingsAsync();
+        var lostMatchesLimit = settings.WarnToBetWhenLostMatchesExceeds;
+        if (Match.HomeTeam.LostMatchesInSession >= lostMatchesLimit || Match.AwayTeam.LostMatchesInSession >= 0)
+        {
+            var result = await _dialogService.ShowQuestion("Lost matches limit", $"Lost limit is set to '{lostMatchesLimit}' matches.{Environment.NewLine}Do you wanna exceed that limit?");
+            if (!result)
+            {
+                return;
+            }
+        }
+
+        var rateLimit = settings.WarnToBetWhenRateExceeds / 10d;
+        if (Match.Rate > rateLimit)
+        {
+            var result = await _dialogService.ShowQuestion("Rate limit", $"Rate limit is set to '{rateLimit}'.{Environment.NewLine}Do you wanna exceed that limit?");
+            if (!result)
+            {
+                return;
+            }
+        }
+
         await Match.SetStatusAsync(matchStatus);
 
         await ExecuteNavigateBackCommand();
