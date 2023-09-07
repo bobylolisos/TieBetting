@@ -4,5 +4,5 @@ public interface IPopupService
 {
     public Task OpenPopupAsync<T>(PopupParameterBase parameter = null) where T : BasePopupPage;
 
-    public Task ClosePopupAsync();
+    public Task ClosePopupAsync(bool confirmed);
 }

@@ -3,6 +3,7 @@
     x:Class="TieBetting.Shared.BasePopupPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
     x:Name="BasePopupContentPage"
     Title="BasePopupPage"
     BackgroundColor="#44000000">
@@ -15,7 +16,12 @@
                 CornerRadius="20">
                 <Grid Padding="5,0,5,0">
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Source={x:Reference BasePopupContentPage}, Path=PopModelCommand}" />
+                        <TapGestureRecognizer 
+                            Command="{Binding Source={x:Reference BasePopupContentPage}, Path=PopModelCommand}" >
+                            <TapGestureRecognizer.CommandParameter>
+                                <system:Boolean>False</system:Boolean>
+                            </TapGestureRecognizer.CommandParameter>
+                        </TapGestureRecognizer>
                     </Grid.GestureRecognizers>
                     <StackLayout Padding="0,0,0,15">
                         <BoxView
@@ -34,7 +40,12 @@
                 </Grid>
             </Frame>
             <Grid.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={x:Reference BasePopupContentPage}, Path=PopModelCommand}" />
+                <TapGestureRecognizer 
+                    Command="{Binding Source={x:Reference BasePopupContentPage}, Path=PopModelCommand}">
+                    <TapGestureRecognizer.CommandParameter>
+                        <system:Boolean>False</system:Boolean>
+                    </TapGestureRecognizer.CommandParameter>
+                </TapGestureRecognizer>
             </Grid.GestureRecognizers>
         </Grid>
     </ContentPage.Content>

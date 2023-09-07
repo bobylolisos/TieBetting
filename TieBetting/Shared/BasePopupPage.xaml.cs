@@ -33,14 +33,15 @@ public partial class BasePopupPage : ContentPage
 
     protected override bool OnBackButtonPressed()
     {
-        var _ = ExecutePopModelCommand();
+        var _ = ExecutePopModelCommand(false);
         return true;
     }
 
-    public AsyncRelayCommand PopModelCommand => new (ExecutePopModelCommand);
+    public AsyncRelayCommand<bool> PopModelCommand => new (ExecutePopModelCommand);
 
-    private async Task ExecutePopModelCommand()
+    private async Task ExecutePopModelCommand(bool confirmed)
     {
-        await _popupService.ClosePopupAsync();
+        await _popupService.ClosePopupAsync(confirmed);
+
     }
 }

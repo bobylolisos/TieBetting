@@ -66,6 +66,6 @@ public class SelectStatusPopupViewModel : ViewModelBase, IPopupViewModel
     {
         await _matchViewModel.SetStatusAsync(matchStatus);
 
-        await _popupService.ClosePopupAsync();
+        await _popupService.ClosePopupAsync(true);
     }
 }

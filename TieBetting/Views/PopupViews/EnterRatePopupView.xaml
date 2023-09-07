@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:popupViewModels="clr-namespace:TieBetting.ViewModels.PopupViewModels"
     xmlns:shared="clr-namespace:TieBetting.Shared"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
     Title="EnterRatePopupView"
     x:DataType="popupViewModels:EnterRatePopupViewModel">
     <shared:BasePopupPage.Resources>
@@ -139,7 +140,11 @@
                     Margin="0,8"
                     Text="OK"
                     Command="{Binding Source={x:Reference BasePopupContentPage}, Path=PopModelCommand}"
-                    Style="{StaticResource ButtonStyle}" />
+                    Style="{StaticResource ButtonStyle}">
+                    <Button.CommandParameter>
+                        <system:Boolean>True</system:Boolean>
+                    </Button.CommandParameter>
+                </Button>
             </Grid>
         </Grid>
     </shared:BasePopupPage.PopupContent>

@@ -157,7 +157,7 @@ public class EditMatchPopupViewModel : ViewModelBase, IPopupViewModel
             await _saverService.CreateMatchAsync(SelectedSeason, _selectedHomeTeam, _selectedAwayTeam, SelectedDate);
         }
 
-        await _popupService.ClosePopupAsync();
+        await _popupService.ClosePopupAsync(true);
     }
 
     private bool CanExecuteSaveChangesCommand()

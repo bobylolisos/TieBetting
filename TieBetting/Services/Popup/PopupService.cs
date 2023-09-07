@@ -71,23 +71,27 @@ public class PopupService : IPopupService
             throw new InvalidOperationException($"Unable to resolve type {typeof(T).FullName}");
     }
 
-    public async Task ClosePopupAsync()
+    public async Task ClosePopupAsync(bool confirmed)
     {
         var canClose = true;
-        var currentPage = Navigation.ModalStack.LastOrDefault();
-        if (currentPage is not null)
+
+        if (confirmed)
         {
-            var popupViewModel = GetPopupViewModel(currentPage);
-            if (popupViewModel is not null)
+            var currentPage = Navigation.ModalStack.LastOrDefault();
+            if (currentPage is not null)
             {
-                canClose = await popupViewModel.OnClosePopupAsync();
-            }
-            else
-            {
-                // Something is wrong
-                if (Debugger.IsAttached)
-                    Debugger.Break();
-                throw new Exception();
+                var popupViewModel = GetPopupViewModel(currentPage);
+                if (popupViewModel is not null)
+                {
+                    canClose = await popupViewModel.OnClosePopupAsync();
+                }
+                else
+                {
+                    // Something is wrong
+                    if (Debugger.IsAttached)
+                        Debugger.Break();
+                    throw new Exception();
+                }
             }
         }
 
