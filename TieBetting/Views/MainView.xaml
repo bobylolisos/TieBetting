@@ -25,7 +25,7 @@
             HeightRequest="57"
             BackgroundColor="{StaticResource Primary}">
             <Label
-                Text="TIE BETTING"
+                Text="X BET HOCKEY"
                 TextColor="{Binding Path=., Converter={StaticResource FirestoreStateToTextColorConverter}}"
                 HorizontalTextAlignment="Center"
                 VerticalTextAlignment="Center"

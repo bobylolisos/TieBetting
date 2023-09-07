@@ -7,13 +7,24 @@
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Connecting database..."
+        Title="X BET HOCKEY"
         Route="StartView">
         <ShellContent.Content>
             <ContentPage>
-                <ActivityIndicator
-                    WidthRequest="50"
-                    IsRunning="true" />
+                <Grid>
+                    <Label 
+                        Grid.Row="0" 
+                        VerticalOptions="Center" HorizontalOptions="Center"
+                        Margin="0,0,0,140"
+                        TextColor="{StaticResource Primary}"
+                        FontSize="22"
+                        Text="Connecting database..."/>
+
+                    <ActivityIndicator
+                        Grid.Row="0"
+                        WidthRequest="50"
+                        IsRunning="true" />
+                </Grid>
             </ContentPage>
         </ShellContent.Content>
     </ShellContent>
