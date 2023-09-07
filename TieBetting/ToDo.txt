@@ -19,7 +19,7 @@ X Flytta images till undermappar
 X Fixa ersättning för Application.Current.MainPage.DisplayAlert
 X Visa i gui när sandbox körs
 X Ändra "Ansluter databas..."
-- Byt program-icon
+X Byt program-icon
 
 MainView
 	X Om båda lagen är dormant och sedan ändrar dormant på ett lag så ändras inte den svarta färgen i MainView
@@ -73,6 +73,7 @@ SettingsView
 	- View expected bet chain
 	- Navigera till importera matcher
 	- Val av bet-kedja, (50:- * 18), (100:- * 5, 50 * 13) etc och ta bort slider förväntad vinst
+	- Byte av "matcher att visa" borde ladda om mainview
 
 ImportMatchesView
 	- Välj kalenderfil och lista de matcher som inte finns importerade

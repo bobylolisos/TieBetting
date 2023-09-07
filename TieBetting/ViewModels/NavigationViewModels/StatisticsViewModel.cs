@@ -151,6 +151,7 @@ public class StatisticsViewModel : ViewModelNavigationBase
             MatchesCount = matches.Count(x => x.IsAnyDone() || x.IsAnyAbandoned());
             MatchesWonCount = teams.Sum(x => x.MatchesWon) / 2;
 
+            LongestLostStreak = teams.Max(x => x.Statuses.CountMaxNumberOfPreviousLostMatches());
             LongestLostStreakInSession = teams.Max(x => x.Statuses.CountNumberOfPreviousLostMatches());
         }
 

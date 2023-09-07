@@ -24,6 +24,34 @@ public static class EnumerableExtensions
         return result;
     }
 
+    public static int CountMaxNumberOfPreviousLostMatches(this IEnumerable<MatchStatus> statuses)
+    {
+        var max = 0;
+        var result = 0;
+
+        foreach (var status in statuses.Reverse())
+        {
+            if (status == MatchStatus.Win || status == MatchStatus.Abandoned)
+            {
+                if (result > max)
+                {
+                    max = result;
+                    result = 0;
+                }
+            }
+            else
+            {
+                result++;
+            }
+        }
+
+        if (result > max)
+        {
+            max = result;
+        }
+        return max;
+    }
+
     public static void AddRange<T>(this ObservableCollection<T> observableCollection, IEnumerable<T> items)
     {
         foreach (var item in items)

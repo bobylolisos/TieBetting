@@ -97,24 +97,30 @@ public class MatchBettingViewModel : ViewModelNavigationBase, IRecipient<MatchRa
 
     private async Task ExecuteSetStatusCommand(MatchStatus matchStatus)
     {
-        var settings = await _queryService.GetSettingsAsync();
-        var lostMatchesLimit = settings.WarnToBetWhenLostMatchesExceeds;
-        if (Match.HomeTeam.LostMatchesInSession >= lostMatchesLimit || Match.AwayTeam.LostMatchesInSession >= lostMatchesLimit)
+        if (matchStatus == MatchStatus.Active)
         {
-            var result = await _dialogService.ShowQuestion("Lost matches limit", $"Lost limit is set to '{lostMatchesLimit}' matches.{Environment.NewLine}Do you wanna exceed that limit?");
-            if (!result)
+            var settings = await _queryService.GetSettingsAsync();
+            var lostMatchesLimit = settings.WarnToBetWhenLostMatchesExceeds;
+            if (Match.HomeTeam.LostMatchesInSession >= lostMatchesLimit ||
+                Match.AwayTeam.LostMatchesInSession >= lostMatchesLimit)
             {
-                return;
+                var result = await _dialogService.ShowQuestion("Lost matches limit",
+                    $"Lost limit is set to '{lostMatchesLimit}' matches.{Environment.NewLine}Do you wanna exceed that limit?");
+                if (!result)
+                {
+                    return;
+                }
             }
-        }
 
-        var rateLimit = settings.WarnToBetWhenRateExceeds / 10d;
-        if (Match.Rate > rateLimit)
-        {
-            var result = await _dialogService.ShowQuestion("Rate limit", $"Rate limit is set to '{rateLimit}'.{Environment.NewLine}Do you wanna exceed that limit?");
-            if (!result)
+            var rateLimit = settings.WarnToBetWhenRateExceeds / 10d;
+            if (Match.Rate > rateLimit)
             {
-                return;
+                var result = await _dialogService.ShowQuestion("Rate limit",
+                    $"Rate limit is set to '{rateLimit}'.{Environment.NewLine}Do you wanna exceed that limit?");
+                if (!result)
+                {
+                    return;
+                }
             }
         }
 
