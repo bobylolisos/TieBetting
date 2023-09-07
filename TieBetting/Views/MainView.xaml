@@ -13,6 +13,9 @@
     x:Name="This"
     Title="MainView"
     x:DataType="navigationViewModels:MainViewModel">
+    <ContentPage.Behaviors>
+        <behaviors:StatusBarBehavior StatusBarColor="{StaticResource Primary}"/>
+    </ContentPage.Behaviors>
     <ContentPage.Resources>
         <converters:AmountToAmountStringConverter x:Key="AmountToAmountStringConverter" />
         <converters:FirestoreStateToTextColorConverter x:Key="FirestoreStateToTextColorConverter" />
