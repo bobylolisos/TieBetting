@@ -62,7 +62,7 @@
                 Grid.Column="0"
                 Margin="-15,0"
                 VerticalOptions="Center"
-                Maximum="100"
+                Maximum="250"
                 Minimum="25"
                 MinimumTrackColor="{StaticResource Primary}"
                 Value="{Binding ExpectedWinAmount}" />
