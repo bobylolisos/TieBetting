@@ -4,17 +4,19 @@ public class SettingsViewModel : ViewModelNavigationBase
 {
     private readonly IQueryService _queryService;
     private readonly ISaverService _saverService;
+    private readonly IMessenger _messenger;
     private Settings _settings;
     private int _expectedWinAmount;
     private int _upcomingMatchesToFetch;
     private int _warnToBetWhenRateExceeds;
     private int _warnToBetWhenLostMatchesExceeds;
 
-    public SettingsViewModel(INavigationService navigationService, IQueryService queryService, ISaverService saverService)
+    public SettingsViewModel(INavigationService navigationService, IQueryService queryService, ISaverService saverService, IMessenger messenger)
         : base(navigationService)
     {
         _queryService = queryService;
         _saverService = saverService;
+        _messenger = messenger;
     }
 
     public int ExpectedWinAmount
@@ -87,6 +89,8 @@ public class SettingsViewModel : ViewModelNavigationBase
             _settings.UpcomingFetchCount = UpcomingMatchesToFetch;
 
             await _saverService.UpdateSettingsAsync(_settings);
+
+            _messenger.Send(new SettingsUpdatedMessage());
         }
 
         await base.OnNavigatedFromAsync(isForwardNavigation);

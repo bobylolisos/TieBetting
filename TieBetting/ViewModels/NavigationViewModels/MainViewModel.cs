@@ -1,6 +1,6 @@
 ﻿namespace TieBetting.ViewModels.NavigationViewModels;
 
-public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequiredMessage>, IRecipient<MatchUpdatedMessage>, IRecipient<MatchDeletedMessage>
+public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequiredMessage>, IRecipient<MatchUpdatedMessage>, IRecipient<MatchDeletedMessage>, IRecipient<SettingsUpdatedMessage>
 {
     private readonly ICalendarFileDownloadService _calendarFileDownloadService;
     private readonly IQueryService _queryService;
@@ -8,7 +8,6 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
     private readonly INavigationService _navigationService;
     private ObservableCollection<TeamViewModel> _teams;
     private bool _isReloading;
-    private bool _refreshRequired = true;
 
     public MainViewModel(IMessenger messenger, ICalendarFileDownloadService calendarFileDownloadService, IQueryService queryService, ISaverService saverService, INavigationService navigationService)
     : base(navigationService)
@@ -38,11 +37,6 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
     }
 
     public override async Task OnNavigatingToAsync(NavigationParameterBase navigationParameter)
-    {
-        await ReloadAsync();
-    }
-
-    public override async Task OnNavigatedBackAsync()
     {
         await ReloadAsync();
     }
@@ -95,15 +89,11 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
     {
         try
         {
-            if (_refreshRequired != true)
-            {
-                return;
-            }
-
             IsReloading = true;
 
-            var settings = await _queryService.GetSettingsAsync();
             Matches.Clear();
+
+            var settings = await _queryService.GetSettingsAsync();
 
             var readOnlyCollection = await _queryService.GetTeamsAsync();
             _teams = new ObservableCollection<TeamViewModel>(readOnlyCollection);
@@ -127,8 +117,6 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
             {
                 Matches.Add(upcomingMatch);
             }
-
-            _refreshRequired = false;
         }
         finally
         {
@@ -136,10 +124,9 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
         }
     }
 
-    public void Receive(RefreshRequiredMessage message)
+    public async void Receive(RefreshRequiredMessage message)
     {
-        _refreshRequired = true;
-        Matches.Clear();
+        await ReloadAsync();
     }
 
     public void Receive(MatchDeletedMessage message)
@@ -161,5 +148,10 @@ public class MainViewModel : ViewModelNavigationBase, IRecipient<RefreshRequired
             Matches.Remove(match);
             Matches.Add(match);
         }
+    }
+
+    public async void Receive(SettingsUpdatedMessage message)
+    {
+        await ReloadAsync();
     }
 }

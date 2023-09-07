@@ -156,7 +156,7 @@
                 Margin="-15,0"
                 VerticalOptions="Center"
                 Maximum="100"
-                Minimum="25"
+                Minimum="15"
                 MinimumTrackColor="{StaticResource Primary}"
                 Value="{Binding UpcomingMatchesToFetch}" />
             <Label

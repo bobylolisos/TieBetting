@@ -32,7 +32,7 @@ MatchBettingView
 
 StatisticsView
 	- Graf
-	- Longest lost streak är alltid 0
+	X Longest lost streak är alltid 0
 
 SeasonMatchesView
 	X Select season
