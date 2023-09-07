@@ -17,126 +17,130 @@
         </Style>
     </shared:BasePopupPage.Resources>
     <shared:BasePopupPage.PopupContent>
-        <Grid RowDefinitions="Auto,20,Auto,Auto,Auto">
-            <Label
-                Grid.Row="0"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                Text="Enter rate"
-                FontSize="35" />
-
-            <Frame
-                Grid.Row="2"
-                WidthRequest="174"
-                Padding="10"
-                BorderColor="Gray"
-                CornerRadius="5">
+        <Grid ColumnDefinitions="*,Auto,*">
+            <Grid 
+                Grid.Column="1" 
+                RowDefinitions="Auto,20,Auto,Auto,Auto">
                 <Label
+                    Grid.Row="0"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
-                    Text="{Binding Rate}"
-                    FontSize="22" />
-            </Frame>
+                    Text="Enter rate"
+                    FontSize="35" />
 
-            <Grid
-                Grid.Row="3"
-                RowDefinitions="60,60,60,60"
-                ColumnDefinitions="*,60,60,60,*">
-                <Button
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Text="7"
-                    Command="{Binding DigitCommand}"
-                    CommandParameter="7"
-                    Style="{StaticResource ButtonStyle}" />
-                <Button
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    Text="8"
-                    Command="{Binding DigitCommand}"
-                    CommandParameter="8"
-                    Style="{StaticResource ButtonStyle}" />
-                <Button
-                    Grid.Row="0"
-                    Grid.Column="3"
-                    Text="9"
-                    Command="{Binding DigitCommand}"
-                    CommandParameter="9"
-                    Style="{StaticResource ButtonStyle}" />
-
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Text="4"
-                    Command="{Binding DigitCommand}"
-                    CommandParameter="4"
-                    Style="{StaticResource ButtonStyle}" />
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    Text="5"
-                    Command="{Binding DigitCommand}"
-                    CommandParameter="5"
-                    Style="{StaticResource ButtonStyle}" />
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="3"
-                    Text="6"
-                    Command="{Binding DigitCommand}"
-                    CommandParameter="6"
-                    Style="{StaticResource ButtonStyle}" />
-
-                <Button
+                <Frame
                     Grid.Row="2"
-                    Grid.Column="1"
-                    Text="1"
-                    Command="{Binding DigitCommand}"
-                    CommandParameter="1"
-                    Style="{StaticResource ButtonStyle}" />
-                <Button
-                    Grid.Row="2"
-                    Grid.Column="2"
-                    Text="2"
-                    Command="{Binding DigitCommand}"
-                    CommandParameter="2"
-                    Style="{StaticResource ButtonStyle}" />
-                <Button
-                    Grid.Row="2"
-                    Grid.Column="3"
-                    Text="3"
-                    Command="{Binding DigitCommand}"
-                    CommandParameter="3"
-                    Style="{StaticResource ButtonStyle}" />
+                    WidthRequest="174"
+                    Padding="10"
+                    BorderColor="Gray"
+                    CornerRadius="5">
+                    <Label
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Text="{Binding Rate}"
+                        FontSize="22" />
+                </Frame>
+
+                <Grid
+                    Grid.Row="3"
+                    RowDefinitions="60,60,60,60"
+                    ColumnDefinitions="*,60,60,60,*">
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Text="7"
+                        Command="{Binding DigitCommand}"
+                        CommandParameter="7"
+                        Style="{StaticResource ButtonStyle}" />
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Text="8"
+                        Command="{Binding DigitCommand}"
+                        CommandParameter="8"
+                        Style="{StaticResource ButtonStyle}" />
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Text="9"
+                        Command="{Binding DigitCommand}"
+                        CommandParameter="9"
+                        Style="{StaticResource ButtonStyle}" />
+
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="4"
+                        Command="{Binding DigitCommand}"
+                        CommandParameter="4"
+                        Style="{StaticResource ButtonStyle}" />
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Text="5"
+                        Command="{Binding DigitCommand}"
+                        CommandParameter="5"
+                        Style="{StaticResource ButtonStyle}" />
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Text="6"
+                        Command="{Binding DigitCommand}"
+                        CommandParameter="6"
+                        Style="{StaticResource ButtonStyle}" />
+
+                    <Button
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Text="1"
+                        Command="{Binding DigitCommand}"
+                        CommandParameter="1"
+                        Style="{StaticResource ButtonStyle}" />
+                    <Button
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Text="2"
+                        Command="{Binding DigitCommand}"
+                        CommandParameter="2"
+                        Style="{StaticResource ButtonStyle}" />
+                    <Button
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Text="3"
+                        Command="{Binding DigitCommand}"
+                        CommandParameter="3"
+                        Style="{StaticResource ButtonStyle}" />
+
+                    <Button
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Text="0"
+                        Command="{Binding DigitCommand}"
+                        CommandParameter="0"
+                        Style="{StaticResource ButtonStyle}" />
+                    <Button
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Text="."
+                        Command="{Binding CommaCommand}"
+                        Style="{StaticResource ButtonStyle}" />
+                    <Button
+                        Grid.Row="3"
+                        Grid.Column="3"
+                        Command="{Binding RemoveDigitCommand}"
+                        ImageSource="remove_digit_16_24.png"
+                        Style="{StaticResource ButtonStyle}" />
+                </Grid>
 
                 <Button
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    Text="0"
-                    Command="{Binding DigitCommand}"
-                    CommandParameter="0"
-                    Style="{StaticResource ButtonStyle}" />
-                <Button
-                    Grid.Row="3"
-                    Grid.Column="2"
-                    Text="."
-                    Command="{Binding CommaCommand}"
-                    Style="{StaticResource ButtonStyle}" />
-                <Button
-                    Grid.Row="3"
-                    Grid.Column="3"
-                    Command="{Binding RemoveDigitCommand}"
-                    ImageSource="remove_digit_16_24.png"
+                    Grid.Row="4"
+                    WidthRequest="174"
+                    HeightRequest="50"
+                    Margin="0,8"
+                    Text="OK"
+                    Command="{Binding Source={x:Reference BasePopupContentPage}, Path=PopModelCommand}"
                     Style="{StaticResource ButtonStyle}" />
             </Grid>
-
-            <Button
-                Grid.Row="4"
-                WidthRequest="174"
-                HeightRequest="50"
-                Margin="0,8"
-                Text="OK"
-                Command="{Binding Source={x:Reference BasePopupContentPage}, Path=PopModelCommand}"
-                Style="{StaticResource ButtonStyle}" />
         </Grid>
     </shared:BasePopupPage.PopupContent>
 </shared:BasePopupPage>

@@ -7,14 +7,16 @@
     Title="BasePopupPage"
     BackgroundColor="#44000000">
     <ContentPage.Content>
-        <StackLayout
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="FillAndExpand">
-            <Frame
-                VerticalOptions="EndAndExpand"
-                BackgroundColor="White"
+        <Grid
+            RowDefinitions="*,Auto"
+            HorizontalOptions="FillAndExpand">
+            <Frame Grid.Row="1"
+                VerticalOptions="Start"
                 CornerRadius="20">
-                <StackLayout Padding="5,0,5,0">
+                <Grid Padding="5,0,5,0">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={x:Reference BasePopupContentPage}, Path=PopModelCommand}" />
+                    </Grid.GestureRecognizers>
                     <StackLayout Padding="0,0,0,15">
                         <BoxView
                             WidthRequest="100"
@@ -28,12 +30,12 @@
                                 Threshold="15" />
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
-                    <ContentView x:Name="ContentView" />
-                </StackLayout>
+                    <ContentView x:Name="ContentView" Margin="0,20,0,0"/>
+                </Grid>
             </Frame>
-            <StackLayout.GestureRecognizers>
+            <Grid.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding Source={x:Reference BasePopupContentPage}, Path=PopModelCommand}" />
-            </StackLayout.GestureRecognizers>
-        </StackLayout>
+            </Grid.GestureRecognizers>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
