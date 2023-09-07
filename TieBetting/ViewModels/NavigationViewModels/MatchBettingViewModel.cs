@@ -86,19 +86,11 @@ public class MatchBettingViewModel : ViewModelNavigationBase, IRecipient<MatchRa
         {
             return false;
         }
-        //if (Match.HomeTeam.Matches.Any(x => x.IsActiveOrDone(Match.HomeTeamName) && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
-        //{
-        //    return false;
-        //}
 
         if (Match.AwayTeam.Matches.Any(x => x.IsActive(Match.AwayTeamName)))
         {
             return false;
         }
-        //if (Match.AwayTeam.Matches.Any(x => x.IsActiveOrDone(Match.AwayTeamName) && x.Day >= DayProvider.TodayDay && x.Day != Match.Day && x.Rate.HasValue))
-        //{
-        //    return false;
-        //}
 
         return true;
     }
@@ -107,7 +99,7 @@ public class MatchBettingViewModel : ViewModelNavigationBase, IRecipient<MatchRa
     {
         var settings = await _queryService.GetSettingsAsync();
         var lostMatchesLimit = settings.WarnToBetWhenLostMatchesExceeds;
-        if (Match.HomeTeam.LostMatchesInSession >= lostMatchesLimit || Match.AwayTeam.LostMatchesInSession >= 0)
+        if (Match.HomeTeam.LostMatchesInSession >= lostMatchesLimit || Match.AwayTeam.LostMatchesInSession >= lostMatchesLimit)
         {
             var result = await _dialogService.ShowQuestion("Lost matches limit", $"Lost limit is set to '{lostMatchesLimit}' matches.{Environment.NewLine}Do you wanna exceed that limit?");
             if (!result)
